@@ -1,0 +1,32 @@
+.dashboard {
+    padding: 50px;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+
+    .navigation-side {
+        width: 30%;
+        background: white;
+        border-radius: 15px;
+    }
+
+    .main-side {
+        width: 70%;
+        display: flex;
+        flex-direction: column;
+
+        .top, .bottom {
+            background: white;
+            border-radius: 15px;
+            flex: 1;
+        }
+
+        .top {
+            margin: 0 0 10px 20px;
+        }
+
+        .bottom {
+            margin: 10px 0 0 20px;
+        }
+    }
+}

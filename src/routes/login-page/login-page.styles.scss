@@ -1,0 +1,16 @@
+.login-page {
+    width: 100vw;
+    margin: auto;
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+
+    .login-form {
+        width: 50%;
+        max-width: 600px;
+        padding: 100px;
+        background: white;
+        border-radius: 15px;
+    }
+}
