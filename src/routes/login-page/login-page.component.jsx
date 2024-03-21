@@ -1,5 +1,7 @@
 import { useRef, useState } from "react";
 
+import { signInWithGooglePopup, createUserDocumentFromAuth } from "../../utils/firebase/firebase.utils";
+
 import FormInput from "../../components/form-input/form-input.component";
 import Button from "../../components/button/button.component";
 
@@ -18,6 +20,12 @@ const LoginPage = () => {
 	const navigate = useNavigate();
 
 	const { name, password } = formFields;
+
+	const logGoogleUser = async () => {
+		const { user } = await signInWithGooglePopup();
+		createUserDocumentFromAuth(user);
+		console.log(user);
+	};
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -67,6 +75,9 @@ const LoginPage = () => {
 					<div className="btns-container">
 						<Button isLoading={loading} type="submit" customClassName="message-me-btn">
 							Login
+						</Button>
+						<Button isLoading={loading} type="button" customClassName="message-me-btn" onClick={logGoogleUser}>
+							Google Sign In
 						</Button>
 					</div>
 				</form>
