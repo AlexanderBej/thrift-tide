@@ -12,7 +12,7 @@ import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-	apiKey: "AIzaSyC6gAeDC7UN_Y_5mq-cWHFaSX8tNmbYfLU",
+	apiKey: process.env.REACT_APP_GOOGLE_API_KEY,
 	authDomain: "thrift-tide.firebaseapp.com",
 	projectId: "thrift-tide",
 	storageBucket: "thrift-tide.appspot.com",
