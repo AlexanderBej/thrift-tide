@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 
-import { signInWithGooglePopup, createUserDocumentFromAuth } from "../../utils/firebase/firebase.utils";
+import { signInWithGooglePopup, createUserDocumentFromAuth, signInAuthUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
 
 import FormInput from "../../components/form-input/form-input.component";
 import Button from "../../components/button/button.component";
@@ -9,7 +9,7 @@ import "./login-page.styles.scss";
 import { useNavigate } from "react-router-dom";
 
 const defaultFormFields = {
-	name: "",
+	email: "",
 	password: "",
 };
 
@@ -19,7 +19,7 @@ const LoginPage = () => {
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 
-	const { name, password } = formFields;
+	const { email, password } = formFields;
 
 	const logGoogleUser = async () => {
 		const { user } = await signInWithGooglePopup();
@@ -29,17 +29,29 @@ const LoginPage = () => {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		console.log(formFields);
+
 		try {
-			setLoading(true);
-			setTimeout(() => {
-				setLoading(false);
-				resetFormFields();
-				onNavigateToDashboardHandler();
-			}, 2000);
+			await signInAuthUserWithEmailAndPassword(email, password);
+			resetFormFields();
+			onNavigateToDashboardHandler();
 		} catch (error) {
-			console.log(error);
+			if (error.code === 'auth/invalid-credential') {
+                alert('incorrect password')
+            }
+			console.log("Error signing in", error)
 		}
+
+		// console.log(formFields);
+		// try {
+		// 	setLoading(true);
+		// 	setTimeout(() => {
+		// 		setLoading(false);
+		// 		resetFormFields();
+		// 		onNavigateToDashboardHandler();
+		// 	}, 2000);
+		// } catch (error) {
+		// 	console.log(error);
+		// }
 	};
 
 	const resetFormFields = () => {
@@ -60,7 +72,16 @@ const LoginPage = () => {
 			<div className="login-form">
 				<h1>Get back in the game</h1>
 				<form ref={form} onSubmit={handleSubmit}>
-					<FormInput label="Name" type="text" inputType={"input"} onChange={handleChange} name="name" required value={name} />
+					<FormInput
+						label="Email"
+						type="text"
+						inputType={"input"}
+						inputMode="email"
+						onChange={handleChange}
+						name="email"
+						required
+						value={email}
+					/>
 
 					<FormInput
 						label="Password"
