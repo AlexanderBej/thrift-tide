@@ -43,18 +43,6 @@ const SignUp = () => {
 			}
 			console.log("user creation encountered an error", error);
 		}
-		// console.log(formFields);
-
-		// try {
-		// 	setLoading(true);
-		// 	setTimeout(() => {
-		// 		setLoading(false);
-		// 		resetFormFields();
-		// 		onNavigateToDashboardHandler();
-		// 	}, 2000);
-		// } catch (error) {
-		// 	console.log(error);
-		// }
 	};
 
 	const resetFormFields = () => {

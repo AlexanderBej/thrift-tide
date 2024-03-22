@@ -15,18 +15,16 @@
         display: flex;
         flex-direction: column;
 
-        .top, .bottom {
-            background: white;
-            border-radius: 15px;
-            flex: 1;
-        }
-
         .top {
             margin: 0 0 10px 20px;
+            flex: 0.5;
+            background: white;
+            border-radius: 15px;
         }
 
         .bottom {
             margin: 10px 0 0 20px;
+            flex: 1;
         }
     }
 }

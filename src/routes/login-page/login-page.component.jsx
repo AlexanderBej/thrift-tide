@@ -24,12 +24,12 @@ const LoginPage = () => {
 	const logGoogleUser = async () => {
 		const { user } = await signInWithGooglePopup();
 		createUserDocumentFromAuth(user);
-		console.log(user);
+		onNavigateToDashboardHandler()
 	};
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-
+		setLoading(true)
 		try {
 			await signInAuthUserWithEmailAndPassword(email, password);
 			resetFormFields();
@@ -39,19 +39,9 @@ const LoginPage = () => {
                 alert('incorrect password')
             }
 			console.log("Error signing in", error)
+		} finally {
+			setLoading(false)
 		}
-
-		// console.log(formFields);
-		// try {
-		// 	setLoading(true);
-		// 	setTimeout(() => {
-		// 		setLoading(false);
-		// 		resetFormFields();
-		// 		onNavigateToDashboardHandler();
-		// 	}, 2000);
-		// } catch (error) {
-		// 	console.log(error);
-		// }
 	};
 
 	const resetFormFields = () => {

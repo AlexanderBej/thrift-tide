@@ -6,9 +6,9 @@ import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	signOut,
-    onAuthStateChanged
+	onAuthStateChanged,
 } from "firebase/auth";
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc, collection, query, getDocs, updateDoc } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -37,20 +37,36 @@ export const createUserDocumentFromAuth = async (userAuth, ...additionalInfo) =>
 	if (!userAuth) {
 		return;
 	}
+
+	console.log("create user doc", userAuth);
+
 	const userDocRef = doc(db, "users", userAuth.uid);
 
-	console.log(userDocRef);
 	const userSnapshot = await getDoc(userDocRef);
 
 	if (!userSnapshot.exists()) {
 		const { displayName, email } = userAuth;
 		const createdAt = new Date();
+		// const uniquedId = crypto.randomUUID();
 
 		try {
 			await setDoc(userDocRef, {
-				displayName,
+				nameToDisplay: displayName,
 				email,
 				createdAt,
+				financialStatus: {
+					income: {
+						total: 0,
+						incomes: [],
+					},
+					expenses: {
+						total: 0,
+						needs: [],
+						wants: [],
+						save: [],
+					},
+				},
+				// docId: uniquedId,
 				...additionalInfo,
 			});
 		} catch (error) {
@@ -77,4 +93,29 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 
 export const signOutUser = async () => await signOut(auth);
 
-export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback);
+export const onAuthStateChangedListener = (callback) => {
+	onAuthStateChanged(auth, callback);
+};
+
+export const getUsersAndDocuments = async () => {
+	const collectionRef = collection(db, "users");
+	const q = query(collectionRef);
+
+	const querySnapshot = await getDocs(q);
+	return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
+};
+
+export const getUserDocument = async (userAuth) => {
+	const userDocRef = doc(db, "users", userAuth.uid);
+
+	const userSnapshot = await getDoc(userDocRef);
+
+	return userSnapshot.data();
+};
+
+export const updateUserDoc = async (userAuth, update) => {
+	const docRef = doc(db, "users", userAuth.uid);
+
+	const res = await updateDoc(docRef, { financialStatus: update });
+	console.log(res);
+};
