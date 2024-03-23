@@ -1,0 +1,11 @@
+.category-container {
+    background-color: white;
+    height: 100%;
+    flex: 1;
+    border-radius: 15px;
+    text-align: center;
+
+    .category-expense {
+        display: inline-flex;
+    }
+}

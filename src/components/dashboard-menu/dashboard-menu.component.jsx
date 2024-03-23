@@ -5,16 +5,20 @@ import DashboardUser from "../dashboard-user/dashboard-user.component";
 
 import "./dashboard-menu.styles.scss";
 
-const DashboardMenu = ({displayName, email, photoURL}) => {
+const DashboardMenu = ({ displayName, email, photoURL }) => {
 	const navigate = useNavigate();
 
-	const onSignOutUserHandler = () => {
-		signOutUser();
-		navigate("/");
+	const onSignOutUserHandler = async () => {
+		console.log("before");
+		await signOutUser().then(() => {
+			console.log("after");
+
+			navigate("/");
+		});
 	};
 	return (
 		<div className="dashboard-menu">
-			<DashboardUser displayName={displayName} email={email} photoURL={photoURL}/>
+			<DashboardUser displayName={displayName} email={email} photoURL={photoURL} />
 
 			<footer>
 				<button type="button" className="sign-out-btn" onClick={onSignOutUserHandler}>

@@ -1,1 +1,1 @@
-export const selectUserFinancialStatus = (state) => state.userFinancialStatus.financialStatus;
+export const selectUserFinStat = (state) => state.userFinancialStatus.financialStatus;

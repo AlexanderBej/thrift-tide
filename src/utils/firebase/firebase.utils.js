@@ -33,7 +33,7 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 
 export const db = getFirestore();
 
-export const createUserDocumentFromAuth = async (userAuth, ...additionalInfo) => {
+export const createUserDocumentFromAuth = async (userAuth, additionalInfo = {}) => {
 	if (!userAuth) {
 		return;
 	}
@@ -51,9 +51,10 @@ export const createUserDocumentFromAuth = async (userAuth, ...additionalInfo) =>
 
 		try {
 			await setDoc(userDocRef, {
-				nameToDisplay: displayName,
+				displayName,
 				email,
 				createdAt,
+				photoURL: userAuth.photoURL,
 				financialStatus: {
 					income: {
 						total: 0,
@@ -61,10 +62,20 @@ export const createUserDocumentFromAuth = async (userAuth, ...additionalInfo) =>
 					},
 					expenses: {
 						total: 0,
-						needs: [],
-						wants: [],
-						save: [],
+						needs: {
+							title: 'Needs',
+							expenses: []
+						},
+						wants:  {
+							title: 'Wants',
+							expenses: []
+						},
+						save:  {
+							title: 'Save',
+							expenses: []
+						},
 					},
+					remaining: 0
 				},
 				// docId: uniquedId,
 				...additionalInfo,

@@ -23,7 +23,7 @@ const LoginPage = () => {
 
 	const logGoogleUser = async () => {
 		const { user } = await signInWithGooglePopup();
-		createUserDocumentFromAuth(user);
+		await createUserDocumentFromAuth(user);
 		onNavigateToDashboardHandler()
 	};
 
