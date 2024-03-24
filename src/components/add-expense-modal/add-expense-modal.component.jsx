@@ -26,30 +26,6 @@ const AddExpenseModal = ({ isAddExpenseModalOpen, onAddExpenseModalClose, financ
 		const totalExpenses = financialStatus.expenses.total;
 		const expensesLength = financialStatus.expenses[from].expenses.length;
 
-		// const newFinancialStatus = {
-		// 	...financialStatus,
-		// 	expenses: {
-		// 		...financialStatus.expenses,
-		// 		total: totalExpenses + +amount,
-		// 		[from]: {
-		// 			title: fromExpenses.title,
-		// 			expenses: [
-		// 				...fromExpenses.expenses,
-		// 				{
-		// 					id: expensesLength + 1,
-		// 					date: {
-		// 						date: new Date().toLocaleDateString(),
-		// 						time: new Date().toLocaleTimeString(),
-		// 					},
-		// 					reason: reason,
-		// 					amount: amount,
-		// 				},
-		// 			],
-		// 		},
-		// 	},
-		// 	remaining: financialStatus.remaining - +amount,
-		// };
-
 		const newFinancialStatus = buildNewFinancialStatusObject(totalExpenses, fromExpenses, expensesLength);
 
 		updateUserDoc(currentUser, newFinancialStatus);
@@ -67,7 +43,7 @@ const AddExpenseModal = ({ isAddExpenseModalOpen, onAddExpenseModalClose, financ
 			...financialStatus,
 			expenses: {
 				...financialStatus.expenses,
-				total: totalExpenses + +amount,
+				total: +totalExpenses + +amount,
 				[from]: {
 					title: fromExpenses.title,
 					expenses: [
@@ -90,7 +66,6 @@ const AddExpenseModal = ({ isAddExpenseModalOpen, onAddExpenseModalClose, financ
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		console.log(formFields);
 		removeIncome();
 		resetFormFields();
 		onAddExpenseModalClose();

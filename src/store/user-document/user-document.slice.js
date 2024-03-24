@@ -23,7 +23,6 @@ export const userDocumentSlice = createSlice({
 	reducers: {
 		setUserDocument(state, action) {
 			state.userDocument = action.payload;
-			console.log("in userDocument", state, action);
 		},
 	},
 });

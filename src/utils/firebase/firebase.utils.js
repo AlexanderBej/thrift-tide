@@ -38,8 +38,6 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInfo = {}) 
 		return;
 	}
 
-	console.log("create user doc", userAuth);
-
 	const userDocRef = doc(db, "users", userAuth.uid);
 
 	const userSnapshot = await getDoc(userDocRef);
@@ -63,19 +61,19 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInfo = {}) 
 					expenses: {
 						total: 0,
 						needs: {
-							title: 'Needs',
-							expenses: []
+							title: "Needs",
+							expenses: [],
 						},
-						wants:  {
-							title: 'Wants',
-							expenses: []
+						wants: {
+							title: "Wants",
+							expenses: [],
 						},
-						save:  {
-							title: 'Save',
-							expenses: []
+						save: {
+							title: "Save",
+							expenses: [],
 						},
 					},
-					remaining: 0
+					remaining: 0,
 				},
 				// docId: uniquedId,
 				...additionalInfo,
@@ -127,6 +125,5 @@ export const getUserDocument = async (userAuth) => {
 export const updateUserDoc = async (userAuth, update) => {
 	const docRef = doc(db, "users", userAuth.uid);
 
-	const res = await updateDoc(docRef, { financialStatus: update });
-	console.log(res);
+	await updateDoc(docRef, { financialStatus: update });
 };

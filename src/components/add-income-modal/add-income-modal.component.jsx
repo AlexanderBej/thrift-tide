@@ -21,7 +21,6 @@ const AddIncomeModal = ({ isAddIncomeModalOpen, onAddIncomeModalClose, financial
 	const { amount, from } = formFields;
 
 	const addIncome = () => {
-		console.log("add income called");
 		const remainingIncome = financialStatus.remaining;
 		const totalIncome = financialStatus.income.total;
 		const incomesLength = financialStatus.income.incomes.length;
@@ -62,7 +61,6 @@ const AddIncomeModal = ({ isAddIncomeModalOpen, onAddIncomeModalClose, financial
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		console.log(formFields);
 		addIncome();
 		resetFormFields();
 		onAddIncomeModalClose();

@@ -1,18 +1,45 @@
-.financial-info {
-    padding: 20px;
+.info-container {
+	height: 100%;
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+
+	.income-container {
+		height: 100%;
+		// padding-right: 20px;
+		width: 30%;
+        min-width: 350px;
+
+		.incomes-list {
+			overflow: auto;
+			height: 100%;
+            padding-right: 20px;
+		}
+	}
+}
+
+.other-fin-info {
     height: 100%;
-    overflow: hidden;
     display: flex;
-
-    .income-container {
-        height: 100%;
-        padding-right: 20px;
-        width: 30%;
-        
-        .incomes-list {
-            overflow: auto;
-            height: 100%;
-
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+    .fin-status-header {
+        position: relative;
+        text-align: center;
+        width: 150px;
+        margin: 0 0 20px;
+    
+        &::after {
+            content: attr(name);
+            position: absolute;
+            font-size: 0.5em;
+            font-weight: 100;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
         }
     }
 }
+

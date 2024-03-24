@@ -3,13 +3,13 @@ import { useSelector } from "react-redux";
 
 import { selectCurrentUser } from "../../store/user/user.selector";
 
-import IncomeBox from "../income-box/income-box.component";
+import TransactionBox from "../transaction-box/transaction-box.component";
 import AddIncomeModal from "../add-income-modal/add-income-modal.component";
 import AddExpenseModal from "../add-expense-modal/add-expense-modal.component";
 
 import "./dashboard-info.styles.scss";
 
-const DashboardInfo = ({ userDocument }) => {
+const DashboardInfo = ({ userDocument, ...otherProps }) => {
 	const currentUser = useSelector(selectCurrentUser);
 	const [isAddIncomeModalOpen, setIsAddIncomeModalOpen] = useState(false);
 	const [isAddExpenseModalOpen, setIsAddExpenseModalOpen] = useState(false);
@@ -33,26 +33,35 @@ const DashboardInfo = ({ userDocument }) => {
 	};
 
 	return (
-		<Fragment>
-			<div className="financial-info">
+		<div {...otherProps}>
+			<div className="info-container">
 				<div className="income-container">
-					<h2>Income: {financialStatus.income.total}</h2>
+					<span>Incomes</span>
 					<div className="incomes-list">
 						{financialStatus.income.incomes.map((income) => {
-							return <IncomeBox key={income.id} income={income} />;
+							return <TransactionBox key={income.id} date={income.addedAt} text={income.from} amount={income.amount} />;
 						})}
 					</div>
 				</div>
 				<div className="other-fin-info">
-					<h2>Expenses: {financialStatus.expenses.total}</h2>
-					<h2>Remaining: {financialStatus.remaining}</h2>
+					<h2 className="fin-status-header" name="Income">
+						{financialStatus.income.total}
+					</h2>
+					<h2 className="fin-status-header" name="Expenses">
+						{financialStatus.expenses.total}
+					</h2>
+					<h2 className="fin-status-header" name="Remaining">
+						{financialStatus.remaining}
+					</h2>
 				</div>
-				<button type="button" onClick={handleAddIncomeModalOpenClick}>
-					Add income
-				</button>
-				<button type="button" onClick={handleAddExpenseModalOpenClick}>
-					Remove income
-				</button>
+				<div className="transaction-btns">
+					<button type="button" onClick={handleAddIncomeModalOpenClick}>
+						Add income
+					</button>
+					<button type="button" onClick={handleAddExpenseModalOpenClick}>
+						Remove income
+					</button>
+				</div>
 			</div>
 			<section>
 				<AddIncomeModal
@@ -70,7 +79,7 @@ const DashboardInfo = ({ userDocument }) => {
 					userDocument={userDocument}
 				/>
 			</section>
-		</Fragment>
+		</div>
 	);
 };
 

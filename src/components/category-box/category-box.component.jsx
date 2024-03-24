@@ -1,19 +1,17 @@
 import "./category-box.styles.scss";
 
-const CategoryBox = ({ category }) => {
+import TransactionBox from "../transaction-box/transaction-box.component";
 
+const CategoryBox = ({ category, ...otherProps }) => {
 	return (
-		<div className="category-container">
-			<h3>{category.title}</h3>
-			{category.expenses && category.expenses.map((expense) => {
-				return (
-					<div key={expense.id} className="category-expense">
-						<span>{expense.date.date} - {expense.date.time}</span>
-						<span>{expense.reason}</span>
-						<span>{expense.amount}</span>
-					</div>
-				);
-			})}
+		<div {...otherProps}>
+			<h3 className="category-header">{category.title}</h3>
+			<div className="category-transactions">
+				{category.expenses &&
+					category.expenses.map((expense) => {
+						return <TransactionBox key={expense.id} date={expense.date} text={expense.reason} amount={expense.amount} />;
+					})}
+			</div>
 		</div>
 	);
 };
