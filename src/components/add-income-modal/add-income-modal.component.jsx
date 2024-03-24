@@ -5,11 +5,12 @@ import { updateUserDoc } from "../../utils/firebase/firebase.utils";
 import { setUserDocument } from "../../store/user-document/user-document.slice";
 
 import FormInput from "../form-input/form-input.component";
+import Button from "../button/button.component";
 
 import "./add-income-modal.styles.scss";
 
 const defaultFormFields = {
-	amount: 0,
+	amount: "",
 	from: "",
 };
 
@@ -21,11 +22,11 @@ const AddIncomeModal = ({ isAddIncomeModalOpen, onAddIncomeModalClose, financial
 	const { amount, from } = formFields;
 
 	const addIncome = () => {
-		const remainingIncome = financialStatus.remaining;
-		const totalIncome = financialStatus.income.total;
-		const incomesLength = financialStatus.income.incomes.length;
+		const remaining = financialStatus.remaining;
+		const total = financialStatus.income.total;
+		const length = financialStatus.income.incomes.length;
 
-		const newFinancialStatus = buildNewFinancialStatusObject(remainingIncome, totalIncome, incomesLength);
+		const newFinancialStatus = buildNewFinancialStatusObject(remaining, total, length);
 
 		updateUserDoc(currentUser, newFinancialStatus);
 
@@ -61,6 +62,7 @@ const AddIncomeModal = ({ isAddIncomeModalOpen, onAddIncomeModalClose, financial
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+		console.log(formFields);
 		addIncome();
 		resetFormFields();
 		onAddIncomeModalClose();
@@ -79,9 +81,10 @@ const AddIncomeModal = ({ isAddIncomeModalOpen, onAddIncomeModalClose, financial
 		<section className={"modal-overlay" + (isAddIncomeModalOpen ? " width-full" : "")} onClick={onAddIncomeModalClose}>
 			<div className="modal-container">
 				<aside className="modal-content" onClick={(e) => e.stopPropagation()}>
-					<p>Lorem ipsum add income</p>
-					<button onClick={addIncome}>Add income</button>
-					<form ref={form} onSubmit={handleSubmit}>
+					<header className="income-header">
+						<h3>Add new income</h3>
+					</header>
+					<form ref={form} onSubmit={handleSubmit} className="modal-body">
 						<FormInput
 							label="Amount"
 							type="number"
@@ -91,24 +94,25 @@ const AddIncomeModal = ({ isAddIncomeModalOpen, onAddIncomeModalClose, financial
 							name="amount"
 							required
 							value={amount}
+							customClassName="modal-input"
 						/>
 
-						<div>
+						<div className="radio-container">
 							<label>
-								<input type="radio" value="Cash" name="from" onChange={handleChange} />
-								Cash
+								<input type="radio" className="transaction-radio" value="Cash" name="from" onChange={handleChange} />
+								<div className="radio-box">Cash</div>
 							</label>
 							<label>
-								<input type="radio" value="Bank" name="from" onChange={handleChange} />
-								Bank
+								<input type="radio" className="transaction-radio" value="Bank" name="from" onChange={handleChange} />
+								<div className="radio-box">Bank</div>
 							</label>
 							<label>
-								<input type="radio" value="Savings" name="from" onChange={handleChange} />
-								savings
+								<input type="radio" className="transaction-radio" value="Savings" name="from" onChange={handleChange} />
+								<div className="radio-box">Savings</div>
 							</label>
 						</div>
 
-						<button type="submit">Submit</button>
+						<Button type="submit" customClassName="submit-btn">Add income</Button>
 					</form>
 				</aside>
 			</div>

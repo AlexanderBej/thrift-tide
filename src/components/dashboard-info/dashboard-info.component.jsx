@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 
 import { selectCurrentUser } from "../../store/user/user.selector";
@@ -55,11 +55,11 @@ const DashboardInfo = ({ userDocument, ...otherProps }) => {
 					</h2>
 				</div>
 				<div className="transaction-btns">
-					<button type="button" onClick={handleAddIncomeModalOpenClick}>
-						Add income
+					<button className="transaction-btn add-income-btn" type="button" onClick={handleAddIncomeModalOpenClick}>
+						+
 					</button>
-					<button type="button" onClick={handleAddExpenseModalOpenClick}>
-						Remove income
+					<button className="transaction-btn add-transaction-btn" type="button" onClick={handleAddExpenseModalOpenClick}>
+						--
 					</button>
 				</div>
 			</div>

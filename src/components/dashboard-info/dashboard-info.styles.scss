@@ -43,3 +43,40 @@
     }
 }
 
+.transaction-btns {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-around;
+    
+    .transaction-btn {
+        border-radius: 50%;
+        height: 50px;
+        width: 50px;
+        font-size: 1em;
+        font-weight: 900;
+        color: white;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .add-income-btn {
+        background-color: #4cbf4c;
+        border: 2px solid #4cbf4c;
+
+        &:hover {
+            background-color: white;
+            color: #4cbf4c;
+        }
+    }
+
+    .add-transaction-btn {
+        background-color: #ff5555;
+        border: 2px solid #ff5555;
+
+        &:hover {
+            background-color: white;
+            color: #ff5555;
+        }
+    }
+}
+

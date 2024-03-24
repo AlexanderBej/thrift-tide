@@ -5,11 +5,12 @@ import { updateUserDoc } from "../../utils/firebase/firebase.utils";
 import { setUserDocument } from "../../store/user-document/user-document.slice";
 
 import FormInput from "../form-input/form-input.component";
+import Button from "../button/button.component";
 
 import "./add-expense-modal.styles.scss";
 
 const defaultFormFields = {
-	amount: 0,
+	amount: "",
 	from: "",
 	reason: "",
 };
@@ -83,10 +84,11 @@ const AddExpenseModal = ({ isAddExpenseModalOpen, onAddExpenseModalClose, financ
 		<section className={"modal-overlay" + (isAddExpenseModalOpen ? " width-full" : "")} onClick={onAddExpenseModalClose}>
 			<div className="modal-container">
 				<aside className="modal-content" onClick={(e) => e.stopPropagation()}>
-					<p>Dolor Sit Amet remove income</p>
-					<button onClick={removeIncome}>Remove income</button>
+					<header className="expense-header">
+						<h3>Add new expense</h3>
+					</header>
 
-					<form ref={form} onSubmit={handleSubmit}>
+					<form ref={form} onSubmit={handleSubmit} className="modal-body">
 						<FormInput
 							label="Amount"
 							type="number"
@@ -96,26 +98,38 @@ const AddExpenseModal = ({ isAddExpenseModalOpen, onAddExpenseModalClose, financ
 							name="amount"
 							required
 							value={amount}
+							customClassName="modal-input"
 						/>
 
-						<div>
+						<div className="radio-container">
 							<label>
-								<input type="radio" value="needs" name="from" onChange={handleChange} />
-								Needs
+								<input type="radio" className="transaction-radio" value="needs" name="from" onChange={handleChange} />
+								<div className="radio-box">Needs</div>
 							</label>
 							<label>
-								<input type="radio" value="wants" name="from" onChange={handleChange} />
-								Wants
+								<input type="radio" className="transaction-radio" value="wants" name="from" onChange={handleChange} />
+								<div className="radio-box">Wants</div>
 							</label>
 							<label>
-								<input type="radio" value="save" name="from" onChange={handleChange} />
-								Savings
+								<input type="radio" className="transaction-radio" value="save" name="from" onChange={handleChange} />
+								<div className="radio-box">Savings</div>
 							</label>
 						</div>
 
-						<FormInput label="Reason" type="text" inputType={"input"} onChange={handleChange} name="reason" required value={reason} />
+						
 
-						<button type="submit">Submit</button>
+						<FormInput
+							label="Reason"
+							type="text"
+							inputType={"input"}
+							onChange={handleChange}
+							name="reason"
+							required
+							value={reason}
+							customClassName="modal-input"
+						/>
+
+						<Button type="submit" customClassName="submit-btn">Add expense</Button>
 					</form>
 				</aside>
 			</div>
