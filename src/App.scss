@@ -5,5 +5,50 @@
 @import "./styles/variables";
 
 body {
-  background-color: $background-color;
+	background-color: $background-color;
+}
+
+.modal-overlay {
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.4);
+	z-index: 4;
+	opacity: 0;
+	pointer-events: none;
+	transition: all 0.3s ease-in-out;
+
+	.modal-container {
+		display: inline-block;
+		height: 100%;
+		width: 100%;
+		vertical-align: middle;
+		position: relative;
+	}
+}
+
+.modal-content {
+	position: fixed;
+	height: 100px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 200px;
+	background: white;
+	padding: 30px;
+	border-radius: 15px;
+	box-shadow: 1px 3px 10px 0px rgba(0, 0, 0, 0.4);
+	transition: all 0.3s ease-in-out;
+}
+
+.width-full {
+	opacity: 1;
+	pointer-events: visible;
+
+	.modal-container .modal-content {
+		height: 300px;
+		width: 600px;
+	}
 }
