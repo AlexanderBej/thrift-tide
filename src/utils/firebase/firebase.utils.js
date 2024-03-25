@@ -61,14 +61,17 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInfo = {}) 
 					expenses: {
 						total: 0,
 						needs: {
+							total: 0,
 							title: "Needs",
 							expenses: [],
 						},
 						wants: {
+							total: 0,
 							title: "Wants",
 							expenses: [],
 						},
 						save: {
+							total: 0,
 							title: "Save",
 							expenses: [],
 						},

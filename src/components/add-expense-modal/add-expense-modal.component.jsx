@@ -46,6 +46,7 @@ const AddExpenseModal = ({ isAddExpenseModalOpen, onAddExpenseModalClose, financ
 				...financialStatus.expenses,
 				total: +totalExpenses + +amount,
 				[from]: {
+					total: fromExpenses.total + +amount,
 					title: fromExpenses.title,
 					expenses: [
 						...fromExpenses.expenses,

@@ -117,7 +117,9 @@ a {
 	color: $primary-color;
 }
 
-
+.regular-dashboard {
+    grid-area: 1 / 2 / 7 / 7;
+}
 
 ::-webkit-scrollbar {
 	width: 7px;

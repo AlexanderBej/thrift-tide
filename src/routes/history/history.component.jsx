@@ -18,7 +18,7 @@ const History = () => {
 	console.log(incomes);
 
 	return (
-		<div className="dashboard-item history-dashboard">
+		<div className="dashboard-item regular-dashboard history-dashboard">
 			<HistoryBox category={incomes} title={"Incomes"} />
 			<HistoryBox category={expenses.needs.expenses} title={expenses.needs.title} />
 			<HistoryBox category={expenses.wants.expenses} title={expenses.wants.title} />

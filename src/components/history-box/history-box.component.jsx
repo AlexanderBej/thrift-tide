@@ -31,12 +31,12 @@ const HistoryBox = ({ category, title }) => {
 							<div key={monthYear}>
 								<h3>{monthYear}</h3>
 								<div>
-									{groupedCategory[monthYear].map((obj) => (
+									{groupedCategory[monthYear].map((transaction) => (
 										<TransactionBox
-											key={obj.id}
-											date={obj.date ? obj.date : obj.addedAt}
-											text={obj.from ? obj.from : obj.reason}
-											amount={obj.amount}
+											key={transaction.id}
+											date={transaction.date ? transaction.date : transaction.addedAt}
+											text={transaction.from ? transaction.from : transaction.reason}
+											amount={transaction.amount}
 										/>
 									))}
 								</div>
