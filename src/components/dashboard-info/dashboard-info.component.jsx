@@ -16,6 +16,9 @@ const DashboardInfo = ({ userDocument, ...otherProps }) => {
 
 	const { financialStatus } = userDocument;
 
+	const currentDate = new Date();
+	const currentMonth = currentDate.getMonth() + 1; // JavaScript months are zero-based, so add 1
+
 	const handleAddIncomeModalOpenClick = () => {
 		setIsAddIncomeModalOpen(!isAddIncomeModalOpen);
 	};
@@ -38,9 +41,14 @@ const DashboardInfo = ({ userDocument, ...otherProps }) => {
 				<div className="income-container">
 					<span>Incomes</span>
 					<div className="incomes-list">
-						{financialStatus.income.incomes.map((income) => {
-							return <TransactionBox key={income.id} date={income.addedAt} text={income.from} amount={income.amount} />;
-						})}
+						{financialStatus.income.incomes
+							.filter((income) => {
+								const [month] = income.addedAt.date.split("/");
+								return parseInt(month, 10) === currentMonth;
+							})
+							.map((income) => {
+								return <TransactionBox key={income.id} date={income.addedAt} text={income.from} amount={income.amount} />;
+							})}
 					</div>
 				</div>
 				<div className="other-fin-info">

@@ -8,6 +8,11 @@ body {
 	background-color: $background-color;
 }
 
+a {
+	color: black;
+	text-decoration: none;
+}
+
 .modal-overlay {
 	position: fixed;
 	width: 100vw;
@@ -108,7 +113,9 @@ body {
 	}
 }
 
-
+.active-link {
+	color: $primary-color;
+}
 
 
 
