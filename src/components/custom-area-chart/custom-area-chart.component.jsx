@@ -1,79 +1,30 @@
-import { useState, useEffect } from "react";
-
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+
+import { groupByMonth, generateMonthsFromStartToNow, matchObjectAndSumAmount, removeLeadingZero } from "../../utils/stats/stats";
 
 import "./custom-area-chart.styles.scss";
 
 const CustomAreaChart = ({ createdAt, savings }) => {
-	const [months, setMonths] = useState([]);
-
-	useEffect(() => {
-		const generateMonths = (startDate) => {
-			if (startDate) {
-				const currentDate = new Date();
-				const milliseconds = startDate.seconds * 1000 + startDate.nanoseconds / 1000000;
-				const start = new Date(milliseconds);
-				const monthList = [];
-
-				while (start < currentDate) {
-					const year = start.getFullYear();
-					const month = start.getMonth() + 1; // Month index starts from 0
-					monthList.push(`${month.toString().padStart(2, "0")}/${year}`);
-					start.setMonth(start.getMonth() + 1);
-				}
-
-				setMonths(monthList);
-			}
-		};
-
-		generateMonths(createdAt);
-	}, [createdAt]);
-
-	const groupByMonth = (data) => {
-		const groupedData = {};
-		if (data) {
-			data.forEach((obj) => {
-				const [month, day, year] = obj.date ? obj.date.date.split("/") : obj.addedAt.date.split("/");
-				const monthYear = `${month}/${year}`;
-				if (!groupedData[monthYear]) {
-					groupedData[monthYear] = [];
-				}
-				groupedData[monthYear].push(obj);
-			});
-			return groupedData;
-		}
-	};
-
+	const months = generateMonthsFromStartToNow(createdAt);
 	const savingsGroupedByMonth = groupByMonth(savings.expenses);
 
-	const removeLeadingZero = (str) => {
-		if (str.charAt(0) === "0") {
-			return str.substring(1);
-		}
-		return str;
-	};
+	const chartData =
+		months &&
+		months
+			.map((month) => {
+				const monthString = month.toString();
+				const zeroLessMonth = removeLeadingZero(monthString);
 
-	const arrayToBuild = months
-		.map((month) => {
-			const monthString = month.toString();
-			const zeroLessMonth = removeLeadingZero(monthString);
+				const matchingSavings = matchObjectAndSumAmount(savingsGroupedByMonth, zeroLessMonth);
 
-			const matchingSavings = Object.entries(savingsGroupedByMonth)
-				.filter(([savingMonth]) => {
-					const savingMonthString = savingMonth.toString();
-					const zeroLessSavingMonth = removeLeadingZero(savingMonthString);
-					return zeroLessSavingMonth === zeroLessMonth;
-				})
-				.map(([, savings]) => savings.reduce((accumulator, currentValue) => accumulator + +currentValue.amount, 0));
+				const totalSavingsAmount = matchingSavings.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 
-			const totalSavingsAmount = matchingSavings.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-
-			return {
-				name: monthString,
-				savings: totalSavingsAmount,
-			};
-		})
-		.flat();
+				return {
+					name: monthString,
+					savings: totalSavingsAmount,
+				};
+			})
+			.flat();
 
 	return (
 		<div className="chart-container">
@@ -81,7 +32,7 @@ const CustomAreaChart = ({ createdAt, savings }) => {
 				<AreaChart
 					width={500}
 					height={400}
-					data={arrayToBuild}
+					data={chartData}
 					margin={{
 						top: 10,
 						right: 30,

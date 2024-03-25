@@ -1,25 +1,12 @@
 import { Fragment } from "react";
-import "./history-box.styles.scss";
+
 import TransactionBox from "../transaction-box/transaction-box.component";
+import { groupByMonth } from "../../utils/stats/stats";
+
+import "./history-box.styles.scss";
 
 const HistoryBox = ({ category, title }) => {
-	const groupByMonth = (data) => {
-		const groupedData = {};
-		if (data) {
-			data.forEach((obj) => {
-				const [month, day, year] = obj.date ? obj.date.date.split("/") : obj.addedAt.date.split("/");
-				const monthYear = `${month}/${year}`;
-				if (!groupedData[monthYear]) {
-					groupedData[monthYear] = [];
-				}
-				groupedData[monthYear].push(obj);
-			});
-			return groupedData;
-		}
-	};
-
 	const groupedCategory = groupByMonth(category);
-	console.log(groupedCategory);
 
 	return (
 		<div className="history-box">
