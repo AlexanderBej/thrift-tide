@@ -3,9 +3,9 @@
 	align-items: center;
 	justify-content: space-between;
 	width: 100%;
-    margin-bottom: 7px;
-    border-bottom: 1px solid rgb(255 255 255 / 31%);
-    padding-bottom: 7px;
+	margin-bottom: 7px;
+	border-bottom: 1px solid rgb(255 255 255 / 31%);
+	padding-bottom: 7px;
 
 	.date-box {
 		display: flex;
@@ -22,5 +22,30 @@
 			font-size: 0.7em;
 			font-weight: 500;
 		}
+	}
+
+	.category-text {
+		font-weight: 600;
+	}
+
+	.income {
+		color: #4cbf4c;
+	}
+
+	.expense {
+		color: #ff5555;
+	}
+}
+
+@media screen and (max-width: 1000px) {
+	.transaction-box {
+		flex-direction: column-reverse;
+		gap: 10px;
+	}
+}
+
+@media screen and (max-width: 700px) {
+	.transaction-box {
+		flex-direction: row;
 	}
 }

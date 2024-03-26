@@ -3,7 +3,7 @@ import { selectCurrency } from "../../store/currency/currency.selector";
 
 import "./transaction-box.styles.scss";
 
-const TransactionBox = ({ date, text, amount }) => {
+const TransactionBox = ({ date, text, amount, type }) => {
 	const selectedCurrency = useSelector(selectCurrency);
 	const isCurrencyRON = (currentCurrency) => {
 		if (currentCurrency === "RON") return true;
@@ -15,8 +15,8 @@ const TransactionBox = ({ date, text, amount }) => {
 				<span className="date-span">{date.date}</span>
 				<span className="time-span">{date.time}</span>
 			</div>
-			<span>{text}</span>
-			<span>
+			<span className="category-text">{text}</span>
+			<span className={type}>
 				{!isCurrencyRON(selectedCurrency.currency) && <span className="currency">{selectedCurrency.currency} </span>}
 				{amount}
 				{isCurrencyRON(selectedCurrency.currency) && <span className="currency"> {selectedCurrency.currency}</span>}

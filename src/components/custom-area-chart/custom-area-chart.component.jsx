@@ -2,8 +2,6 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 
 import { groupByMonth, generateMonthsFromStartToNow, matchObjectAndSumAmount, removeLeadingZero } from "../../utils/stats/stats";
 
-import "./custom-area-chart.styles.scss";
-
 const CustomAreaChart = ({ createdAt, savings }) => {
 	const months = generateMonthsFromStartToNow(createdAt);
 	const savingsGroupedByMonth = groupByMonth(savings.expenses);

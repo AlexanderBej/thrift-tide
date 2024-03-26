@@ -17,10 +17,10 @@ const History = () => {
 
 	return (
 		<div className="dashboard-item regular-dashboard history-dashboard">
-			<HistoryBox category={incomes} title={"Incomes"} />
-			<HistoryBox category={expenses.needs.expenses} title={expenses.needs.title} />
-			<HistoryBox category={expenses.wants.expenses} title={expenses.wants.title} />
-			<HistoryBox category={expenses.save.expenses} title={expenses.save.title} />
+			<HistoryBox category={incomes} title={"Incomes"} type={"income"}/>
+			<HistoryBox category={expenses.needs.expenses} title={expenses.needs.title} type={"expense"}/>
+			<HistoryBox category={expenses.wants.expenses} title={expenses.wants.title} type={"expense"}/>
+			<HistoryBox category={expenses.save.expenses} title={expenses.save.title} type={"expense"}/>
 		</div>
 	);
 };

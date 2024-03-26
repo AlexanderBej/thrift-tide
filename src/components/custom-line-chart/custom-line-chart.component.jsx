@@ -2,8 +2,6 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 
 import { generateMonthsFromStartToNow, groupByMonth, matchObjectAndSumAmount, removeLeadingZero } from "../../utils/stats/stats";
 
-import "./custom-line-chart.styles.scss";
-
 const CustomLineChart = ({ createdAt, financialStatus }) => {
 	const months = generateMonthsFromStartToNow(createdAt);
 

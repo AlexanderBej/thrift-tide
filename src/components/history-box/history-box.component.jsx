@@ -5,7 +5,7 @@ import { groupByMonth } from "../../utils/stats/stats";
 
 import "./history-box.styles.scss";
 
-const HistoryBox = ({ category, title }) => {
+const HistoryBox = ({ category, title, type }) => {
 	const groupedCategory = groupByMonth(category);
 
 	return (
@@ -24,6 +24,7 @@ const HistoryBox = ({ category, title }) => {
 											date={transaction.date ? transaction.date : transaction.addedAt}
 											text={transaction.from ? transaction.from : transaction.reason}
 											amount={transaction.amount}
+											type={type}
 										/>
 									))}
 								</div>

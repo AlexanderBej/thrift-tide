@@ -4,11 +4,20 @@ import Button from "../../components/button/button.component";
 import { ReactComponent as Logo } from "../../assets/Logo.svg";
 
 import "./home.styles.scss";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../store/user/user.selector";
 
 const Home = () => {
+	const currentUser = useSelector(selectCurrentUser);
 	const navigate = useNavigate();
 
-	const onNavigateToLoginHandler = () => navigate("/login");
+	const onNavigateToLoginHandler = () => {
+		if (currentUser) {
+			navigate("/dashboard");
+		} else {
+			navigate("/login");
+		}
+	};
 
 	return (
 		<main className="home-page">

@@ -17,6 +17,7 @@ const Settings = () => {
 			const currencyCode = countryToCurrency[selectedCurrency];
 			const currencyObject = CurrencyList.get(currencyCode);
 			dispatch(setCurrency(currencyObject.symbol));
+			localStorage.setItem("currency", currencyObject.symbol)
 		}
 	}, [dispatch, selectedCurrency]);
 

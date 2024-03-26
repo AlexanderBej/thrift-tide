@@ -1,0 +1,16 @@
+.fin-status-header {
+	position: relative;
+	text-align: center;
+	width: 150px;
+	margin: 0 0 20px;
+
+	&::after {
+		content: attr(name);
+		position: absolute;
+		font-size: 0.5em;
+		font-weight: 100;
+		bottom: -15px;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+}

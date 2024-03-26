@@ -48,7 +48,6 @@ function App() {
 				<Route path="statistics" element={<Statistics />} />
 				<Route path="settings" element={<Settings />} />
 			</Route>
-
 			<Route path="*" element={<NotFound />} />
 		</Routes>
 	);

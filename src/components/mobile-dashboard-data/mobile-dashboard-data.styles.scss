@@ -1,0 +1,34 @@
+@import "../../styles/variables";
+
+.financial-statuses {
+    display: inline-flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.categories-list {
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-between;
+    font-size: 0.8em;
+
+    h1 {
+        pointer-events: all;
+        cursor: pointer;
+    }
+
+    .selected {
+        color: $primary-color;
+    }
+}
+
+.mobile-btn-box {
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+    height: 150px;
+}
+
+.mobile-view-categories {
+    height: calc(100% - 100px);
+}
