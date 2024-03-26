@@ -13,7 +13,7 @@ const defaultFormFields = {
 	reason: "",
 };
 
-const AddExpenseModal = ({ isAddExpenseModalOpen, onAddExpenseModalClose, financialStatus, currentUser, userDocument }) => {
+const AddExpenseModal = ({ isAddExpenseModalOpen, onAddExpenseModalClose, financialStatus, currentUser, userDocument, currency }) => {
 	const dispatch = useDispatch();
 	const form = useRef();
 	const [formFields, setFormFields] = useState(defaultFormFields);
@@ -79,6 +79,12 @@ const AddExpenseModal = ({ isAddExpenseModalOpen, onAddExpenseModalClose, financ
 	const resetFormFields = () => {
 		setFormFields(defaultFormFields);
 	};
+
+	const isCurrencyRON = (currentCurrency) => {
+		if (currentCurrency === "RON") return true;
+		return false;
+	};
+
 	return (
 		<section className={"modal-overlay" + (isAddExpenseModalOpen ? " width-full" : "")} onClick={onAddExpenseModalClose}>
 			<div className="modal-container">
@@ -88,17 +94,21 @@ const AddExpenseModal = ({ isAddExpenseModalOpen, onAddExpenseModalClose, financ
 					</header>
 
 					<form ref={form} onSubmit={handleSubmit} className="modal-body">
-						<FormInput
-							label="Amount"
-							type="number"
-							inputType={"input"}
-							inputMode="number"
-							onChange={handleChange}
-							name="amount"
-							required
-							value={amount}
-							customClassName="modal-input"
-						/>
+						<div className="amount-field">
+							{!isCurrencyRON(currency) && <span className="currency">{currency} </span>}
+							<FormInput
+								label="Amount"
+								type="number"
+								inputType={"input"}
+								inputMode="number"
+								onChange={handleChange}
+								name="amount"
+								required
+								value={amount}
+								customClassName="modal-input"
+							/>
+							{isCurrencyRON(currency) && <span className="currency"> {currency}</span>}
+						</div>
 
 						<div className="radio-container">
 							<label>
@@ -115,8 +125,6 @@ const AddExpenseModal = ({ isAddExpenseModalOpen, onAddExpenseModalClose, financ
 							</label>
 						</div>
 
-						
-
 						<FormInput
 							label="Reason"
 							type="text"
@@ -128,7 +136,9 @@ const AddExpenseModal = ({ isAddExpenseModalOpen, onAddExpenseModalClose, financ
 							customClassName="modal-input"
 						/>
 
-						<Button type="submit" customClassName="submit-btn">Add expense</Button>
+						<Button type="submit" customClassName="submit-btn">
+							Add expense
+						</Button>
 					</form>
 				</aside>
 			</div>

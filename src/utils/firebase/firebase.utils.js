@@ -45,7 +45,6 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInfo = {}) 
 	if (!userSnapshot.exists()) {
 		const { displayName, email } = userAuth;
 		const createdAt = new Date();
-		// const uniquedId = crypto.randomUUID();
 
 		try {
 			await setDoc(userDocRef, {
@@ -78,7 +77,6 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInfo = {}) 
 					},
 					remaining: 0,
 				},
-				// docId: uniquedId,
 				...additionalInfo,
 			});
 		} catch (error) {

@@ -1,7 +1,7 @@
 @import "./styles/variables";
 
 body {
-	background-image: linear-gradient(135deg, #AFECE7 10%, #829a98 67%);
+	background-image: linear-gradient(135deg, #afece7 10%, #829a98 67%);
 }
 
 a {
@@ -9,14 +9,19 @@ a {
 	text-decoration: none;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
 	color: $secondary-color;
 }
 
 .underlined-btn {
 	cursor: pointer;
 	font-family: unset;
-    font-weight: 700;
+	font-weight: 700;
 
 	&:hover {
 		text-decoration: underline;
@@ -60,15 +65,29 @@ h1, h2, h3, h4, h5, h6 {
 		border-top-left-radius: 15px;
 		border-top-right-radius: 15px;
 		background-color: $secondary-color;
-		
+
 		.modal-header {
 			color: white;
-
 		}
 	}
 
 	.modal-body {
 		padding: 20px;
+
+		.amount-field {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+
+			.modal-input {
+				margin: 0 !important;
+			}
+
+			.currency {
+				font-size: 1em;
+			}
+		}
 
 		.modal-input {
 			width: 200px;
@@ -80,7 +99,7 @@ h1, h2, h3, h4, h5, h6 {
 			gap: 20px;
 			justify-content: center;
 			padding: 15px;
-		
+
 			.radio-box {
 				background-color: grey;
 				border-radius: 15px;
@@ -93,14 +112,14 @@ h1, h2, h3, h4, h5, h6 {
 				color: white;
 				font-weight: bold;
 			}
-		
+
 			.transaction-radio {
 				-webkit-appearance: none;
 				-moz-appearance: none;
 				-ms-appearance: none;
 				-o-appearance: none;
 				appearance: none;
-		
+
 				&:checked + .radio-box {
 					background-color: greenyellow;
 				}
@@ -129,7 +148,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .regular-dashboard {
-    grid-area: 1 / 2 / 7 / 7;
+	grid-area: 1 / 2 / 7 / 7;
+}
+
+.currency {
+	font-size: 0.5em;
+	font-weight: 700;
+	pointer-events: none;
 }
 
 ::-webkit-scrollbar {
