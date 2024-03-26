@@ -1,3 +1,5 @@
+@import "../../styles/variables";
+
 .home-page {
     text-align: center;
     height: 100vh;
@@ -5,4 +7,18 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    h1 {
+        color: $primary-color;
+    }
+
+    .logo {
+        display: block;
+        margin: 0 auto;
+        height: 100px;
+    }
+
+    p {
+        color: white;
+    }
 }

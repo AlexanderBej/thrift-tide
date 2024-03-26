@@ -7,8 +7,6 @@ import { setUserDocument } from "../../store/user-document/user-document.slice";
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
 
-import "./add-expense-modal.styles.scss";
-
 const defaultFormFields = {
 	amount: "",
 	from: "",
@@ -85,8 +83,8 @@ const AddExpenseModal = ({ isAddExpenseModalOpen, onAddExpenseModalClose, financ
 		<section className={"modal-overlay" + (isAddExpenseModalOpen ? " width-full" : "")} onClick={onAddExpenseModalClose}>
 			<div className="modal-container">
 				<aside className="modal-content" onClick={(e) => e.stopPropagation()}>
-					<header className="expense-header">
-						<h3>Add new expense</h3>
+					<header className="modal-header">
+						<h3 className="modal-header">Add new expense</h3>
 					</header>
 
 					<form ref={form} onSubmit={handleSubmit} className="modal-body">

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { onAuthStateChangedListener, createUserDocumentFromAuth } from "./utils/firebase/firebase.utils";
@@ -21,7 +21,6 @@ import "./App.scss";
 
 function App() {
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
 
 	useEffect(() => {
 		const unsubscribe = onAuthStateChangedListener(async (user) => {
@@ -32,12 +31,11 @@ function App() {
 					dispatch(setUserDocument(userFinancialStatusGot));
 				};
 				getUserFinancialStatus();
-				// navigate("/dashboard");
 			}
 			dispatch(setCurrentUser(user));
 		});
 		return unsubscribe;
-	}, [dispatch, navigate]);
+	}, [dispatch]);
 
 	return (
 		<Routes>

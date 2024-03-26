@@ -1,16 +1,26 @@
-//#AFECE7 - Celeste
-//#177E89 - Teal
-//#08605F - Caribbean Current
-
 @import "./styles/variables";
 
 body {
-	background-color: $background-color;
+	background-image: linear-gradient(135deg, #AFECE7 10%, #829a98 67%);
 }
 
 a {
 	color: black;
 	text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	color: $secondary-color;
+}
+
+.underlined-btn {
+	cursor: pointer;
+	font-family: unset;
+    font-weight: 700;
+
+	&:hover {
+		text-decoration: underline;
+	}
 }
 
 .modal-overlay {
@@ -23,7 +33,6 @@ a {
 	z-index: 4;
 	opacity: 0;
 	pointer-events: none;
-	// transition: all 0.3s ease-in-out;
 
 	.modal-container {
 		display: inline-block;
@@ -42,18 +51,20 @@ a {
 	transform: translate(-50%, -50%);
 	width: 200px;
 	background: white;
-	// padding: 30px;
 	border-radius: 15px;
 	box-shadow: 1px 3px 10px 0px rgba(0, 0, 0, 0.4);
-	// transition: all 0.3s ease-in-out;
 
 	header {
 		padding: 20px;
-		color: white;
 		text-align: center;
 		border-top-left-radius: 15px;
 		border-top-right-radius: 15px;
 		background-color: $secondary-color;
+		
+		.modal-header {
+			color: white;
+
+		}
 	}
 
 	.modal-body {

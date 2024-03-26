@@ -12,8 +12,6 @@ const CustomLineChart = ({ createdAt, financialStatus }) => {
 	const savingsGroupedByMonth = groupByMonth(financialStatus.expenses.save.expenses);
 	const incomeGroupedByMonth = groupByMonth(financialStatus.income.incomes);
 
-	console.log(needsGroupedByMonth, wantsGroupedByMonth, savingsGroupedByMonth, incomeGroupedByMonth);
-
 	const chartData =
 		months &&
 		months

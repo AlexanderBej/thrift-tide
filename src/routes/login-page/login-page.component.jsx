@@ -84,17 +84,17 @@ const LoginPage = () => {
 					/>
 
 					<div className="btns-container">
-						<Button isLoading={loading} type="submit" customClassName="message-me-btn">
+						<Button isLoading={loading} type="submit" customClassName="login-btn">
 							Login
 						</Button>
-						<Button isLoading={loading} type="button" customClassName="message-me-btn" onClick={logGoogleUser}>
+						<Button isLoading={loading} type="button" customClassName="login-btn" onClick={logGoogleUser}>
 							Google Sign In
 						</Button>
 					</div>
 				</form>
-				<h2>
-					Don't have an account yet? <span onClick={onNavigateToSignUpHandle}>Sign up right now!</span>
-				</h2>
+				<h5>
+					Don't have an account yet? <button className="underlined-btn" onClick={onNavigateToSignUpHandle}>Sign up right now!</button>
+				</h5>
 			</div>
 		</main>
 	);

@@ -1,9 +1,9 @@
 import { useSelector } from "react-redux";
 
 import { selectUserDocument } from "../../store/user-document/user-document.selector";
+import HistoryBox from "../../components/history-box/history-box.component";
 
 import "./history.styles.scss";
-import HistoryBox from "../../components/history-box/history-box.component";
 
 const History = () => {
 	const userDocument = useSelector(selectUserDocument);
@@ -14,8 +14,6 @@ const History = () => {
 			expenses,
 		},
 	} = userDocument;
-
-	console.log(incomes);
 
 	return (
 		<div className="dashboard-item regular-dashboard history-dashboard">

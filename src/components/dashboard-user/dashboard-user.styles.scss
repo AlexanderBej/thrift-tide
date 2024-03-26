@@ -1,20 +1,34 @@
-.user-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    margin-top: 30px;
-    
-    .cover-img {
-        height: 60px;
-        width: 60px;
-        background-size: cover;
-        background-position: center;
-        border-radius: 50%;
-    }
+@import "../../styles/variables";
 
-    h3, h5 {
-        margin: 0;
-    }
+.user-container {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 20px;
+	margin-top: 30px;
+
+	.cover-img {
+		height: 60px;
+		width: 60px;
+		background-size: cover;
+		background-position: center;
+		border-radius: 50%;
+	}
+
+	.initials-box {
+		background-color: $primary-color;
+		color: white;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 1.5em;
+		font-weight: bold;
+        pointer-events: none;
+	}
+
+	h3,
+	h5 {
+		margin: 0;
+	}
 }

@@ -10,7 +10,6 @@ import "./sign-up.styles.scss";
 
 const defaultFormFields = {
 	displayName: "",
-	username: "",
 	email: "",
 	password: "",
 	confirmPassword: "",
@@ -22,7 +21,7 @@ const SignUp = () => {
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 
-	const { displayName, username, email, password, confirmPassword } = formFields;
+	const { displayName, email, password, confirmPassword } = formFields;
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
@@ -32,9 +31,11 @@ const SignUp = () => {
 		}
 
 		try {
+			setLoading(true);
 			const { user } = await createAuthUserWithEmailAndPassword(email, password);
 
 			await createUserDocumentFromAuth(user, { displayName });
+			setLoading(false);
 			resetFormFields();
 			onNavigateToLoginHandler();
 		} catch (error) {
@@ -55,7 +56,6 @@ const SignUp = () => {
 		setFormFields({ ...formFields, [name]: value });
 	};
 
-	const onNavigateToDashboardHandler = () => navigate("/dashboard");
 	const onNavigateToLoginHandler = () => navigate("/login");
 
 	return (
@@ -72,8 +72,6 @@ const SignUp = () => {
 						required
 						value={displayName}
 					/>
-
-					<FormInput label="Username" type="text" inputType={"input"} onChange={handleChange} name="username" required value={username} />
 
 					<FormInput
 						label="Email"
@@ -107,12 +105,16 @@ const SignUp = () => {
 					/>
 
 					<div className="btns-container">
-						<Button isLoading={loading} type="submit" customClassName="message-me-btn">
+						<Button isLoading={loading} type="submit" customClassName="sign-up-btn">
 							Sign up
 						</Button>
 					</div>
 				</form>
-				<span onClick={onNavigateToLoginHandler}>Back to login</span>
+				<h5>
+					<button className="underlined-btn" onClick={onNavigateToLoginHandler}>
+						Back to login
+					</button>
+				</h5>
 			</div>
 		</main>
 	);

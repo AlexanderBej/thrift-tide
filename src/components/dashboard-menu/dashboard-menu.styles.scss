@@ -1,5 +1,11 @@
 @import "../../styles/variables";
 
+.logo {
+	height: 50px;
+	margin: auto;
+    display: block;
+}
+
 .nav-tabs {
 	display: flex;
     flex-direction: column;

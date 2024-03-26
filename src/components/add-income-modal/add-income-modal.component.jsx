@@ -7,8 +7,6 @@ import { setUserDocument } from "../../store/user-document/user-document.slice";
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
 
-import "./add-income-modal.styles.scss";
-
 const defaultFormFields = {
 	amount: "",
 	from: "",
@@ -62,7 +60,6 @@ const AddIncomeModal = ({ isAddIncomeModalOpen, onAddIncomeModalClose, financial
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		console.log(formFields);
 		addIncome();
 		resetFormFields();
 		onAddIncomeModalClose();
@@ -81,8 +78,8 @@ const AddIncomeModal = ({ isAddIncomeModalOpen, onAddIncomeModalClose, financial
 		<section className={"modal-overlay" + (isAddIncomeModalOpen ? " width-full" : "")} onClick={onAddIncomeModalClose}>
 			<div className="modal-container">
 				<aside className="modal-content" onClick={(e) => e.stopPropagation()}>
-					<header className="income-header">
-						<h3>Add new income</h3>
+					<header>
+						<h3 className="modal-header">Add new income</h3>
 					</header>
 					<form ref={form} onSubmit={handleSubmit} className="modal-body">
 						<FormInput
