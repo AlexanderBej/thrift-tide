@@ -1,20 +1,18 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
-import './dashboard.styles.scss';
 import DonutChart from '../../components/charts/donut.component';
-import { useDispatch, useSelector } from 'react-redux';
 import { selectAuthUser } from '../../store/auth-store/auth.selectors';
 import {
   selectBudgetDoc,
   selectBudgetMonth,
   selectBudgetTxns,
 } from '../../store/budget-store/budget.selectors';
-import { AppDispatch } from '../../store/store';
 import Button from '../../components/button/button.component';
-import { Txn } from '../../utils/firebase.util';
 import DashboardCards from '../../components/dashboard-cards/dashboard-cards.component';
-import { addTxnThunk } from '../../store/budget-store/budget.slice';
 import AddTransaction from '../../components/modal/add-transaction-modal/add-transaction-modal.component';
+
+import './dashboard.styles.scss';
 
 const Dashboard: React.FC = () => {
   const user = useSelector(selectAuthUser);
@@ -22,7 +20,6 @@ const Dashboard: React.FC = () => {
   const month = useSelector(selectBudgetMonth);
   const transactions = useSelector(selectBudgetTxns);
   const income = 2500;
-  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     console.log('user', getFirstName(user?.displayName ?? ''));
@@ -39,22 +36,6 @@ const Dashboard: React.FC = () => {
 
   const handleEditPercentage = () => {
     console.log('edit percentages');
-  };
-
-  const handleAddTransaction = () => {
-    const now = new Date().toISOString().slice(0, 10); // YYYY-MM-DD format
-
-    console.log('add transaction');
-    const trans: Txn = {
-      date: now,
-      amount: 20,
-      type: 'want',
-      category: 'Takeout',
-      note: 'Pizza',
-    };
-    console.log('dispatching');
-
-    // dispatch(addTxnThunk({ uid: user?.uuid ?? '', txn: trans }));
   };
 
   return (
@@ -113,13 +94,6 @@ const Dashboard: React.FC = () => {
       </section>
       <section className="dashboard-cards-container">
         <DashboardCards />
-        {/* <Button
-          buttonType="primary"
-          customContainerClass="dashboard-add-txn-btn"
-          onClick={handleAddTransaction}
-        >
-          <span>+ Add Transaction</span>
-        </Button> */}
 
         <AddTransaction />
       </section>

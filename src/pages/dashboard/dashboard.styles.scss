@@ -1,8 +1,11 @@
 @use '../../styles/global.scss' as *;
 
-// .dashboard {
-//   background-color: $color-bg-main;
-// }
+.dashboard {
+  background-color: $color-bg-card;
+  box-shadow: $shadow-lg;
+  border-radius: $radius-lg;
+  padding: $spacing-5 $spacing-6;
+}
 
 .dashboard-header {
   display: inline-flex;
