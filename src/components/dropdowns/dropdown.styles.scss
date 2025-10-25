@@ -1,0 +1,22 @@
+@use '../../styles/global.scss' as *;
+
+.dropdown-container {
+  display: inline-block;
+  position: relative;
+  // background: $color-bg-card;
+  // padding: 5px 15px;
+  // border-radius: $radius-sm;
+
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 0;
+    min-width: 100px;
+    background-color: $color-bg-card;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+  }
+}

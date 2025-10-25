@@ -1,0 +1,49 @@
+@use '../../styles/global.scss' as *;
+
+.dashboard-cards {
+  display: grid;
+  column-gap: 50px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  .dashboard-card {
+    // background-color: $color-bg-body;
+    border: 1px solid $color-neutral-medium;
+    border-left: 4px solid transparent;
+    border-radius: $radius-md;
+    box-shadow: $shadow-md;
+    padding: $spacing-4;
+    transition:
+      border-color $transition-normal,
+      box-shadow $transition-fast;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .card-title-row {
+      display: inline-flex;
+      opacity: 0.6;
+      gap: $spacing-3;
+      margin-bottom: $spacing-4;
+
+      .cart-title-icon {
+        background-color: aquamarine;
+        padding: 5px;
+        border-radius: $radius-sm;
+        height: 30px;
+        width: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $color-bg-card;
+      }
+    }
+
+    .card-details {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      line-height: 2rem;
+    }
+  }
+}

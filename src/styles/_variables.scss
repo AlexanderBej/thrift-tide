@@ -1,3 +1,103 @@
-$background-color: #AFECE7;
-$primary-color: #08605F;
-$secondary-color: #177E89;
+// ==============================
+// 🎨 Budget Balance Design Tokens
+// ==============================
+
+// ---------- COLORS ----------
+
+// Primary palette
+$color-primary: #2ecc71; // Emerald Green – main accent
+$color-primary-dark: #27ae60; // Darker variant (hover, focus)
+$color-secondary: #5dade2; // Sky Blue – actions or links
+$color-secondary-dark: #4e9acc; // Sky Blue – actions or links hover
+
+// Neutrals
+$color-neutral-grey: #e1e1e1; // Main body background
+$color-neutral-light: #ebebeb; // Backgrounds
+$color-neutral-medium: #d5dbdb; // Borders, dividers
+$color-neutral-dark: #2c3e50; // Headings, text
+
+// Accents
+$color-success: #27ae60;
+$color-warning: #f39c12;
+$color-error: #e74c3c;
+
+// Text
+$color-text-primary: $color-neutral-dark;
+$color-text-secondary: darken($color-neutral-medium, 25%);
+$color-text-inverse: #ffffff;
+
+// Backgrounds
+$color-bg-main: $color-neutral-grey;
+$color-bg-body: $color-neutral-light;
+$color-bg-card: #ffffff;
+
+// Optional dark theme colors (future use)
+$dark-bg-body: #121212;
+$dark-bg-card: #1e1e1e;
+$dark-text-primary: #eaeaea;
+$dark-text-secondary: #aaaaaa;
+
+// ---------- TYPOGRAPHY ----------
+
+// Font families
+$font-heading: 'Poppins', sans-serif;
+$font-body: 'Inter', sans-serif;
+$font-mono: 'Roboto Mono', monospace;
+
+// Font sizes (rem-based scale)
+$font-size-h1: 2rem; // ~32px
+$font-size-h2: 1.5rem; // ~24px
+$font-size-h3: 1.25rem; // ~20px
+$font-size-body: 1rem; // ~16px
+$font-size-small: 0.875rem; // ~14px
+
+// Font weights
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// Line heights
+$line-height-base: 1.5;
+$line-height-heading: 1.2;
+
+// ---------- SPACING & SIZING ----------
+
+// 4px baseline spacing system
+$spacing-1: 4px;
+$spacing-2: 8px;
+$spacing-3: 12px;
+$spacing-4: 16px;
+$spacing-5: 24px;
+$spacing-6: 32px;
+$spacing-7: 48px;
+$spacing-8: 64px;
+
+// Border radius
+$radius-sm: 6px;
+$radius-md: 12px;
+$radius-lg: 20px;
+
+// Shadows
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+$shadow-md: 0 2px 8px rgba(0, 0, 0, 0.12);
+$shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.15);
+
+// ---------- LAYOUT GRID ----------
+
+// Container and breakpoints
+$max-width-container: 960px;
+
+$breakpoint-mobile: 480px;
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1024px;
+$breakpoint-large: 1440px;
+
+// Grid columns (desktop)
+$grid-columns: 12;
+$grid-gutter: 24px;
+
+// ---------- TRANSITIONS ----------
+$transition-fast: 0.2s ease-in-out;
+$transition-normal: 0.3s ease-in-out;
+$transition-slow: 0.5s ease-in-out;

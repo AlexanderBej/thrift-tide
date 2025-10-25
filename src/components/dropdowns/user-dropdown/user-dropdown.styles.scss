@@ -1,0 +1,19 @@
+@use '../../../styles/global.scss' as *;
+
+.user-profile-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
+  margin: auto;
+  background: #ffffff;
+  padding-right: 20px;
+  border-radius: 25px;
+
+  .cover-img {
+    height: 50px;
+    width: 50px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+  }
+}

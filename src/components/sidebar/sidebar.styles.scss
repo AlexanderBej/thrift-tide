@@ -1,0 +1,52 @@
+@use '../../styles/global.scss' as *;
+
+.main-sidebar {
+  width: 300px;
+  background-color: $color-secondary;
+  height: 100vh;
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+  box-shadow: $shadow-md;
+
+  .logo-container {
+    height: 100px;
+    width: 100%;
+    display: flex;
+
+    .logo {
+      margin: auto;
+    }
+  }
+
+  // .sidebar-line {
+  //   margin-bottom: 30px;
+  // }
+
+  .sidebar-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 50px;
+
+    li {
+      width: 100%;
+
+      .sidebar-link {
+        height: 50px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding-left: 30px;
+
+        &:hover {
+          background-color: $color-secondary-dark;
+        }
+        &.active {
+          background-color: $color-primary;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}

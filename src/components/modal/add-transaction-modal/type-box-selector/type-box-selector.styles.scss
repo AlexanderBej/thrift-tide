@@ -1,0 +1,31 @@
+@use '../../../../styles/global.scss' as *;
+
+.type-selector-label {
+  font-size: 12px;
+}
+
+.type-box-selector {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 0 20px;
+
+  .type-box {
+    display: inline-flex;
+    gap: 5px;
+    width: 110px;
+    height: 45px;
+    border-radius: 5px;
+    border: 1px solid $color-neutral-medium;
+    align-items: center;
+    padding: 5px;
+    justify-content: center;
+    cursor: pointer;
+
+    &:hover {
+      background-color: lighten($color: $color-primary, $amount: 45) !important;
+      border-color: $color-primary;
+    }
+  }
+}

@@ -1,0 +1,30 @@
+@use '../../../styles/global.scss' as *;
+
+.add-txn-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: 200px;
+  justify-content: center;
+  margin: 20px 0 0 calc(100% - 200px);
+
+  .add-txn-icon {
+    color: $color-text-inverse !important;
+    transition: $transition-normal;
+  }
+
+  &:hover .add-txn-icon {
+    color: $color-primary !important;
+  }
+}
+
+.amount-line {
+  display: grid;
+  grid-template-columns: 1fr 60%;
+  column-gap: 40px;
+}
+
+.save-txn-btn {
+  margin: 20px auto 10px;
+  display: block;
+}

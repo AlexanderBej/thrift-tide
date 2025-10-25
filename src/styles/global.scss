@@ -1,0 +1,14 @@
+@forward 'variables';
+@forward 'mixins';
+@forward 'styles';
+
+:root {
+  --text-primary: #2c3e50;
+  --text-secondary: #7b8a8b;
+  --grid: #e6ebef;
+  --card-bg: #ffffff;
+  --needs: #2ecc71;
+  --wants: #5dade2;
+  --savings: #f4b63f;
+  --error: #e74c3c;
+}

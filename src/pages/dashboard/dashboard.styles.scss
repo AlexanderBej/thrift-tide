@@ -1,0 +1,42 @@
+@use '../../styles/global.scss' as *;
+
+// .dashboard {
+//   background-color: $color-bg-main;
+// }
+
+.dashboard-header {
+  display: inline-flex;
+  width: 100%;
+  align-items: flex-start;
+  gap: 100px;
+}
+
+.dashboard-donut-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 50px;
+  margin: 40px 0;
+
+  .dashboard-donut {
+    width: 400px;
+  }
+
+  .dashboard-cat-percentages {
+    width: 250px;
+
+    .cat-percentage-line {
+      display: inline-flex;
+      width: 100%;
+      line-height: 3rem;
+      font-size: 18px;
+      font-weight: $font-weight-bold;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+}
+
+// .dashboard-add-txn-btn {
+//   margin: 20px 0 0 auto;
+//   display: block;
+// }
