@@ -10,6 +10,8 @@ import ProtectedRoute from './utils/protected-route.util';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from './store/store';
 import { initApp } from './utils/app-init.util';
+import Categories from './pages/categories/categories.component';
+import Category from './pages/category/category.components';
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -32,7 +34,8 @@ function App() {
       >
         <Route index element={<Dashboard />} />
         <Route path="transactions" element={<Transaction />} />
-        <Route path="categories" element={<Transaction />} />
+        <Route path="categories" element={<Categories />} />
+        <Route path="categories/:type" element={<Category />} />
 
         <Route path="settings" element={<Settings />} />
       </Route>

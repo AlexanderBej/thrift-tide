@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 
-import { ensureUserProfile, signInWithGooglePopup } from '../../utils/firebase.util';
 import TTIcon from '../../components/icon/icon.component';
 
 import './login.styles.scss';
 import Button from '../../components/button/button.component';
 import { useSelector } from 'react-redux';
 import { selectAuthStatus } from '../../store/auth-store/auth.selectors';
+import { ensureUserProfile, signInWithGooglePopup } from '../../api/services/auth.service';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();

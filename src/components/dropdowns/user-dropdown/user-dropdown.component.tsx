@@ -5,10 +5,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { selectAuthUser } from '../../../store/auth-store/auth.selectors';
 import Dropdown from '../dropdown.component';
 import { AppDispatch } from '../../../store/store';
-import { signOutUser } from '../../../utils/firebase.util';
 import { userSignedOut } from '../../../store/auth-store/auth.slice';
 
 import './user-dropdown.styles.scss';
+import { signOutUser } from '../../../api/services/auth.service';
 
 const UserDropdown: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();

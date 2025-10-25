@@ -10,11 +10,14 @@ import { CategoryCard, selectCards } from '../../store/budget-store/budget.selec
 import './dashboard-cards.styles.scss';
 import TTIcon from '../icon/icon.component';
 import { IconType } from 'react-icons';
+import { useNavigate } from 'react-router-dom';
+import ProgressBar from '../progress-bar/progress-bar.component';
 
 const fmt = (n: number) =>
   n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 const DashboardCards: React.FC = () => {
+  const navigate = useNavigate();
   const cards = useSelector(selectCards);
 
   if (!cards) return null;
@@ -48,10 +51,14 @@ const DashboardCards: React.FC = () => {
   return (
     <div className="dashboard-cards" style={{ gridTemplateColumns: 'repeat(3, minmax(0, 1fr))' }}>
       {cards.map((c) => (
-        <div key={c.key} className="dashboard-card">
+        <div
+          key={c.key}
+          className="dashboard-card"
+          onClick={() => navigate(`/categories/${c.title.toLowerCase()}`)}
+        >
           <div className="card-title-row">
             <div className="cart-title-icon" style={{ background: getCategoryColor(c.key) }}>
-              {c.key && <TTIcon icon={getCategoryIcon(c.key)} size={22} />}
+              {c.key && <TTIcon icon={getCategoryIcon(c.key)} size={22} color="white" />}
             </div>
             <span>{c.title}</span>
           </div>
@@ -77,17 +84,7 @@ const DashboardCards: React.FC = () => {
           </div>
 
           {/* progress bar */}
-          <div style={{ height: 8, background: '#eee', borderRadius: 999, marginTop: 12 }}>
-            <div
-              style={{
-                width: `${c.progress * 100}%`,
-                height: '100%',
-                borderRadius: 999,
-                background: c.progress >= 1 ? '#ef4444' : getCategoryColor(c.key),
-                transition: 'width 200ms ease',
-              }}
-            />
-          </div>
+          <ProgressBar progress={c.progress} />
         </div>
       ))}
     </div>

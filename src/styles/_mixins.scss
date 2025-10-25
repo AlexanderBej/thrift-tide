@@ -1,3 +1,5 @@
+@use './variables' as *;
+
 @mixin shrinkLabel {
   top: -14px;
   font-size: 12px;
@@ -8,4 +10,11 @@
   display: flex;
   justify-content: $justify;
   align-items: $align;
+}
+
+@mixin dashboard-card($shadow: $shadow-lg, $radius: $radius-lg, $pad: $spacing-5 $spacing-6) {
+  background-color: $color-bg-card;
+  box-shadow: $shadow;
+  border-radius: $radius;
+  padding: $pad;
 }

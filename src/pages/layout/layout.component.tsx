@@ -16,10 +16,12 @@ const Layout: React.FC = () => {
     const parts = path.replace(/^\/+/, '').split('/');
 
     // Take only last part (e.g. "/categories/edit" → "edit")
-    const last = parts[parts.length - 1];
+    const first = parts[0];
+
+    // console.log('parts', parts);
 
     // Convert kebab-case or snake_case to Proper Case
-    return last.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+    return first.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
   };
 
   return (

@@ -1,5 +1,5 @@
 @use '../../styles/global.scss' as *;
 
 .categories {
-  background-color: $color-bg-main;
+  @include dashboard-card($radius: $radius-lg, $shadow: $shadow-lg, $pad: 50px $spacing-6);
 }

@@ -5,28 +5,28 @@ import { MdDataSaverOn } from 'react-icons/md';
 import { IconType } from 'react-icons';
 
 import { SelectOption } from '../../../select/select.component';
-import { TransactionType, Txn } from '../../../../utils/firebase.util';
 import { getCssVar } from '../../../../utils/style-variable.util';
 import TTIcon from '../../../icon/icon.component';
 
 import './type-box-selector.styles.scss';
 import { TransactionFormData } from '../add-transaction-modal.component';
+import { Bucket } from '../../../../api/types/bucket.types';
 
 interface TypeBoxSelectorProps {
   formData: TransactionFormData;
-  handleTypeChange: (e: TransactionType) => void;
+  handleTypeChange: (e: Bucket) => void;
 }
 
 const TypeBoxSelector: React.FC<TypeBoxSelectorProps> = ({ formData, handleTypeChange }) => {
   const TYPE_OPTIONS: SelectOption[] = [
-    { value: 'need', label: 'Need', icon: TbHomeStar },
-    { value: 'want', label: 'Want', icon: GiWantedReward },
-    { value: 'saving', label: 'Saving', icon: MdDataSaverOn },
+    { value: 'needs', label: 'Needs', icon: TbHomeStar },
+    { value: 'wants', label: 'Wants', icon: GiWantedReward },
+    { value: 'savings', label: 'Savings', icon: MdDataSaverOn },
   ];
 
-  const getTypeColor = (value: TransactionType) => {
+  const getTypeColor = (value: Bucket) => {
     if (formData.type === value) {
-      const colorVarName = `--${value}s`;
+      const colorVarName = `--${value}`;
       return getCssVar(colorVarName);
     } else return 'transparent';
   };
@@ -41,10 +41,10 @@ const TypeBoxSelector: React.FC<TypeBoxSelectorProps> = ({ formData, handleTypeC
               key={index}
               className="type-box"
               style={{
-                background: getTypeColor(opt.value as TransactionType),
+                background: getTypeColor(opt.value as Bucket),
                 color: formData.type === opt.value ? '' : '',
               }}
-              onClick={() => handleTypeChange(opt.value as TransactionType)}
+              onClick={() => handleTypeChange(opt.value as Bucket)}
             >
               <TTIcon
                 icon={opt.icon as IconType}

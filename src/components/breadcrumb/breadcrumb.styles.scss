@@ -1,0 +1,117 @@
+// .breadcrumb-list {
+//   list-style: none;
+//   display: flex;
+//   gap: 0.5rem;
+//   padding: 0;
+//   margin-left: 150px;
+//   align-items: center;
+// }
+
+// .breadcrumb-current {
+//   position: relative;
+//   display: inline-block;
+//   /* padding: 0.75em 1.5em 0.75em 3em; */
+//   padding: 5px 10px;
+//   margin: 0 1em;
+//   text-decoration: none;
+//   font-size: 11px;
+//   font-weight: bold;
+//   /* border-radius: 4px; */
+//   letter-spacing: 1px;
+// }
+
+// .breadcrumb-element {
+//   position: relative;
+//   display: inline-block;
+//   /* padding: 0.75em 1.5em 0.75em 3em; */
+//   padding: 5px 10px 5px 25px;
+//   margin: 0 1em;
+//   background-color: #555;
+//   color: #fff;
+//   text-decoration: none;
+//   font-size: 10px;
+//   font-weight: 100;
+//   /* border-radius: 4px; */
+//   letter-spacing: 1px;
+
+//   &::before {
+//     content: '';
+//     position: absolute;
+//     top: 0;
+//     left: 0; /* Adjust this to move the arrow tip closer or farther */
+//     width: 0;
+//     height: 0;
+//     border-top: 12px solid transparent;
+//     border-bottom: 14px solid transparent;
+//     border-left: 10px solid white;
+//   }
+
+//   &::after {
+//     content: '';
+//     position: absolute;
+//     top: 0;
+//     right: -9px; /* Adjust this to move the arrow tip closer or farther */
+//     width: 0;
+//     height: 0;
+//     border-top: 12px solid transparent;
+//     border-bottom: 14px solid transparent;
+//     border-left: 10px solid #555; /* Same color as the button background */
+//   }
+// }
+
+.breadcrumb-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary, #6b7280);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    display: flex;
+    align-items: center;
+
+    &:not(:last-child)::after {
+      content: '/';
+      color: var(--text-tertiary, #9ca3af);
+      margin: 0 0.5rem;
+      font-weight: 400;
+    }
+  }
+
+  .breadcrumb-element {
+    text-decoration: none;
+    color: var(--text-secondary, #6b7280);
+    font-weight: 500;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--primary, #2563eb);
+    }
+  }
+
+  .breadcrumb-current {
+    color: var(--text-primary, #111827);
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+}
+
+/* Optional: light fade-in animation */
+nav[aria-label='breadcrumb'] {
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

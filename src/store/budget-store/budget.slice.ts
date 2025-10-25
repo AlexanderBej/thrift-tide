@@ -1,18 +1,17 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+import { RootState } from '../store';
+import { MonthDoc } from '../../api/models/month-doc';
+import { Txn } from '../../api/models/txn';
+import { DEFAULT_PERCENTS, PercentTriple } from '../../api/types/percent.types';
+import { monthKey } from '../../utils/services.util';
 import {
-  DEFAULT_PERCENTS,
-  MonthDoc,
-  PercentTriple,
-  Txn,
   addTransaction,
-  monthKey,
   onTransactionsSnapshot,
   readMonth,
-  startTxnsListener,
-  stopTxnsListener,
   upsertMonth,
-} from '../../utils/firebase.util';
-import { RootState } from '../store';
+} from '../../api/services/budget.service';
+import { startTxnsListener, stopTxnsListener } from '../../api/services/firebase.service';
 
 type Status = 'idle' | 'loading' | 'ready' | 'error';
 

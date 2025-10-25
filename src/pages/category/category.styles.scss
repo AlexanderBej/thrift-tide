@@ -1,0 +1,111 @@
+@use '../../styles/global.scss' as *;
+
+.category-page {
+  padding: $spacing-5;
+  //   max-width: 900px;
+  //   margin: 0 auto;
+
+  .category-header {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .category-page-header {
+    margin-bottom: $spacing-4;
+  }
+
+  .category-summary-container {
+    // background-color: ;
+    border: 1px solid $color-neutral-medium;
+    padding: $spacing-5;
+    border-radius: $radius-md;
+
+    .category-summary-line {
+      display: inline-flex;
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+
+  .higlights-section {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 50px;
+    grid-row-gap: 0px;
+    margin: $spacing-5 0;
+
+    .top-categories-container {
+      grid-area: 1 / 1 / 2 / 4;
+      @include dashboard-card(
+        $radius: $radius-md,
+        $shadow: $shadow-md,
+        $pad: $spacing-4 $spacing-5
+      );
+
+      .top-categories-list {
+        display: grid;
+        gap: 8px;
+
+        .categories-item {
+          display: flex;
+          justify-content: space-between;
+          border-bottom: 1px solid rgb(238, 238, 238);
+          padding: 8px 0px;
+
+          .cat-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+          }
+        }
+      }
+    }
+    .insights-container {
+      grid-area: 1 / 4 / 2 / 5;
+      @include dashboard-card(
+        $radius: $radius-md,
+        $shadow: $shadow-md,
+        $pad: $spacing-4 $spacing-5
+      );
+    }
+  }
+
+  .transactions-section {
+    @include dashboard-card($radius: $radius-md, $shadow: $shadow-md, $pad: $spacing-4 $spacing-5);
+
+    .transaction-line {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 80px;
+      gap: 8px;
+      padding: 8px 0px;
+      border-bottom: 1px solid rgb(238, 238, 238);
+
+      .transaction-category {
+        display: flex;
+        gap: 10px;
+      }
+    }
+  }
+
+  .action-btns {
+    .quick-txn-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      width: 200px;
+      justify-content: center;
+      margin: 20px 0 0 calc(100% - 200px);
+
+      .quick-txn-icon {
+        color: $color-text-inverse !important;
+        transition: $transition-normal;
+      }
+
+      &:hover .quick-txn-icon {
+        color: $color-primary !important;
+      }
+    }
+  }
+}

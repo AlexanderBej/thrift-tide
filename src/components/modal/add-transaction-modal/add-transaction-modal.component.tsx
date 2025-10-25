@@ -5,7 +5,6 @@ import { format } from 'date-fns';
 import Modal from '../modal.component';
 import Button from '../../button/button.component';
 import TTIcon from '../../icon/icon.component';
-import { TransactionType, Txn } from '../../../utils/firebase.util';
 import FormInput from '../../form-input/form-input.component';
 import TypeBoxSelector from './type-box-selector/type-box-selector.component';
 import { CATEGORY_OPTIONS } from '../../../utils/category-options.util';
@@ -18,13 +17,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../../store/store';
 import { addTxnThunk } from '../../../store/budget-store/budget.slice';
 import { selectAuthUser } from '../../../store/auth-store/auth.selectors';
+import { Bucket } from '../../../api/types/bucket.types';
+import { Txn } from '../../../api/models/txn';
 
 const toYMD = (d: Date) => format(d, 'yyyy-MM-dd');
 
 export interface TransactionFormData {
   date: Date;
   amount: number;
-  type: TransactionType;
+  type: Bucket;
   category: string;
   note?: string;
 }
@@ -39,7 +40,7 @@ const AddTransaction: React.FC = () => {
     amount: 0.0,
     date: new Date(),
     note: '',
-    type: 'need',
+    type: 'needs',
   });
   const [errors, setErrors] = useState<FormErrors>({});
 
@@ -60,7 +61,7 @@ const AddTransaction: React.FC = () => {
     });
   };
 
-  const handleTypeChange = (t: TransactionType) => {
+  const handleTypeChange = (t: Bucket) => {
     setFormData((prev) => {
       const next = { ...prev, type: t };
       // If current category no longer valid for the new type, reset to first option

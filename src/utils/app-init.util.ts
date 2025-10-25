@@ -1,8 +1,9 @@
 import { onAuthStateChanged } from 'firebase/auth';
 import { authLoading, userSignedIn, userSignedOut } from '../store/auth-store/auth.slice';
 import { AppDispatch } from '../store/store';
-import { auth, onTransactionsSnapshot } from './firebase.util';
 import { _setTxns, cleanupListeners, initBudget } from '../store/budget-store/budget.slice';
+import { onTransactionsSnapshot } from '../api/services/budget.service';
+import { auth } from '../api/services/firebase.service';
 
 export const initApp = (dispatch: AppDispatch) => {
   dispatch(authLoading());
