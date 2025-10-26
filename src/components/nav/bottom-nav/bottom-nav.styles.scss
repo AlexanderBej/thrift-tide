@@ -1,0 +1,42 @@
+@use '../../../styles/global.scss' as *;
+
+.bottom-nav {
+  display: none;
+
+  @include down(md) {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 56px;
+    padding-bottom: env(safe-area-inset-bottom);
+    border-top: 1px solid $color-neutral-light;
+    background: $color-secondary;
+  }
+
+  .nav-links {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+
+    li {
+      width: 100%;
+
+      .nav-link {
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+          background-color: $color-secondary-dark;
+        }
+        &.active {
+          background-color: $color-primary-dark;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}

@@ -8,6 +8,21 @@ $main-container-spacing: 0 30px 0 40px;
   flex-direction: row;
   flex-wrap: nowrap;
 
+  // mobile styling
+  @include down(md) {
+    display: block;
+    // flex-direction: column-reverse;
+    min-height: 100dvh; /* dynamic: matches what the user actually sees */
+    /* Fallbacks for older browsers */
+    min-height: 100svh; /* small viewport height */
+    min-height: 100vh; /* last resort */
+
+    /* iOS < 16 fallback */
+    height: -webkit-fill-available;
+
+    padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+  }
+
   .main-outlet {
     height: 100vh;
     min-height: 100vh;
@@ -29,6 +44,12 @@ $main-container-spacing: 0 30px 0 40px;
         display: inline-flex;
         gap: 50px;
 
+        .page-title {
+          @include down(md) {
+            font-size: 24px;
+          }
+        }
+
         .page-header-monthpicker {
           width: 170px;
         }
@@ -36,16 +57,11 @@ $main-container-spacing: 0 30px 0 40px;
     }
 
     .outlet-container {
-      // background-color: $color-bg-card;
       flex: 1;
       margin: $main-container-spacing;
       margin-bottom: 30px;
       height: calc(100% - 100px);
       overflow: auto;
-      // padding: 30px 50px;
-      // border-top-right-radius: $radius-lg;
-      // border-top-left-radius: $radius-lg;
-      // box-shadow: $shadow-lg;
     }
   }
 }

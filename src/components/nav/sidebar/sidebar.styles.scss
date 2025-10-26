@@ -1,4 +1,4 @@
-@use '../../styles/global.scss' as *;
+@use '../../../styles/global.scss' as *;
 
 .main-sidebar {
   width: 300px;
@@ -9,6 +9,10 @@
   overflow: hidden;
   box-shadow: $shadow-md;
 
+  @include down(md) {
+    display: none;
+  }
+
   .logo-container {
     height: 100px;
     width: 100%;
@@ -18,10 +22,6 @@
       margin: auto;
     }
   }
-
-  // .sidebar-line {
-  //   margin-bottom: 30px;
-  // }
 
   .sidebar-links {
     display: flex;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
-import Sidebar from '../../components/sidebar/sidebar.component';
+import Sidebar from '../../components/nav/sidebar/sidebar.component';
 import UserDropdown from '../../components/dropdowns/user-dropdown/user-dropdown.component';
 import MonthPicker from '../../components/datepicker/monthpicker.component';
 
@@ -11,6 +11,7 @@ import { selectBudgetMonth } from '../../store/budget-store/budget.selectors';
 import { AppDispatch } from '../../store/store';
 import { setMonth } from '../../store/budget-store/budget.slice';
 import { format } from 'date-fns';
+import BottomNav from '../../components/nav/bottom-nav/bottom-nav.component';
 
 const Layout: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -39,7 +40,7 @@ const Layout: React.FC = () => {
       <main className="main-outlet">
         <header className="page-header">
           <div className="page-title-container">
-            <h1>{getTitle(pathname)}</h1>
+            <h1 className="page-title">{getTitle(pathname)}</h1>
             <MonthPicker
               value={pickedMonth}
               className="page-header-monthpicker"
@@ -50,6 +51,7 @@ const Layout: React.FC = () => {
         </header>
         <div className="outlet-container">
           <Outlet />
+          <BottomNav />
         </div>
       </main>
     </div>
