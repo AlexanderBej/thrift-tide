@@ -86,14 +86,16 @@ const Dashboard: React.FC = () => {
     <div className="dashboard">
       <div className="dashboard-header">
         <section className="dashboard-intro-card">
-          <h1>Hi, {getFirstName(user?.displayName ?? '')} 👋</h1>
-          <div className="total-income-container">
-            <span className="total-income-lable">Total Income</span>
-            <h2>{fmt(budgetDoc?.income)}</h2>
-          </div>
-          <div className="total-income-container">
-            <span className="total-income-lable">Total Remaining</span>
-            <h2>{fmt(insights.totals.totalRemaining)}</h2>
+          <h1 className="dashboard-intro-header">Hi, {getFirstName(user?.displayName ?? '')} 👋</h1>
+          <div className="dashboard-income-wrapper">
+            <div className="total-income-container">
+              <span className="total-income-lable">Total Income</span>
+              <h2>{fmt(budgetDoc?.income)}</h2>
+            </div>
+            <div className="total-income-container">
+              <span className="total-income-lable">Total Remaining</span>
+              <h2>{fmt(insights.totals.totalRemaining)}</h2>
+            </div>
           </div>
         </section>
         <section className="dashboard-pie-card">

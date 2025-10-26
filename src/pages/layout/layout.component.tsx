@@ -47,7 +47,9 @@ const Layout: React.FC = () => {
               onChange={handleDateChange}
             />
           </div>
-          <UserDropdown />
+          <div className="page-user-dropdown">
+            <UserDropdown />
+          </div>
         </header>
         <div className="outlet-container">
           <Outlet />

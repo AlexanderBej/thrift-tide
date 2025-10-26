@@ -9,6 +9,29 @@
   .dashboard-header {
     @include grid($templateColumns: repeat(3, 1fr), $columnGap: 30px);
 
+    @include down(md) {
+      display: block;
+    }
+
+    .dashboard-intro-header {
+      @include down(md) {
+        font-size: 24px;
+
+        .total-income-lable {
+          font-size: 9px;
+        }
+      }
+    }
+
+    .dashboard-income-wrapper {
+      @include down(md) {
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+      }
+    }
+
     .dashboard-intro-card {
       @include dashboard-card(
         $radius: $radius-lg,

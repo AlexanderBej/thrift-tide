@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { store } from './store/store';
+// import './register-service-worker';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(

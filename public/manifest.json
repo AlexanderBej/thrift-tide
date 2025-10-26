@@ -1,6 +1,9 @@
 {
-  "short_name": "Thrift Tide",
-  "name": "Your friendly budget app",
+  "short_name": "ThriftTide",
+  "name": "Thrift Tide",
+  "description": "Monthly budgeting, transactions, and insights.",
+  "start_url": "/?source=pwa",
+  "scope": "/",
   "icons": [
     {
       "src": "favicon.ico",
@@ -18,7 +21,6 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
