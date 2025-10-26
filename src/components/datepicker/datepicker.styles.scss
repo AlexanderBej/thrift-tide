@@ -12,6 +12,7 @@
 
   &__control {
     width: 100%;
+    height: 100%;
     padding: 10px 10px 10px 15px;
     border: 1px solid #e1e4ea;
     border-radius: 8px;
@@ -56,5 +57,22 @@
     margin-top: 6px;
     color: $color-error;
     font-size: 12px;
+  }
+}
+
+.monthpicker__popover {
+  min-width: 200px;
+
+  .rdp-month_grid {
+    display: none;
+  }
+
+  .rdp-nav {
+    display: none;
+  }
+
+  .rdp-dropdowns {
+    justify-content: space-between;
+    gap: $spacing-5;
   }
 }

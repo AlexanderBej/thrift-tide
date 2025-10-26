@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import './datepicker.styles.scss';
 import { useDismissOnOutside } from '../../utils/dismiss-on-outside.hook';
 
-type DateFieldProps = {
+type MonthPickerProps = {
   label?: string;
   value: Date | null;
   onChange: (date: Date | null) => void;
@@ -18,11 +18,11 @@ type DateFieldProps = {
   className?: string;
 };
 
-const DatePicker: React.FC<DateFieldProps> = ({
+const MonthPicker: React.FC<MonthPickerProps> = ({
   label,
   value,
   onChange,
-  placeholder = 'Select date',
+  placeholder = 'Select month',
   disabled,
   minDate,
   maxDate,
@@ -45,27 +45,35 @@ const DatePicker: React.FC<DateFieldProps> = ({
         aria-haspopup="dialog"
         aria-expanded={open}
       >
-        {value ? format(value, 'EE, MMMM do') : <span className="placeholder">{placeholder}</span>}
+        <span>
+          {value ? format(value, 'MMMM yyyy') : <span className="placeholder">{placeholder}</span>}
+        </span>
         <span className="chevron" aria-hidden>
           ▾
         </span>
       </button>
 
       {open && (
-        <div className="date-field__popover" role="dialog" aria-label={label ?? 'Choose date'}>
+        <div
+          className="date-field__popover monthpicker__popover"
+          role="dialog"
+          aria-label={label ?? 'Choose month'}
+        >
           <DayPicker
             mode="single"
-            selected={value ?? undefined}
-            onSelect={(d) => {
-              onChange(d ?? null);
+            month={value ?? new Date()}
+            onMonthChange={(month) => {
+              onChange(month);
               setOpen(false);
             }}
-            disabled={
-              [
-                minDate ? { before: minDate } : undefined,
-                maxDate ? { after: maxDate } : undefined,
-              ].filter(Boolean) as any
-            }
+            captionLayout="dropdown"
+            fromMonth={minDate}
+            toMonth={maxDate}
+            // hide the grid of days
+            showOutsideDays={false}
+            styles={{
+              day: { display: 'none' },
+            }}
           />
         </div>
       )}
@@ -75,4 +83,4 @@ const DatePicker: React.FC<DateFieldProps> = ({
   );
 };
 
-export default DatePicker;
+export default MonthPicker;

@@ -1,6 +1,7 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   onSnapshot,
@@ -9,6 +10,7 @@ import {
   Query,
   serverTimestamp,
   setDoc,
+  updateDoc,
 } from 'firebase/firestore';
 import { db } from './firebase.service';
 import { MonthDoc } from '../models/month-doc';
@@ -74,4 +76,19 @@ export const onTransactionsSnapshot = (uid: string, month: string, cb: (txns: Tx
   return onSnapshot(q, (qs) => {
     cb(qs.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<Txn, 'id'>) })));
   });
+};
+
+export const updateTransaction = async (
+  uid: string,
+  month: string,
+  id: string,
+  patch: Partial<Omit<Txn, 'id'>>,
+) => {
+  const ref = doc(db, 'users', uid, 'months', month, 'transactions', id);
+  await updateDoc(ref, patch as any);
+};
+
+export const deleteTransaction = async (uid: string, month: string, id: string) => {
+  const ref = doc(db, 'users', uid, 'months', month, 'transactions', id);
+  await deleteDoc(ref);
 };

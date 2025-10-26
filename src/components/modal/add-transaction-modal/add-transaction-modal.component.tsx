@@ -19,6 +19,7 @@ import { addTxnThunk } from '../../../store/budget-store/budget.slice';
 import { selectAuthUser } from '../../../store/auth-store/auth.selectors';
 import { Bucket } from '../../../api/types/bucket.types';
 import { Txn } from '../../../api/models/txn';
+import CheckboxInput from '../../checkbox-input/checkbox-input.component';
 
 const toYMD = (d: Date) => format(d, 'yyyy-MM-dd');
 
@@ -35,6 +36,7 @@ const AddTransaction: React.FC = () => {
   const user = useSelector(selectAuthUser);
 
   const [open, setOpen] = useState(false);
+  const [keepModalOpen, setKeepModalOpen] = useState(false);
   const [formData, setFormData] = React.useState<TransactionFormData>({
     category: 'rent',
     amount: 0.0,
@@ -50,6 +52,11 @@ const AddTransaction: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
+    // if (name === 'persistance') {
+    //   console.log(name, value);
+    //   setKeepModalOpen(value);
+    //   return;
+    // }
     setFormData((prev) => {
       const next = { ...prev, [name]: value } as TransactionFormData;
 
@@ -60,6 +67,8 @@ const AddTransaction: React.FC = () => {
       return next;
     });
   };
+
+  // const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>)
 
   const handleTypeChange = (t: Bucket) => {
     setFormData((prev) => {
@@ -110,8 +119,7 @@ const AddTransaction: React.FC = () => {
 
     // TODO: dispatch your thunk / call API here
     console.log('Submitting TXN', payload);
-
-    setOpen(false);
+    if (!keepModalOpen) setOpen(false);
   };
 
   const isFormValid = () => {
@@ -172,6 +180,13 @@ const AddTransaction: React.FC = () => {
             errors={errors.note}
             onChange={handleChange}
             required
+          />
+
+          <CheckboxInput
+            name="persistance"
+            checked={keepModalOpen}
+            label="Keep modal open after submit"
+            onChange={(e) => setKeepModalOpen(e.target.checked)}
           />
 
           <Button

@@ -1,11 +1,14 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { Bucket } from '../../api/types/bucket.types';
+import { Txn } from '../../api/models/txn';
 
 export const selectBudgetStatus = (state: RootState) => state.budget.status;
 export const selectBudgetMonth = (state: RootState) => state.budget.month;
 export const selectBudgetDoc = (state: RootState) => state.budget.doc;
+export const selectBudgetTotal = (state: RootState) => state.budget.doc?.income;
 export const selectBudgetTxns = (state: RootState) => state.budget.txns;
+export const selectTxnUi = (state: RootState) => state.budget.ui;
 
 export interface CategoryCard {
   key: Bucket;
@@ -15,11 +18,6 @@ export interface CategoryCard {
   remaining: number;
   progress: number; // 0..1
 }
-
-// export type BucketParam = "need" | "want" | "saving"; // txn types
-// type AllocationKey = "needs" | "wants" | "savings"; // month doc keys
-// const toAllocKey = (t: BucketParam): AllocationKey =>
-//   t === "need" ? "needs" : t === "want" ? "wants" : "savings";
 
 export const selectSpentByBucket = createSelector([selectBudgetTxns], (txns) => {
   let needs = 0,
@@ -96,3 +94,69 @@ export const makeSelectCategoryView = (bucket: Bucket) =>
       byCategory,
     };
   });
+
+const inMonth = (isoDate: string, monthKey: string) => isoDate.startsWith(monthKey); // 'YYYY-MM'
+const matchesType = (t: Txn, f: 'all' | 'needs' | 'wants' | 'savings') =>
+  f === 'all' || t.type === f;
+
+// 3.1 Filtered txns for the current view
+export const selectFilteredTxns = createSelector(
+  [selectBudgetTxns, selectBudgetMonth, selectTxnUi],
+  (txns, month, ui) => {
+    const q = ui.search.trim().toLowerCase();
+
+    const filtered = txns
+      .filter((t) => inMonth(t.date, month))
+      .filter((t) => matchesType(t, ui.type))
+      .filter((t) =>
+        q.length === 0
+          ? true
+          : (t.note ?? '').toLowerCase().includes(q) ||
+            (t.category ?? '').toLowerCase().includes(q),
+      );
+
+    const sorted = [...filtered].sort((a, b) => {
+      const dir = ui.sortDir === 'asc' ? 1 : -1;
+      if (ui.sortKey === 'date') return dir * a.date.localeCompare(b.date);
+      return dir * (a.amount - b.amount);
+    });
+
+    return sorted;
+  },
+);
+
+// 3.2 Group by day for list sections
+export const selectTxnsGroupedByDate = createSelector([selectFilteredTxns], (txns) => {
+  const buckets = new Map<string, Txn[]>();
+  for (const t of txns) {
+    const day = t.date; // 'YYYY-MM-DD'
+    if (!buckets.has(day)) buckets.set(day, []);
+    buckets.get(day)!.push(t);
+  }
+
+  return Array.from(buckets.entries())
+    .sort((a, b) => b[0].localeCompare(a[0])) // newest group first
+    .map(([date, items]) => ({ date, items }));
+});
+
+// 3.3 Total for current filtered view
+export const selectFilteredTotal = createSelector([selectFilteredTxns], (txns) =>
+  txns.reduce((sum, t) => sum + t.amount, 0),
+);
+
+// 3.4 Per-bucket totals for the selected month (for header recaps)
+export const selectMonthTotalsByBucket = createSelector(
+  [selectBudgetTxns, selectBudgetMonth],
+  (txns, month) => {
+    let needs = 0,
+      wants = 0,
+      savings = 0;
+    for (const t of txns) {
+      if (!inMonth(t.date, month)) continue;
+      if (t.type === 'needs') needs += t.amount;
+      else if (t.type === 'wants') wants += t.amount;
+      else if (t.type === 'savings') savings += t.amount;
+    }
+    return { needs, wants, savings };
+  },
+);

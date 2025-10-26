@@ -1,10 +1,9 @@
 import React from 'react';
 import { IconType } from 'react-icons';
 
-import './select.styles.scss';
-import TTIcon from '../icon/icon.component';
 import { getCssVar } from '../../utils/style-variable.util';
 
+import './select.styles.scss';
 export interface SelectOption {
   value: string | number;
   label: string | React.ReactElement;
@@ -18,6 +17,7 @@ interface SelectProps {
   options: SelectOption[];
   required?: boolean;
   errors?: string;
+  customClassName?: string;
   // eslint-disable-next-line , no-unused-vars
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   // Allow additional props (e.g., className, id)
@@ -31,11 +31,12 @@ const Select: React.FC<SelectProps> = ({
   value,
   options,
   errors,
+  customClassName,
   required = false,
   onChange,
   ...otherProps
 }) => (
-  <div className="group">
+  <div className={`group ${customClassName}`}>
     {label && (
       <label
         className={`${value !== undefined && value !== '' ? 'shrink' : ''} form-input-label`}
@@ -45,7 +46,7 @@ const Select: React.FC<SelectProps> = ({
       </label>
     )}
     <select
-      className="form-input"
+      className="form-input select-input"
       name={name}
       id={name}
       value={value}

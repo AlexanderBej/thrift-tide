@@ -10,7 +10,7 @@
 
   .add-txn-icon {
     color: $color-text-inverse !important;
-    transition: $transition-normal;
+    transition: all $transition-normal;
   }
 
   &:hover .add-txn-icon {
@@ -19,9 +19,7 @@
 }
 
 .amount-line {
-  display: grid;
-  grid-template-columns: 1fr 60%;
-  column-gap: 40px;
+  @include grid($templateColumns: 1fr 60%, $columnGap: 40px);
 }
 
 .save-txn-btn {

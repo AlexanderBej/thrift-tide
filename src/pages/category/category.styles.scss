@@ -13,6 +13,14 @@
 
   .category-page-header {
     margin-bottom: $spacing-4;
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+
+    .cat-page-monthpicker {
+      min-width: 200px;
+    }
   }
 
   .category-summary-container {
@@ -29,11 +37,7 @@
   }
 
   .higlights-section {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: 1fr;
-    grid-column-gap: 50px;
-    grid-row-gap: 0px;
+    @include grid($columnGap: 50px);
     margin: $spacing-5 0;
 
     .top-categories-container {
@@ -76,9 +80,8 @@
     @include dashboard-card($radius: $radius-md, $shadow: $shadow-md, $pad: $spacing-4 $spacing-5);
 
     .transaction-line {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr 80px;
-      gap: 8px;
+      @include grid($templateColumns: 1fr 1fr 1fr 80px, $columnGap: 8px, $rowGap: 8px);
+
       padding: 8px 0px;
       border-bottom: 1px solid rgb(238, 238, 238);
 
@@ -100,7 +103,7 @@
 
       .quick-txn-icon {
         color: $color-text-inverse !important;
-        transition: $transition-normal;
+        transition: all $transition-normal;
       }
 
       &:hover .quick-txn-icon {

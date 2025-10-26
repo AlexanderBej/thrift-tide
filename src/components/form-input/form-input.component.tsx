@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { MdEuro } from 'react-icons/md';
 import { Eye, EyeOff } from 'lucide-react';
+import { CiSearch } from 'react-icons/ci';
 
 import AutoResizeTextarea from './auto-resize-textarea/auto-resize-textarea.component';
-
-import './form-input.styles.scss';
 import TTIcon from '../icon/icon.component';
 import { getCssVar } from '../../utils/style-variable.util';
+
+import './form-input.styles.scss';
 
 interface PasswordFieldVisibility {
   isFieldPassword?: boolean;
@@ -17,13 +18,14 @@ interface FormInputProps {
   label?: string;
   value: string | number;
   required?: boolean;
-  inputType?: 'text' | 'textarea' | 'number';
-  prefix?: 'euro' | 'other' | 'none';
+  inputType?: 'text' | 'textarea' | 'number' | 'search';
+  prefix?: 'euro' | 'search' | 'other' | 'none';
   isMaxLengthShown?: boolean;
   passwordField?: PasswordFieldVisibility;
   maxLength?: number;
   numberMaxDecimals?: 0 | 1 | 2 | 3 | 4;
   errors?: string;
+  customClassName?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
@@ -38,6 +40,7 @@ const FormInput: React.FC<FormInputProps> = ({
   passwordField = { isFieldPassword: false, isMainField: false },
   maxLength = 999,
   numberMaxDecimals = 2,
+  customClassName,
   errors,
   ...otherProps
 }) => {
@@ -126,7 +129,7 @@ const FormInput: React.FC<FormInputProps> = ({
 
   return (
     <>
-      <div className="group">
+      <div className={`group ${customClassName}`}>
         {label && (
           <label className={`${value ? 'shrink' : ''} form-input-label`} htmlFor={otherProps.name}>
             {label} {required && <span className="text-red">*</span>}
@@ -166,7 +169,7 @@ const FormInput: React.FC<FormInputProps> = ({
 
         {prefix !== 'none' ? (
           <div className="form-input-prefix">
-            <TTIcon icon={MdEuro} size={18} />
+            <TTIcon icon={prefix === 'euro' ? MdEuro : CiSearch} size={18} />
           </div>
         ) : (
           <span></span>

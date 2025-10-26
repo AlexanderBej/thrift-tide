@@ -7,13 +7,25 @@ import { DEFAULT_PERCENTS, PercentTriple } from '../../api/types/percent.types';
 import { monthKey } from '../../utils/services.util';
 import {
   addTransaction,
+  deleteTransaction,
   onTransactionsSnapshot,
   readMonth,
+  updateTransaction,
   upsertMonth,
 } from '../../api/services/budget.service';
 import { startTxnsListener, stopTxnsListener } from '../../api/services/firebase.service';
 
 type Status = 'idle' | 'loading' | 'ready' | 'error';
+export type TxnTypeFilter = 'all' | 'needs' | 'wants' | 'savings';
+export type SortKey = 'date' | 'amount';
+type SortDir = 'asc' | 'desc';
+
+interface TxnUiState {
+  type: TxnTypeFilter;
+  search: string;
+  sortKey: SortKey;
+  sortDir: SortDir;
+}
 
 interface BudgetState {
   month: string;
@@ -22,6 +34,7 @@ interface BudgetState {
   status: Status;
   error?: string;
   _unsubTxns?: () => void; // internal
+  ui: TxnUiState;
 }
 
 const initialState: BudgetState = {
@@ -29,6 +42,7 @@ const initialState: BudgetState = {
   doc: null,
   txns: [],
   status: 'idle',
+  ui: { type: 'all', search: '', sortKey: 'date', sortDir: 'desc' },
 };
 
 export const initBudget = createAsyncThunk(
@@ -89,6 +103,43 @@ export const addTxnThunk = createAsyncThunk<
   return addTransaction(uid, month, txn);
 });
 
+export const changeMonthThunk = createAsyncThunk<
+  { doc: MonthDoc; month: string },
+  { uid: string; month: string }
+>('budget/changeMonth', async ({ uid, month }, { dispatch }) => {
+  // stop any existing listener
+  stopTxnsListener();
+
+  localStorage.setItem('month', month);
+
+  const doc =
+    (await readMonth(uid, month)) ??
+    (await upsertMonth(uid, month, { income: 0, percents: DEFAULT_PERCENTS }));
+
+  // restart live listener for the new month
+  startTxnsListener(onTransactionsSnapshot(uid, month, (txns) => dispatch(_setTxns(txns))));
+
+  return { doc, month };
+});
+
+export const updateTxnThunk = createAsyncThunk<
+  void,
+  { uid: string; id: string; patch: Partial<Omit<Txn, 'id'>> },
+  { state: RootState }
+>('budget/updateTxn', async ({ uid, id, patch }, { getState }) => {
+  const { month } = getState().budget;
+  await updateTransaction(uid, month, id, patch);
+});
+
+export const deleteTxnThunk = createAsyncThunk<
+  void,
+  { uid: string; id: string },
+  { state: RootState }
+>('budget/deleteTxn', async ({ uid, id }, { getState }) => {
+  const { month } = getState().budget;
+  await deleteTransaction(uid, month, id);
+});
+
 const budgetSlice = createSlice({
   name: 'budget',
   initialState,
@@ -108,6 +159,20 @@ const budgetSlice = createSlice({
     // Clean up listeners (e.g., on logout or month change)
     cleanupListeners() {
       stopTxnsListener();
+    },
+
+    setTxnTypeFilter(state, action: PayloadAction<TxnTypeFilter>) {
+      state.ui.type = action.payload;
+    },
+    setTxnSearch(state, action: PayloadAction<string>) {
+      state.ui.search = action.payload;
+    },
+    setTxnSort(state, action: PayloadAction<{ key: SortKey; dir: SortDir }>) {
+      state.ui.sortKey = action.payload.key;
+      state.ui.sortDir = action.payload.dir;
+    },
+    resetTxnFilters(state) {
+      state.ui = { type: 'all', search: '', sortKey: 'date', sortDir: 'desc' };
     },
   },
   extraReducers: (builder) => {
@@ -130,9 +195,60 @@ const budgetSlice = createSlice({
       })
       .addCase(setPercentsThunk.fulfilled, (s, { payload }) => {
         s.doc = payload;
+      })
+      .addCase(changeMonthThunk.pending, (s) => {
+        s.status = 'loading';
+        s.error = undefined;
+      })
+      .addCase(changeMonthThunk.fulfilled, (s, { payload }) => {
+        s.status = 'ready';
+        s.doc = payload.doc;
+        s.month = payload.month;
+        // txns will stream in via _setTxns from the live listener
+      })
+      .addCase(changeMonthThunk.rejected, (s, a) => {
+        s.status = 'error';
+        s.error = a.error.message;
+      })
+
+      // --- update transaction
+      .addCase(updateTxnThunk.pending, (s) => {
+        s.status = 'loading';
+        s.error = undefined;
+      })
+      .addCase(updateTxnThunk.fulfilled, (s) => {
+        s.status = 'ready';
+        // No local mutation needed; listener will sync txns
+      })
+      .addCase(updateTxnThunk.rejected, (s, a) => {
+        s.status = 'error';
+        s.error = a.error.message ?? 'Failed to update transaction';
+      })
+
+      // --- delete transaction
+      .addCase(deleteTxnThunk.pending, (s) => {
+        s.status = 'loading';
+        s.error = undefined;
+      })
+      .addCase(deleteTxnThunk.fulfilled, (s) => {
+        s.status = 'ready';
+        // No local mutation needed; listener will sync txns
+      })
+      .addCase(deleteTxnThunk.rejected, (s, a) => {
+        s.status = 'error';
+        s.error = a.error.message ?? 'Failed to delete transaction';
       });
   },
 });
 
-export const { setMonth, _setTxns, _setDoc, cleanupListeners } = budgetSlice.actions;
+export const {
+  setMonth,
+  _setTxns,
+  _setDoc,
+  cleanupListeners,
+  setTxnTypeFilter,
+  setTxnSearch,
+  setTxnSort,
+  resetTxnFilters,
+} = budgetSlice.actions;
 export default budgetSlice.reducer;

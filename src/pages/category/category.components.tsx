@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { format } from 'date-fns';
 
 import './category.styles.scss';
@@ -22,6 +22,7 @@ import TTIcon from '../../components/icon/icon.component';
 import { IconType } from 'react-icons';
 import { FaPlus } from 'react-icons/fa';
 import Button from '../../components/button/button.component';
+import MonthPicker from '../../components/datepicker/monthpicker.component';
 
 const fmt = (n: number) =>
   n.toLocaleString(undefined, {
@@ -38,9 +39,11 @@ const Category: React.FC = () => {
   const { type } = useParams<{ type: string }>();
 
   const dispatch = useDispatch<AppDispatch>();
-  const month = useSelector(selectBudgetMonth);
+  // const month = useSelector(selectBudgetMonth);
   const status = useSelector(selectBudgetStatus);
   const userUId = useSelector(selectAuthUserId);
+
+  // const [pickedMonth, setPickedMonth] = useState<Date>(new Date(month));
 
   // Build a memoized selector instance for this bucket
   const selectView = useMemo(() => makeSelectCategoryView(type as Bucket), [type]);
@@ -84,12 +87,22 @@ const Category: React.FC = () => {
   //   if (!isBucket(type)) {
   //     return <Navigate to="/" replace />;
   //   }
+
+  // const handleDateChange = (d: Date | null) => {
+  //   if (!d) return;
+  //   setPickedMonth(d);
+  // };
+
   return (
     <div className="category-page">
       <Breadcrumbs />
       <header className="category-page-header">
         <h2>{title}</h2>
-        {/* <DatePicker value={month} */}
+        {/* <MonthPicker
+          value={pickedMonth}
+          className="cat-page-monthpicker"
+          onChange={handleDateChange}
+        /> */}
       </header>
       <div
         className="category-summary-container"
