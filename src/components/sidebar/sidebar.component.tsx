@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import TTIcon from '../icon/icon.component';
-// import { ReactComponent as Logo } from './../../assets/logo.svg';
+import { ReactComponent as Logo } from './../../assets/logo.svg';
 import { RxDashboard } from 'react-icons/rx';
 import { MdOutlineCategory } from 'react-icons/md';
 import { GrTransaction } from 'react-icons/gr';
@@ -13,7 +13,9 @@ import './sidebar.styles.scss';
 const Sidebar: React.FC = () => {
   return (
     <aside className="main-sidebar">
-      <div className="logo-container">{/* <Logo className="logo" height={60} /> */}</div>
+      <div className="logo-container">
+        <Logo className="logo" height={60} />
+      </div>
       {/* <hr className="sidebar-line"></hr> */}
       <ul className="sidebar-links">
         <li>
