@@ -6,6 +6,10 @@
   flex-direction: column;
   gap: 30px;
 
+  @include down(md) {
+    gap: 15px;
+  }
+
   .dashboard-header {
     @include grid($templateColumns: repeat(3, 1fr), $columnGap: 30px);
 
@@ -21,6 +25,11 @@
       );
       grid-area: 1 / 1 / 2 / 2;
 
+      @include down(md) {
+        margin-bottom: 15px;
+        padding: $spacing-4 $spacing-5;
+      }
+
       .dashboard-intro-header {
         @include down(md) {
           font-size: 24px;
@@ -30,9 +39,15 @@
       .total-income-container {
         margin: 20px 0;
 
-        .total-income-lable {
-          @include down(md) {
+        @include down(md) {
+          margin: 0;
+
+          .total-income-lable {
             font-size: 9px;
+          }
+
+          .total-income-value {
+            font-size: 18px;
           }
         }
       }
@@ -58,14 +73,28 @@
       display: inline-flex;
       align-items: center;
       gap: 50px;
-      // margin: 40px 0;
+      width: 100%;
+
+      @include down(md) {
+        padding: $spacing-4 $spacing-5;
+        gap: 20px;
+      }
 
       .dashboard-donut {
         width: 400px;
+
+        @include down(md) {
+          width: 130px;
+        }
       }
 
       .dashboard-cat-percentages {
         width: 250px;
+
+        @include down(md) {
+          flex: 1;
+          width: unset;
+        }
 
         .cat-percentage-line {
           display: inline-flex;
@@ -75,6 +104,11 @@
           font-weight: $font-weight-bold;
           justify-content: space-between;
           align-items: center;
+
+          @include down(md) {
+            font-size: 14px;
+            line-height: 2rem;
+          }
         }
       }
     }

@@ -22,6 +22,7 @@ import {
   selectBadges,
 } from '../../store/budget-store/budget-badges.selectors';
 import { BadgePills } from '../../components/badge-pills/badge-pills.component';
+import { useWindowWidth } from '../../utils/window-width.hook';
 
 const fmt = (n: number | null | undefined, currency = '€') =>
   n == null ? '—' : `${currency}${n.toFixed(2)}`;
@@ -34,6 +35,9 @@ const Dashboard: React.FC = () => {
   const insights = useSelector(selectDashboardInsights);
   const monthTotalsByBucket = useSelector(selectMonthTotalsByBucket);
   const badges = useSelector(selectBadges);
+
+  const width = useWindowWidth();
+  const isMobile = width < 480;
 
   const items: Item[] = [
     {
@@ -90,17 +94,17 @@ const Dashboard: React.FC = () => {
           <div className="dashboard-income-wrapper">
             <div className="total-income-container">
               <span className="total-income-lable">Total Income</span>
-              <h2>{fmt(budgetDoc?.income)}</h2>
+              <h2 className="total-income-value">{fmt(budgetDoc?.income)}</h2>
             </div>
             <div className="total-income-container">
               <span className="total-income-lable">Total Remaining</span>
-              <h2>{fmt(insights.totals.totalRemaining)}</h2>
+              <h2 className="total-income-value">{fmt(insights.totals.totalRemaining)}</h2>
             </div>
           </div>
         </section>
         <section className="dashboard-pie-card">
           <div className="dashboard-donut">
-            <DonutChart data={items} />
+            <DonutChart data={items} height={isMobile ? 150 : 260} />
           </div>
           <div className="dashboard-cat-percentages">
             <div className="cat-percentage-line">
