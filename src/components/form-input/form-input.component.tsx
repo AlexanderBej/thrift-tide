@@ -135,62 +135,64 @@ const FormInput: React.FC<FormInputProps> = ({
             {label} {required && <span className="text-red">*</span>}
           </label>
         )}
-        {inputType === 'textarea' ? (
-          <AutoResizeTextarea
-            id={otherProps.name}
-            value={value as string}
-            className="form-input"
-            data-testid={`textarea-${otherProps.name}`}
-            maxLength={maxLength}
-            {...otherProps}
-            required={required}
-          />
-        ) : (
-          <input
-            className="form-input"
-            {...otherProps}
-            type={isNumber ? 'text' : inputType}
-            inputMode={isNumber ? 'decimal' : undefined}
-            pattern={isNumber ? `[0-9]*[\\.,]?[0-9]{0,${numberMaxDecimals}}` : undefined}
-            required={required}
-            id={otherProps.name}
-            data-testid={`input-${otherProps.name}`}
-            value={value}
-            maxLength={maxLength}
-            style={{
-              paddingLeft: prefix !== 'none' ? '35px' : '15px',
-              borderColor: errors ? getCssVar('--error') : '',
-            }}
-            onFocus={() => setIsPasswordFocused(true)}
-            onBlur={isNumber ? handleNumberBlur : () => setIsPasswordFocused(false)}
-            onChange={isNumber ? handleNumberChange : otherProps.onChange}
-          />
-        )}
+        <div className="form-input-row">
+          {inputType === 'textarea' ? (
+            <AutoResizeTextarea
+              id={otherProps.name}
+              value={value as string}
+              className="form-input"
+              data-testid={`textarea-${otherProps.name}`}
+              maxLength={maxLength}
+              {...otherProps}
+              required={required}
+            />
+          ) : (
+            <input
+              className="form-input"
+              {...otherProps}
+              type={isNumber ? 'text' : inputType}
+              inputMode={isNumber ? 'decimal' : undefined}
+              pattern={isNumber ? `[0-9]*[\\.,]?[0-9]{0,${numberMaxDecimals}}` : undefined}
+              required={required}
+              id={otherProps.name}
+              data-testid={`input-${otherProps.name}`}
+              value={value}
+              maxLength={maxLength}
+              style={{
+                paddingLeft: prefix !== 'none' ? '35px' : '15px',
+                borderColor: errors ? getCssVar('--error') : '',
+              }}
+              onFocus={() => setIsPasswordFocused(true)}
+              onBlur={isNumber ? handleNumberBlur : () => setIsPasswordFocused(false)}
+              onChange={isNumber ? handleNumberChange : otherProps.onChange}
+            />
+          )}
 
-        {prefix !== 'none' ? (
-          <div className="form-input-prefix">
-            <TTIcon icon={prefix === 'euro' ? MdEuro : CiSearch} size={18} />
-          </div>
-        ) : (
-          <span></span>
-        )}
+          {prefix !== 'none' ? (
+            <div className="form-input-prefix">
+              <TTIcon icon={prefix === 'euro' ? MdEuro : CiSearch} size={18} />
+            </div>
+          ) : (
+            <span></span>
+          )}
 
-        {isMaxLengthShown && (
-          <span className="input-max-value">
-            {String(value ?? '').length} / {maxLength}
-          </span>
-        )}
+          {isMaxLengthShown && (
+            <span className="input-max-value">
+              {String(value ?? '').length} / {maxLength}
+            </span>
+          )}
 
-        {passwordField.isFieldPassword && (
-          <button
-            type="button"
-            className="toggle-password-btn"
-            onClick={() => setShowPassword((prev) => !prev)}
-            data-testid="toggle-password-password"
-          >
-            {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
-          </button>
-        )}
+          {passwordField.isFieldPassword && (
+            <button
+              type="button"
+              className="toggle-password-btn"
+              onClick={() => setShowPassword((prev) => !prev)}
+              data-testid="toggle-password-password"
+            >
+              {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+            </button>
+          )}
+        </div>
 
         {errors && (
           <p className="field-error" id={`err-${otherProps.name}`}>

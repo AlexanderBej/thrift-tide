@@ -1,0 +1,7 @@
+@use '../../styles/global.scss' as *;
+
+.cards-grid {
+  margin-top: 20px;
+  @include grid($columnGap: 10px);
+  justify-items: center;
+}

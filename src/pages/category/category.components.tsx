@@ -23,12 +23,12 @@ import { IconType } from 'react-icons';
 import { FaPlus } from 'react-icons/fa';
 import Button from '../../components/button/button.component';
 import MonthPicker from '../../components/datepicker/monthpicker.component';
+import { BadgePills } from '../../components/badge-pills/badge-pills.component';
+import { makeSelectBucketBadges } from '../../store/budget-store/budget-badges.selectors';
+import { selectDashboardInsights } from '../../store/budget-store/budget-insights.selectors';
 
-const fmt = (n: number) =>
-  n.toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+const fmt = (n: number | null | undefined, currency = '€') =>
+  n == null ? '—' : `${currency}${n.toFixed(2)}`;
 
 const toYMD = (d: Date) => format(d, 'yyyy-MM-dd');
 
@@ -42,6 +42,8 @@ const Category: React.FC = () => {
   // const month = useSelector(selectBudgetMonth);
   const status = useSelector(selectBudgetStatus);
   const userUId = useSelector(selectAuthUserId);
+  const badges = useSelector(makeSelectBucketBadges(type as Bucket));
+  const insights = useSelector(selectDashboardInsights);
 
   // const [pickedMonth, setPickedMonth] = useState<Date>(new Date(month));
 
@@ -80,29 +82,11 @@ const Category: React.FC = () => {
     return formattedDate;
   };
 
-  console.log('isBucket', isBucket(type));
-  console.log('title', title, 'type', type, 'view', view);
-  console.log('color', getCssVar(`--${title.toLowerCase()}-light`));
-
-  //   if (!isBucket(type)) {
-  //     return <Navigate to="/" replace />;
-  //   }
-
-  // const handleDateChange = (d: Date | null) => {
-  //   if (!d) return;
-  //   setPickedMonth(d);
-  // };
-
   return (
     <div className="category-page">
       <Breadcrumbs />
       <header className="category-page-header">
         <h2>{title}</h2>
-        {/* <MonthPicker
-          value={pickedMonth}
-          className="cat-page-monthpicker"
-          onChange={handleDateChange}
-        /> */}
       </header>
       <div
         className="category-summary-container"
@@ -110,18 +94,18 @@ const Category: React.FC = () => {
       >
         <div className="category-summary-line">
           <div className="category-summary">
-            Allocated: <strong>€{fmt(view.allocated)}</strong>
+            Allocated: <strong>{fmt(view.allocated)}</strong>
           </div>
           <div className="category-summary">
-            Spent: <strong>€{fmt(view.spent)}</strong>
+            Spent: <strong>{fmt(view.spent)}</strong>
           </div>
           <div className="category-summary">
-            Remaining: <strong>€{fmt(view.remaining)}</strong>
+            Remaining: <strong>{fmt(view.remaining)}</strong>
           </div>
         </div>
 
         <ProgressBar progress={view.progress} />
-        <div>TODO: Under budget badge</div>
+        <BadgePills badges={badges} />
       </div>
 
       {/* By-category breakdown */}
@@ -140,7 +124,7 @@ const Category: React.FC = () => {
                       <TTIcon icon={cat.icon} size={18} />
                       <span>{cat.label}</span>
                     </div>
-                    <strong>€{fmt(row.total)}</strong>
+                    <strong>{fmt(row.total)}</strong>
                   </li>
                 );
               })}
@@ -150,7 +134,7 @@ const Category: React.FC = () => {
         <div className="insights-container">
           <h2 className="category-header">Insights</h2>
           <span>Avg. daily spend</span>
-          <h3>€61</h3>
+          <h3>{fmt(insights.avgDaily)}</h3>
         </div>
       </section>
 
@@ -175,7 +159,7 @@ const Category: React.FC = () => {
                     <span>{cat.label}</span>
                   </div>
                   <div style={{ opacity: 0.7 }}>{t.note ?? ''}</div>
-                  <div style={{ textAlign: 'right', fontWeight: 600 }}>€{fmt(t.amount)}</div>
+                  <div style={{ textAlign: 'right', fontWeight: 600 }}>{fmt(t.amount)}</div>
                 </div>
               );
             })}

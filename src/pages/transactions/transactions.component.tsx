@@ -83,11 +83,6 @@ const Transaction: React.FC = () => {
     return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
   };
 
-  console.log('groups', groups);
-  console.log('totalSpent', totalSpent);
-  console.log('perBucket', perBucket);
-  console.log('month', month);
-
   return (
     <div className="transactions-page">
       <header className="txn-page-header">

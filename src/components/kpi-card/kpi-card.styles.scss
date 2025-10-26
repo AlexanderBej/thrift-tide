@@ -1,0 +1,48 @@
+@use '../../styles/global.scss' as *;
+
+.kpi-card {
+  width: 130px;
+  height: 180px;
+  border-radius: $radius-sm;
+  box-shadow: $shadow-md;
+  border: 1px solid $color-neutral-medium;
+  text-align: center;
+  padding: 10px;
+
+  &__danger {
+    border-color: $color-error;
+    background-color: lighten($color: $color-error, $amount: 40%);
+  }
+
+  &__success {
+    border-color: $color-success;
+    background-color: lighten($color: $color-success, $amount: 50%);
+  }
+
+  &__warn {
+    border-color: $color-warning;
+    background-color: lighten($color: $color-warning, $amount: 40%);
+  }
+
+  //   .kpi-title {
+  //     font-weight: $font-weight-semibold;
+  //   }
+
+  .kpi-value {
+    font-size: 18px;
+    font-weight: $font-weight-bold;
+    margin-top: 15px;
+
+    &__danger {
+      color: $color-error;
+    }
+
+    &__success {
+      color: $color-success;
+    }
+
+    &__warn {
+      color: $color-warning;
+    }
+  }
+}

@@ -6,6 +6,10 @@ $sub-color: grey;
   position: relative;
   margin-bottom: 15px;
 
+  .form-input-row {
+    position: relative;
+  }
+
   .form-input {
     background: none;
     background-color: white;

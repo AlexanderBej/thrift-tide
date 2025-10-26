@@ -1,12 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-
-import TTIcon from '../icon/icon.component';
-import { ReactComponent as Logo } from './../../assets/logo.svg';
 import { RxDashboard } from 'react-icons/rx';
 import { MdOutlineCategory } from 'react-icons/md';
 import { GrTransaction } from 'react-icons/gr';
 import { CiSettings } from 'react-icons/ci';
+
+import TTIcon from '../icon/icon.component';
+import { ReactComponent as Logo } from './../../assets/logo.svg';
 
 import './sidebar.styles.scss';
 

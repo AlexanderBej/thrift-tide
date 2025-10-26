@@ -1,0 +1,29 @@
+.badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.badge-pill {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  background: #f4f5f7;
+}
+.badge-pill.warn {
+  background: #fff4e5;
+  border-color: #ffd19b;
+}
+.badge-pill.danger {
+  background: #ffe9e9;
+  border-color: #ffb3b3;
+}
+.badge-pill.info {
+  background: #eaf3ff;
+  border-color: #b7d3ff;
+}
+.badge-pill.success {
+  background: #e9f7ef;
+  border-color: #b8e6c6;
+}

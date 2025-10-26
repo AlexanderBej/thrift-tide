@@ -3,10 +3,10 @@ import { ResponsiveBar } from '@nivo/bar';
 import { nivoTheme } from './charts.theme';
 import { formatCurrency } from '../../utils/format-currency.util';
 
-type Row = { category: string; allocated: number; spent: number };
+export type BarChartRow = { category: string; allocated: number; spent: number };
 
 interface StackedBarChartProps {
-  data: Row[];
+  data: BarChartRow[];
   height?: number;
 }
 
@@ -18,7 +18,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({ data, height = 260 })
         theme={nivoTheme}
         indexBy="category"
         keys={['allocated', 'spent']}
-        groupMode="stacked"
+        groupMode="grouped"
         margin={{ top: 16, right: 16, bottom: 36, left: 48 }}
         padding={0.3}
         borderRadius={6}

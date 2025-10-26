@@ -52,23 +52,14 @@ const AddTransaction: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
-    // if (name === 'persistance') {
-    //   console.log(name, value);
-    //   setKeepModalOpen(value);
-    //   return;
-    // }
     setFormData((prev) => {
       const next = { ...prev, [name]: value } as TransactionFormData;
-
-      // live-validate the changed field
       const msg = validateField(name as keyof TransactionFormData, value, next);
       setErrors((prevErr) => ({ ...prevErr, [name]: msg }));
 
       return next;
     });
   };
-
-  // const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>)
 
   const handleTypeChange = (t: Bucket) => {
     setFormData((prev) => {
