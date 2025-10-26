@@ -7,6 +7,17 @@
   padding: 10px 20px;
   min-height: 50px;
 
+  &__rounded {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    min-width: 50px;
+
+    &:hover {
+      background-color: lighten($color: $color-primary, $amount: 40%) !important;
+    }
+  }
+
   &__neutral {
     padding: 0;
     color: $color-text-primary;

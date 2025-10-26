@@ -1,1 +1,8 @@
 @use './styles/styles';
+@use './styles/global.scss' as *;
+
+.mobile-none {
+  @include down(md) {
+    display: none;
+  }
+}

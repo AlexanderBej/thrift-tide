@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { format } from 'date-fns';
 
 import Sidebar from '../../components/nav/sidebar/sidebar.component';
 import UserDropdown from '../../components/dropdowns/user-dropdown/user-dropdown.component';
 import MonthPicker from '../../components/datepicker/monthpicker.component';
-
-import './layout.styles.scss';
-import { useDispatch, useSelector } from 'react-redux';
 import { selectBudgetMonth } from '../../store/budget-store/budget.selectors';
 import { AppDispatch } from '../../store/store';
 import { setMonth } from '../../store/budget-store/budget.slice';
-import { format } from 'date-fns';
 import BottomNav from '../../components/nav/bottom-nav/bottom-nav.component';
+
+import './layout.styles.scss';
+import AddTransaction from '../../components/modal/add-transaction-modal/add-transaction-modal.component';
 
 const Layout: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -54,6 +55,9 @@ const Layout: React.FC = () => {
         <div className="outlet-container">
           <Outlet />
           <BottomNav />
+        </div>
+        <div className="floater">
+          <AddTransaction />
         </div>
       </main>
     </div>

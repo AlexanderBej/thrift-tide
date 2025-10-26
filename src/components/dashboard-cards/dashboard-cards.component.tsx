@@ -49,7 +49,7 @@ const DashboardCards: React.FC = () => {
   };
 
   return (
-    <div className="dashboard-cards" style={{ gridTemplateColumns: 'repeat(3, minmax(0, 1fr))' }}>
+    <div className="dashboard-cards">
       {cards.map((c) => (
         <div
           key={c.key}

@@ -116,6 +116,9 @@
 
   .dashboard-cards-container {
     @include dashboard-card($radius: $radius-lg, $shadow: $shadow-lg, $pad: $spacing-5 $spacing-6);
+    @include down(md) {
+      padding: $spacing-4 $spacing-5;
+    }
   }
 
   .insights-container {

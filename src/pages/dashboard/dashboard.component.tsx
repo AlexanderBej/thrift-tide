@@ -142,7 +142,6 @@ const Dashboard: React.FC = () => {
         <BadgePills badges={badges} />
 
         <DashboardCards />
-        <AddTransaction />
       </section>
       <div className="insights-container">
         <section className="kpi-cards-container">

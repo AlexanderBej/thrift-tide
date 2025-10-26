@@ -11,6 +11,7 @@ interface ButtonProps {
   onClick?: () => void;
   htmlType?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
+  buttonShape?: 'square' | 'rounded';
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -21,11 +22,12 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
   htmlType = 'button',
   disabled = false,
+  buttonShape = 'square',
 }) => {
   return (
     // <div className={`${customContainerClass} btn-container`}>
     <button
-      className={`thrift-tide-btn thrift-tide-btn__${buttonType} ${customContainerClass} ${disabled ? 'thrift-tide-btn__disabled' : ''}`}
+      className={`thrift-tide-btn thrift-tide-btn__${buttonType} thrift-tide-btn__${buttonShape} ${customContainerClass} ${disabled ? 'thrift-tide-btn__disabled' : ''}`}
       disabled={disabled}
       onClick={onClick}
       type={htmlType}

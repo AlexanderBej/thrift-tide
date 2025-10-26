@@ -2,6 +2,9 @@
 
 .dashboard-cards {
   @include grid($templateColumns: repeat(3, minmax(0, 1fr)), $columnGap: 50px);
+  @include down(md) {
+    @include grid($templateColumns: 1fr, $templateRows: repeat(3, 1fr), $rowGap: 15px);
+  }
 
   .dashboard-card {
     // background-color: $color-bg-body;
@@ -18,11 +21,19 @@
     flex-direction: column;
     justify-content: space-between;
 
+    @include down(md) {
+      padding: 8px;
+    }
+
     .card-title-row {
       display: inline-flex;
       opacity: 0.6;
       gap: $spacing-3;
       margin-bottom: $spacing-4;
+
+      @include down(md) {
+        gap: 12px;
+      }
 
       .cart-title-icon {
         background-color: aquamarine;
@@ -34,6 +45,12 @@
         align-items: center;
         justify-content: center;
         color: $color-bg-card;
+
+        // @include down(md) {
+        //   padding: 3px;
+        //   height: 25px;
+        //   width: 25px;
+        // }
       }
     }
 

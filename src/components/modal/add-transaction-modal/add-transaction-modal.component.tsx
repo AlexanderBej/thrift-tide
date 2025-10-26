@@ -31,7 +31,11 @@ export interface TransactionFormData {
   note?: string;
 }
 
-const AddTransaction: React.FC = () => {
+interface AddTransactionProps {
+  buttonShape?: 'square' | 'rounded';
+}
+
+const AddTransaction: React.FC<AddTransactionProps> = ({ buttonShape = 'rounded' }) => {
   const dispatch = useDispatch<AppDispatch>();
   const user = useSelector(selectAuthUser);
 
@@ -123,11 +127,12 @@ const AddTransaction: React.FC = () => {
         buttonType="primary"
         htmlType="button"
         customContainerClass="add-txn-btn"
+        buttonShape={buttonShape}
         onClick={() => setOpen(true)}
       >
         <>
           <TTIcon className="add-txn-icon" icon={FaPlus} size={18} />
-          <span>Add Transaction</span>
+          {/* <span>Add Transaction</span> */}
         </>
       </Button>
 

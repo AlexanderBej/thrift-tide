@@ -76,6 +76,17 @@ $main-container-spacing: 0 30px 0 40px;
       @include down(md) {
         margin: 0 15px;
         margin-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+        position: relative;
+      }
+    }
+
+    .floater {
+      position: absolute;
+      bottom: 30px;
+      right: 30px;
+
+      @include down(md) {
+        bottom: calc(66px + env(safe-area-inset-bottom, 0px));
       }
     }
   }
