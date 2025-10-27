@@ -8,11 +8,12 @@ import MonthPicker from '../../components-ui/datepicker/monthpicker.component';
 import { AppDispatch } from '../../store/store';
 import { setMonth } from '../../store/budget-store/budget.slice';
 import BottomNav from '../../components-ui/nav/bottom-nav/bottom-nav.component';
-import { fmtDate } from '../../utils/format-data.util';
 import { selectBudgetMonth } from '../../store/budget-store/budget.selectors.base';
 import { selectMonthTiming } from '../../store/budget-store/budget-period.selectors';
 import UserDropdown from '../../components/user-dropdown/user-dropdown.component';
 import AddTransaction from '../../components/add-transaction-modal/add-transaction-modal.component';
+import { formatPeriodRange } from '../../utils/period.util';
+import PeriodSwitcherMonthPicker from '../../components/period-switcher/period-switcher.component';
 
 import './layout.styles.scss';
 
@@ -46,15 +47,7 @@ const Layout: React.FC = () => {
         <header className="page-header">
           <div className="page-title-container">
             <h1 className="page-title">{getTitle(pathname)}</h1>
-            <MonthPicker
-              value={pickedMonth}
-              className="page-header-monthpicker"
-              onChange={handleDateChange}
-            />
-
-            <div>
-              Period: {fmtDate(periodStart)} → {fmtDate(periodEnd)} (exclusive)
-            </div>
+            <PeriodSwitcherMonthPicker className="page-header-monthpicker" />
           </div>
           <div className="page-user-dropdown">
             <UserDropdown />

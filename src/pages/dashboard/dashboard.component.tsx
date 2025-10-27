@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { selectAuthUser } from '../../store/auth-store/auth.selectors';
@@ -16,6 +16,7 @@ import { selectBudgetDoc } from '../../store/budget-store/budget.selectors.base'
 import DashboardCards from '../../components/dashboard-cards/dashboard-cards.component';
 
 import './dashboard.styles.scss';
+import AddIncome from '../../components/add-income-modal/add-income-modal.component';
 
 const Dashboard: React.FC = () => {
   const user = useSelector(selectAuthUser);
@@ -54,6 +55,11 @@ const Dashboard: React.FC = () => {
     },
   ];
 
+  useEffect(() => {
+    console.log('budgetDoc', budgetDoc);
+    console.log('insights', insights);
+  });
+
   const getFirstName = (name: string | null) => {
     if (!name) return '';
     const names = name.split(' ');
@@ -85,6 +91,8 @@ const Dashboard: React.FC = () => {
             <DonutChart data={items} height={isMobile ? 150 : 260} />
           </div>
           <div className="dashboard-cat-percentages">
+            {/* <Button buttonType='primary' htmlType='button' onClick={} */}
+            <AddIncome />
             <div className="cat-percentage-line">
               <span className="dashboard-category" style={{ color: BUCKET_COLORS.needs }}>
                 {(budgetDoc?.percents.needs ?? 0) * 100}% Needs

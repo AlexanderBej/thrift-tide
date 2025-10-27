@@ -10,7 +10,7 @@ type SettingsState = {
 };
 
 const initialState: SettingsState = {
-  startDay: 1,
+  startDay: DEFAULT_START_DAY,
   status: 'idle',
 };
 

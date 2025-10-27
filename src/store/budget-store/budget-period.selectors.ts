@@ -1,13 +1,13 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { selectBudgetDoc, selectBudgetMonth } from './budget.selectors.base';
 import { periodBounds, representativeDateFromMonthKey } from '../../utils/period.util';
-import { selectBudgetStartDay } from '../settings-store/settings.selectors';
+import { selectSettingsBudgetStartDay } from '../settings-store/settings.selectors';
 
 /** [Core] The concrete time window of the selected period (start inclusive, end exclusive),
  * plus calendar stats (daysElapsed, daysLeft, totalDays). */
 /** Uses frozen month doc timing if available; otherwise falls back to current settings. */
 export const selectMonthTiming = createSelector(
-  [selectBudgetMonth, selectBudgetStartDay, selectBudgetDoc],
+  [selectBudgetMonth, selectSettingsBudgetStartDay, selectBudgetDoc],
   (monthKey, userStartDay, doc) => {
     if (doc?.periodStart && doc?.periodEnd && doc?.startDay) {
       const periodStart = new Date(doc.periodStart);

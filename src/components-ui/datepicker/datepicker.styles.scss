@@ -42,6 +42,7 @@
 
     .rdp-chevron {
       fill: $color-primary;
+      margin-left: 5px;
     }
 
     .rdp-today:not(.rdp-outside) {
@@ -60,19 +61,25 @@
   }
 }
 
-.monthpicker__popover {
-  min-width: 200px;
+.monthpicker {
+  &__popover {
+    min-width: 200px;
 
-  .rdp-month_grid {
-    display: none;
+    .rdp-month_grid {
+      display: none;
+    }
+
+    .rdp-nav {
+      display: none;
+    }
+
+    .rdp-dropdowns {
+      justify-content: space-between;
+      gap: $spacing-5;
+    }
   }
 
-  .rdp-nav {
-    display: none;
-  }
-
-  .rdp-dropdowns {
-    justify-content: space-between;
-    gap: $spacing-5;
+  &__control {
+    background-color: $color-primary;
   }
 }

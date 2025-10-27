@@ -1,3 +1,3 @@
 import { RootState } from '../store';
 
-export const selectBudgetStartDay = (s: RootState) => s.settings.startDay;
+export const selectSettingsBudgetStartDay = (s: RootState) => s.settings.startDay;

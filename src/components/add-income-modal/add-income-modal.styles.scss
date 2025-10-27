@@ -1,0 +1,23 @@
+@use '../../styles/global.scss' as *;
+
+.add-txn-btn {
+  opacity: 0.7;
+
+  .add-txn-icon {
+    color: $color-text-inverse !important;
+    transition: all $transition-normal;
+  }
+
+  &:hover .add-txn-icon {
+    color: $color-primary !important;
+  }
+}
+
+.amount-line {
+  @include grid($templateColumns: 1fr 60%, $columnGap: 40px);
+}
+
+.save-txn-btn {
+  margin: 20px auto 10px;
+  display: block;
+}

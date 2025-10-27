@@ -5,29 +5,33 @@ import { format } from 'date-fns';
 
 import './datepicker.styles.scss';
 import { useDismissOnOutside } from '../../utils/dismiss-on-outside.hook';
+import { formatPeriodLabel, periodBounds } from '../../utils/period.util';
+import { DEFAULT_START_DAY } from '../../api/models/month-doc';
 
 type MonthPickerProps = {
   label?: string;
   value: Date | null;
-  onChange: (date: Date | null) => void;
+  onMonthPick: (date: Date | null) => void;
   placeholder?: string;
   disabled?: boolean;
   minDate?: Date;
   maxDate?: Date;
   error?: string;
   className?: string;
+  startDay?: number;
 };
 
 const MonthPicker: React.FC<MonthPickerProps> = ({
   label,
   value,
-  onChange,
+  onMonthPick,
   placeholder = 'Select month',
   disabled,
   minDate,
   maxDate,
   error,
   className,
+  startDay = DEFAULT_START_DAY,
 }) => {
   const [open, setOpen] = React.useState(false);
 
@@ -39,14 +43,21 @@ const MonthPicker: React.FC<MonthPickerProps> = ({
 
       <button
         type="button"
-        className={`date-field__control ${error ? 'has-error' : ''}`}
+        className={`date-field__control monthpicker__control ${error ? 'has-error' : ''}`}
         onClick={() => setOpen((o) => !o)}
         disabled={disabled}
         aria-haspopup="dialog"
         aria-expanded={open}
       >
         <span>
-          {value ? format(value, 'MMMM yyyy') : <span className="placeholder">{placeholder}</span>}
+          {value ? (
+            (() => {
+              const { start, end } = periodBounds(value, startDay);
+              return formatPeriodLabel(start, end, { endIsExclusive: true });
+            })()
+          ) : (
+            <span className="placeholder">{placeholder}</span>
+          )}
         </span>
         <span className="chevron" aria-hidden>
           ▾
@@ -63,7 +74,7 @@ const MonthPicker: React.FC<MonthPickerProps> = ({
             mode="single"
             month={value ?? new Date()}
             onMonthChange={(month) => {
-              onChange(month);
+              onMonthPick(month);
               setOpen(false);
             }}
             captionLayout="dropdown"

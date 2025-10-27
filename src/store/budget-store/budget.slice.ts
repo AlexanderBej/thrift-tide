@@ -66,6 +66,7 @@ export const initBudget = createAsyncThunk(
 
     startTxnsListener(
       onTransactionsSnapshot(uid, m, (txns) => {
+        console.log('[onTransactionsSnapshot]', m, 'count=', txns.length, txns[0]);
         dispatch(_setTxns(txns));
       }),
     );
@@ -74,21 +75,55 @@ export const initBudget = createAsyncThunk(
   },
 );
 
+export const setIncomeForPeriod = createAsyncThunk<
+  MonthDoc,
+  { uid: string; month: string; income: number; startDay?: number },
+  { state: RootState; dispatch: AppDispatch }
+>('budget/setIncomeForPeriod', async ({ uid, month, income, startDay }, { getState, dispatch }) => {
+  // 1) read current (if exists) to preserve percents (or use defaults)
+  const existing = await readMonth(uid, month);
+  const percents = existing?.percents ?? DEFAULT_PERCENTS;
+
+  // 2) upsert month with new income (freeze startDay only on first create)
+  const next = await upsertMonth(uid, month, { income, percents, startDay });
+
+  // 3) summaries:
+  const { budget } = getState();
+
+  if (budget.month === month) {
+    // target == selected period → we have txns; recompute full summary
+    await dispatch(recomputeAndPersistSummary({ uid }));
+  } else {
+    // target != selected period → no txns loaded; optionally update snapshot bits
+    // (keeps summary's income/allocations in sync without changing spent totals)
+    if (existing?.summary) {
+      const snapshot = {
+        ...existing.summary,
+        income: next.income,
+        allocations: next.allocations,
+        computedAt: new Date().toISOString(),
+      };
+      await persistMonthSummary(uid, month, snapshot);
+    }
+    // If no summary exists, it's fine—when user opens that period or you run backfill,
+    // the full summary will be computed with txns.
+  }
+
+  return next;
+});
+
+// DELEGATE: keep the old thunk name for current-period updates
 export const setIncomeThunk = createAsyncThunk<
   MonthDoc,
   { uid: string; income: number },
   { state: RootState; dispatch: AppDispatch }
->('budget/setIncome', async ({ uid, income }, { getState, rejectWithValue, dispatch }) => {
-  try {
-    const { month, doc } = getState().budget;
-    const percents = doc?.percents ?? DEFAULT_PERCENTS;
-    const next = await upsertMonth(uid, month, { income, percents });
-    // update local
-    await dispatch(recomputeAndPersistSummary({ uid }));
-    return next;
-  } catch (e: any) {
-    return rejectWithValue(e.message ?? 'Failed to set income');
-  }
+>('budget/setIncome', async ({ uid, income }, { getState, dispatch }) => {
+  const { month } = getState().budget;
+  // use startDay only if the doc might be created the first time
+  const startDay = (getState() as RootState as any)?.settings?.startDay ?? DEFAULT_START_DAY;
+
+  // Delegate to the generic thunk
+  return await dispatch(setIncomeForPeriod({ uid, month, income, startDay })).unwrap();
 });
 
 export const setPercentsThunk = createAsyncThunk<
@@ -225,6 +260,19 @@ const budgetSlice = createSlice({
       })
       .addCase(setIncomeThunk.fulfilled, (s, { payload }) => {
         s.doc = payload;
+      })
+      .addCase(setIncomeForPeriod.pending, (s, { payload }) => {
+        s.status = 'loading';
+        s.error = undefined;
+      })
+      .addCase(setIncomeForPeriod.fulfilled, (s, { payload }) => {
+        s.doc = payload;
+        s.error = undefined;
+        s.status = 'ready';
+      })
+      .addCase(setIncomeForPeriod.rejected, (s, { payload }) => {
+        s.status = 'error';
+        s.error = payload as any;
       })
       .addCase(setPercentsThunk.fulfilled, (s, { payload }) => {
         s.doc = payload;

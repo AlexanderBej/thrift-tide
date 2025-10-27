@@ -1,4 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
+
 import { Bucket } from '../../api/types/bucket.types';
 import { Txn } from '../../api/models/txn';
 import { selectBudgetDoc, selectBudgetTxns, selectTxnUi } from './budget.selectors.base';
@@ -7,7 +8,8 @@ import { selectMonthTiming } from './budget-period.selectors';
 /** All transactions that fall inside the current [periodStart, periodEnd). */
 export const selectTxnsInPeriod = createSelector([selectBudgetTxns, selectMonthTiming], (txns, t) =>
   txns.filter((x) => {
-    const d = x.date as unknown as Date; // services should normalize to Date
+    // const d = x.date as unknown as Date; // services should normalize to Date
+    const d = new Date(x.date); // services should normalize to Date
     return d >= t.periodStart && d < t.periodEnd;
   }),
 );
@@ -109,11 +111,11 @@ export const selectFilteredTxns = createSelector([selectTxnsInPeriod, selectTxnU
 
 /** Group filtered list by calendar day string (YYYY-MM-DD), newest group first. */
 export const selectTxnsGroupedByDate = createSelector([selectFilteredTxns], (txns) => {
-  const toYYYYMMDD = (d: Date) => d.toISOString().slice(0, 10);
+  // const toYYYYMMDD = (d: Date) => d.toISOString().slice(0, 10);
   const buckets = new Map<string, Txn[]>();
 
   for (const t of txns) {
-    const day = toYYYYMMDD(t.date as unknown as Date);
+    const day = t.date;
     if (!buckets.has(day)) buckets.set(day, []);
     buckets.get(day)!.push(t);
   }
@@ -151,7 +153,9 @@ export const selectAllocatedTriple = createSelector([selectBudgetDoc], (doc) => 
 /** Period-spent amounts per bucket (derived from in-period txns). */
 export const selectSpentTriple = createSelector([selectTxnsInPeriod], (txns) => {
   const acc = { needs: 0, wants: 0, savings: 0 };
-  for (const t of txns) acc[t.type] += Math.max(0, t.amount);
+  for (const t of txns) {
+    acc[t.type] += Math.max(0, t.amount);
+  }
   return acc;
 });
 

@@ -105,8 +105,10 @@ const AddTransaction: React.FC<AddTransactionProps> = ({ buttonShape = 'rounded'
       amount: amountNum,
       type: formData.type,
       category: formData.category,
-      note: formData.note?.trim() || undefined,
+      note: formData.note?.trim() || '',
     };
+
+    console.log('add txn', payload);
 
     dispatch(addTxnThunk({ uid: user?.uuid ?? '', txn: payload }));
 
@@ -170,7 +172,6 @@ const AddTransaction: React.FC<AddTransactionProps> = ({ buttonShape = 'rounded'
             value={formData.note ?? ''}
             errors={errors.note}
             onChange={handleChange}
-            required
           />
 
           <CheckboxInput

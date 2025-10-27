@@ -18,7 +18,7 @@ import {
   where,
 } from 'firebase/firestore';
 import { db } from './firebase.service';
-import { MonthDoc } from '../models/month-doc';
+import { DEFAULT_START_DAY, MonthDoc } from '../models/month-doc';
 import { DEFAULT_PERCENTS } from '../types/percent.types';
 import { makeAllocations, toMonthDoc } from '../../utils/services.util';
 import { Txn } from '../models/txn';
@@ -43,7 +43,9 @@ export const upsertMonth = async (
   const percents = data.percents ?? (prev.exists() ? prevData.percents : DEFAULT_PERCENTS);
 
   // Determine effective start day for THIS period
-  const startDay = prev.exists() ? (prevData.startDay ?? 1) : (data.startDay ?? 1);
+  // const startDay = prev.exists() ? (prevData.startDay ?? 1) : (data.startDay ?? 1);
+
+  const startDay = prev.exists() ? prevData.startDay : (data.startDay ?? DEFAULT_START_DAY);
 
   // Compute bounds from monthKey + startDay
   const repr = representativeDateFromMonthKey(month, startDay);
@@ -80,7 +82,11 @@ export const readMonth = async (uid: string, month: string): Promise<MonthDoc | 
 
 /** Add a transaction to a month */
 export const addTransaction = async (uid: string, month: string, txn: Omit<Txn, 'id'>) => {
+  console.log('get here', uid, month, txn);
+
   const ref = await addDoc(txnsColRef(uid, month), txn);
+  console.log('ref', ref);
+
   return ref.id;
 };
 
