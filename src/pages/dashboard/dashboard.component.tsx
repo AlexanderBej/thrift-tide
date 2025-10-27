@@ -145,7 +145,7 @@ const Dashboard: React.FC = () => {
       </section>
       <div className="insights-container">
         <section className="kpi-cards-container">
-          <h2>Insights</h2>
+          <h2 className="card-h2">Insights</h2>
           <DashboardInsights income={budgetDoc?.income ?? 0} showInsights="kpi" />
         </section>
 

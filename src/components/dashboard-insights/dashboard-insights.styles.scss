@@ -4,4 +4,15 @@
   margin-top: 20px;
   @include grid($columnGap: 10px);
   justify-items: center;
+
+  @include down(md) {
+    margin-top: 10px;
+
+    @include grid(
+      $templateColumns: 1fr 1fr,
+      $templateRows: 1fr 1fr,
+      $rowGap: 10px,
+      $columnGap: 10px
+    );
+  }
 }

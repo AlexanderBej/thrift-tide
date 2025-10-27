@@ -6,3 +6,9 @@
     display: none;
   }
 }
+
+.card-h2 {
+  @include down(md) {
+    font-size: 18px;
+  }
+}

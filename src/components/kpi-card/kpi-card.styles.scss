@@ -9,6 +9,11 @@
   text-align: center;
   padding: 10px;
 
+  @include down(md) {
+    width: 140px;
+    height: 110px;
+  }
+
   &__danger {
     border-color: $color-error;
     background-color: lighten($color: $color-error, $amount: 40%);

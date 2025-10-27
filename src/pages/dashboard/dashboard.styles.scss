@@ -123,6 +123,9 @@
 
   .insights-container {
     @include grid($templateColumns: repeat(3, 1fr), $columnGap: 30px);
+    @include down(md) {
+      display: block;
+    }
 
     .kpi-cards-container {
       grid-area: 1 / 1 / 2 / 3;
@@ -131,6 +134,10 @@
         $shadow: $shadow-lg,
         $pad: $spacing-5 $spacing-6
       );
+      @include down(md) {
+        padding: $spacing-4 $spacing-5;
+        margin-bottom: 15px;
+      }
 
       // .cards-grid {
       //   margin-top: 20px;
