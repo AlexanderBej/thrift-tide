@@ -26,14 +26,6 @@ const Breadcrumbs: React.FC = () => {
       .join('');
   };
 
-  // const labelMap: Record<string, string> = {
-  //   dashboard: 'Overview',
-  //   products: 'Products',
-  //   new: 'New',
-  //   myPagePreview: 'My Page Preview',
-  //   edit: 'Edit Product',
-  // };
-
   const editIndex = pathnames.findIndex((segment) => toCamelCase(segment) === 'edit');
   const filteredPathnames = editIndex >= 0 ? pathnames.slice(0, editIndex + 1) : pathnames;
 
@@ -47,7 +39,6 @@ const Breadcrumbs: React.FC = () => {
           // Check if this is the last segment (no link)
           const isLast = index === filteredPathnames.length - 1;
           const label = toCamelCase(segment);
-          // const label = labelMap[toCamelCase(segment)] || segment;
 
           return (
             <li key={segment}>

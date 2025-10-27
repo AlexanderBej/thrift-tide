@@ -1,16 +1,8 @@
-// src/redux/selectors/insights.ts
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import { Txn } from '../../api/models/txn';
 import { Bucket } from '../../api/types/bucket.types';
 import { selectBudgetDoc, selectBudgetMonth, selectBudgetTxns } from './budget.selectors';
 
-// ---- Base selectors you already expose
-// export const selectBudgetDoc = (s: RootState) => s.budget.doc;
-// export const selectBudgetTxns = (s: RootState) => s.budget.txns;
-// export const selectBudgetMonth = (s: RootState) => s.budget.month;
-
-// If you have a settings slice with startDay, wire it here.
 // Fallback to 1 if not yet implemented.
 export const selectBudgetStartDay = (s: RootState) => (s as any)?.settings?.startDay ?? 1;
 

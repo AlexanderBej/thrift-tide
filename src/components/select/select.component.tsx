@@ -60,7 +60,6 @@ const Select: React.FC<SelectProps> = ({
       </option>
       {options.map((opt, index) => (
         <option key={index} value={opt.value}>
-          {/* {opt.icon && <TTIcon icon={opt.icon} size={16} />} */}
           {opt.label}
         </option>
       ))}

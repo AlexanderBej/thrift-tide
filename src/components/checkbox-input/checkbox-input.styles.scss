@@ -1,29 +1,5 @@
 @use '../../styles/global.scss' as *;
 
-// .checkbox-input {
-//   display: flex;
-//   align-items: center;
-
-//   .form-checkbox {
-//     height: 1rem;
-//     width: 1rem;
-//     transition: $transition-normal;
-
-//     &:checked {
-//       background-color: aqua;
-//       accent-color: $color-primary;
-//     }
-//   }
-
-//   .checkbox-label {
-//     margin-left: 0.5rem;
-//     display: block;
-//     font-size: 14px;
-//     line-height: 1.25rem;
-//     color: #1a202c;
-//   }
-// }
-
 .checkbox-input {
   display: flex;
   align-items: center;

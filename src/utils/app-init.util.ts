@@ -10,7 +10,6 @@ export const initApp = (dispatch: AppDispatch) => {
 
   return onAuthStateChanged(auth, async (fbUser) => {
     // Clear previous listeners whenever auth changes
-    // dispatch(_clearUnsub());
     dispatch(cleanupListeners());
 
     if (fbUser) {

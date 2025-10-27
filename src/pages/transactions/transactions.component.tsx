@@ -33,11 +33,8 @@ const Transaction: React.FC = () => {
   const totalSpent = useSelector(selectFilteredTotal);
   const totalIncome = useSelector(selectBudgetTotal);
   const perBucket = useSelector(selectMonthTotalsByBucket);
-  const month = useSelector(selectBudgetMonth);
-  // const perType = useSelector(selectMonthTotalsByType);
 
   const [filter, setFilter] = useState<Bucket | 'all'>('all');
-  // const [pickedMonth, setPickedMonth] = useState<Date>(new Date(month));
   const [searchCriteria, setSearchCriteria] = useState<string>('');
   const [sortCriteria, setSortCriteria] = useState<string>('date');
 
@@ -73,12 +70,6 @@ const Transaction: React.FC = () => {
     }
   };
 
-  // const handleDateChange = (d: Date | null) => {
-  //   if (!d) return;
-  //   setPickedMonth(d);
-  //   dispatch(setMonth(format(d, 'yyyy-MM')));
-  // };
-
   const toCamelCase = (word: string): string => {
     return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
   };
@@ -104,11 +95,6 @@ const Transaction: React.FC = () => {
             onChange={handleChange}
             options={FILTER_OPTIONS}
           />
-          {/* <MonthPicker
-            value={pickedMonth}
-            className="cat-page-monthpicker"
-            onChange={handleDateChange}
-          /> */}
           <FormInput
             inputType="search"
             customClassName="search-input"

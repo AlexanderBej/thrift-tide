@@ -35,7 +35,6 @@ const UserDropdown: React.FC = () => {
   };
 
   return (
-    // <div className="user-dropdown">
     <Dropdown
       customClassName="galactica-nav"
       trigger={({ toggle }) => (
@@ -72,7 +71,6 @@ const UserDropdown: React.FC = () => {
         </>
       )}
     />
-    // </div>
   );
 };
 

@@ -25,7 +25,6 @@ const Button: React.FC<ButtonProps> = ({
   buttonShape = 'square',
 }) => {
   return (
-    // <div className={`${customContainerClass} btn-container`}>
     <button
       className={`thrift-tide-btn thrift-tide-btn__${buttonType} thrift-tide-btn__${buttonShape} ${customContainerClass} ${disabled ? 'thrift-tide-btn__disabled' : ''}`}
       disabled={disabled}
@@ -34,7 +33,6 @@ const Button: React.FC<ButtonProps> = ({
     >
       {isLoading ? <Spinner /> : children}
     </button>
-    // </div>
   );
 };
 

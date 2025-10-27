@@ -199,11 +199,6 @@ const FormInput: React.FC<FormInputProps> = ({
             {errors}
           </p>
         )}
-        {/* {label && (
-          <label className={`${value ? 'shrink' : ''} form-input-label`} htmlFor={otherProps.name}>
-            {label} {required && <span className="text-red">*</span>}
-          </label>
-        )} */}
       </div>
       {passwordField.isMainField && isPasswordFocused && (
         <ul className="password-rules">
