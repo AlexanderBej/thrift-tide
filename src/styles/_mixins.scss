@@ -43,21 +43,21 @@ $breakpoints: (
 );
 
 // 2) Min-width mixin (mobile-first)
-@mixin up($bp) {
+@mixin mediaUp($bp) {
   @media (min-width: map-get($breakpoints, $bp)) {
     @content;
   }
 }
 
 // 3) Max-width mixin (if you prefer “down” queries)
-@mixin down($bp) {
+@mixin mediaDown($bp) {
   @media (max-width: map-get($breakpoints, $bp)) {
     @content;
   }
 }
 
 // 4) Height mixin
-@mixin max-h($h) {
+@mixin mediaMax-h($h) {
   @media (max-height: $h) {
     @content;
   }

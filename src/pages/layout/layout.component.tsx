@@ -3,22 +3,26 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns';
 
-import Sidebar from '../../components/nav/sidebar/sidebar.component';
-import UserDropdown from '../../components/dropdowns/user-dropdown/user-dropdown.component';
-import MonthPicker from '../../components/datepicker/monthpicker.component';
-import { selectBudgetMonth } from '../../store/budget-store/budget.selectors';
+import Sidebar from '../../components-ui/nav/sidebar/sidebar.component';
+import MonthPicker from '../../components-ui/datepicker/monthpicker.component';
 import { AppDispatch } from '../../store/store';
 import { setMonth } from '../../store/budget-store/budget.slice';
-import BottomNav from '../../components/nav/bottom-nav/bottom-nav.component';
+import BottomNav from '../../components-ui/nav/bottom-nav/bottom-nav.component';
+import { fmtDate } from '../../utils/format-data.util';
+import { selectBudgetMonth } from '../../store/budget-store/budget.selectors.base';
+import { selectMonthTiming } from '../../store/budget-store/budget-period.selectors';
+import UserDropdown from '../../components/user-dropdown/user-dropdown.component';
+import AddTransaction from '../../components/add-transaction-modal/add-transaction-modal.component';
 
 import './layout.styles.scss';
-import AddTransaction from '../../components/modal/add-transaction-modal/add-transaction-modal.component';
 
 const Layout: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const { pathname } = useLocation();
   const month = useSelector(selectBudgetMonth);
+  const { periodStart, periodEnd } = useSelector(selectMonthTiming);
+
   const [pickedMonth, setPickedMonth] = useState<Date>(new Date(month));
 
   const handleDateChange = (d: Date | null) => {
@@ -47,6 +51,10 @@ const Layout: React.FC = () => {
               className="page-header-monthpicker"
               onChange={handleDateChange}
             />
+
+            <div>
+              Period: {fmtDate(periodStart)} → {fmtDate(periodEnd)} (exclusive)
+            </div>
           </div>
           <div className="page-user-dropdown">
             <UserDropdown />

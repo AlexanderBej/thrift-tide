@@ -3,6 +3,10 @@
 .category-page {
   padding: $spacing-5;
 
+  @include mediaDown(md) {
+    padding: 0;
+  }
+
   .category-header {
     font-size: 18px;
     font-weight: 600;
@@ -22,20 +26,36 @@
   }
 
   .category-summary-container {
-    border: 1px solid $color-neutral-medium;
     padding: $spacing-5;
     border-radius: $radius-md;
+    box-shadow: $shadow-md;
+
+    @include mediaDown(md) {
+      padding: $spacing-4;
+    }
 
     .category-summary-line {
-      display: inline-flex;
       width: 100%;
-      justify-content: space-between;
+      @include grid($templateColumns: repeat(3, 1fr), $columnGap: 20px);
+
+      .category-middle {
+        text-align: center;
+      }
+
+      .category-last {
+        text-align: end;
+      }
     }
   }
 
   .higlights-section {
     @include grid($columnGap: 50px);
     margin: $spacing-5 0;
+
+    @include mediaDown(md) {
+      margin: $spacing-4 0;
+      column-gap: $spacing-4;
+    }
 
     .top-categories-container {
       grid-area: 1 / 1 / 2 / 4;
@@ -44,6 +64,10 @@
         $shadow: $shadow-md,
         $pad: $spacing-4 $spacing-5
       );
+
+      @include mediaDown(md) {
+        padding: $spacing-4;
+      }
 
       .top-categories-list {
         display: grid;
@@ -70,6 +94,10 @@
         $shadow: $shadow-md,
         $pad: $spacing-4 $spacing-5
       );
+
+      @include mediaDown(md) {
+        padding: $spacing-4;
+      }
     }
   }
 

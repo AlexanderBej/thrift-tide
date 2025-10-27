@@ -3,20 +3,18 @@ import { format } from 'date-fns';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import {
-  makeSelectCategoryView,
-  selectBudgetStatus,
-} from '../../store/budget-store/budget.selectors';
-import Breadcrumbs from '../../components/breadcrumb/breadcrumb.component';
-import ProgressBar from '../../components/progress-bar/progress-bar.component';
+import { makeSelectCategoryView } from '../../store/budget-store/budget.selectors';
+import Breadcrumbs from '../../components-ui/breadcrumb/breadcrumb.component';
+import ProgressBar from '../../components-ui/progress-bar/progress-bar.component';
 import { getCssVar } from '../../utils/style-variable.util';
 import { Bucket } from '../../api/types/bucket.types';
 import { resolveCategory } from '../../utils/category-options.util';
-import TTIcon from '../../components/icon/icon.component';
+import TTIcon from '../../components-ui/icon/icon.component';
 import { BadgePills } from '../../components/badge-pills/badge-pills.component';
 import { makeSelectBucketBadges } from '../../store/budget-store/budget-badges.selectors';
 import { selectDashboardInsights } from '../../store/budget-store/budget-insights.selectors';
 import { fmt, toYMD } from '../../utils/format-data.util';
+import { selectBudgetStatus } from '../../store/budget-store/budget.selectors.base';
 
 import './category.styles.scss';
 
@@ -63,10 +61,10 @@ const Category: React.FC = () => {
           <div className="category-summary">
             Allocated: <strong>{fmt(view.allocated)}</strong>
           </div>
-          <div className="category-summary">
+          <div className="category-summary category-middle">
             Spent: <strong>{fmt(view.spent)}</strong>
           </div>
-          <div className="category-summary">
+          <div className="category-summary category-last">
             Remaining: <strong>{fmt(view.remaining)}</strong>
           </div>
         </div>
@@ -76,7 +74,7 @@ const Category: React.FC = () => {
       </div>
 
       {/* By-category breakdown */}
-      <section className="higlights-section" style={{ marginBottom: 24 }}>
+      <section className="higlights-section">
         <div className="top-categories-container">
           <h2 className="category-header">Top categories</h2>
           {view.byCategory.length === 0 ? (

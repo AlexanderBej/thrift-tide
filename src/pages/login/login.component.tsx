@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 
-import TTIcon from '../../components/icon/icon.component';
+import TTIcon from '../../components-ui/icon/icon.component';
 
 import './login.styles.scss';
-import Button from '../../components/button/button.component';
+import Button from '../../components-ui/button/button.component';
 import { useSelector } from 'react-redux';
 import { selectAuthStatus } from '../../store/auth-store/auth.selectors';
 import { ensureUserProfile, signInWithGooglePopup } from '../../api/services/auth.service';

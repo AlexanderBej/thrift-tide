@@ -1,26 +1,26 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { selectTotals, selectBurnVsPace, selectMonthTiming } from './budget-insights.selectors';
 import type { Bucket } from '../../api/types/bucket.types';
+import { selectTotals } from './budget.selectors';
+import { selectBurnVsPace } from './budget-insights.selectors';
+import { selectMonthTiming } from './budget-period.selectors';
 
 export type BadgeKind = 'danger' | 'warn' | 'info' | 'success';
 export type Badge = { id: string; text: string; kind: BadgeKind; scope?: 'total' | Bucket };
 
-const OVERPACE = 0.1; // 10 pp buffer
+const OVERPACE = 0.1;
 const HIGH_OVERPACE = 0.15;
-const NEAR = 0.05; // ±5 pp ~ “near”
+const NEAR = 0.05;
 
+/** Top-level dashboard badge set (max 4), highlighting overspend/near/under-pace patterns. */
 export const selectBadges = createSelector(
   [selectTotals, selectBurnVsPace, selectMonthTiming],
-  (tot, bvp, t): Badge[] => {
+  (tot, bvp): Badge[] => {
     const badges: Badge[] = [];
     const { burn, pace } = bvp;
-
-    // Guard: early month or no allocations
     if (pace == null || tot.totalAllocated <= 0) return badges;
 
-    // --- Wants over budget
     if (tot.alloc.wants > 0) {
-      const bw = bvp.burn.wants ?? 0;
+      const bw = burn.wants ?? 0;
       if (tot.spent.wants >= tot.alloc.wants || bw > pace + OVERPACE) {
         badges.push({
           id: 'wants-over',
@@ -31,7 +31,6 @@ export const selectBadges = createSelector(
       }
     }
 
-    // --- Needs near budget
     if (tot.alloc.needs > 0) {
       const remainingFrac = tot.remaining.needs / tot.alloc.needs;
       const bn = burn.needs ?? 0;
@@ -40,12 +39,10 @@ export const selectBadges = createSelector(
       }
     }
 
-    // --- High burn rate (overall)
     if ((burn.total ?? 0) > pace + HIGH_OVERPACE) {
       badges.push({ id: 'high-burn', text: 'High burn rate', kind: 'danger', scope: 'total' });
     }
 
-    // --- Savings behind plan (optional but helpful)
     if (tot.alloc.savings > 0 && burn.savings != null && burn.savings < pace - OVERPACE) {
       badges.push({
         id: 'save-behind',
@@ -55,19 +52,17 @@ export const selectBadges = createSelector(
       });
     }
 
-    // --- Under pace (overall good)
     if (burn.total != null && burn.total < pace - OVERPACE) {
       badges.push({ id: 'under-pace', text: 'Under pace (good)', kind: 'success', scope: 'total' });
     }
 
-    // Keep it tidy
     return badges.slice(0, 4);
   },
 );
 
-// Per-bucket badges
+/** Bucket-specific badge set for the category page header. */
 export const makeSelectBucketBadges = (bucket: Bucket) =>
-  createSelector([selectTotals, selectBurnVsPace, selectMonthTiming], (tot, bvp, t): Badge[] => {
+  createSelector([selectTotals, selectBurnVsPace, selectMonthTiming], (tot, bvp): Badge[] => {
     const list: Badge[] = [];
     const alloc = tot.alloc[bucket];
     if (alloc <= 0) return list;

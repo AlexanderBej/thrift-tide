@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import StackedBarChart, { BarChartRow } from '../charts/stacked-bar.component';
+import StackedBarChart, { BarChartRow } from '../../components-ui/charts/stacked-bar.component';
 import { selectDashboardInsights } from '../../store/budget-store/budget-insights.selectors';
-import KpiCard from '../kpi-card/kpi-card.component';
+import KpiCard from '../../components-ui/kpi-card/kpi-card.component';
 import { fmt } from '../../utils/format-data.util';
 
 import './dashboard-insights.styles.scss';

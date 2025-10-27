@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
-import DashboardCards from "../../components/dashboard-cards/dashboard-cards.component";
+import DashboardCards from '../../components/dashboard-cards/dashboard-cards.component';
 
-import "./categories.styles.scss";
+import './categories.styles.scss';
 
 const Categories: React.FC = () => {
   return (

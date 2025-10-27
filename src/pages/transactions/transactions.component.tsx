@@ -2,16 +2,14 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns';
 
-import Select, { SelectOption } from '../../components/select/select.component';
+import Select, { SelectOption } from '../../components-ui/select/select.component';
 import { Bucket, BUCKET_LIGHT_COLORS, BucketType } from '../../api/types/bucket.types';
 import {
   selectTxnsGroupedByDate,
   selectFilteredTotal,
   selectMonthTotalsByBucket,
-  selectBudgetTotal,
-  selectBudgetMonth,
 } from '../../store/budget-store/budget.selectors';
-import MonthPicker from '../../components/datepicker/monthpicker.component';
+import MonthPicker from '../../components-ui/datepicker/monthpicker.component';
 import { AppDispatch } from '../../store/store';
 import {
   setMonth,
@@ -21,9 +19,10 @@ import {
   SortKey,
   TxnTypeFilter,
 } from '../../store/budget-store/budget.slice';
-import FormInput from '../../components/form-input/form-input.component';
+import FormInput from '../../components-ui/form-input/form-input.component';
 import { resolveCategory } from '../../utils/category-options.util';
-import TTIcon from '../../components/icon/icon.component';
+import TTIcon from '../../components-ui/icon/icon.component';
+import { selectBudgetTotal } from '../../store/budget-store/budget.selectors.base';
 
 import './transactions.styles.scss';
 

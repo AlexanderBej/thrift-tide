@@ -1,14 +1,39 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { RootState } from '../store';
 import { Bucket } from '../../api/types/bucket.types';
 import { Txn } from '../../api/models/txn';
+import { selectBudgetDoc, selectBudgetTxns, selectTxnUi } from './budget.selectors.base';
+import { selectMonthTiming } from './budget-period.selectors';
 
-export const selectBudgetStatus = (state: RootState) => state.budget.status;
-export const selectBudgetMonth = (state: RootState) => state.budget.month;
-export const selectBudgetDoc = (state: RootState) => state.budget.doc;
-export const selectBudgetTotal = (state: RootState) => state.budget.doc?.income;
-export const selectBudgetTxns = (state: RootState) => state.budget.txns;
-export const selectTxnUi = (state: RootState) => state.budget.ui;
+/** All transactions that fall inside the current [periodStart, periodEnd). */
+export const selectTxnsInPeriod = createSelector([selectBudgetTxns, selectMonthTiming], (txns, t) =>
+  txns.filter((x) => {
+    const d = x.date as unknown as Date; // services should normalize to Date
+    return d >= t.periodStart && d < t.periodEnd;
+  }),
+);
+
+/** Sums spent per high-level bucket within the selected period. */
+export const selectSpentByBucket = createSelector([selectTxnsInPeriod], (txns) => {
+  let needs = 0,
+    wants = 0,
+    savings = 0;
+  for (const t of txns) {
+    if (t.type === 'needs') needs += t.amount;
+    else if (t.type === 'wants') wants += t.amount;
+    else if (t.type === 'savings') savings += t.amount;
+  }
+  return { needs, wants, savings };
+});
+
+/** Optional: map of "type:category" -> total, within the period. Useful for side widgets. */
+export const selectSpentByCategory = createSelector([selectTxnsInPeriod], (txns) => {
+  const map: Record<string, number> = {};
+  for (const t of txns) {
+    const key = `${t.type}:${t.category || 'Uncategorized'}`;
+    map[key] = (map[key] || 0) + t.amount;
+  }
+  return map;
+});
 
 export interface CategoryCard {
   key: Bucket;
@@ -19,144 +44,129 @@ export interface CategoryCard {
   progress: number; // 0..1
 }
 
-export const selectSpentByBucket = createSelector([selectBudgetTxns], (txns) => {
-  let needs = 0,
-    wants = 0,
-    savings = 0;
-  for (const t of txns) {
-    if (t.type === 'needs') needs += t.amount;
-    if (t.type === 'wants') wants += t.amount;
-    if (t.type === 'savings') savings += t.amount;
-  }
-  return { needs, wants, savings };
-});
-
-// Optional: breakdown by category for a side widget
-export const selectSpentByCategory = createSelector([selectBudgetTxns], (txns) => {
-  const map: Record<string, number> = {};
-  for (const t of txns) {
-    const key = `${t.type}:${t.category || 'Uncategorized'}`;
-    map[key] = (map[key] || 0) + t.amount;
-  }
-  return map;
-});
-
+/** The 3 Category cards (Needs/Wants/Savings) with allocated/spent/remaining/progress for the period. */
 export const selectCards = createSelector([selectBudgetDoc, selectSpentByBucket], (doc, spent) => {
-  if (!doc) return null;
-  const entries = ['needs', 'wants', 'savings'] as const;
-
-  return entries.map((k) => {
-    const allocated = doc.allocations[k];
+  if (!doc) return [] as CategoryCard[];
+  return (['needs', 'wants', 'savings'] as const).map((k) => {
+    const allocated = doc.allocations[k] ?? 0;
     const used = spent[k];
     const remaining = Math.max(0, allocated - used);
     const progress = allocated > 0 ? Math.min(1, used / allocated) : 0;
-
     return {
       key: k,
       title: k[0].toUpperCase() + k.slice(1),
       allocated,
       spent: used,
       remaining,
-      progress, // 0..1
+      progress,
     };
   });
 });
 
+/** Detailed view for a single bucket: items list, totals, and per-category breakdown. */
 export const makeSelectCategoryView = (bucket: Bucket) =>
-  createSelector([selectBudgetDoc, selectBudgetTxns], (doc, txns) => {
+  createSelector([selectBudgetDoc, selectTxnsInPeriod], (doc, txns) => {
     if (!doc) return null;
 
-    // const allocKey = toAllocKey(bucket);
     const allocated = doc.allocations[bucket] ?? 0;
-
-    const filtered = txns.filter((t: { type: Bucket }) => t.type === bucket);
-    const spent = filtered.reduce((sum: number, t: { amount: number }) => sum + t.amount, 0);
+    const filtered = txns.filter((t) => t.type === bucket);
+    const spent = filtered.reduce((sum, t) => sum + t.amount, 0);
     const remaining = Math.max(0, allocated - spent);
     const progress = allocated > 0 ? Math.min(1, spent / allocated) : 0;
 
-    // per-category breakdown inside this bucket
     const byCategoryMap = new Map<string, number>();
     for (const t of filtered) {
       const key = t.category || 'Uncategorized';
       byCategoryMap.set(key, (byCategoryMap.get(key) ?? 0) + t.amount);
     }
-    const byCategory = Array.from(byCategoryMap, ([category, total]) => ({
-      category,
-      total,
-    })).sort((a, b) => b.total - a.total);
+    const byCategory = Array.from(byCategoryMap, ([category, total]) => ({ category, total })).sort(
+      (a, b) => b.total - a.total,
+    );
 
-    return {
-      allocated,
-      spent,
-      remaining,
-      progress,
-      items: filtered,
-      byCategory,
-    };
+    return { allocated, spent, remaining, progress, items: filtered, byCategory };
   });
 
-const inMonth = (isoDate: string, monthKey: string) => isoDate.startsWith(monthKey); // 'YYYY-MM'
-const matchesType = (t: Txn, f: 'all' | 'needs' | 'wants' | 'savings') =>
-  f === 'all' || t.type === f;
+/** Filter/search/sort the in-period transactions according to UI state. */
+export const selectFilteredTxns = createSelector([selectTxnsInPeriod, selectTxnUi], (txns, ui) => {
+  const q = ui.search.trim().toLowerCase();
 
-// 3.1 Filtered txns for the current view
-export const selectFilteredTxns = createSelector(
-  [selectBudgetTxns, selectBudgetMonth, selectTxnUi],
-  (txns, month, ui) => {
-    const q = ui.search.trim().toLowerCase();
+  const filtered = txns
+    .filter((t) => (ui.type === 'all' ? true : t.type === ui.type))
+    .filter((t) =>
+      q.length === 0
+        ? true
+        : (t.note ?? '').toLowerCase().includes(q) || (t.category ?? '').toLowerCase().includes(q),
+    );
 
-    const filtered = txns
-      .filter((t) => inMonth(t.date, month))
-      .filter((t) => matchesType(t, ui.type))
-      .filter((t) =>
-        q.length === 0
-          ? true
-          : (t.note ?? '').toLowerCase().includes(q) ||
-            (t.category ?? '').toLowerCase().includes(q),
-      );
+  const dir = ui.sortDir === 'asc' ? 1 : -1;
+  const sorted = [...filtered].sort((a, b) => {
+    if (ui.sortKey === 'date') return dir * (+a.date - +b.date); // Date numeric compare
+    return dir * (a.amount - b.amount);
+  });
 
-    const sorted = [...filtered].sort((a, b) => {
-      const dir = ui.sortDir === 'asc' ? 1 : -1;
-      if (ui.sortKey === 'date') return dir * a.date.localeCompare(b.date);
-      return dir * (a.amount - b.amount);
-    });
+  return sorted;
+});
 
-    return sorted;
-  },
-);
-
-// 3.2 Group by day for list sections
+/** Group filtered list by calendar day string (YYYY-MM-DD), newest group first. */
 export const selectTxnsGroupedByDate = createSelector([selectFilteredTxns], (txns) => {
+  const toYYYYMMDD = (d: Date) => d.toISOString().slice(0, 10);
   const buckets = new Map<string, Txn[]>();
+
   for (const t of txns) {
-    const day = t.date; // 'YYYY-MM-DD'
+    const day = toYYYYMMDD(t.date as unknown as Date);
     if (!buckets.has(day)) buckets.set(day, []);
     buckets.get(day)!.push(t);
   }
 
   return Array.from(buckets.entries())
-    .sort((a, b) => b[0].localeCompare(a[0])) // newest group first
+    .sort((a, b) => b[0].localeCompare(a[0]))
     .map(([date, items]) => ({ date, items }));
 });
 
-// 3.3 Total for current filtered view
+/** Sum of currently filtered transactions (e.g., for list header). */
 export const selectFilteredTotal = createSelector([selectFilteredTxns], (txns) =>
   txns.reduce((sum, t) => sum + t.amount, 0),
 );
 
-// 3.4 Per-bucket totals for the selected month (for header recaps)
-export const selectMonthTotalsByBucket = createSelector(
-  [selectBudgetTxns, selectBudgetMonth],
-  (txns, month) => {
-    let needs = 0,
-      wants = 0,
-      savings = 0;
-    for (const t of txns) {
-      if (!inMonth(t.date, month)) continue;
-      if (t.type === 'needs') needs += t.amount;
-      else if (t.type === 'wants') wants += t.amount;
-      else if (t.type === 'savings') savings += t.amount;
-    }
-    return { needs, wants, savings };
+/** Header recap: per-bucket totals within the selected period. */
+export const selectMonthTotalsByBucket = createSelector([selectTxnsInPeriod], (txns) => {
+  let needs = 0,
+    wants = 0,
+    savings = 0;
+  for (const t of txns) {
+    if (t.type === 'needs') needs += t.amount;
+    else if (t.type === 'wants') wants += t.amount;
+    else if (t.type === 'savings') savings += t.amount;
+  }
+  return { needs, wants, savings };
+});
+
+/** Period-allocated amounts per bucket (pulled from MonthDoc). */
+export const selectAllocatedTriple = createSelector([selectBudgetDoc], (doc) => ({
+  needs: doc?.allocations.needs ?? 0,
+  wants: doc?.allocations.wants ?? 0,
+  savings: doc?.allocations.savings ?? 0,
+}));
+
+/** Period-spent amounts per bucket (derived from in-period txns). */
+export const selectSpentTriple = createSelector([selectTxnsInPeriod], (txns) => {
+  const acc = { needs: 0, wants: 0, savings: 0 };
+  for (const t of txns) acc[t.type] += Math.max(0, t.amount);
+  return acc;
+});
+
+/** Aggregated totals for the period: per-bucket & grand totals, remaining, etc. */
+export const selectTotals = createSelector(
+  [selectAllocatedTriple, selectSpentTriple],
+  (alloc, spent) => {
+    const remaining = {
+      needs: Math.max(0, alloc.needs - spent.needs),
+      wants: Math.max(0, alloc.wants - spent.wants),
+      savings: Math.max(0, alloc.savings - spent.savings),
+    };
+    const totalAllocated = alloc.needs + alloc.wants + alloc.savings;
+    const totalSpent = spent.needs + spent.wants + spent.savings;
+    const totalRemaining = Math.max(0, totalAllocated - totalSpent);
+    return { alloc, spent, remaining, totalAllocated, totalSpent, totalRemaining };
   },
 );

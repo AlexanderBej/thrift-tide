@@ -2,22 +2,22 @@ import React, { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Modal from '../modal.component';
-import Button from '../../button/button.component';
-import TTIcon from '../../icon/icon.component';
-import FormInput from '../../form-input/form-input.component';
-import TypeBoxSelector from './type-box-selector/type-box-selector.component';
-import { CATEGORY_OPTIONS } from '../../../utils/category-options.util';
-import Select from '../../select/select.component';
-import DatePicker from '../../datepicker/datepicker.component';
-import { FormErrors, toDecimal, validateAll, validateField } from './add-transaction-modal.util';
-import { AppDispatch } from '../../../store/store';
-import { addTxnThunk } from '../../../store/budget-store/budget.slice';
-import { selectAuthUser } from '../../../store/auth-store/auth.selectors';
-import { Bucket } from '../../../api/types/bucket.types';
-import { Txn } from '../../../api/models/txn';
-import CheckboxInput from '../../checkbox-input/checkbox-input.component';
-import { toYMD } from '../../../utils/format-data.util';
+import { Txn } from '../../api/models/txn';
+import { Bucket } from '../../api/types/bucket.types';
+import CheckboxInput from '../../components-ui/checkbox-input/checkbox-input.component';
+import DatePicker from '../../components-ui/datepicker/datepicker.component';
+import TTIcon from '../../components-ui/icon/icon.component';
+import Modal from '../../components-ui/modal/modal.component';
+import { selectAuthUser } from '../../store/auth-store/auth.selectors';
+import { addTxnThunk } from '../../store/budget-store/budget.slice';
+import { AppDispatch } from '../../store/store';
+import { CATEGORY_OPTIONS } from '../../utils/category-options.util';
+import { toYMD } from '../../utils/format-data.util';
+import { FormErrors, validateField, validateAll, toDecimal } from './add-transaction-modal.util';
+import TypeBoxSelector from '../type-box-selector/type-box-selector.component';
+import Button from '../../components-ui/button/button.component';
+import FormInput from '../../components-ui/form-input/form-input.component';
+import Select from '../../components-ui/select/select.component';
 
 import './add-transaction-modal.styles.scss';
 

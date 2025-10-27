@@ -3,20 +3,26 @@ import {
   collection,
   deleteDoc,
   doc,
+  DocumentData,
   getDoc,
+  getDocs,
+  limit,
   onSnapshot,
   orderBy,
   query,
   Query,
   serverTimestamp,
   setDoc,
+  startAfter,
   updateDoc,
+  where,
 } from 'firebase/firestore';
 import { db } from './firebase.service';
 import { MonthDoc } from '../models/month-doc';
 import { DEFAULT_PERCENTS } from '../types/percent.types';
 import { makeAllocations, toMonthDoc } from '../../utils/services.util';
 import { Txn } from '../models/txn';
+import { periodBounds, representativeDateFromMonthKey } from '../../utils/period.util';
 
 const monthDocRef = (uid: string, month: string) => doc(db, 'users', uid, 'months', month);
 
@@ -27,13 +33,21 @@ const txnsColRef = (uid: string, month: string) =>
 export const upsertMonth = async (
   uid: string,
   month: string,
-  data: Partial<Pick<MonthDoc, 'income' | 'percents'>>,
+  data: Partial<Pick<MonthDoc, 'income' | 'percents'>> & { startDay?: number },
 ): Promise<MonthDoc> => {
   const ref = doc(db, 'users', uid, 'months', month);
   const prev = await getDoc(ref);
 
-  const income = data.income ?? (prev.exists() ? prev.data().income : 0);
-  const percents = data.percents ?? (prev.exists() ? prev.data().percents : DEFAULT_PERCENTS);
+  const prevData = prev.exists() ? prev.data() : {};
+  const income = data.income ?? (prev.exists() ? prevData.income : 0);
+  const percents = data.percents ?? (prev.exists() ? prevData.percents : DEFAULT_PERCENTS);
+
+  // Determine effective start day for THIS period
+  const startDay = prev.exists() ? (prevData.startDay ?? 1) : (data.startDay ?? 1);
+
+  // Compute bounds from monthKey + startDay
+  const repr = representativeDateFromMonthKey(month, startDay);
+  const { start, end } = periodBounds(repr, startDay);
 
   await setDoc(
     ref,
@@ -42,6 +56,10 @@ export const upsertMonth = async (
       income,
       percents,
       allocations: makeAllocations(income, percents),
+      startDay, // freeze per-period
+      periodStart: start.toISOString(), // freeze per-period
+      periodEnd: end.toISOString(), // freeze per-period
+
       createdAt: prev.exists() ? prev.data().createdAt : serverTimestamp(),
       updatedAt: serverTimestamp(),
     },
@@ -92,3 +110,55 @@ export const deleteTransaction = async (uid: string, month: string, id: string) 
   const ref = doc(db, 'users', uid, 'months', month, 'transactions', id);
   await deleteDoc(ref);
 };
+
+export function computeMonthSummary(doc: MonthDoc, txns: Txn[]) {
+  let needs = 0,
+    wants = 0,
+    savings = 0;
+  for (const t of txns) {
+    if (t.type === 'needs') needs += t.amount;
+    else if (t.type === 'wants') wants += t.amount;
+    else if (t.type === 'savings') savings += t.amount;
+  }
+  const totalSpent = needs + wants + savings;
+
+  return {
+    totalSpent,
+    spent: { needs, wants, savings },
+    totalTxns: txns.length,
+    income: doc.income,
+    allocations: doc.allocations,
+    computedAt: new Date().toISOString(),
+  } as MonthDoc['summary'];
+}
+
+export async function persistMonthSummary(
+  uid: string,
+  monthKey: string,
+  summary: MonthDoc['summary'],
+) {
+  const ref = doc(db, 'users', uid, 'months', monthKey);
+  await updateDoc(ref, { summary });
+}
+
+export async function listMonthsWithSummary(
+  uid: string,
+  opts: {
+    fromISO?: string;
+    toISO?: string;
+    pageSize?: number;
+    pageAfter?: DocumentData | null;
+  } = {},
+) {
+  const col = collection(db, 'users', uid, 'months');
+  let q = query(col, orderBy('periodStart', 'asc'));
+
+  if (opts.fromISO) q = query(q, where('periodStart', '>=', opts.fromISO));
+  if (opts.toISO) q = query(q, where('periodStart', '<', opts.toISO));
+  if (opts.pageAfter) q = query(q, startAfter(opts.pageAfter));
+  q = query(q, limit(opts.pageSize ?? 12));
+
+  const snap = await getDocs(q);
+  const items = snap.docs.map((d) => ({ id: d.id, ...(d.data() as MonthDoc), _cursor: d }));
+  return { items, nextCursor: snap.docs.length ? snap.docs[snap.docs.length - 1] : null };
+}

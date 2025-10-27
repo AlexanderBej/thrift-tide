@@ -12,6 +12,7 @@ import { AppDispatch } from './store/store';
 import { initApp } from './utils/app-init.util';
 import Categories from './pages/categories/categories.component';
 import Category from './pages/category/category.components';
+import History from './pages/history/history.component';
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -37,6 +38,7 @@ function App() {
         <Route path="categories" element={<Categories />} />
         <Route path="categories/:type" element={<Category />} />
 
+        <Route path="history" element={<History />} />
         <Route path="settings" element={<Settings />} />
       </Route>
     </Routes>

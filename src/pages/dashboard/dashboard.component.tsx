@@ -1,16 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { selectAuthUser } from '../../store/auth-store/auth.selectors';
-import {
-  selectBudgetDoc,
-  selectBudgetTxns,
-  selectMonthTotalsByBucket,
-  selectSpentByBucket,
-} from '../../store/budget-store/budget.selectors';
-import Button from '../../components/button/button.component';
-import DashboardCards from '../../components/dashboard-cards/dashboard-cards.component';
-import DonutChart, { Item } from '../../components/charts/donut.component';
+import { selectSpentByBucket } from '../../store/budget-store/budget.selectors';
+import Button from '../../components-ui/button/button.component';
+import DonutChart, { Item } from '../../components-ui/charts/donut.component';
 import { BUCKET_COLORS } from '../../api/types/bucket.types';
 import { selectDashboardInsights } from '../../store/budget-store/budget-insights.selectors';
 import DashboardInsights from '../../components/dashboard-insights/dashboard-insights.component';
@@ -18,6 +12,8 @@ import { selectBadges } from '../../store/budget-store/budget-badges.selectors';
 import { BadgePills } from '../../components/badge-pills/badge-pills.component';
 import { useWindowWidth } from '../../utils/window-width.hook';
 import { fmt } from '../../utils/format-data.util';
+import { selectBudgetDoc } from '../../store/budget-store/budget.selectors.base';
+import DashboardCards from '../../components/dashboard-cards/dashboard-cards.component';
 
 import './dashboard.styles.scss';
 
@@ -25,9 +21,7 @@ const Dashboard: React.FC = () => {
   const user = useSelector(selectAuthUser);
   const budgetDoc = useSelector(selectBudgetDoc);
   const spentByBucket = useSelector(selectSpentByBucket);
-  const transactions = useSelector(selectBudgetTxns);
   const insights = useSelector(selectDashboardInsights);
-  const monthTotalsByBucket = useSelector(selectMonthTotalsByBucket);
   const badges = useSelector(selectBadges);
 
   const width = useWindowWidth();
@@ -59,16 +53,6 @@ const Dashboard: React.FC = () => {
       strongColor: 'var(--savings)',
     },
   ];
-
-  // useEffect(() => {
-  //   console.log('user', getFirstName(user?.displayName ?? ''));
-  //   console.log('budget', budgetDoc);
-  //   console.log('spentByBucket', spentByBucket);
-
-  //   console.log('txns', transactions);
-  //   console.log('insights', insights);
-  //   console.log('monthTotalsByBucket', monthTotalsByBucket);
-  // });
 
   const getFirstName = (name: string | null) => {
     if (!name) return '';

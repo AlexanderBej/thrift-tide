@@ -1,103 +1,26 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { RootState } from '../store';
 import { Bucket } from '../../api/types/bucket.types';
-import { selectBudgetDoc, selectBudgetMonth, selectBudgetTxns } from './budget.selectors';
+import { selectTotals } from './budget.selectors';
+import { selectMonthTiming } from './budget-period.selectors';
 
-// Fallback to 1 if not yet implemented.
-export const selectBudgetStartDay = (s: RootState) => (s as any)?.settings?.startDay ?? 1;
-
-// ---- Time helpers (support custom month start)
-const MS_PER_DAY = 86_400_000;
-
-function monthBoundsByStart(anchorDate: Date, startDay: number) {
-  const y = anchorDate.getFullYear();
-  const m = anchorDate.getMonth();
-  const startThis = new Date(y, m, startDay);
-  const periodStart = anchorDate < startThis ? new Date(y, m - 1, startDay) : startThis;
-  const periodEnd = new Date(periodStart.getFullYear(), periodStart.getMonth() + 1, startDay); // exclusive
-  const totalDays = Math.round((+periodEnd - +periodStart) / MS_PER_DAY);
-  return { periodStart, periodEnd, totalDays };
-}
-
-function daysElapsed(now: Date, start: Date, end: Date) {
-  if (now <= start) return 0;
-  const span = Math.floor((+now - +start) / MS_PER_DAY);
-  const total = Math.floor((+end - +start) / MS_PER_DAY);
-  return Math.min(span, Math.max(0, total));
-}
-
-// A representative date inside the selected budget month
-function representativeDateFromMonthKey(monthKey: string, startDay: number) {
-  const [y, m] = monthKey.split('-').map(Number); // "YYYY-MM"
-  return new Date(y, (m ?? 1) - 1, startDay + 1);
-}
-
-// ---- Aggregations
-type Triple = Record<Bucket, number>;
-
-export const selectAllocatedTriple = createSelector(
-  [selectBudgetDoc],
-  (doc): Triple => ({
-    needs: doc?.allocations.needs ?? 0,
-    wants: doc?.allocations.wants ?? 0,
-    savings: doc?.allocations.savings ?? 0,
-  }),
-);
-
-export const selectSpentTriple = createSelector([selectBudgetTxns], (txns): Triple => {
-  const acc: Triple = { needs: 0, wants: 0, savings: 0 };
-  for (const t of txns) acc[t.type] += Math.max(0, t.amount);
-  return acc;
-});
-
-export const selectTotals = createSelector(
-  [selectAllocatedTriple, selectSpentTriple],
-  (alloc, spent) => {
-    const remaining: Triple = {
-      needs: Math.max(0, alloc.needs - spent.needs),
-      wants: Math.max(0, alloc.wants - spent.wants),
-      savings: Math.max(0, alloc.savings - spent.savings),
-    };
-    const totalAllocated = alloc.needs + alloc.wants + alloc.savings;
-    const totalSpent = spent.needs + spent.wants + spent.savings;
-    const totalRemaining = Math.max(0, totalAllocated - totalSpent);
-    return { alloc, spent, remaining, totalAllocated, totalSpent, totalRemaining };
-  },
-);
-
-// ---- Time context for the selected month (Europe/Madrid by default from browser)
-export const selectMonthTiming = createSelector(
-  [selectBudgetMonth, selectBudgetStartDay],
-  (monthKey, startDay) => {
-    const now = new Date();
-    const repr = representativeDateFromMonthKey(monthKey, startDay);
-    const { periodStart, periodEnd, totalDays } = monthBoundsByStart(repr, startDay);
-    const elapsed = daysElapsed(now, periodStart, periodEnd);
-    const left = Math.max(0, totalDays - elapsed);
-    return { now, periodStart, periodEnd, totalDays, daysElapsed: elapsed, daysLeft: left };
-  },
-);
-
-// ---- MVP Insights
-
-// 1) Average daily spend (guard small sample sizes)
+/** Average daily spend so far in the period (null for first 2 days to avoid noise). */
 export const selectAvgDaily = createSelector(
   [selectTotals, selectMonthTiming],
   ({ totalSpent }, t) => (t.daysElapsed >= 3 ? totalSpent / t.daysElapsed : null),
 );
 
-// 1b) Average daily per bucket
+/** Average daily spend for a specific bucket (null for first 2 days). */
 export const makeSelectAvgDailyBucket = (bucket: Bucket) =>
-  createSelector([selectSpentTriple, selectMonthTiming], (spent, t) =>
+  createSelector([selectTotals, selectMonthTiming], ({ spent }, t) =>
     t.daysElapsed >= 3 ? spent[bucket] / t.daysElapsed : null,
   );
 
-// 2) Projected month-end spend
+/** Simple projection to period end based on current daily average (null early in period). */
 export const selectProjectedTotal = createSelector([selectAvgDaily, selectMonthTiming], (avg, t) =>
   avg == null ? null : avg * t.totalDays,
 );
 
-// 3) Burn vs Pace
+/** Burn (spent/allocated) vs Pace (daysElapsed/totalDays). */
 export const selectBurnVsPace = createSelector([selectTotals, selectMonthTiming], (tot, t) => {
   const ratio = (spent: number, alloc: number) => (alloc > 0 ? spent / alloc : null);
   const burn = {
@@ -110,7 +33,7 @@ export const selectBurnVsPace = createSelector([selectTotals, selectMonthTiming]
   return { burn, pace };
 });
 
-// 4) Remaining per day
+/** “How much can I spend per day and still hit budget?” (null if last day passed). */
 export const selectRemainingPerDay = createSelector([selectTotals, selectMonthTiming], (tot, t) => {
   if (t.daysLeft <= 0) return null;
   const f = (n: number) => n / t.daysLeft;
@@ -122,22 +45,7 @@ export const selectRemainingPerDay = createSelector([selectTotals, selectMonthTi
   };
 });
 
-// 5) Distribution (current spend split)
-export const selectDistribution = createSelector([selectSpentTriple], (spent) => spent);
-
-// Alerts (simple rule for MVP)
-export const selectInsightsAlerts = createSelector([selectBurnVsPace], ({ burn, pace }) => {
-  const alerts: string[] = [];
-  if (pace == null) return alerts;
-  const THRESH = 0.1; // 10 percentage points
-  (['needs', 'wants', 'savings', 'total'] as const).forEach((k) => {
-    const b = burn[k];
-    if (b != null && b > pace + THRESH) alerts.push(`Overspending in ${k}`);
-  });
-  return alerts;
-});
-
-// Dashboard one-shot payload
+/** Snapshot used to hydrate a dashboard view at once. */
 export const selectDashboardInsights = createSelector(
   [selectTotals, selectAvgDaily, selectProjectedTotal, selectBurnVsPace, selectRemainingPerDay],
   (tot, avgDaily, projectedTotal, burnVsPace, remainingPerDay) => ({
@@ -146,10 +54,6 @@ export const selectDashboardInsights = createSelector(
     projectedTotal,
     burnVsPace,
     remainingPerDay,
-    distribution: {
-      needs: tot.spent.needs,
-      wants: tot.spent.wants,
-      savings: tot.spent.savings,
-    },
+    distribution: { needs: tot.spent.needs, wants: tot.spent.wants, savings: tot.spent.savings },
   }),
 );

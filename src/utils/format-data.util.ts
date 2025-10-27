@@ -10,3 +10,8 @@ export const toYMD = (d: Date) => format(d, 'yyyy-MM-dd');
 // format price to 2 digits and add currency symbol
 export const fmt = (n: number | null | undefined, currency = '€') =>
   n == null ? '—' : `${currency}${n.toFixed(2)}`;
+
+// format date
+export const fmtDate = (d: Date) => {
+  return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: '2-digit' });
+};

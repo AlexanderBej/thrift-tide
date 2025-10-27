@@ -18,6 +18,9 @@ export const toMonthDoc = (data: any): MonthDoc => ({
   income: data.income,
   percents: data.percents,
   allocations: data.allocations,
+  startDay: data.startDay,
+  periodStart: data.periodStart,
+  periodEnd: data.periodEnd,
   createdAt: toMillis(data.createdAt),
   updatedAt: toMillis(data.updatedAt),
 });

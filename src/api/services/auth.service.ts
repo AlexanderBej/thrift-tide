@@ -11,6 +11,7 @@ import { auth, db } from './firebase.service';
 import { UserProfile } from '../models/user';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { DEFAULT_PERCENTS } from '../types/percent.types';
+import { DEFAULT_START_DAY } from '../models/month-doc';
 
 const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: 'select_account' });
@@ -45,6 +46,7 @@ export const ensureUserProfile = async (userAuth: User, overrides: Partial<UserP
       createdAt: new Date(),
       currency: 'EUR',
       defaultPercents: DEFAULT_PERCENTS,
+      startDay: overrides.startDay ?? DEFAULT_START_DAY,
       ...overrides,
     };
     await setDoc(ref, payload);

@@ -14,4 +14,5 @@ export interface UserProfile {
   createdAt: Date;
   currency?: string; // 'USD' | 'EUR' | ...
   defaultPercents?: PercentTriple;
+  startDay?: number; // 1..28
 }

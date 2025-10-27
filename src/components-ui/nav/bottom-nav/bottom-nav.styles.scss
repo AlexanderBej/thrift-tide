@@ -3,7 +3,7 @@
 .bottom-nav {
   display: none;
 
-  @include down(md) {
+  @include mediaDown(md) {
     display: block;
     position: fixed;
     left: 0;

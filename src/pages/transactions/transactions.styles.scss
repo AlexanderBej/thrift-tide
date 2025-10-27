@@ -74,7 +74,7 @@
       .txn-cat-row {
         display: inline-flex;
         align-items: center;
-        gap: 15px;
+        gap: $spacing-4;
         width: 270px;
 
         .cat-icon-wrapper {

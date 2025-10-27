@@ -2,13 +2,13 @@
 @use './styles/global.scss' as *;
 
 .mobile-none {
-  @include down(md) {
+  @include mediaDown(md) {
     display: none;
   }
 }
 
 .card-h2 {
-  @include down(md) {
+  @include mediaDown(md) {
     font-size: 18px;
   }
 }

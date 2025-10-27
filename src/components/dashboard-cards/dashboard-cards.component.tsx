@@ -6,13 +6,13 @@ import { CiSquareQuestion } from 'react-icons/ci';
 import { useSelector } from 'react-redux';
 
 import { selectCards } from '../../store/budget-store/budget.selectors';
-import TTIcon from '../icon/icon.component';
 import { IconType } from 'react-icons';
 import { useNavigate } from 'react-router-dom';
-import ProgressBar from '../progress-bar/progress-bar.component';
 import { fmt } from '../../utils/format-data.util';
 
 import './dashboard-cards.styles.scss';
+import TTIcon from '../../components-ui/icon/icon.component';
+import ProgressBar from '../../components-ui/progress-bar/progress-bar.component';
 
 const DashboardCards: React.FC = () => {
   const navigate = useNavigate();

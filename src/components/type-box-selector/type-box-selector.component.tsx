@@ -4,13 +4,13 @@ import { GiWantedReward } from 'react-icons/gi';
 import { MdDataSaverOn } from 'react-icons/md';
 import { IconType } from 'react-icons';
 
-import { SelectOption } from '../../../select/select.component';
-import { getCssVar } from '../../../../utils/style-variable.util';
-import TTIcon from '../../../icon/icon.component';
+import { TransactionFormData } from '../add-transaction-modal/add-transaction-modal.component';
+import { Bucket } from '../../api/types/bucket.types';
+import { SelectOption } from '../../components-ui/select/select.component';
+import { getCssVar } from '../../utils/style-variable.util';
+import TTIcon from '../../components-ui/icon/icon.component';
 
 import './type-box-selector.styles.scss';
-import { TransactionFormData } from '../add-transaction-modal.component';
-import { Bucket } from '../../../../api/types/bucket.types';
 
 interface TypeBoxSelectorProps {
   formData: TransactionFormData;

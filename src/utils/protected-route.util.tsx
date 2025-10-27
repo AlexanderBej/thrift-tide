@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { selectAuthLoading, selectAuthStatus } from '../store/auth-store/auth.selectors';
-import Spinner from '../components/spinner/spinner.component';
+import Spinner from '../components-ui/spinner/spinner.component';
 
 interface ProtectedRouteProps {
   children: React.ReactElement;

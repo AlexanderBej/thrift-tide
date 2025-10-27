@@ -5,7 +5,7 @@
   @include grid($columnGap: 10px);
   justify-items: center;
 
-  @include down(md) {
+  @include mediaDown(md) {
     margin-top: 10px;
 
     @include grid(

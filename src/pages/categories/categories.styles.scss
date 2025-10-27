@@ -2,4 +2,8 @@
 
 .categories {
   @include dashboard-card($radius: $radius-lg, $shadow: $shadow-lg, $pad: 50px $spacing-6);
+
+  @include mediaDown(md) {
+    padding: $spacing-5;
+  }
 }

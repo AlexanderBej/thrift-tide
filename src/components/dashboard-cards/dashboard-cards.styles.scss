@@ -2,8 +2,8 @@
 
 .dashboard-cards {
   @include grid($templateColumns: repeat(3, minmax(0, 1fr)), $columnGap: 50px);
-  @include down(md) {
-    @include grid($templateColumns: 1fr, $templateRows: repeat(3, 1fr), $rowGap: 15px);
+  @include mediaDown(md) {
+    @include grid($templateColumns: 1fr, $templateRows: repeat(3, 1fr), $rowGap: $spacing-4);
   }
 
   .dashboard-card {
@@ -20,7 +20,7 @@
     flex-direction: column;
     justify-content: space-between;
 
-    @include down(md) {
+    @include mediaDown(md) {
       padding: 8px;
     }
 
@@ -30,7 +30,7 @@
       gap: $spacing-3;
       margin-bottom: $spacing-4;
 
-      @include down(md) {
+      @include mediaDown(md) {
         gap: 12px;
       }
 

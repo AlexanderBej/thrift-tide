@@ -9,7 +9,7 @@
   text-align: center;
   padding: 10px;
 
-  @include down(md) {
+  @include mediaDown(md) {
     width: 140px;
     height: 110px;
   }
@@ -32,7 +32,7 @@
   .kpi-value {
     font-size: 18px;
     font-weight: $font-weight-bold;
-    margin-top: 15px;
+    margin-top: $spacing-4;
 
     &__danger {
       color: $color-error;
