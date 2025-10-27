@@ -1,6 +1,6 @@
 import React from 'react';
 import { ResponsiveLine } from '@nivo/line';
-import { formatCurrency } from '../../utils/format-currency.util';
+import { formatCurrency } from '../../utils/format-data.util';
 import { nivoTheme } from './charts.theme';
 
 type Point = { x: string | number | Date; y: number };

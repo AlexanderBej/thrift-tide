@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import StackedBarChart, { BarChartRow } from '../charts/stacked-bar.component';
 import { selectDashboardInsights } from '../../store/budget-store/budget-insights.selectors';
 import KpiCard from '../kpi-card/kpi-card.component';
+import { fmt } from '../../utils/format-data.util';
 
 import './dashboard-insights.styles.scss';
 
@@ -11,9 +12,6 @@ interface DashboardInsightsProps {
   showInsights: 'kpi' | 'distribution';
   income: number;
 }
-
-const fmt = (n: number | null | undefined, currency = '€') =>
-  n == null ? '—' : `${currency}${n.toFixed(2)}`;
 
 const pct = (n: number | null | undefined) => (n == null ? '—' : `${Math.round(n * 100)}%`);
 

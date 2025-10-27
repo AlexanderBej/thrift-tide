@@ -25,9 +25,6 @@ export const initApp = (dispatch: AppDispatch) => {
 
       // Initialize budget (uses current or remembered month)
       const result = await dispatch(initBudget({ uid: fbUser.uid })).unwrap();
-      console.log('user', fbUser);
-
-      console.log('result', result);
 
       // Attach live txns listener that dispatches into Redux
       const unsub = onTransactionsSnapshot(fbUser.uid, result.month, (txns) => {

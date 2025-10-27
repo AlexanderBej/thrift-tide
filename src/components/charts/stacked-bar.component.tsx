@@ -1,7 +1,7 @@
 import React from 'react';
 import { ResponsiveBar } from '@nivo/bar';
 import { nivoTheme } from './charts.theme';
-import { formatCurrency } from '../../utils/format-currency.util';
+import { formatCurrency } from '../../utils/format-data.util';
 
 export type BarChartRow = { category: string; allocated: number; spent: number };
 

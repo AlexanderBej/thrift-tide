@@ -1,53 +1,32 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { format } from 'date-fns';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-import './category.styles.scss';
 import {
   makeSelectCategoryView,
-  selectBudgetMonth,
   selectBudgetStatus,
 } from '../../store/budget-store/budget.selectors';
-import { Navigate, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../../store/store';
-import { addTxnThunk } from '../../store/budget-store/budget.slice';
-import { selectAuthUserId } from '../../store/auth-store/auth.selectors';
 import Breadcrumbs from '../../components/breadcrumb/breadcrumb.component';
-import DatePicker from '../../components/datepicker/datepicker.component';
 import ProgressBar from '../../components/progress-bar/progress-bar.component';
 import { getCssVar } from '../../utils/style-variable.util';
 import { Bucket } from '../../api/types/bucket.types';
 import { resolveCategory } from '../../utils/category-options.util';
 import TTIcon from '../../components/icon/icon.component';
-import { IconType } from 'react-icons';
-import { FaPlus } from 'react-icons/fa';
-import Button from '../../components/button/button.component';
-import MonthPicker from '../../components/datepicker/monthpicker.component';
 import { BadgePills } from '../../components/badge-pills/badge-pills.component';
 import { makeSelectBucketBadges } from '../../store/budget-store/budget-badges.selectors';
 import { selectDashboardInsights } from '../../store/budget-store/budget-insights.selectors';
+import { fmt, toYMD } from '../../utils/format-data.util';
 
-const fmt = (n: number | null | undefined, currency = '€') =>
-  n == null ? '—' : `${currency}${n.toFixed(2)}`;
-
-const toYMD = (d: Date) => format(d, 'yyyy-MM-dd');
-
-const isBucket = (v: string | undefined): v is Bucket =>
-  v === 'needs' || v === 'wants' || v === 'savings';
+import './category.styles.scss';
 
 const Category: React.FC = () => {
   const { type } = useParams<{ type: string }>();
 
-  const dispatch = useDispatch<AppDispatch>();
-  // const month = useSelector(selectBudgetMonth);
   const status = useSelector(selectBudgetStatus);
-  const userUId = useSelector(selectAuthUserId);
   const badges = useSelector(makeSelectBucketBadges(type as Bucket));
   const insights = useSelector(selectDashboardInsights);
 
-  // const [pickedMonth, setPickedMonth] = useState<Date>(new Date(month));
-
-  // Build a memoized selector instance for this bucket
   const selectView = useMemo(() => makeSelectCategoryView(type as Bucket), [type]);
   const view = useSelector(selectView);
 
@@ -56,18 +35,6 @@ const Category: React.FC = () => {
   }
 
   const title = type === 'needs' ? 'Needs' : type === 'wants' ? 'Wants' : 'Savings';
-
-  const onQuickAdd = async () => {
-    if (!userUId) return;
-    const today = new Date().toISOString().slice(0, 10);
-    const txnType = type as Bucket;
-    await dispatch(
-      addTxnThunk({
-        uid: userUId,
-        txn: { date: today, amount: 12.34, type: txnType, category: 'Misc' },
-      }),
-    );
-  };
 
   const getFormattedDate = (date: any) => {
     const dateObj = new Date(date);
@@ -165,21 +132,6 @@ const Category: React.FC = () => {
             })}
           </div>
         )}
-      </section>
-
-      {/* Quick add (optional) */}
-      <section className="action-btns">
-        <Button
-          customContainerClass="quick-txn-btn"
-          buttonType="primary"
-          htmlType="button"
-          onClick={onQuickAdd}
-        >
-          <>
-            <TTIcon className="quick-txn-icon" icon={FaPlus} size={18} />
-            <span>Quick add to {title}</span>
-          </>
-        </Button>
       </section>
     </div>
   );

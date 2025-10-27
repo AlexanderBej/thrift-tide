@@ -7,8 +7,6 @@ export const BadgePills: React.FC<{ badges: Badge[]; onClickBadge?: (b: Badge) =
   badges,
   onClickBadge,
 }) => {
-  console.log('badges', badges);
-
   return (
     <div className="badge-row">
       {badges.map((b) => (

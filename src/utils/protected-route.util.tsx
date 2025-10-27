@@ -13,8 +13,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const status = useSelector(selectAuthStatus);
   const authLoading = useSelector(selectAuthLoading);
 
-  console.log('status', status);
-
   // 1) If we know the user is explicitly not logged in, redirect them now
   if (status !== 'authenticated' && !authLoading) {
     return <Navigate to="/login" replace />;

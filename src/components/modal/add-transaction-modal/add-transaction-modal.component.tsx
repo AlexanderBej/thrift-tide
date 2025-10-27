@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
-import { format } from 'date-fns';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Modal from '../modal.component';
 import Button from '../../button/button.component';
@@ -10,18 +10,16 @@ import TypeBoxSelector from './type-box-selector/type-box-selector.component';
 import { CATEGORY_OPTIONS } from '../../../utils/category-options.util';
 import Select from '../../select/select.component';
 import DatePicker from '../../datepicker/datepicker.component';
-
-import './add-transaction-modal.styles.scss';
 import { FormErrors, toDecimal, validateAll, validateField } from './add-transaction-modal.util';
-import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../../store/store';
 import { addTxnThunk } from '../../../store/budget-store/budget.slice';
 import { selectAuthUser } from '../../../store/auth-store/auth.selectors';
 import { Bucket } from '../../../api/types/bucket.types';
 import { Txn } from '../../../api/models/txn';
 import CheckboxInput from '../../checkbox-input/checkbox-input.component';
+import { toYMD } from '../../../utils/format-data.util';
 
-const toYMD = (d: Date) => format(d, 'yyyy-MM-dd');
+import './add-transaction-modal.styles.scss';
 
 export interface TransactionFormData {
   date: Date;
@@ -112,8 +110,6 @@ const AddTransaction: React.FC<AddTransactionProps> = ({ buttonShape = 'rounded'
 
     dispatch(addTxnThunk({ uid: user?.uuid ?? '', txn: payload }));
 
-    // TODO: dispatch your thunk / call API here
-    console.log('Submitting TXN', payload);
     if (!keepModalOpen) setOpen(false);
   };
 
@@ -132,7 +128,6 @@ const AddTransaction: React.FC<AddTransactionProps> = ({ buttonShape = 'rounded'
       >
         <>
           <TTIcon className="add-txn-icon" icon={FaPlus} size={18} />
-          {/* <span>Add Transaction</span> */}
         </>
       </Button>
 

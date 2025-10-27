@@ -10,22 +10,16 @@ import {
 } from '../../store/budget-store/budget.selectors';
 import Button from '../../components/button/button.component';
 import DashboardCards from '../../components/dashboard-cards/dashboard-cards.component';
-import AddTransaction from '../../components/modal/add-transaction-modal/add-transaction-modal.component';
 import DonutChart, { Item } from '../../components/charts/donut.component';
 import { BUCKET_COLORS } from '../../api/types/bucket.types';
 import { selectDashboardInsights } from '../../store/budget-store/budget-insights.selectors';
 import DashboardInsights from '../../components/dashboard-insights/dashboard-insights.component';
-
-import './dashboard.styles.scss';
-import {
-  makeSelectBucketBadges,
-  selectBadges,
-} from '../../store/budget-store/budget-badges.selectors';
+import { selectBadges } from '../../store/budget-store/budget-badges.selectors';
 import { BadgePills } from '../../components/badge-pills/badge-pills.component';
 import { useWindowWidth } from '../../utils/window-width.hook';
+import { fmt } from '../../utils/format-data.util';
 
-const fmt = (n: number | null | undefined, currency = '€') =>
-  n == null ? '—' : `${currency}${n.toFixed(2)}`;
+import './dashboard.styles.scss';
 
 const Dashboard: React.FC = () => {
   const user = useSelector(selectAuthUser);
@@ -66,15 +60,15 @@ const Dashboard: React.FC = () => {
     },
   ];
 
-  useEffect(() => {
-    console.log('user', getFirstName(user?.displayName ?? ''));
-    console.log('budget', budgetDoc);
-    console.log('spentByBucket', spentByBucket);
+  // useEffect(() => {
+  //   console.log('user', getFirstName(user?.displayName ?? ''));
+  //   console.log('budget', budgetDoc);
+  //   console.log('spentByBucket', spentByBucket);
 
-    console.log('txns', transactions);
-    console.log('insights', insights);
-    console.log('monthTotalsByBucket', monthTotalsByBucket);
-  });
+  //   console.log('txns', transactions);
+  //   console.log('insights', insights);
+  //   console.log('monthTotalsByBucket', monthTotalsByBucket);
+  // });
 
   const getFirstName = (name: string | null) => {
     if (!name) return '';

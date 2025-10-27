@@ -3,18 +3,16 @@ import { TbHomeStar } from 'react-icons/tb';
 import { GiWantedReward } from 'react-icons/gi';
 import { MdDataSaverOn } from 'react-icons/md';
 import { CiSquareQuestion } from 'react-icons/ci';
-
 import { useSelector } from 'react-redux';
-import { CategoryCard, selectCards } from '../../store/budget-store/budget.selectors';
 
-import './dashboard-cards.styles.scss';
+import { selectCards } from '../../store/budget-store/budget.selectors';
 import TTIcon from '../icon/icon.component';
 import { IconType } from 'react-icons';
 import { useNavigate } from 'react-router-dom';
 import ProgressBar from '../progress-bar/progress-bar.component';
+import { fmt } from '../../utils/format-data.util';
 
-const fmt = (n: number) =>
-  n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+import './dashboard-cards.styles.scss';
 
 const DashboardCards: React.FC = () => {
   const navigate = useNavigate();
@@ -65,21 +63,21 @@ const DashboardCards: React.FC = () => {
           <div className="card-details">
             <span>Allocated</span>
             <span>
-              <strong>€{fmt(c.allocated)}</strong>
+              <strong>{fmt(c.allocated)}</strong>
             </span>
           </div>
 
           <div className="card-details">
             <span>Spent</span>
             <span>
-              <strong>€{fmt(c.spent)}</strong>
+              <strong>{fmt(c.spent)}</strong>
             </span>
           </div>
 
           <div className="card-details">
             <span>Remaining</span>
             <span>
-              <strong>€{fmt(c.remaining)}</strong>
+              <strong>{fmt(c.remaining)}</strong>
             </span>
           </div>
 
