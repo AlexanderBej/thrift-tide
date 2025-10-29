@@ -24,3 +24,5 @@ export const toMonthDoc = (data: any): MonthDoc => ({
   createdAt: toMillis(data.createdAt),
   updatedAt: toMillis(data.updatedAt),
 });
+
+export const clamp = (n: number) => Math.min(28, Math.max(1, Math.floor(n)));

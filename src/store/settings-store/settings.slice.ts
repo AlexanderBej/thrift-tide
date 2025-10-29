@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 
 import { readUserProfile, upsertUserStartDay } from '../../api/services/settings.service';
 import { DEFAULT_START_DAY } from '../../api/models/month-doc';
+import { clamp } from '../../utils/services.util';
 
 type SettingsState = {
   startDay: number; // 1..28
@@ -22,7 +23,7 @@ export const loadSettings = createAsyncThunk('settings/load', async ({ uid }: { 
 export const saveStartDay = createAsyncThunk(
   'settings/saveStartDay',
   async ({ uid, startDay }: { uid: string; startDay: number }) => {
-    await upsertUserStartDay(uid, startDay);
+    await upsertUserStartDay(uid, clamp(startDay));
     return { startDay };
   },
 );

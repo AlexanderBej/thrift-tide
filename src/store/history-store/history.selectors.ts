@@ -2,7 +2,8 @@ import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { HistoryRow } from './history.slice';
 
-const sortByStart = (a: any, b: any) => String(a.periodStart).localeCompare(String(b.periodStart));
+const sortByStart = (a: HistoryRow, b: HistoryRow) =>
+  String(a.periodStart).localeCompare(String(b.periodStart));
 
 export const selectHistoryRows = (s: RootState) => (s as any).history.rows as HistoryRow[];
 export const selectHistoryStatus = (s: RootState) => (s as any).history.status;

@@ -5,23 +5,23 @@ import StackedBarChart, { BarChartRow } from '../../components-ui/charts/stacked
 import { selectDashboardInsights } from '../../store/budget-store/budget-insights.selectors';
 import KpiCard from '../../components-ui/kpi-card/kpi-card.component';
 import { fmt } from '../../utils/format-data.util';
+import { selectMonthTiming } from '../../store/budget-store/budget-period.selectors';
 
 import './dashboard-insights.styles.scss';
 
 interface DashboardInsightsProps {
   showInsights: 'kpi' | 'distribution';
-  income: number;
 }
 
 const pct = (n: number | null | undefined) => (n == null ? '—' : `${Math.round(n * 100)}%`);
 
-const DashboardInsights: React.FC<DashboardInsightsProps> = ({ showInsights, income }) => {
+const DashboardInsights: React.FC<DashboardInsightsProps> = ({ showInsights }) => {
   const insights = useSelector(selectDashboardInsights);
 
   const { totals, avgDaily, projectedTotal, burnVsPace, remainingPerDay, distribution } = insights;
   const { burn, pace } = burnVsPace;
-
-  const normalDailySpend = (income ?? 0) / 30;
+  const { totalDays } = useSelector(selectMonthTiming);
+  const normalDailySpend = totalDays > 0 ? insights.totals.totalAllocated / totalDays : 0;
 
   const barChartData: BarChartRow[] = [
     {

@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { MinimalUser } from '../../api/models/user';
 
 interface AuthState {
@@ -28,6 +29,7 @@ const authSlice = createSlice({
     },
     userSignedOut(state) {
       state.status = 'unauthenticated';
+      state.user = null;
       state.user = null;
     },
     authLoading(state) {

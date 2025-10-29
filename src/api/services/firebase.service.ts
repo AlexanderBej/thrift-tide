@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { enableIndexedDbPersistence, getFirestore } from 'firebase/firestore';
+import { enableMultiTabIndexedDbPersistence, getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_GOOGLE_API_KEY!,
@@ -17,8 +17,10 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 let unsubscribeTxns: (() => void) | null = null;
-// Optional: offline cache (ignore if multi-tab error)
-enableIndexedDbPersistence(db).catch(() => {});
+enableMultiTabIndexedDbPersistence(db).catch((err) => {
+  // Fallback: disable persistence (still works online)
+  console.warn('Persistence disabled:', err?.code || err);
+});
 
 export function stopTxnsListener() {
   if (unsubscribeTxns) {

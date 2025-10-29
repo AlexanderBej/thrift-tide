@@ -25,3 +25,23 @@ export const toEMD = (d: Date) => {
 export const fmtToDEM = (d: Date) => {
   return format(d, 'EE, do MMM');
 };
+
+export function toMillisSafe(input: any): number {
+  if (!input) return 0;
+  if (typeof input.toMillis === 'function') return input.toMillis(); // Firestore Timestamp
+  if (input instanceof Date) return input.getTime();
+  if (typeof input === 'string') return Date.parse(input);
+  if (typeof input === 'number') return input;
+  return 0;
+}
+
+/** Convert Date/string/number to canonical UTC 'YYYY-MM-DD'. */
+export function toYMDUTC(input: Date | string | number): string {
+  const d =
+    input instanceof Date ? input : typeof input === 'string' ? new Date(input) : new Date(input);
+  // force UTC to avoid TZ shifts
+  const y = d.getUTCFullYear();
+  const m = String(d.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(d.getUTCDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}

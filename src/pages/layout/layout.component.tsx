@@ -1,36 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { format } from 'date-fns';
 
 import Sidebar from '../../components-ui/nav/sidebar/sidebar.component';
-import MonthPicker from '../../components-ui/datepicker/monthpicker.component';
-import { AppDispatch } from '../../store/store';
-import { setMonth } from '../../store/budget-store/budget.slice';
 import BottomNav from '../../components-ui/nav/bottom-nav/bottom-nav.component';
-import { selectBudgetMonth } from '../../store/budget-store/budget.selectors.base';
-import { selectMonthTiming } from '../../store/budget-store/budget-period.selectors';
 import UserDropdown from '../../components/user-dropdown/user-dropdown.component';
 import AddTransaction from '../../components/add-transaction-modal/add-transaction-modal.component';
-import { formatPeriodRange } from '../../utils/period.util';
 import PeriodSwitcherMonthPicker from '../../components/period-switcher/period-switcher.component';
 
 import './layout.styles.scss';
 
 const Layout: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-
   const { pathname } = useLocation();
-  const month = useSelector(selectBudgetMonth);
-  const { periodStart, periodEnd } = useSelector(selectMonthTiming);
-
-  const [pickedMonth, setPickedMonth] = useState<Date>(new Date(month));
-
-  const handleDateChange = (d: Date | null) => {
-    if (!d) return;
-    setPickedMonth(d);
-    dispatch(setMonth(format(d, 'yyyy-MM')));
-  };
 
   const getTitle = (path: string) => {
     if (path === '/' || path === '') return 'Dashboard';

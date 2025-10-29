@@ -133,10 +133,10 @@ const Dashboard: React.FC = () => {
       </section>
       <section className="kpi-cards-section">
         <h2 className="card-header">Insights</h2>
-        <DashboardInsights income={budgetDoc?.income ?? 0} showInsights="kpi" />
+        <DashboardInsights showInsights="kpi" />
       </section>
       <section className="distribution-section">
-        <DashboardInsights income={budgetDoc?.income ?? 0} showInsights="distribution" />
+        <DashboardInsights showInsights="distribution" />
       </section>
     </div>
   );

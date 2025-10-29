@@ -23,6 +23,7 @@ import { DEFAULT_PERCENTS } from '../types/percent.types';
 import { makeAllocations, toMonthDoc } from '../../utils/services.util';
 import { Txn } from '../models/txn';
 import { periodBounds, representativeDateFromMonthKey } from '../../utils/period.util';
+import { toYMDUTC } from '../../utils/format-data.util';
 
 const monthDocRef = (uid: string, month: string) => doc(db, 'users', uid, 'months', month);
 
@@ -82,7 +83,8 @@ export const readMonth = async (uid: string, month: string): Promise<MonthDoc | 
 
 /** Add a transaction to a month */
 export const addTransaction = async (uid: string, month: string, txn: Omit<Txn, 'id'>) => {
-  const ref = await addDoc(txnsColRef(uid, month), txn);
+  const payload = normalizeTxnForWrite(txn);
+  const ref = await addDoc(txnsColRef(uid, month), payload);
 
   return ref.id;
 };
@@ -105,8 +107,16 @@ export const updateTransaction = async (
   id: string,
   patch: Partial<Omit<Txn, 'id'>>,
 ) => {
+  const next: any = { ...patch };
+  if (patch.date != null) {
+    next.date = toYMDUTC(
+      typeof (patch as any).date?.toDate === 'function'
+        ? (patch as any).date.toDate()
+        : (patch as any).date,
+    );
+  }
   const ref = doc(db, 'users', uid, 'months', month, 'transactions', id);
-  await updateDoc(ref, patch as any);
+  await updateDoc(ref, next as any);
 };
 
 export const deleteTransaction = async (uid: string, month: string, id: string) => {
@@ -164,4 +174,26 @@ export async function listMonthsWithSummary(
   const snap = await getDocs(q);
   const items = snap.docs.map((d) => ({ id: d.id, ...(d.data() as MonthDoc), _cursor: d }));
   return { items, nextCursor: snap.docs.length ? snap.docs[snap.docs.length - 1] : null };
+}
+
+// Ensure any outgoing Txn has canonical date
+function normalizeTxnForWrite(txn: Omit<Txn, 'id'>): Omit<Txn, 'id'> {
+  return {
+    ...txn,
+    // IMPORTANT: assume `txn.date` could be Date|string|number|Timestamp
+    date: toYMDUTC(
+      typeof (txn as any).date?.toDate === 'function'
+        ? (txn as any).date.toDate()
+        : (txn as any).date,
+    ),
+  };
+}
+
+// Ensure any incoming doc gets `date` as 'YYYY-MM-DD' string
+function normalizeTxnFromFirestore(raw: any): Txn {
+  const r = { id: raw.id, ...raw } as Txn;
+  const src = (raw as any).date;
+  const asDate =
+    typeof src?.toDate === 'function' ? src.toDate() : src instanceof Date ? src : new Date(src);
+  return { ...r, date: toYMDUTC(asDate) };
 }

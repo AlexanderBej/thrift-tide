@@ -1,15 +1,7 @@
 import React from 'react';
-import { ComputedDatum, PieCustomLayer, PieCustomLayerProps } from '@nivo/pie';
+import { PieCustomLayer, PieCustomLayerProps } from '@nivo/pie';
 import { RawDatum } from './double-donut.component';
 import { arc as d3Arc, DefaultArcObject } from 'd3-shape';
-
-type CustomLayerProps<T> = {
-  dataWithArc: ComputedDatum<T>[];
-  centerX: number;
-  centerY: number;
-  radius: number;
-  innerRadius: number;
-};
 
 const clamp01 = (n: number) => Math.max(0, Math.min(1, n));
 

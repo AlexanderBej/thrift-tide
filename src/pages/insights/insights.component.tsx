@@ -116,7 +116,7 @@ const Insights: React.FC = () => {
       </section>
       <section className="avg-insights-section">
         <h2 className="card-header">KPIs</h2>
-        <DashboardInsights income={insights.totals.totalAllocated ?? 0} showInsights="kpi" />
+        <DashboardInsights showInsights="kpi" />
       </section>
       <section className="top-categories-sections">
         <h2 className="card-header">Top categories</h2>

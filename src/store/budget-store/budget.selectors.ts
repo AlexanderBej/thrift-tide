@@ -4,6 +4,7 @@ import { Bucket } from '../../api/types/bucket.types';
 import { Txn } from '../../api/models/txn';
 import { selectBudgetDoc, selectBudgetTxns, selectTxnUi } from './budget.selectors.base';
 import { selectMonthTiming } from './budget-period.selectors';
+import { toMillisSafe } from '../../utils/format-data.util';
 
 /** All transactions that fall inside the current [periodStart, periodEnd). */
 export const selectTxnsInPeriod = createSelector([selectBudgetTxns, selectMonthTiming], (txns, t) =>
@@ -102,7 +103,8 @@ export const selectFilteredTxns = createSelector([selectTxnsInPeriod, selectTxnU
 
   const dir = ui.sortDir === 'asc' ? 1 : -1;
   const sorted = [...filtered].sort((a, b) => {
-    if (ui.sortKey === 'date') return dir * (+a.date - +b.date); // Date numeric compare
+    if (ui.sortKey === 'date')
+      return dir * (toMillisSafe(a.date as any) - toMillisSafe(b.date as any)); // Date numeric compare
     return dir * (a.amount - b.amount);
   });
 
