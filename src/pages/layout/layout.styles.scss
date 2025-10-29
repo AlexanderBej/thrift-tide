@@ -11,11 +11,13 @@ $main-container-spacing: 0 30px 0 40px;
   // mobile styling
   @include mediaDown(md) {
     display: block;
-    // flex-direction: column-reverse;
-    min-height: 100dvh; /* dynamic: matches what the user actually sees */
     /* Fallbacks for older browsers */
-    min-height: 100svh; /* small viewport height */
     min-height: 100vh; /* last resort */
+    min-height: 100svh; /* small viewport height */
+    min-height: 100dvh; /* dynamic: matches what the user actually sees */
+    max-height: 100vh;
+    max-height: 100svh;
+    max-height: 100dvh;
 
     /* iOS < 16 fallback */
     height: -webkit-fill-available;
@@ -83,6 +85,7 @@ $main-container-spacing: 0 30px 0 40px;
         margin: 0 $spacing-4;
         margin-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
         position: relative;
+        padding-bottom: 20px;
       }
     }
 

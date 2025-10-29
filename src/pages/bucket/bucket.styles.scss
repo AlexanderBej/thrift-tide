@@ -34,6 +34,20 @@
       $rowGap: $spacing-6
     );
 
+    @include mediaDown(xl) {
+      column-gap: $spacing-5;
+      row-gap: $spacing-5;
+    }
+
+    @include mediaDown(md) {
+      @include grid(
+        $templateColumns: 1fr,
+        $templateRows: repeat(5, auto),
+        $columnGap: $spacing-4,
+        $rowGap: $spacing-4
+      );
+    }
+
     .bucket-summary-section,
     .top-categories-section,
     .bucket-chart-section,
@@ -52,6 +66,10 @@
 
     .bucket-summary-section {
       grid-area: 1 / 1 / 2 / 3;
+
+      @include mediaDown(md) {
+        grid-area: 1 / 1 / 2 / 2;
+      }
 
       .bucket-summary-line {
         width: 100%;
@@ -74,6 +92,10 @@
     .top-categories-section {
       grid-area: 2 / 1 / 3 / 2;
 
+      @include mediaDown(md) {
+        grid-area: 2 / 1 / 3 / 2;
+      }
+
       .top-categories-list {
         display: grid;
         gap: 8px;
@@ -93,14 +115,29 @@
 
     .bucket-chart-section {
       grid-area: 2 / 2 / 3 / 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      @include mediaDown(md) {
+        grid-area: 3 / 1 / 4 / 2;
+      }
     }
 
     .bucket-insights-section {
       grid-area: 3 / 1 / 4 / 3;
+
+      @include mediaDown(md) {
+        grid-area: 4 / 1 / 5 / 2;
+      }
     }
 
     .bucket-transactions-section {
       grid-area: 4 / 1 / 5 / 3;
+
+      @include mediaDown(md) {
+        grid-area: 5 / 1 / 6 / 2;
+      }
     }
   }
 }

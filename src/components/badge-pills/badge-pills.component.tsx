@@ -9,12 +9,16 @@ import { CiSquareQuestion } from 'react-icons/ci';
 
 import './badge-pills.styles.scss';
 import TTIcon from '../../components-ui/icon/icon.component';
+import { useWindowWidth } from '../../utils/window-width.hook';
 
 export const BadgePills: React.FC<{
   badges: Badge[];
   badgeType?: 'chip' | 'card';
   onClickBadge?: (b: Badge) => void;
 }> = ({ badges, badgeType = 'chip', onClickBadge }) => {
+  const width = useWindowWidth();
+  const isMobile = width < 480;
+
   const getBadgeIcon = (kind: BadgeKind) => {
     switch (kind) {
       case 'info':
@@ -43,7 +47,7 @@ export const BadgePills: React.FC<{
           <TTIcon
             icon={getBadgeIcon(b.kind)}
             className={`badge-pill-icon__${b.kind}`}
-            size={badgeType === 'card' ? 24 : 14}
+            size={badgeType === 'card' && !isMobile ? 24 : 14}
           />
           {b.text}
         </button>

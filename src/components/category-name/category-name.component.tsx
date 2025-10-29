@@ -15,9 +15,7 @@ const CategoryName: React.FC<CategoryNameProps> = ({ category }) => {
       <div className="category-icon-wrapper" style={{ backgroundColor: category.color }}>
         <TTIcon icon={category.icon} color="white" size={18} />
       </div>
-      <span>
-        <strong>{category.label}</strong>
-      </span>
+      <span className="category-label">{category.label}</span>
     </div>
   );
 };

@@ -128,7 +128,7 @@ const Transaction: React.FC = () => {
       <section className="txn-list-section">
         {groups.map((group) => (
           <div className="txn-group" key={group.date}>
-            <h3>{toEMD(new Date(group.date))}</h3>
+            <h3 className="txn-group-date">{toEMD(new Date(group.date))}</h3>
             <ul className="txn-group-list">
               {group.items.map((tx) => {
                 const cat = resolveCategory(tx.category);

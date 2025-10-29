@@ -12,5 +12,18 @@
     background-color: $color-neutral-light;
     border-radius: $radius-sm;
     box-shadow: $shadow-md;
+
+    @include mediaDown(md) {
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  .category-label {
+    font-weight: bold;
+
+    @include mediaDown(md) {
+      font-size: 14px;
+    }
   }
 }

@@ -1,16 +1,19 @@
 import React from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import { formatCurrency } from '../../utils/format-data.util';
-import { nivoTheme } from './charts.theme';
+import { nivoThemeBuilder } from './charts.theme';
 
 type Point = { x: string | number | Date; y: number };
 
 interface TrendLineProps {
   series: { id: string; color?: string; data: Point[] }[];
   height?: number;
+  fontSize?: number;
 }
 
-const TrendLineChart: React.FC<TrendLineProps> = ({ series, height = 260 }) => {
+const TrendLineChart: React.FC<TrendLineProps> = ({ series, height = 260, fontSize = 12 }) => {
+  const nivoTheme = nivoThemeBuilder(fontSize);
+
   return (
     <div style={{ height }}>
       <ResponsiveLine

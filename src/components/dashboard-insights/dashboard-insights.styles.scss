@@ -12,6 +12,7 @@
 
   @include mediaDown(md) {
     margin-top: 10px;
+    justify-items: center;
 
     @include grid(
       $templateColumns: 1fr 1fr,

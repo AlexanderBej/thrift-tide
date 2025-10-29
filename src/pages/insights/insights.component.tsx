@@ -21,6 +21,7 @@ import { selectTopCategoriesOverall } from '../../store/budget-store/budget.sele
 import { resolveCategory } from '../../utils/category-options.util';
 import CategoryName from '../../components/category-name/category-name.component';
 import { fmt } from '../../utils/format-data.util';
+import { useWindowWidth } from '../../utils/window-width.hook';
 
 const Insights: React.FC = () => {
   const [mode, setMode] = useState<'cumulative' | 'daily'>('cumulative');
@@ -39,6 +40,9 @@ const Insights: React.FC = () => {
   const trendLineChartData = useSelector(selectTrends);
   const insights = useSelector(selectDashboardInsights);
   const topCategories = useSelector(selectTopCategoriesOverall);
+
+  const width = useWindowWidth();
+  const isMobile = width < 480;
 
   console.log('bucketPanelNeeds', bucketPanelNeeds);
   console.log('bucketPanelWants', bucketPanelWants);
@@ -135,30 +139,22 @@ const Insights: React.FC = () => {
       <section className="bucket-spend-section">
         <h2 className="card-header">Spent by bucket</h2>
         <div className="bucket-donuts">
-          <div className="bucket-donut">
-            <span className="bucket-donut-label">Total spent / needs</span>
-            <Donut
-              height={150}
-              data={getDonutData(bucketPanelNeeds)}
-              percentage={getDonutPercentage(bucketPanelNeeds)}
-            />
-          </div>
-          <div className="bucket-donut">
-            <span className="bucket-donut-label">Total spent / wants</span>
-            <Donut
-              height={150}
-              data={getDonutData(bucketPanelWants)}
-              percentage={getDonutPercentage(bucketPanelWants)}
-            />
-          </div>
-          <div className="bucket-donut">
-            <span className="bucket-donut-label">Total spent / savings</span>
-            <Donut
-              height={150}
-              data={getDonutData(bucketPanelSavings)}
-              percentage={getDonutPercentage(bucketPanelSavings)}
-            />
-          </div>
+          {[
+            { bucket: bucketPanelNeeds, label: 'needs' },
+            { bucket: bucketPanelWants, label: 'wants' },
+            { bucket: bucketPanelSavings, label: 'savings' },
+          ].map((bucket, index) => {
+            return (
+              <div className="bucket-donut" key={index}>
+                <span className="bucket-donut-label">Total spent / {bucket.label}</span>
+                <Donut
+                  height={isMobile ? 100 : 150}
+                  data={getDonutData(bucket.bucket)}
+                  percentage={getDonutPercentage(bucket.bucket)}
+                />
+              </div>
+            );
+          })}
         </div>
       </section>
       <section className="trends-section">

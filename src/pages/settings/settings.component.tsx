@@ -12,6 +12,7 @@ import { getCssVar } from '../../utils/style-variable.util';
 import FormInput from '../../components-ui/form-input/form-input.component';
 import Button from '../../components-ui/button/button.component';
 import ConfirmationModal from '../../components/confirmation-modal/confirmation-modal.component';
+import { useWindowWidth } from '../../utils/window-width.hook';
 
 const Settings: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -28,6 +29,9 @@ const Settings: React.FC = () => {
 
   const total = needsPercents + wantsPercents + savingsPercents;
   const balanced = Math.abs(total - 1) < 0.0001;
+
+  const width = useWindowWidth();
+  const isMobile = width < 480;
 
   const haveChanged =
     !balanced ||
@@ -114,12 +118,13 @@ const Settings: React.FC = () => {
                   max={1}
                   step={0.01}
                   onChange={(e: { target: { value: any } }) => setVal(Number(e.target.value))}
+                  customClassName="settings-slider"
                 />
               );
             })}
           </div>
           <div className="donut-container">
-            <Donut showTooltip={false} data={donutItems} />
+            <Donut height={isMobile ? 60 : 250} showTooltip={false} data={donutItems} />
           </div>
         </div>
 

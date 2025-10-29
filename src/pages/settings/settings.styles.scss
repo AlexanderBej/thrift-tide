@@ -11,17 +11,31 @@
   .settings-page-section {
     @include dashboard-card($radius: $radius-lg, $shadow: $shadow-lg, $pad: $spacing-5 $spacing-6);
 
+    @include mediaDown(md) {
+      padding: $spacing-4;
+    }
+
     .settings-label {
       display: inline-flex;
       width: 50%;
       justify-content: space-between;
+
+      @include mediaDown(md) {
+        width: 100%;
+      }
     }
 
     .budget-preferences-row {
-      @include grid($templateColumns: repeat(2, 1fr), $columnGap: $spacing-5);
+      @include grid($templateColumns: repeat(2, auto), $columnGap: $spacing-5);
 
       .budget-sliders {
         grid-area: 1 / 1 / 2 / 2;
+
+        .settings-slider {
+          @include mediaDown(md) {
+            margin-bottom: 0;
+          }
+        }
       }
       .donut-container {
         grid-area: 1 / 2 / 2 / 3;

@@ -33,6 +33,7 @@ import { SpendingTimelineBar } from '../../components/spending-timeline-bar/spen
 
 import './bucket.styles.scss';
 import TTIcon from '../../components-ui/icon/icon.component';
+import { useWindowWidth } from '../../utils/window-width.hook';
 
 const BucketPage: React.FC = () => {
   const { type } = useParams<{ type: string }>();
@@ -46,6 +47,9 @@ const BucketPage: React.FC = () => {
   const selectView = useMemo(() => makeSelectCategoryView(type as Bucket), [type]);
   const view = useSelector(selectView);
   const getSpendOn = useSelector(selectDailySpendQuery);
+
+  const width = useWindowWidth();
+  const isMobile = width < 480;
 
   if (status === 'loading' || !view) {
     return <div style={{ padding: 24 }}>Loading…</div>;
@@ -137,12 +141,16 @@ const BucketPage: React.FC = () => {
           )}
         </section>
         <section className="bucket-chart-section">
-          <Donut data={donutItems} showTooltip={false} />
+          <Donut height={isMobile ? 130 : 260} data={donutItems} showTooltip={false} />
         </section>
         <section className="bucket-insights-section">
           <h2 className="card-header">Insights</h2>
 
-          <StackedBarChart data={barChartData} />
+          <StackedBarChart
+            height={isMobile ? 180 : 260}
+            fontSize={isMobile ? 9 : 12}
+            data={barChartData}
+          />
           <SpendingTimelineBar
             periodStart={periodStart}
             periodEnd={periodEnd}

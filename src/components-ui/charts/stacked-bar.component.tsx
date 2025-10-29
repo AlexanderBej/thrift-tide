@@ -1,6 +1,6 @@
 import React from 'react';
 import { ResponsiveBar } from '@nivo/bar';
-import { nivoTheme } from './charts.theme';
+import { nivoThemeBuilder } from './charts.theme';
 import { formatCurrency } from '../../utils/format-data.util';
 
 export type BarChartRow = { category: string; allocated: number; spent: number };
@@ -8,9 +8,12 @@ export type BarChartRow = { category: string; allocated: number; spent: number }
 interface StackedBarChartProps {
   data: BarChartRow[];
   height?: number;
+  fontSize?: number;
 }
 
-const StackedBarChart: React.FC<StackedBarChartProps> = ({ data, height = 260 }) => {
+const StackedBarChart: React.FC<StackedBarChartProps> = ({ data, height = 260, fontSize = 12 }) => {
+  const nivoTheme = nivoThemeBuilder(fontSize);
+
   return (
     <div style={{ height }}>
       <ResponsiveBar

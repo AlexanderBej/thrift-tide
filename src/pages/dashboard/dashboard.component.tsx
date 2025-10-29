@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { selectAuthUser } from '../../store/auth-store/auth.selectors';
@@ -16,9 +16,9 @@ import { useWindowWidth } from '../../utils/window-width.hook';
 import { fmt } from '../../utils/format-data.util';
 import { selectBudgetDoc } from '../../store/budget-store/budget.selectors.base';
 import DashboardCards from '../../components/dashboard-cards/dashboard-cards.component';
+import AddIncome from '../../components/add-income-modal/add-income-modal.component';
 
 import './dashboard.styles.scss';
-import AddIncome from '../../components/add-income-modal/add-income-modal.component';
 
 const Dashboard: React.FC = () => {
   const user = useSelector(selectAuthUser);
@@ -56,11 +56,6 @@ const Dashboard: React.FC = () => {
       strongColor: 'var(--savings)',
     },
   ];
-
-  useEffect(() => {
-    console.log('budgetDoc', budgetDoc);
-    console.log('insights', insights);
-  });
 
   const getFirstName = (name: string | null) => {
     if (!name) return '';

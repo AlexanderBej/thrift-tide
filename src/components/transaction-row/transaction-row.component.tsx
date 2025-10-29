@@ -8,6 +8,8 @@ import { BUCKET_LIGHT_COLORS } from '../../api/types/bucket.types';
 import CategoryName from '../category-name/category-name.component';
 
 import './transaction-row.styles.scss';
+import { useWindowWidth } from '../../utils/window-width.hook';
+import ExpansionRow from '../../components-ui/expansion-row/expansion-row.component';
 
 interface TransactionRowProps {
   txn: Txn;
@@ -16,6 +18,9 @@ interface TransactionRowProps {
 }
 
 const TransactionRow: React.FC<TransactionRowProps> = ({ txn, source, category }) => {
+  const width = useWindowWidth();
+  const isMobile = width < 480;
+
   const getFormattedDate = (date: any) => {
     const dateObj = new Date(date);
     const today = new Date();
@@ -25,7 +30,9 @@ const TransactionRow: React.FC<TransactionRowProps> = ({ txn, source, category }
     if (toYMD(dateObj) === toYMD(today)) return 'Today';
     if (toYMD(dateObj) === toYMD(yesterday)) return 'Yesterday';
 
-    const formattedDate = format(new Date(date), 'EE, MMMM do');
+    const formatType = isMobile ? 'EE, MMM do' : 'EE, MMMM do';
+
+    const formattedDate = format(new Date(date), formatType);
     return formattedDate;
   };
 
@@ -37,25 +44,45 @@ const TransactionRow: React.FC<TransactionRowProps> = ({ txn, source, category }
 
   if (source === 'category') {
     return (
-      <div className="transaction-line">
-        <div>{getFormattedDate(txn.date)}</div>
+      <ExpansionRow
+        buttonClassName="transaction-line"
+        canToggle={isMobile ? true : false}
+        expandedContent={
+          <div style={{ opacity: 0.7, fontSize: 14, marginLeft: 62 }}>
+            <strong>Note: </strong>
+            {txn.note ?? ''}
+          </div>
+        }
+      >
+        <div className="txn-line-date">{getFormattedDate(txn.date)}</div>
         <CategoryName category={category} />
-        <div style={{ opacity: 0.7 }}>{txn.note ?? ''}</div>
-        <div style={{ textAlign: 'right', fontWeight: 600 }}>{fmt(txn.amount)}</div>
-      </div>
+        <div style={{ opacity: 0.7, display: isMobile ? 'none' : 'block' }}>{txn.note ?? ''}</div>
+        <div style={{ marginLeft: 'auto', fontWeight: 600 }}>{fmt(txn.amount)}</div>
+      </ExpansionRow>
     );
   } else
     return (
-      <li className="txn-line">
+      <ExpansionRow
+        buttonClassName="txn-line"
+        canToggle={isMobile ? true : false}
+        expandedContent={
+          <div style={{ opacity: 0.7, fontSize: 14 }}>
+            <strong>Note: </strong>
+            {txn.note ?? ''}
+          </div>
+        }
+      >
         <div className="txn-cat-row">
           <CategoryName category={category} />
           <span style={{ background: BUCKET_LIGHT_COLORS[txn.type] }} className="cat-type-badge">
             {toCamelCase(txn.type)}
           </span>
         </div>
-        <span className="note">{txn.note}</span>
+        <span className="note" style={{ display: isMobile ? 'none' : 'block' }}>
+          {txn.note}
+        </span>
         <div className="amount">-{fmt(txn.amount)}</div>
-      </li>
+      </ExpansionRow>
     );
 };
 

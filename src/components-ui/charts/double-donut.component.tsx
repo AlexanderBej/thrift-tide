@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComputedDatum, ResponsivePie } from '@nivo/pie';
-import { nivoTheme } from './charts.theme';
+import { nivoThemeBuilder } from './charts.theme';
 // import { formatCurrency } from '../../utils/format-currency.util';
 import PieOverlay from './donut-overlay.component';
 
@@ -25,12 +25,14 @@ interface DoubleDonutChartProps {
   data: DoubleDonutItem[];
   height?: number;
   innerRatio?: number; // donut thickness
+  fontSize?: number;
 }
 
 const DoubleDonutChart: React.FC<DoubleDonutChartProps> = ({
   data,
   height = 260,
   innerRatio = 0.68,
+  fontSize = 12,
 }) => {
   // Convert to Nivo data (value = allocated)
   const pieData: RawDatum[] = data.map((d) => ({
@@ -40,6 +42,8 @@ const DoubleDonutChart: React.FC<DoubleDonutChartProps> = ({
     color: d.color,
     raw: d,
   }));
+
+  const nivoTheme = nivoThemeBuilder(fontSize);
 
   return (
     <div style={{ height }}>

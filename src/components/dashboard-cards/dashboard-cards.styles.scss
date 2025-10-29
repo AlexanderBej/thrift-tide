@@ -2,6 +2,11 @@
 
 .dashboard-cards {
   @include grid($templateColumns: repeat(3, minmax(0, 1fr)), $columnGap: 50px);
+
+  @include mediaDown(xl) {
+    column-gap: $spacing-4;
+  }
+
   @include mediaDown(md) {
     @include grid($templateColumns: 1fr, $templateRows: repeat(3, 1fr), $rowGap: $spacing-4);
   }

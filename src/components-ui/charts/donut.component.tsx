@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ResponsivePie } from '@nivo/pie';
-import { nivoTheme } from './charts.theme';
+import { nivoThemeBuilder } from './charts.theme';
 import { formatCurrency } from '../../utils/format-data.util';
 
 export type DonutItem = { id: string; label: string; value: number; color?: string };
@@ -12,13 +12,17 @@ export function Donut({
   innerRatio = 0.68,
   showTooltip = true,
   percentage,
+  fontSize = 12,
 }: {
   data: DonutItem[];
   height?: number;
   innerRatio?: number;
   showTooltip?: boolean;
   percentage?: { value: number; color: string };
+  fontSize?: number;
 }) {
+  const nivoTheme = nivoThemeBuilder(fontSize);
+
   return (
     <div style={{ height, position: 'relative', width: height }}>
       <ResponsivePie

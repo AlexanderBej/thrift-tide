@@ -5,6 +5,10 @@
   flex-wrap: wrap;
   gap: $spacing-6;
 
+  @include mediaDown(md) {
+    gap: $spacing-2;
+  }
+
   .badge-pill {
     border: 1px solid transparent;
     border-radius: 999px;
@@ -24,6 +28,12 @@
       );
 
       font-size: 1rem;
+
+      @include mediaDown(md) {
+        padding: $spacing-3;
+        gap: $spacing-1;
+        font-size: 12px;
+      }
     }
 
     &__warn {
