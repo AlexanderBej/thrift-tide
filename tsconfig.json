@@ -17,6 +17,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src"],
-  "exclude": ["src/register-service-worker.ts"]
+  "include": ["src"]
+  // "exclude": ["src/service-worker.ts"]
 }

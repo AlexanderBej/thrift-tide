@@ -2,7 +2,7 @@
   "short_name": "ThriftTide",
   "name": "Thrift Tide",
   "description": "Monthly budgeting, transactions, and insights.",
-  "start_url": "/?source=pwa",
+  "start_url": "/",
   "scope": "/",
   "icons": [
     {
@@ -23,5 +23,6 @@
   ],
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "prefer_related_applications": false
 }

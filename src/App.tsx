@@ -26,6 +26,15 @@ function App() {
     return () => unsub();
   }, [dispatch]);
 
+  window.addEventListener('pwa:update-available', (e: Event) => {
+    const reg = (e as CustomEvent<ServiceWorkerRegistration>).detail;
+    // show your toast/button “Update”
+    // on click:
+    reg.waiting?.postMessage({ type: 'SKIP_WAITING' });
+    // give it a tick to activate then reload
+    setTimeout(() => window.location.reload(), 400);
+  });
+
   return (
     <>
       <Routes>
