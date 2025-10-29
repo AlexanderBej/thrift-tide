@@ -3,6 +3,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { readUserProfile, upsertUserStartDay } from '../../api/services/settings.service';
 import { DEFAULT_START_DAY } from '../../api/models/month-doc';
 import { clamp } from '../../utils/services.util';
+import toast from 'react-hot-toast';
 
 type SettingsState = {
   startDay: number; // 1..28
@@ -15,16 +16,30 @@ const initialState: SettingsState = {
   status: 'idle',
 };
 
-export const loadSettings = createAsyncThunk('settings/load', async ({ uid }: { uid: string }) => {
-  const profile = await readUserProfile(uid);
-  return { startDay: profile?.startDay ?? DEFAULT_START_DAY };
-});
+export const loadSettings = createAsyncThunk(
+  'settings/load',
+  async ({ uid }: { uid: string }, { rejectWithValue }) => {
+    try {
+      const profile = await readUserProfile(uid);
+      return { startDay: profile?.startDay ?? DEFAULT_START_DAY };
+    } catch (error) {
+      toast.error('Failed to load settings!');
+      return rejectWithValue(error);
+    }
+  },
+);
 
 export const saveStartDay = createAsyncThunk(
   'settings/saveStartDay',
-  async ({ uid, startDay }: { uid: string; startDay: number }) => {
-    await upsertUserStartDay(uid, clamp(startDay));
-    return { startDay };
+  async ({ uid, startDay }: { uid: string; startDay: number }, { rejectWithValue }) => {
+    try {
+      await upsertUserStartDay(uid, clamp(startDay));
+      toast.success('Start day changed successfuly!');
+      return { startDay };
+    } catch (error) {
+      toast.error('Failed to update start day!');
+      return rejectWithValue(error);
+    }
   },
 );
 

@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { MonthDoc } from '../../api/models/month-doc';
 import { listMonthsWithSummary } from '../../api/services/budget.service';
+import toast from 'react-hot-toast';
 
 export type HistoryRow = MonthDoc & { id: string; _cursor?: any };
 
@@ -23,17 +24,22 @@ export const loadHistoryPage = createAsyncThunk(
       toISO,
       pageSize,
     }: { uid: string; fromISO?: string; toISO?: string; pageSize?: number },
-    { getState },
+    { getState, rejectWithValue },
   ) => {
-    const state = getState() as RootState;
-    const cursor = state.history.nextCursor ?? null;
-    const { items, nextCursor } = await listMonthsWithSummary(uid, {
-      fromISO,
-      toISO,
-      pageSize,
-      pageAfter: cursor,
-    });
-    return { items, nextCursor };
+    try {
+      const state = getState() as RootState;
+      const cursor = state.history.nextCursor ?? null;
+      const { items, nextCursor } = await listMonthsWithSummary(uid, {
+        fromISO,
+        toISO,
+        pageSize,
+        pageAfter: cursor,
+      });
+      return { items, nextCursor };
+    } catch (error) {
+      toast.error('Could not load history page data!');
+      return rejectWithValue(error);
+    }
   },
 );
 

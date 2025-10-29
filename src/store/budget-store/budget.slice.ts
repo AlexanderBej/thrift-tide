@@ -17,6 +17,7 @@ import {
 } from '../../api/services/budget.service';
 import { startTxnsListener, stopTxnsListener } from '../../api/services/firebase.service';
 import { monthKeyFromDate } from '../../utils/period.util';
+import toast from 'react-hot-toast';
 
 type Status = 'idle' | 'loading' | 'ready' | 'error';
 export type TxnTypeFilter = 'all' | 'needs' | 'wants' | 'savings';
@@ -50,27 +51,37 @@ const initialState: BudgetState = {
 
 export const initBudget = createAsyncThunk(
   'budget/init',
-  async ({ uid, month }: { uid: string; month?: string }, { dispatch, getState }) => {
-    // 1) ensure settings are loaded (caller should dispatch loadSettings first; we guard anyway)
-    const state: RootState = getState() as RootState;
-    const startDay = state.settings?.startDay ?? DEFAULT_START_DAY;
+  async (
+    { uid, month }: { uid: string; month?: string },
+    { dispatch, getState, rejectWithValue },
+  ) => {
+    try {
+      // 1) ensure settings are loaded (caller should dispatch loadSettings first; we guard anyway)
+      const state: RootState = getState() as RootState;
+      const startDay = state.settings?.startDay ?? DEFAULT_START_DAY;
 
-    // 2) derive selected month (param > localStorage > computed current)
-    const currentKey = monthKeyFromDate(new Date(), startDay);
-    const stored = localStorage.getItem('month');
-    const m = month || stored || currentKey;
-    localStorage.setItem('month', m);
+      // 2) derive selected month (param > localStorage > computed current)
+      const currentKey = monthKeyFromDate(new Date(), startDay);
+      const stored = localStorage.getItem('month');
+      const m = month || stored || currentKey;
+      localStorage.setItem('month', m);
 
-    const existing = await readMonth(uid, m);
-    const doc = existing ?? (await upsertMonth(uid, m, { income: 0, percents: DEFAULT_PERCENTS }));
+      const existing = await readMonth(uid, m);
+      const doc =
+        existing ?? (await upsertMonth(uid, m, { income: 0, percents: DEFAULT_PERCENTS }));
 
-    startTxnsListener(
-      onTransactionsSnapshot(uid, m, (txns) => {
-        dispatch(_setTxns(txns));
-      }),
-    );
+      startTxnsListener(
+        onTransactionsSnapshot(uid, m, (txns) => {
+          dispatch(_setTxns(txns));
+        }),
+      );
 
-    return { doc, month: m };
+      toast.success('Budget initiated successfuly!');
+      return { doc, month: m };
+    } catch (error) {
+      toast.error('Could not initialize budget!');
+      rejectWithValue(error);
+    }
   },
 );
 
@@ -78,38 +89,47 @@ export const setIncomeForPeriod = createAsyncThunk<
   MonthDoc,
   { uid: string; month: string; income: number; startDay?: number },
   { state: RootState; dispatch: AppDispatch }
->('budget/setIncomeForPeriod', async ({ uid, month, income, startDay }, { getState, dispatch }) => {
-  // 1) read current (if exists) to preserve percents (or use defaults)
-  const existing = await readMonth(uid, month);
-  const percents = existing?.percents ?? DEFAULT_PERCENTS;
+>(
+  'budget/setIncomeForPeriod',
+  async ({ uid, month, income, startDay }, { getState, dispatch, rejectWithValue }) => {
+    try {
+      // 1) read current (if exists) to preserve percents (or use defaults)
+      const existing = await readMonth(uid, month);
+      const percents = existing?.percents ?? DEFAULT_PERCENTS;
 
-  // 2) upsert month with new income (freeze startDay only on first create)
-  const next = await upsertMonth(uid, month, { income, percents, startDay });
+      // 2) upsert month with new income (freeze startDay only on first create)
+      const next = await upsertMonth(uid, month, { income, percents, startDay });
 
-  // 3) summaries:
-  const { budget } = getState();
+      // 3) summaries:
+      const { budget } = getState();
 
-  if (budget.month === month) {
-    // target == selected period → we have txns; recompute full summary
-    await dispatch(recomputeAndPersistSummary({ uid }));
-  } else {
-    // target != selected period → no txns loaded; optionally update snapshot bits
-    // (keeps summary's income/allocations in sync without changing spent totals)
-    if (existing?.summary) {
-      const snapshot = {
-        ...existing.summary,
-        income: next.income,
-        allocations: next.allocations,
-        computedAt: new Date().toISOString(),
-      };
-      await persistMonthSummary(uid, month, snapshot);
+      if (budget.month === month) {
+        // target == selected period → we have txns; recompute full summary
+        await dispatch(recomputeAndPersistSummary({ uid }));
+      } else {
+        // target != selected period → no txns loaded; optionally update snapshot bits
+        // (keeps summary's income/allocations in sync without changing spent totals)
+        if (existing?.summary) {
+          const snapshot = {
+            ...existing.summary,
+            income: next.income,
+            allocations: next.allocations,
+            computedAt: new Date().toISOString(),
+          };
+          await persistMonthSummary(uid, month, snapshot);
+        }
+        // If no summary exists, it's fine—when user opens that period or you run backfill,
+        // the full summary will be computed with txns.
+      }
+
+      toast.success('Income set successfuly!');
+      return next;
+    } catch (error) {
+      toast.error('Could not set income!');
+      return rejectWithValue(error);
     }
-    // If no summary exists, it's fine—when user opens that period or you run backfill,
-    // the full summary will be computed with txns.
-  }
-
-  return next;
-});
+  },
+);
 
 // DELEGATE: keep the old thunk name for current-period updates
 export const setIncomeThunk = createAsyncThunk<
@@ -135,8 +155,10 @@ export const setPercentsThunk = createAsyncThunk<
     const income = doc?.income ?? 0;
     const next = await upsertMonth(uid, month, { income, percents });
     await dispatch(recomputeAndPersistSummary({ uid }));
+    toast.success('Percents updated successfuly!');
     return next;
   } catch (error: any) {
+    toast.error('Failed to update percents!');
     return rejectWithValue(error.message ?? 'Failed to set percents');
   }
 });
@@ -144,52 +166,75 @@ export const setPercentsThunk = createAsyncThunk<
 export const changeMonthThunk = createAsyncThunk<
   { doc: MonthDoc; month: string },
   { uid: string; month: string }
->('budget/changeMonth', async ({ uid, month }, { dispatch }) => {
-  // stop any existing listener
-  stopTxnsListener();
+>('budget/changeMonth', async ({ uid, month }, { dispatch, rejectWithValue }) => {
+  try {
+    // stop any existing listener
+    stopTxnsListener();
 
-  localStorage.setItem('month', month);
+    localStorage.setItem('month', month);
 
-  const doc =
-    (await readMonth(uid, month)) ??
-    (await upsertMonth(uid, month, { income: 0, percents: DEFAULT_PERCENTS }));
+    const doc =
+      (await readMonth(uid, month)) ??
+      (await upsertMonth(uid, month, { income: 0, percents: DEFAULT_PERCENTS }));
 
-  // restart live listener for the new month
-  startTxnsListener(onTransactionsSnapshot(uid, month, (txns) => dispatch(_setTxns(txns))));
+    // restart live listener for the new month
+    startTxnsListener(onTransactionsSnapshot(uid, month, (txns) => dispatch(_setTxns(txns))));
 
-  return { doc, month };
+    return { doc, month };
+  } catch (error) {
+    toast.error('Failed to change period');
+    return rejectWithValue(error);
+  }
 });
 
 export const addTxnThunk = createAsyncThunk<
   string,
   { uid: string; txn: Omit<Txn, 'id'> },
   { state: RootState; dispatch: AppDispatch }
->('budget/addTxn', async ({ uid, txn }, { getState, dispatch }) => {
-  const { month } = getState().budget;
-  const id = await addTransaction(uid, month, txn);
-  // recompute once mutation succeeds
-  await dispatch(recomputeAndPersistSummary({ uid }));
-  return id;
+>('budget/addTxn', async ({ uid, txn }, { getState, dispatch, rejectWithValue }) => {
+  try {
+    const { month } = getState().budget;
+    const id = await addTransaction(uid, month, txn);
+    // recompute once mutation succeeds
+    await dispatch(recomputeAndPersistSummary({ uid }));
+    toast.success('Added a new transaction');
+    return id;
+  } catch (error) {
+    toast.error('Failed to add transaction');
+    return rejectWithValue(error);
+  }
 });
 
 export const updateTxnThunk = createAsyncThunk<
   void,
   { uid: string; id: string; patch: Partial<Omit<Txn, 'id'>> },
   { state: RootState; dispatch: AppDispatch }
->('budget/updateTxn', async ({ uid, id, patch }, { getState, dispatch }) => {
-  const { month } = getState().budget;
-  await updateTransaction(uid, month, id, patch);
-  await dispatch(recomputeAndPersistSummary({ uid }));
+>('budget/updateTxn', async ({ uid, id, patch }, { getState, dispatch, rejectWithValue }) => {
+  try {
+    const { month } = getState().budget;
+    await updateTransaction(uid, month, id, patch);
+    await dispatch(recomputeAndPersistSummary({ uid }));
+    toast.success('Transaction updated successfuly!');
+  } catch (error) {
+    toast.error('Failed to update transaction');
+    return rejectWithValue(error);
+  }
 });
 
 export const deleteTxnThunk = createAsyncThunk<
   void,
   { uid: string; id: string },
   { state: RootState; dispatch: AppDispatch }
->('budget/deleteTxn', async ({ uid, id }, { getState, dispatch }) => {
-  const { month } = getState().budget;
-  await deleteTransaction(uid, month, id);
-  await dispatch(recomputeAndPersistSummary({ uid }));
+>('budget/deleteTxn', async ({ uid, id }, { getState, dispatch, rejectWithValue }) => {
+  try {
+    const { month } = getState().budget;
+    await deleteTransaction(uid, month, id);
+    await dispatch(recomputeAndPersistSummary({ uid }));
+    toast.success('Transaction deleted successfuly!');
+  } catch (error) {
+    toast.error('Failed to delete transaction');
+    return rejectWithValue(error);
+  }
 });
 
 export const recomputeAndPersistSummary = createAsyncThunk<
@@ -250,8 +295,8 @@ const budgetSlice = createSlice({
       })
       .addCase(initBudget.fulfilled, (s, { payload }) => {
         s.status = 'ready';
-        s.doc = payload.doc;
-        s.month = payload.month;
+        s.doc = payload?.doc ?? null;
+        s.month = payload?.month ?? '';
       })
       .addCase(initBudget.rejected, (s, a) => {
         s.status = 'error';
