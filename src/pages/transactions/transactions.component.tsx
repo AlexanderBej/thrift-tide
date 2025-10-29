@@ -1,18 +1,15 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { format } from 'date-fns';
 
 import Select, { SelectOption } from '../../components-ui/select/select.component';
-import { Bucket, BUCKET_LIGHT_COLORS, BucketType } from '../../api/types/bucket.types';
+import { Bucket, BucketType } from '../../api/types/bucket.types';
 import {
   selectTxnsGroupedByDate,
   selectFilteredTotal,
   selectMonthTotalsByBucket,
 } from '../../store/budget-store/budget.selectors';
-import MonthPicker from '../../components-ui/datepicker/monthpicker.component';
 import { AppDispatch } from '../../store/store';
 import {
-  setMonth,
   setTxnSearch,
   setTxnSort,
   setTxnTypeFilter,
@@ -21,8 +18,9 @@ import {
 } from '../../store/budget-store/budget.slice';
 import FormInput from '../../components-ui/form-input/form-input.component';
 import { resolveCategory } from '../../utils/category-options.util';
-import TTIcon from '../../components-ui/icon/icon.component';
 import { selectBudgetTotal } from '../../store/budget-store/budget.selectors.base';
+import TransactionRow from '../../components/transaction-row/transaction-row.component';
+import { fmt, toEMD } from '../../utils/format-data.util';
 
 import './transactions.styles.scss';
 
@@ -69,88 +67,78 @@ const Transaction: React.FC = () => {
     }
   };
 
-  const toCamelCase = (word: string): string => {
-    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-  };
-
   return (
     <div className="transactions-page">
-      <header className="txn-page-header">
-        <div className="txn-header-totals">
-          <div className="txn-header-budget">
-            <span className="total-label">Total Budget</span>
-            <span className="total-value">€{totalIncome}</span>
+      <section className="txn-total-budget-section">
+        <h2 className="card-header">Total budget</h2>
+        <span className="total-value">{fmt(totalIncome)}</span>
+      </section>
+      <section className="txn-page-spent">
+        <h2 className="card-header">Spent</h2>
+
+        <div className="spent-container-row">
+          <div className="spent-container">
+            <span className="spent-label">Total</span>
+            <span className="spent-value">{fmt(totalSpent)}</span>
           </div>
-          <div className="txn-header-budget">
-            <span className="total-label">Total spent</span>
-            <span className="total-value">€{totalSpent}</span>
+          <div className="spent-container">
+            <span className="spent-label">Needs</span>
+            <span className="spent-value">{fmt(perBucket.needs)}</span>
+          </div>
+          <div className="spent-container">
+            <span className="spent-label">Wants</span>
+            <span className="spent-value">{fmt(perBucket.wants)}</span>
+          </div>
+          <div className="spent-container">
+            <span className="spent-label">Savings</span>
+            <span className="spent-value">{fmt(perBucket.savings)}</span>
           </div>
         </div>
-        <div className="filter-criterias-line">
-          <Select
-            customClassName="filter-selector"
-            name="filter"
-            value={filter}
-            onChange={handleChange}
-            options={FILTER_OPTIONS}
-          />
-          <FormInput
-            inputType="search"
-            customClassName="search-input"
-            name="search"
-            value={searchCriteria}
-            onChange={handleChange}
-            prefix="search"
-            placeholder="Search..."
-          />
-          <Select
-            customClassName="sort-selector"
-            name="sort"
-            value={sortCriteria}
-            onChange={handleChange}
-            options={SORT_OPTIONS}
-          />
-        </div>
-      </header>
-      <section className="transaction-groups">
+      </section>
+      <section className="txn-filter-select-section">
+        <Select
+          customClassName="filter-selector"
+          name="filter"
+          value={filter}
+          onChange={handleChange}
+          options={FILTER_OPTIONS}
+        />
+      </section>
+      <section className="txn-filter-search-section">
+        <FormInput
+          inputType="search"
+          customClassName="search-input"
+          name="search"
+          value={searchCriteria}
+          onChange={handleChange}
+          prefix="search"
+          placeholder="Search..."
+        />
+      </section>
+      <section className="txn-sort-section">
+        <Select
+          customClassName="sort-selector"
+          name="sort"
+          value={sortCriteria}
+          onChange={handleChange}
+          options={SORT_OPTIONS}
+        />
+      </section>
+
+      <section className="txn-list-section">
         {groups.map((group) => (
           <div className="txn-group" key={group.date}>
-            <h3>{group.date}</h3>
+            <h3>{toEMD(new Date(group.date))}</h3>
             <ul className="txn-group-list">
               {group.items.map((tx) => {
                 const cat = resolveCategory(tx.category);
 
-                return (
-                  <li key={tx.id} className="txn-line">
-                    <div className="txn-cat-row">
-                      <div className="cat-icon-wrapper">
-                        <TTIcon icon={cat.icon} size={18} />
-                      </div>
-                      <span>
-                        <strong>{cat.label}</strong>
-                      </span>
-                      <span
-                        style={{ background: BUCKET_LIGHT_COLORS[tx.type] }}
-                        className="cat-type-badge"
-                      >
-                        {toCamelCase(tx.type)}
-                      </span>
-                    </div>
-                    <span className="note">{tx.note}</span>
-                    <div className="amount">-€{tx.amount.toFixed(2)}</div>
-                  </li>
-                );
+                return <TransactionRow key={tx.id} source="transaction" txn={tx} category={cat} />;
               })}
             </ul>
           </div>
         ))}
       </section>
-
-      <footer className="per-type">
-        <span>Needs: €{perBucket.needs.toFixed(2)}</span>
-        <span>Wants: €{perBucket.wants.toFixed(2)}</span>
-        <span>Savings: €{perBucket.savings.toFixed(2)}</span>
-      </footer>
     </div>
   );
 };

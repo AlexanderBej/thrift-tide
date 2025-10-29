@@ -174,3 +174,19 @@ export const selectTotals = createSelector(
     return { alloc, spent, remaining, totalAllocated, totalSpent, totalRemaining };
   },
 );
+
+export const selectTopCategoriesOverall = createSelector([selectTxnsInPeriod], (txns) => {
+  const totals: Record<string, number> = {};
+
+  for (const t of txns) {
+    const cat = t.category || 'Uncategorized';
+    totals[cat] = (totals[cat] ?? 0) + t.amount;
+  }
+
+  // Turn into a sorted array
+  const sorted = Object.entries(totals)
+    .map(([category, total]) => ({ category, total }))
+    .sort((a, b) => b.total - a.total);
+
+  return sorted.slice(0, 3); // top 3
+});

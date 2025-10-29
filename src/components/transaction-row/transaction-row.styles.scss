@@ -1,0 +1,24 @@
+@use '../../styles/global.scss' as *;
+
+.transaction-line {
+  @include grid($templateColumns: 1fr 1fr 1fr 80px, $columnGap: 8px, $rowGap: 8px);
+  padding: 8px 0px;
+  border-bottom: 1px solid rgb(238, 238, 238);
+
+  &:last-child {
+    border-bottom: unset;
+  }
+}
+
+.txn-cat-row {
+  display: inline-flex;
+  align-items: center;
+  width: 270px;
+
+  .cat-type-badge {
+    margin-left: auto;
+    padding: 5px 10px;
+    font-size: 11px;
+    border-radius: $radius-sm;
+  }
+}

@@ -10,10 +10,10 @@ import ProtectedRoute from './utils/protected-route.util';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from './store/store';
 import { initApp } from './utils/app-init.util';
-import Categories from './pages/categories/categories.component';
-import Category from './pages/category/category.components';
 import History from './pages/history/history.component';
 import Insights from './pages/insights/insights.component';
+import BucketsPage from './pages/buckets/buckets.component';
+import BucketPage from './pages/bucket/bucket.components';
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -36,8 +36,8 @@ function App() {
       >
         <Route index element={<Dashboard />} />
         <Route path="transactions" element={<Transaction />} />
-        <Route path="categories" element={<Categories />} />
-        <Route path="categories/:type" element={<Category />} />
+        <Route path="buckets" element={<BucketsPage />} />
+        <Route path="buckets/:type" element={<BucketPage />} />
 
         <Route path="insights" element={<Insights />} />
         <Route path="history" element={<History />} />

@@ -1,46 +1,28 @@
 import React from 'react';
-import { ComputedDatum, ResponsivePie } from '@nivo/pie';
+
+import { ResponsivePie } from '@nivo/pie';
 import { nivoTheme } from './charts.theme';
-// import { formatCurrency } from '../../utils/format-currency.util';
-import PieOverlay from './donut-overlay.component';
+import { formatCurrency } from '../../utils/format-data.util';
 
-export type Item = {
-  id: string;
-  label: string;
-  allocated: number; // total allocated sum (drives slice angle)
-  used: number; // how much was used from allocated
-  color?: string; // base color (we’ll render this lighter for the base)
-  strongColor?: string; // optional stronger color for the overlay; falls back to color
-};
+export type DonutItem = { id: string; label: string; value: number; color?: string };
 
-export type RawDatum = {
-  id: string;
-  value: number; // allocated
-  label?: string;
-  color?: string;
-  raw: Item; // keep original for overlay/tooltip
-};
-
-interface DonutChartProps {
-  data: Item[];
+export function Donut({
+  data,
+  height = 260,
+  innerRatio = 0.68,
+  showTooltip = true,
+  percentage,
+}: {
+  data: DonutItem[];
   height?: number;
-  innerRatio?: number; // donut thickness
-}
-
-const DonutChart: React.FC<DonutChartProps> = ({ data, height = 260, innerRatio = 0.68 }) => {
-  // Convert to Nivo data (value = allocated)
-  const pieData: RawDatum[] = data.map((d) => ({
-    id: d.id || d.label,
-    label: d.label,
-    value: d.allocated,
-    color: d.color,
-    raw: d,
-  }));
-
+  innerRatio?: number;
+  showTooltip?: boolean;
+  percentage?: { value: number; color: string };
+}) {
   return (
-    <div style={{ height }}>
-      <ResponsivePie<RawDatum>
-        data={pieData}
+    <div style={{ height, position: 'relative', width: height }}>
+      <ResponsivePie
+        data={data.map((d) => ({ ...d, id: d.id || d.label }))}
         theme={nivoTheme}
         innerRadius={innerRatio}
         padAngle={2}
@@ -48,22 +30,32 @@ const DonutChart: React.FC<DonutChartProps> = ({ data, height = 260, innerRatio 
         activeOuterRadiusOffset={6}
         enableArcLabels={false}
         colors={{ datum: 'data.color' }}
-        margin={{ top: 8, right: 8, bottom: 28, left: 8 }}
+        margin={{ top: 8, right: 8, bottom: 8, left: 8 }}
         arcLinkLabelsSkipAngle={360}
-        layers={['arcs', PieOverlay, 'arcLabels', 'arcLinkLabels', 'legends']}
-        tooltip={({ datum }: { datum: ComputedDatum<RawDatum> }) => {
-          const item = datum.data.raw;
-          return (
-            <div style={{ padding: 8 }}>
-              <div>
-                <strong>{item.label}</strong>
-              </div>
-            </div>
-          );
-        }}
+        tooltip={({ datum }) => (
+          <div>
+            {showTooltip && (
+              <>
+                <strong>{datum.label}</strong> — {formatCurrency(datum.value as number)}
+              </>
+            )}
+          </div>
+        )}
       />
+      {percentage && (
+        <span
+          style={{
+            color: percentage.color,
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            fontWeight: 'bold',
+          }}
+        >
+          {percentage.value.toFixed()}%
+        </span>
+      )}
     </div>
   );
-};
-
-export default DonutChart;
+}

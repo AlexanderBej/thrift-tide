@@ -2,8 +2,13 @@
 
 .cards-grid {
   margin-top: 20px;
-  @include grid($columnGap: 10px);
-  justify-items: center;
+  // @include grid($columnGap: 10px);
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
 
   @include mediaDown(md) {
     margin-top: 10px;

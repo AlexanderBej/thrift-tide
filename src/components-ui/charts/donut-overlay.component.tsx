@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComputedDatum, PieCustomLayer, PieCustomLayerProps } from '@nivo/pie';
-import { RawDatum } from './donut.component';
+import { RawDatum } from './double-donut.component';
 import { arc as d3Arc, DefaultArcObject } from 'd3-shape';
 
 type CustomLayerProps<T> = {

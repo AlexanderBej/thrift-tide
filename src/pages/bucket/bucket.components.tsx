@@ -1,0 +1,171 @@
+import React, { useMemo } from 'react';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
+import { makeSelectCategoryView } from '../../store/budget-store/budget.selectors';
+import Breadcrumbs from '../../components-ui/breadcrumb/breadcrumb.component';
+import ProgressBar from '../../components-ui/progress-bar/progress-bar.component';
+import { getCssVar } from '../../utils/style-variable.util';
+import {
+  Bucket,
+  BUCKET_COLORS,
+  BUCKET_ICONS,
+  BUCKET_LIGHT_COLORS,
+  BucketType,
+} from '../../api/types/bucket.types';
+import { resolveCategory } from '../../utils/category-options.util';
+import { BadgePills } from '../../components/badge-pills/badge-pills.component';
+import { makeSelectBucketBadges } from '../../store/budget-store/budget-badges.selectors';
+import {
+  makeSelectBucketPanel,
+  selectDashboardInsights,
+} from '../../store/budget-store/budget-insights.selectors';
+import { fmt } from '../../utils/format-data.util';
+import { selectBudgetStatus } from '../../store/budget-store/budget.selectors.base';
+import TransactionRow from '../../components/transaction-row/transaction-row.component';
+import { Donut, DonutItem } from '../../components-ui/charts/donut.component';
+import CategoryName from '../../components/category-name/category-name.component';
+import StackedBarChart, { BarChartRow } from '../../components-ui/charts/stacked-bar.component';
+import { selectMonthTiming } from '../../store/budget-store/budget-period.selectors';
+import { enumerateDatesUTC } from '../../utils/period.util';
+import { selectDailySpendQuery } from '../../store/budget-store/budget-daily.selectors';
+import { SpendingTimelineBar } from '../../components/spending-timeline-bar/spending-timeline-bar.component';
+
+import './bucket.styles.scss';
+import TTIcon from '../../components-ui/icon/icon.component';
+
+const BucketPage: React.FC = () => {
+  const { type } = useParams<{ type: string }>();
+
+  const status = useSelector(selectBudgetStatus);
+  const badges = useSelector(makeSelectBucketBadges(type as Bucket));
+  const insights = useSelector(selectDashboardInsights);
+  const { periodStart, periodEnd } = useSelector(selectMonthTiming);
+  const selectPanel = useMemo(() => makeSelectBucketPanel(type as Bucket), [type]);
+  const bucketPanel = useSelector(selectPanel);
+  const selectView = useMemo(() => makeSelectCategoryView(type as Bucket), [type]);
+  const view = useSelector(selectView);
+  const getSpendOn = useSelector(selectDailySpendQuery);
+
+  if (status === 'loading' || !view) {
+    return <div style={{ padding: 24 }}>Loading…</div>;
+  }
+
+  const title = type === 'needs' ? 'Needs' : type === 'wants' ? 'Wants' : 'Savings';
+
+  const donutItems: DonutItem[] = view.byCategory.map((entry) => {
+    const cat = resolveCategory(entry.category);
+    return {
+      id: cat.value,
+      label: cat.label,
+      value: entry.total,
+      color: cat.color,
+    };
+  });
+
+  const normalDailySpend = (insights.totals.totalAllocated ?? 0) / 30;
+
+  const daysArray = enumerateDatesUTC(periodStart, periodEnd);
+
+  const barChartData: BarChartRow[] = daysArray.map((day) => {
+    const value = getSpendOn(day, type as Bucket);
+    return {
+      category: day.getDate().toString(),
+      allocated: normalDailySpend,
+      spent: value as number,
+    };
+  });
+
+  const icon =
+    type === BucketType.NEEDS
+      ? BUCKET_ICONS.needs
+      : type === BucketType.WANTS
+        ? BUCKET_ICONS.wants
+        : BUCKET_ICONS.savings;
+
+  console.log('bucketPanel', bucketPanel);
+
+  return (
+    <div className="bucket-page">
+      <Breadcrumbs />
+      <header className="bucket-page-header">
+        <div
+          className="bucket-icon-wrapper"
+          style={{ backgroundColor: BUCKET_COLORS[type as BucketType] }}
+        >
+          <TTIcon icon={icon} color="white" />
+        </div>
+        <h2>{title}</h2>
+      </header>
+      <div className="bucket-page-grid">
+        <section
+          className="bucket-summary-section"
+          style={{ backgroundColor: getCssVar(`--${title.toLowerCase()}-light`) }}
+        >
+          <div className="bucket-summary-line">
+            <div className="bucket-summary">
+              Allocated: <strong>{fmt(view.allocated)}</strong>
+            </div>
+            <div className="bucket-summary bucket-middle">
+              Spent: <strong>{fmt(view.spent)}</strong>
+            </div>
+            <div className="bucket-summary bucket-last">
+              Remaining: <strong>{fmt(view.remaining)}</strong>
+            </div>
+          </div>
+          <ProgressBar progress={view.progress} />
+          <div className="cat-summary-badges">
+            <BadgePills badges={badges} />
+          </div>
+        </section>
+        <section className="top-categories-section">
+          <h2 className="card-header">Top categories</h2>
+          {view.byCategory.length === 0 ? (
+            <div className="missing-items">No transactions yet.</div>
+          ) : (
+            <ul className="top-categories-list">
+              {view.byCategory.map((row) => {
+                const cat = resolveCategory(row.category);
+                return (
+                  <li key={row.category} className="categories-item">
+                    <CategoryName category={cat} />
+                    <strong>{fmt(row.total)}</strong>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </section>
+        <section className="bucket-chart-section">
+          <Donut data={donutItems} showTooltip={false} />
+        </section>
+        <section className="bucket-insights-section">
+          <h2 className="card-header">Insights</h2>
+
+          <StackedBarChart data={barChartData} />
+          <SpendingTimelineBar
+            periodStart={periodStart}
+            periodEnd={periodEnd}
+            runOutDate={bucketPanel.runOutDate}
+          />
+        </section>
+        <section className="bucket-transactions-section">
+          <h2 className="card-header">Transactions</h2>
+          {view.items.length === 0 ? (
+            <div className="missing-items">No transactions for {title.toLowerCase()}.</div>
+          ) : (
+            <div>
+              {view.items.map((t) => {
+                const cat = resolveCategory(t.category);
+
+                return <TransactionRow key={t.id} source="category" txn={t} category={cat} />;
+              })}
+            </div>
+          )}
+        </section>
+      </div>
+    </div>
+  );
+};
+
+export default BucketPage;

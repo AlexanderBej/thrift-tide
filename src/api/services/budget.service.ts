@@ -82,10 +82,7 @@ export const readMonth = async (uid: string, month: string): Promise<MonthDoc | 
 
 /** Add a transaction to a month */
 export const addTransaction = async (uid: string, month: string, txn: Omit<Txn, 'id'>) => {
-  console.log('get here', uid, month, txn);
-
   const ref = await addDoc(txnsColRef(uid, month), txn);
-  console.log('ref', ref);
 
   return ref.id;
 };

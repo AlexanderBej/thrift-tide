@@ -66,7 +66,6 @@ export const initBudget = createAsyncThunk(
 
     startTxnsListener(
       onTransactionsSnapshot(uid, m, (txns) => {
-        console.log('[onTransactionsSnapshot]', m, 'count=', txns.length, txns[0]);
         dispatch(_setTxns(txns));
       }),
     );

@@ -37,6 +37,15 @@
     }
   }
 
+  &__secondary {
+    border: 3px solid $color-secondary;
+
+    &:hover {
+      background-color: transparent;
+      color: $color-secondary;
+    }
+  }
+
   &__disabled {
     background-color: $color-neutral-medium;
     pointer-events: none;

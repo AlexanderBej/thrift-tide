@@ -108,15 +108,34 @@ const AddTransaction: React.FC<AddTransactionProps> = ({ buttonShape = 'rounded'
       note: formData.note?.trim() || '',
     };
 
-    console.log('add txn', payload);
-
-    dispatch(addTxnThunk({ uid: user?.uuid ?? '', txn: payload }));
+    dispatch(addTxnThunk({ uid: user?.uuid ?? '', txn: payload })).then(() => {
+      setFormData({
+        category: 'rent',
+        amount: 0.0,
+        date: new Date(),
+        note: '',
+        type: 'needs',
+      });
+    });
 
     if (!keepModalOpen) setOpen(false);
   };
 
   const isFormValid = () => {
     return !errors.amount && !errors.category && !errors.date && !errors.note;
+  };
+
+  const handleOnClose = () => {
+    setFormData({
+      category: 'rent',
+      amount: 0.0,
+      date: new Date(),
+      note: '',
+      type: 'needs',
+    });
+
+    setKeepModalOpen(false);
+    setOpen(false);
   };
 
   return (
@@ -133,7 +152,7 @@ const AddTransaction: React.FC<AddTransactionProps> = ({ buttonShape = 'rounded'
         </>
       </Button>
 
-      <Modal isOpen={open} onClose={() => setOpen(false)} title="Add Transaction">
+      <Modal isOpen={open} onClose={handleOnClose} title="Add Transaction">
         <form className="txn-form" onSubmit={handleSubmit}>
           <TypeBoxSelector formData={formData} handleTypeChange={handleTypeChange} />
 

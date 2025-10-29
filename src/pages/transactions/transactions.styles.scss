@@ -1,106 +1,121 @@
 @use '../../styles/global.scss' as *;
 
 .transactions-page {
-  height: 100%;
+  @include grid(
+    $templateColumns: repeat(4, 1fr),
+    $templateRows: repeat(3, auto),
+    $columnGap: $spacing-6,
+    $rowGap: $spacing-6
+  );
 
-  .txn-page-header {
-    .txn-header-totals {
+  .txn-total-budget-section,
+  .txn-page-spent {
+    @include dashboard-card($radius: $radius-lg, $shadow: $shadow-lg, $pad: $spacing-5 $spacing-6);
+
+    @include mediaDown(md) {
+      padding: $spacing-4;
+    }
+  }
+
+  .txn-filter-select-section,
+  .txn-filter-search-section,
+  .txn-sort-section {
+    .group {
+      margin-bottom: 0;
+    }
+  }
+
+  .txn-total-budget-section {
+    grid-area: 1 / 1 / 2 / 2;
+
+    .total-value {
+      font-size: 24px;
+      font-weight: bold;
+    }
+  }
+
+  .txn-page-spent {
+    grid-area: 1 / 2 / 2 / 5;
+
+    .spent-container-row {
       display: flex;
-      justify-content: flex-start;
-      margin-left: 150px;
-      gap: 40px;
+      width: 100%;
       align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      flex-direction: row;
+      grid-area: $spacing-5;
 
-      .txn-header-budget {
+      .spent-container {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
 
-        .total-label {
-          font-size: 11px;
+        .spent-label {
+          font-size: 14px;
         }
 
-        .total-value {
-          font-size: $font-size-h3;
-          font-weight: $font-weight-bold;
+        .spent-value {
+          font-weight: bold;
+          font-size: 18px;
         }
       }
     }
+  }
 
-    .filter-criterias-line {
-      @include grid($templateColumns: repeat(3, 1fr));
+  .txn-filter-select-section {
+    grid-area: 2 / 1 / 3 / 2;
+  }
 
-      .filter-selector {
-        grid-area: 1 / 1 / 2 / 2;
-        max-width: 200px;
-      }
+  .txn-filter-search-section {
+    grid-area: 2 / 2 / 3 / 3;
+  }
 
-      .search-input {
-        grid-area: 1 / 2 / 2 / 3;
-      }
+  .txn-sort-section {
+    grid-area: 2 / 4 / 3 / 5;
+  }
 
-      .sort-selector {
-        grid-area: 1 / 3 / 2 / 4;
-        max-width: 250px;
-        margin-left: auto;
+  .txn-list-section {
+    grid-area: 3 / 1 / 4 / 5;
+
+    .txn-group {
+      margin-top: 25px;
+
+      &:first-child {
+        margin: 0;
       }
     }
-  }
-}
 
-.transaction-groups {
-  overflow: auto;
-  height: 600px;
+    .txn-group-list {
+      @include dashboard-card(
+        $radius: $radius-md,
+        $shadow: $shadow-md,
+        $pad: $spacing-4 $spacing-5
+      );
 
-  .txn-group {
-    margin-top: 25px;
-  }
-
-  .txn-group-list {
-    @include dashboard-card($radius: $radius-md, $shadow: $shadow-md, $pad: $spacing-4 $spacing-5);
-
-    .txn-line {
-      @include grid($templateColumns: 1fr 1fr 120px);
-      width: 100%;
-      border-bottom: 1px solid rgb(238, 238, 238);
-      padding: 12px 0px;
-      align-items: center;
-
-      &:last-child {
-        border-bottom: none;
-      }
-
-      .txn-cat-row {
-        display: inline-flex;
+      .txn-line {
+        @include grid($templateColumns: 1fr 1fr 120px);
+        width: 100%;
+        border-bottom: 1px solid rgb(238, 238, 238);
+        padding: 12px 0px;
         align-items: center;
-        gap: $spacing-4;
-        width: 270px;
 
-        .cat-icon-wrapper {
-          @include flex();
-          width: 35px;
-          height: 35px;
-          background-color: $color-neutral-light;
-          border-radius: $radius-sm;
-          box-shadow: $shadow-md;
-        }
-        .cat-type-badge {
-          margin-left: auto;
-          padding: 5px 10px;
-          font-size: 11px;
-          border-radius: $radius-sm;
+        &:last-child {
+          border-bottom: none;
         }
       }
-    }
 
-    .note {
-      font-size: 12px;
-    }
+      .note {
+        font-size: 14px;
 
-    .amount {
-      text-align: right;
-      font-weight: $font-weight-bold;
+        @include mediaDown(md) {
+          font-size: 12px;
+        }
+      }
+
+      .amount {
+        text-align: right;
+        font-weight: $font-weight-bold;
+      }
     }
   }
 }

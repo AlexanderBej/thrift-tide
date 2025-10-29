@@ -1,0 +1,14 @@
+@use '../../styles/global.scss' as *;
+
+.history-page {
+  display: grid;
+  gap: $spacing-6;
+
+  @include mediaDown(md) {
+    gap: $spacing-4;
+  }
+
+  .history-page-section {
+    @include dashboard-card($radius: $radius-lg, $shadow: $shadow-lg, $pad: $spacing-5 $spacing-6);
+  }
+}

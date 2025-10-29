@@ -18,7 +18,7 @@ interface FormInputProps {
   label?: string;
   value: string | number;
   required?: boolean;
-  inputType?: 'text' | 'textarea' | 'number' | 'search';
+  inputType?: 'text' | 'textarea' | 'number' | 'search' | 'range';
   prefix?: 'euro' | 'search' | 'other' | 'none';
   isMaxLengthShown?: boolean;
   passwordField?: PasswordFieldVisibility;

@@ -17,37 +17,85 @@ import { RiNetflixFill } from 'react-icons/ri';
 import { CategoryOptions } from '../api/types/category-options.types';
 import { Bucket } from '../api/types/bucket.types';
 import { CategoryOption } from '../api/models/category-option';
+import { getCssVar } from './style-variable.util';
 
 export const CATEGORY_OPTIONS: CategoryOptions = {
   needs: [
-    { label: 'Rent / Mortgage', icon: TbHomeDollar, value: 'rent' },
-    { label: 'Utilities', icon: FaRegLightbulb, value: 'utilities' },
-    { label: 'Groceries', icon: GiShoppingCart, value: 'groceries' },
-    { label: 'Transport', icon: MdDirectionsCar, value: 'transport' },
-    { label: 'Insurance', icon: IoShieldCheckmarkOutline, value: 'insurance' },
-    { label: 'Healthcare', icon: MdLocalHospital, value: 'healthcare' },
-    { label: 'Education', icon: PiBookOpenTextLight, value: 'education' },
+    { label: 'Rent / Mortgage', icon: TbHomeDollar, value: 'rent', color: getCssVar('--cat-1') },
+    { label: 'Utilities', icon: FaRegLightbulb, value: 'utilities', color: getCssVar('--cat-2') },
+    { label: 'Groceries', icon: GiShoppingCart, value: 'groceries', color: getCssVar('--cat-3') },
+    { label: 'Transport', icon: MdDirectionsCar, value: 'transport', color: getCssVar('--cat-4') },
+    {
+      label: 'Insurance',
+      icon: IoShieldCheckmarkOutline,
+      value: 'insurance',
+      color: getCssVar('--cat-5'),
+    },
+    {
+      label: 'Healthcare',
+      icon: MdLocalHospital,
+      value: 'healthcare',
+      color: getCssVar('--cat-6'),
+    },
+    {
+      label: 'Education',
+      icon: PiBookOpenTextLight,
+      value: 'education',
+      color: getCssVar('--cat-7'),
+    },
   ],
   wants: [
-    { label: 'Dining Out', icon: MdRestaurant, value: 'dining' },
-    { label: 'Entertainment', icon: MdOutlineMovie, value: 'entertainments' },
-    { label: 'Shopping', icon: FiShoppingBag, value: 'shopping' },
-    { label: 'Travel', icon: TbPlaneDeparture, value: 'travel' },
-    { label: 'Subscriptions', icon: RiNetflixFill, value: 'subscriptions' },
-    { label: 'Hobbies', icon: GiGuitar, value: 'hobbies' },
-    { label: 'Beauty & Wellness', icon: GiLotusFlower, value: 'beauty' },
+    { label: 'Dining Out', icon: MdRestaurant, value: 'dining', color: getCssVar('--cat-1') },
+    {
+      label: 'Entertainment',
+      icon: MdOutlineMovie,
+      value: 'entertainments',
+      color: getCssVar('--cat-2'),
+    },
+    { label: 'Shopping', icon: FiShoppingBag, value: 'shopping', color: getCssVar('--cat-3') },
+    { label: 'Travel', icon: TbPlaneDeparture, value: 'travel', color: getCssVar('--cat-4') },
+    {
+      label: 'Subscriptions',
+      icon: RiNetflixFill,
+      value: 'subscriptions',
+      color: getCssVar('--cat-5'),
+    },
+    { label: 'Hobbies', icon: GiGuitar, value: 'hobbies', color: getCssVar('--cat-6') },
+    {
+      label: 'Beauty & Wellness',
+      icon: GiLotusFlower,
+      value: 'beauty',
+      color: getCssVar('--cat-7'),
+    },
   ],
   savings: [
-    { label: 'Emergency Fund', icon: MdSavings, value: 'emergency' },
-    { label: 'Investments', icon: MdTrendingUp, value: 'investment' },
-    { label: 'Retirement', icon: GiStairsGoal, value: 'retirement' },
-    { label: 'Big Purchase', icon: TbPigMoney, value: 'big_purchase' },
-    { label: 'Vacation Fund', icon: PiTreePalm, value: 'vacation' },
-    { label: 'Education Fund', icon: PiGraduationCapLight, value: 'education_fund' },
-    { label: 'Debt Payments', icon: HiOutlineBanknotes, value: 'debt_payments' },
+    { label: 'Emergency Fund', icon: MdSavings, value: 'emergency', color: getCssVar('--cat-1') },
+    { label: 'Investments', icon: MdTrendingUp, value: 'investment', color: getCssVar('--cat-2') },
+    { label: 'Retirement', icon: GiStairsGoal, value: 'retirement', color: getCssVar('--cat-3') },
+    { label: 'Big Purchase', icon: TbPigMoney, value: 'big_purchase', color: getCssVar('--cat-4') },
+    { label: 'Vacation Fund', icon: PiTreePalm, value: 'vacation', color: getCssVar('--cat-5') },
+    {
+      label: 'Education Fund',
+      icon: PiGraduationCapLight,
+      value: 'education_fund',
+      color: getCssVar('--cat-6'),
+    },
+    {
+      label: 'Debt Payments',
+      icon: HiOutlineBanknotes,
+      value: 'debt_payments',
+      color: getCssVar('--cat-7'),
+    },
   ],
 };
 
+export function getCategoryColor(value: string): string {
+  for (const group of Object.values(CATEGORY_OPTIONS)) {
+    const match = group.find((cat) => cat.value === value);
+    if (match) return match.color;
+  }
+  return getCssVar('--cat-10');
+}
 export const getCategoriesByType = (type: Bucket): CategoryOption[] => CATEGORY_OPTIONS[type];
 
 const norm = (s: string) => s.trim().toLowerCase();
@@ -80,6 +128,7 @@ export function resolveCategory(input: string): CategoryOption {
       label: byValue.label,
       value: byValue.value,
       icon: byValue.icon,
+      color: getCategoryColor(byValue.value),
       // type: byValue.type,
       // isCustom: false,
     };
@@ -92,6 +141,7 @@ export function resolveCategory(input: string): CategoryOption {
       label: byLabel.label,
       value: byLabel.value,
       icon: byLabel.icon,
+      color: getCategoryColor(byLabel.value),
       // type: byLabel.type,
       // isCustom: false,
     };
@@ -102,6 +152,7 @@ export function resolveCategory(input: string): CategoryOption {
     label: input, // show exactly what the user wrote
     value: input, // keep raw value
     icon: TbCategory, // generic icon
+    color: getCategoryColor(input),
     // isCustom: true,
   };
 }

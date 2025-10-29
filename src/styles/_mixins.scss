@@ -20,11 +20,17 @@
   grid-row-gap: $rowGap;
 }
 
-@mixin dashboard-card($shadow: $shadow-lg, $radius: $radius-lg, $pad: $spacing-5 $spacing-6) {
-  background-color: $color-bg-card;
+@mixin dashboard-card(
+  $shadow: $shadow-lg,
+  $radius: $radius-lg,
+  $pad: $spacing-5 $spacing-6,
+  $bgCol: $color-bg-card
+) {
+  background-color: $bgCol;
   box-shadow: $shadow;
   border-radius: $radius;
   padding: $pad;
+  height: auto;
 }
 
 $breakpoints: (

@@ -1,0 +1,50 @@
+.timeline-container {
+  position: relative;
+  height: 50px;
+  margin-top: 50px;
+
+  .timeline-bar {
+    position: relative;
+    height: 16px;
+    border-radius: 999px;
+    background: var(--grid, #e6ebef);
+    overflow: hidden;
+
+    .elapsed {
+      background: var(--needs, #2ecc71);
+      height: 100%;
+    }
+
+    .marker {
+      position: absolute;
+      top: 0;
+      width: 2px;
+      height: 16px;
+      background: var(--warning, #f39c12);
+      border-radius: 2px;
+    }
+  }
+
+  .period {
+    position: absolute;
+    top: 16px;
+
+    &__start {
+      left: 0;
+    }
+
+    &__end {
+      right: 0;
+    }
+
+    &__run-out {
+      top: -25px;
+      transform: translateX(-50%);
+    }
+
+    &__forecast {
+      font-size: 12px;
+      opacity: 0.7;
+    }
+  }
+}

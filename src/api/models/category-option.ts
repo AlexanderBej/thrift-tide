@@ -4,4 +4,5 @@ export interface CategoryOption {
   label: string;
   icon: IconType;
   value: string;
+  color: string;
 }

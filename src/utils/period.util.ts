@@ -77,3 +77,26 @@ export function formatPeriodLabel(
     ? `${fmtDayMon(periodStart)} – ${fmtDayMonYear(end)}`
     : `${fmtDayMonYear(periodStart)} – ${fmtDayMonYear(end)}`;
 }
+
+export function enumerateDatesUTC(start: Date, end: Date): Date[] {
+  if (end < start) return [];
+
+  // Normalize both to midnight UTC
+  const s = new Date(Date.UTC(start.getFullYear(), start.getMonth(), start.getDate()));
+  const e = new Date(Date.UTC(end.getFullYear(), end.getMonth(), end.getDate()));
+
+  const ONE_DAY = 24 * 60 * 60 * 1000;
+  const out: Date[] = [];
+
+  for (let t = s.getTime(); t <= e.getTime(); t += ONE_DAY) {
+    const dUTC = new Date(t); // UTC midnight
+    // Convert back to local Date with the same Y-M-D (optional; keep as UTC if you prefer)
+    out.push(new Date(dUTC.getUTCFullYear(), dUTC.getUTCMonth(), dUTC.getUTCDate()));
+  }
+
+  return out;
+}
+
+// export function enumerateDayNumbers(start: Date, end: Date): number[] {
+//   return enumerateDatesUTC(start, end).map((d) => d.getDate());
+// }

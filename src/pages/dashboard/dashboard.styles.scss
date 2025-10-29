@@ -1,152 +1,128 @@
 @use '../../styles/global.scss' as *;
 
-.dashboard {
+.dashboard-page {
   border-radius: $radius-lg;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
+  @include grid(
+    $templateColumns: repeat(3, 1fr),
+    $templateRows: repeat(3, auto),
+    $columnGap: $spacing-6,
+    $rowGap: $spacing-6
+  );
 
   @include mediaDown(md) {
     gap: $spacing-4;
   }
 
-  .dashboard-header {
-    @include grid($templateColumns: repeat(3, 1fr), $columnGap: 30px);
-
-    @include mediaDown(md) {
-      display: block;
-    }
-
-    .dashboard-intro-card {
-      @include dashboard-card(
-        $radius: $radius-lg,
-        $shadow: $shadow-lg,
-        $pad: $spacing-5 $spacing-6
-      );
-      grid-area: 1 / 1 / 2 / 2;
-
-      @include mediaDown(md) {
-        margin-bottom: $spacing-4;
-        padding: $spacing-4 $spacing-5;
-      }
-
-      .dashboard-intro-header {
-        @include mediaDown(md) {
-          font-size: 24px;
-        }
-      }
-
-      .total-income-container {
-        margin: 20px 0;
-
-        @include mediaDown(md) {
-          margin: 0;
-
-          .total-income-lable {
-            font-size: 9px;
-          }
-
-          .total-income-value {
-            font-size: 18px;
-          }
-        }
-      }
-
-      .dashboard-income-wrapper {
-        @include mediaDown(md) {
-          display: inline-flex;
-          align-items: center;
-          justify-content: space-between;
-          width: 100%;
-        }
-      }
-    }
-
-    .dashboard-pie-card {
-      @include dashboard-card(
-        $radius: $radius-lg,
-        $shadow: $shadow-lg,
-        $pad: $spacing-5 $spacing-6
-      );
-
-      grid-area: 1 / 2 / 2 / 4;
-      display: inline-flex;
-      align-items: center;
-      gap: 50px;
-      width: 100%;
-
-      @include mediaDown(md) {
-        padding: $spacing-4 $spacing-5;
-        gap: 20px;
-      }
-
-      .dashboard-donut {
-        width: 400px;
-
-        @include mediaDown(md) {
-          width: 130px;
-        }
-      }
-
-      .dashboard-cat-percentages {
-        width: 250px;
-
-        @include mediaDown(md) {
-          flex: 1;
-          width: unset;
-        }
-
-        .cat-percentage-line {
-          display: inline-flex;
-          width: 100%;
-          line-height: 3rem;
-          font-size: 18px;
-          font-weight: $font-weight-bold;
-          justify-content: space-between;
-          align-items: center;
-
-          @include mediaDown(md) {
-            font-size: 14px;
-            line-height: 2rem;
-          }
-        }
-      }
-    }
-  }
-
-  .dashboard-cards-container {
+  .dashboard-intro-section,
+  .dashboard-pie-section,
+  .dashboard-cards-section,
+  .kpi-cards-section,
+  .distribution-section {
     @include dashboard-card($radius: $radius-lg, $shadow: $shadow-lg, $pad: $spacing-5 $spacing-6);
     @include mediaDown(md) {
-      padding: $spacing-4 $spacing-5;
+      padding: $spacing-4;
     }
   }
 
-  .insights-container {
-    @include grid($templateColumns: repeat(3, 1fr), $columnGap: 30px);
+  .dashboard-intro-section {
+    grid-area: 1 / 1 / 2 / 2;
+
     @include mediaDown(md) {
-      display: block;
+      margin-bottom: $spacing-4;
     }
 
-    .kpi-cards-container {
-      grid-area: 1 / 1 / 2 / 3;
-      @include dashboard-card(
-        $radius: $radius-lg,
-        $shadow: $shadow-lg,
-        $pad: $spacing-5 $spacing-6
-      );
+    .dashboard-intro-header {
       @include mediaDown(md) {
-        padding: $spacing-4 $spacing-5;
-        margin-bottom: $spacing-4;
+        font-size: 24px;
       }
     }
 
-    .distribution-container {
-      grid-area: 1 / 3 / 2 / 4;
-      @include dashboard-card(
-        $radius: $radius-lg,
-        $shadow: $shadow-lg,
-        $pad: $spacing-5 $spacing-6
-      );
+    .total-income-container {
+      margin: 20px 0;
+
+      @include mediaDown(md) {
+        margin: 0;
+
+        .total-income-label {
+          font-size: 9px;
+        }
+
+        .total-income-value {
+          font-size: 18px;
+        }
+      }
     }
+
+    .dashboard-income-wrapper {
+      @include mediaDown(md) {
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+      }
+    }
+  }
+
+  .dashboard-pie-section {
+    grid-area: 1 / 2 / 2 / 4;
+    display: inline-flex;
+    align-items: center;
+    gap: 50px;
+    width: 100%;
+
+    @include mediaDown(md) {
+      gap: 20px;
+    }
+
+    .dashboard-donut {
+      width: 400px;
+
+      @include mediaDown(md) {
+        width: 130px;
+      }
+    }
+
+    .dashboard-cat-percentages {
+      width: 250px;
+
+      @include mediaDown(md) {
+        flex: 1;
+        width: unset;
+      }
+
+      .cat-percentage-line {
+        display: inline-flex;
+        width: 100%;
+        line-height: 3rem;
+        font-size: 18px;
+        font-weight: $font-weight-bold;
+        justify-content: space-between;
+        align-items: center;
+
+        @include mediaDown(md) {
+          font-size: 14px;
+          line-height: 2rem;
+        }
+      }
+    }
+  }
+
+  .dashboard-cards-section {
+    grid-area: 2 / 1 / 3 / 4;
+
+    .dashboard-card-badges {
+      margin-bottom: $spacing-4;
+    }
+  }
+
+  .kpi-cards-section {
+    grid-area: 3 / 1 / 4 / 3;
+    @include mediaDown(md) {
+      margin-bottom: $spacing-4;
+    }
+  }
+
+  .distribution-section {
+    grid-area: 3 / 3 / 4 / 4;
   }
 }

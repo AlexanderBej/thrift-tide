@@ -4,15 +4,15 @@ import { GiWantedReward } from 'react-icons/gi';
 import { MdDataSaverOn } from 'react-icons/md';
 import { CiSquareQuestion } from 'react-icons/ci';
 import { useSelector } from 'react-redux';
+import { IconType } from 'react-icons';
 
 import { selectCards } from '../../store/budget-store/budget.selectors';
-import { IconType } from 'react-icons';
 import { useNavigate } from 'react-router-dom';
 import { fmt } from '../../utils/format-data.util';
-
-import './dashboard-cards.styles.scss';
 import TTIcon from '../../components-ui/icon/icon.component';
 import ProgressBar from '../../components-ui/progress-bar/progress-bar.component';
+
+import './dashboard-cards.styles.scss';
 
 const DashboardCards: React.FC = () => {
   const navigate = useNavigate();
@@ -52,13 +52,13 @@ const DashboardCards: React.FC = () => {
         <div
           key={c.key}
           className="dashboard-card"
-          onClick={() => navigate(`/categories/${c.title.toLowerCase()}`)}
+          onClick={() => navigate(`/buckets/${c.title.toLowerCase()}`)}
         >
           <div className="card-title-row">
             <div className="cart-title-icon" style={{ background: getCategoryColor(c.key) }}>
               {c.key && <TTIcon icon={getCategoryIcon(c.key)} size={22} color="white" />}
             </div>
-            <span>{c.title}</span>
+            <span className="card-title-value">{c.title}</span>
           </div>
           <div className="card-details">
             <span>Allocated</span>

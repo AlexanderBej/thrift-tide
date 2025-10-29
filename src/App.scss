@@ -1,4 +1,4 @@
-@use './styles/styles';
+// @use './styles/styles';
 @use './styles/global.scss' as *;
 
 .mobile-none {
@@ -7,8 +7,14 @@
   }
 }
 
-.card-h2 {
-  @include mediaDown(md) {
-    font-size: 18px;
-  }
+// .card-h2 {
+//   @include mediaDown(md) {
+//     font-size: 18px;
+//   }
+// }
+
+.card-header {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: $spacing-3;
 }

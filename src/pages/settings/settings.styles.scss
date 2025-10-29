@@ -1,0 +1,42 @@
+@use '../../styles/global.scss' as *;
+
+.settings-page {
+  display: grid;
+  gap: $spacing-6;
+
+  @include mediaDown(md) {
+    gap: $spacing-4;
+  }
+
+  .settings-page-section {
+    @include dashboard-card($radius: $radius-lg, $shadow: $shadow-lg, $pad: $spacing-5 $spacing-6);
+
+    .settings-label {
+      display: inline-flex;
+      width: 50%;
+      justify-content: space-between;
+    }
+
+    .budget-preferences-row {
+      @include grid($templateColumns: repeat(2, 1fr), $columnGap: $spacing-5);
+
+      .budget-sliders {
+        grid-area: 1 / 1 / 2 / 2;
+      }
+      .donut-container {
+        grid-area: 1 / 2 / 2 / 3;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    .settings-action-btns {
+      margin: $spacing-6 auto 0;
+      display: flex;
+      gap: $spacing-5;
+      justify-content: center;
+    }
+  }
+}

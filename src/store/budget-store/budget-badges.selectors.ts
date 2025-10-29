@@ -3,9 +3,7 @@ import type { Bucket } from '../../api/types/bucket.types';
 import { selectTotals } from './budget.selectors';
 import { selectBurnVsPace } from './budget-insights.selectors';
 import { selectMonthTiming } from './budget-period.selectors';
-
-export type BadgeKind = 'danger' | 'warn' | 'info' | 'success';
-export type Badge = { id: string; text: string; kind: BadgeKind; scope?: 'total' | Bucket };
+import { Badge } from '../../api/models/badges';
 
 const OVERPACE = 0.1;
 const HIGH_OVERPACE = 0.15;

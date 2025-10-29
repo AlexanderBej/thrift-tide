@@ -16,7 +16,7 @@ export type NavItem = {
 
 export const NAV_ITEMS: NavItem[] = [
   { key: 'dashboard', to: '/', label: 'Dashboard', icon: RxDashboard },
-  { key: 'categories', to: '/categories', label: 'Categories', icon: MdOutlineCategory },
+  { key: 'buckets', to: '/buckets', label: 'Buckets', icon: MdOutlineCategory },
   { key: 'txns', to: '/transactions', label: 'Transactions', icon: GrTransaction },
   { key: 'insights', to: '/insights', label: 'Insights', icon: MdInsights },
   { key: 'history', to: '/history', label: 'History', icon: FaHistory },
