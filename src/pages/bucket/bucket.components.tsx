@@ -6,13 +6,7 @@ import { makeSelectCategoryView } from '../../store/budget-store/budget.selector
 import Breadcrumbs from '../../components-ui/breadcrumb/breadcrumb.component';
 import ProgressBar from '../../components-ui/progress-bar/progress-bar.component';
 import { getCssVar } from '../../utils/style-variable.util';
-import {
-  Bucket,
-  BUCKET_COLORS,
-  BUCKET_ICONS,
-  BUCKET_LIGHT_COLORS,
-  BucketType,
-} from '../../api/types/bucket.types';
+import { Bucket, BUCKET_COLORS, BUCKET_ICONS, BucketType } from '../../api/types/bucket.types';
 import { resolveCategory } from '../../utils/category-options.util';
 import { BadgePills } from '../../components/badge-pills/badge-pills.component';
 import { makeSelectBucketBadges } from '../../store/budget-store/budget-badges.selectors';
@@ -21,7 +15,7 @@ import {
   selectDashboardInsights,
 } from '../../store/budget-store/budget-insights.selectors';
 import { fmt } from '../../utils/format-data.util';
-import { selectBudgetStatus } from '../../store/budget-store/budget.selectors.base';
+import { selectBudgetLoadStatus } from '../../store/budget-store/budget.selectors.base';
 import TransactionRow from '../../components/transaction-row/transaction-row.component';
 import { Donut, DonutItem } from '../../components-ui/charts/donut.component';
 import CategoryName from '../../components/category-name/category-name.component';
@@ -38,7 +32,7 @@ import { useWindowWidth } from '../../utils/window-width.hook';
 const BucketPage: React.FC = () => {
   const { type } = useParams<{ type: string }>();
 
-  const status = useSelector(selectBudgetStatus);
+  const status = useSelector(selectBudgetLoadStatus);
   const badges = useSelector(makeSelectBucketBadges(type as Bucket));
   const insights = useSelector(selectDashboardInsights);
   const { periodStart, periodEnd } = useSelector(selectMonthTiming);

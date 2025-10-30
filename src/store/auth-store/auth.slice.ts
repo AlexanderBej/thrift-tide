@@ -30,7 +30,7 @@ const authSlice = createSlice({
     userSignedOut(state) {
       state.status = 'unauthenticated';
       state.user = null;
-      state.user = null;
+      state.loading = false;
     },
     authLoading(state) {
       state.loading = true;

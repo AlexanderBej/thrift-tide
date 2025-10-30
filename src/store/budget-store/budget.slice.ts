@@ -19,10 +19,13 @@ import { startTxnsListener, stopTxnsListener } from '../../api/services/firebase
 import { monthKeyFromDate } from '../../utils/period.util';
 import toast from 'react-hot-toast';
 
-type Status = 'idle' | 'loading' | 'ready' | 'error';
+// type Status = 'idle' | 'loading' | 'ready' | 'error';
 export type TxnTypeFilter = 'all' | 'needs' | 'wants' | 'savings';
 export type SortKey = 'date' | 'amount';
 type SortDir = 'asc' | 'desc';
+
+type LoadStatus = 'idle' | 'loading' | 'ready' | 'error';
+type MutateStatus = 'idle' | 'loading' | 'error';
 
 interface TxnUiState {
   type: TxnTypeFilter;
@@ -35,9 +38,11 @@ interface BudgetState {
   month: string;
   doc: MonthDoc | null;
   txns: Txn[];
-  status: Status;
+  loadStatus: LoadStatus;
+  mutateStatus: MutateStatus;
   error?: string;
   _unsubTxns?: () => void; // internal
+  // _unsubL
   ui: TxnUiState;
 }
 
@@ -45,7 +50,8 @@ const initialState: BudgetState = {
   month: monthKey(),
   doc: null,
   txns: [],
-  status: 'idle',
+  loadStatus: 'idle',
+  mutateStatus: 'idle',
   ui: { type: 'all', search: '', sortKey: 'date', sortDir: 'desc' },
 };
 
@@ -290,78 +296,96 @@ const budgetSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(initBudget.pending, (s) => {
-        s.status = 'loading';
+        s.loadStatus = 'loading';
         s.error = undefined;
       })
       .addCase(initBudget.fulfilled, (s, { payload }) => {
-        s.status = 'ready';
+        s.loadStatus = 'ready';
         s.doc = payload?.doc ?? null;
         s.month = payload?.month ?? '';
       })
       .addCase(initBudget.rejected, (s, a) => {
-        s.status = 'error';
+        s.loadStatus = 'error';
         s.error = a.error.message;
       })
+
+      .addCase(setIncomeThunk.pending, (s) => {
+        s.mutateStatus = 'loading';
+        s.error = undefined;
+      })
       .addCase(setIncomeThunk.fulfilled, (s, { payload }) => {
+        s.mutateStatus = 'idle';
         s.doc = payload;
       })
-      .addCase(setIncomeForPeriod.pending, (s, { payload }) => {
-        s.status = 'loading';
+      .addCase(setIncomeThunk.rejected, (s, a) => {
+        s.mutateStatus = 'error';
+        s.error = a.error.message;
+      })
+
+      .addCase(setIncomeForPeriod.pending, (s) => {
+        s.mutateStatus = 'loading';
         s.error = undefined;
       })
       .addCase(setIncomeForPeriod.fulfilled, (s, { payload }) => {
         s.doc = payload;
-        s.error = undefined;
-        s.status = 'ready';
+        s.mutateStatus = 'idle';
       })
-      .addCase(setIncomeForPeriod.rejected, (s, { payload }) => {
-        s.status = 'error';
-        s.error = payload as any;
+      .addCase(setIncomeForPeriod.rejected, (s, a) => {
+        s.mutateStatus = 'error';
+        s.error = a.error.message;
+      })
+
+      .addCase(setPercentsThunk.pending, (s) => {
+        s.error = undefined;
+        s.mutateStatus = 'loading';
       })
       .addCase(setPercentsThunk.fulfilled, (s, { payload }) => {
         s.doc = payload;
+        s.mutateStatus = 'idle';
       })
+      .addCase(setPercentsThunk.rejected, (s, a) => {
+        s.error = a.error.message;
+        s.mutateStatus = 'error';
+      })
+
       .addCase(changeMonthThunk.pending, (s) => {
-        s.status = 'loading';
+        s.loadStatus = 'loading';
         s.error = undefined;
       })
       .addCase(changeMonthThunk.fulfilled, (s, { payload }) => {
-        s.status = 'ready';
+        s.loadStatus = 'ready';
         s.doc = payload.doc;
         s.month = payload.month;
-        // txns will stream in via _setTxns from the live listener
       })
       .addCase(changeMonthThunk.rejected, (s, a) => {
-        s.status = 'error';
+        s.loadStatus = 'error';
         s.error = a.error.message;
       })
 
       // --- update transaction
       .addCase(updateTxnThunk.pending, (s) => {
-        s.status = 'loading';
+        s.mutateStatus = 'loading';
         s.error = undefined;
       })
       .addCase(updateTxnThunk.fulfilled, (s) => {
-        s.status = 'ready';
-        // No local mutation needed; listener will sync txns
+        s.mutateStatus = 'idle';
       })
       .addCase(updateTxnThunk.rejected, (s, a) => {
-        s.status = 'error';
-        s.error = a.error.message ?? 'Failed to update transaction';
+        s.mutateStatus = 'error';
+        s.error = a.error.message;
       })
 
       // --- delete transaction
       .addCase(deleteTxnThunk.pending, (s) => {
-        s.status = 'loading';
+        s.mutateStatus = 'loading';
         s.error = undefined;
       })
       .addCase(deleteTxnThunk.fulfilled, (s) => {
-        s.status = 'ready';
-        // No local mutation needed; listener will sync txns
+        s.mutateStatus = 'idle';
       })
       .addCase(deleteTxnThunk.rejected, (s, a) => {
-        s.status = 'error';
-        s.error = a.error.message ?? 'Failed to delete transaction';
+        s.mutateStatus = 'error';
+        s.error = a.error.message;
       });
   },
 });

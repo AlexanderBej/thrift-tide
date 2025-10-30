@@ -1,5 +1,5 @@
 import React from 'react';
-import Spinner from '../spinner/spinner.component';
+import Spinner from '../spinner/local-spinner/local-spinner.component';
 
 import './button.styles.scss';
 

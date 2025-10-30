@@ -1,7 +1,10 @@
 import { RootState } from '../store';
 
 /** Raw budget status (idle/loading/ready/error). */
-export const selectBudgetStatus = (s: RootState) => s.budget.status;
+export const selectBudgetLoadStatus = (s: RootState) => s.budget.loadStatus;
+
+/** Raw budget local status (idle/loading/error). */
+export const selectBudgetMutateStatus = (s: RootState) => s.budget.mutateStatus;
 
 /** The currently selected budget period key, e.g. "2025-10" (period start’s YYYY-MM). */
 export const selectBudgetMonth = (s: RootState) => s.budget.month;

@@ -5,26 +5,30 @@ import { _setTxns, cleanupListeners, initBudget } from '../store/budget-store/bu
 import { onTransactionsSnapshot } from '../api/services/budget.service';
 import { auth } from '../api/services/firebase.service';
 import { loadSettings } from '../store/settings-store/settings.slice';
+import toast from 'react-hot-toast';
 
 export const initApp = (dispatch: AppDispatch) => {
   dispatch(authLoading());
 
-  return onAuthStateChanged(auth, async (fbUser) => {
+  const unsubAuth = onAuthStateChanged(auth, async (fbUser) => {
     // Clear previous listeners whenever auth changes
     dispatch(cleanupListeners());
 
-    if (fbUser) {
-      dispatch(
-        userSignedIn({
-          uuid: fbUser.uid,
-          displayName: fbUser.displayName,
-          email: fbUser.email,
-          photoURL: fbUser.photoURL,
-        }),
-      );
+    if (!fbUser) {
+      dispatch(userSignedOut());
+      return;
+    }
 
-      // dispatch(loadSettings({ uid: fbUser.uid }));
+    dispatch(
+      userSignedIn({
+        uuid: fbUser.uid,
+        displayName: fbUser.displayName,
+        email: fbUser.email,
+        photoURL: fbUser.photoURL,
+      }),
+    );
 
+    try {
       dispatch(loadSettings({ uid: fbUser.uid }))
         .unwrap()
         .finally(async () => {
@@ -38,13 +42,17 @@ export const initApp = (dispatch: AppDispatch) => {
             });
           }
         });
-
-      // Store the new unsub in budget slice (reuse _clearUnsub to clean it)
-      // quick hack: dispatching initBudget already stored its unsub; we replace it here:
-      // or simply rely on the one from initBudget if you prefer.
-      // For clarity, you can move the listener creation into initBudget if you like.
-    } else {
-      dispatch(userSignedOut());
+    } catch (error) {
+      console.warn('App init error:', error);
+      toast.error('Could not load app!');
     }
   });
+
+  return () => {
+    try {
+      unsubAuth();
+    } catch {}
+    // also ensure listeners are cleaned if app unmounts
+    dispatch(cleanupListeners());
+  };
 };
