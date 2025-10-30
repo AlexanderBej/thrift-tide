@@ -1,7 +1,7 @@
 // Matches CRA pwa template
 export function register() {
   if ('serviceWorker' in navigator) {
-    const swUrl = `${process.env.PUBLIC_URL}/service-worker.ts`;
+    const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
     window.addEventListener('load', () => {
       navigator.serviceWorker
         .register(swUrl)
