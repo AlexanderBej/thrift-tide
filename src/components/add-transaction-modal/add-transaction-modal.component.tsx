@@ -18,6 +18,7 @@ import TypeBoxSelector from '../type-box-selector/type-box-selector.component';
 import Button from '../../components-ui/button/button.component';
 import FormInput from '../../components-ui/form-input/form-input.component';
 import Select from '../../components-ui/select/select.component';
+import { selectBudgetMutateStatus } from '../../store/budget-store/budget.selectors.base';
 
 import './add-transaction-modal.styles.scss';
 
@@ -36,6 +37,7 @@ interface AddTransactionProps {
 const AddTransaction: React.FC<AddTransactionProps> = ({ buttonShape = 'rounded' }) => {
   const dispatch = useDispatch<AppDispatch>();
   const user = useSelector(selectAuthUser);
+  const mutateStatus = useSelector(selectBudgetMutateStatus);
 
   const [open, setOpen] = useState(false);
   const [keepModalOpen, setKeepModalOpen] = useState(false);
@@ -204,6 +206,7 @@ const AddTransaction: React.FC<AddTransactionProps> = ({ buttonShape = 'rounded'
             buttonType="primary"
             htmlType="submit"
             customContainerClass="save-txn-btn"
+            isLoading={mutateStatus === 'loading'}
             disabled={!isFormValid()}
           >
             <span>Save</span>

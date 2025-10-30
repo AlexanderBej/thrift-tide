@@ -9,6 +9,7 @@ interface ConfirmationModalProps {
   message: string;
   buttonLabel: string;
   customButtonClass?: string;
+  loading?: boolean;
   handleConfirm: () => void;
 }
 
@@ -16,6 +17,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   message,
   buttonLabel,
   customButtonClass,
+  loading,
   handleConfirm,
 }) => {
   const [open, setOpen] = useState(false);
@@ -27,6 +29,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         htmlType="button"
         customContainerClass={`${customButtonClass} confirm-btn`}
         onClick={() => setOpen(true)}
+        isLoading={loading}
       >
         <span>{buttonLabel}</span>
       </Button>

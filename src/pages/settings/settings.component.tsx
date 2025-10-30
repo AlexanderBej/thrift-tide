@@ -4,7 +4,10 @@ import { AppDispatch } from '../../store/store';
 import { selectAuthUser } from '../../store/auth-store/auth.selectors';
 import { setPercentsThunk } from '../../store/budget-store/budget.slice';
 import { signOutUser } from '../../api/services/auth.service';
-import { selectBudgetDoc } from '../../store/budget-store/budget.selectors.base';
+import {
+  selectBudgetDoc,
+  selectBudgetMutateStatus,
+} from '../../store/budget-store/budget.selectors.base';
 
 import './settings.styles.scss';
 import { Donut, DonutItem } from '../../components-ui/charts/donut.component';
@@ -18,6 +21,7 @@ const Settings: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const user = useSelector(selectAuthUser);
   const doc = useSelector(selectBudgetDoc);
+  const mutateStatus = useSelector(selectBudgetMutateStatus);
 
   const defaultNeedsPct = doc?.percents.needs ?? 0.5;
   const defaultWantsPct = doc?.percents.wants ?? 0.3;
@@ -133,6 +137,7 @@ const Settings: React.FC = () => {
             buttonLabel="Save"
             message="Are you sure you want to change the percentages?"
             handleConfirm={savePercents}
+            loading={mutateStatus === 'loading'}
           />
           <Button
             buttonType="secondary"

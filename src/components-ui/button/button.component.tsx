@@ -26,7 +26,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <button
-      className={`thrift-tide-btn thrift-tide-btn__${buttonType} thrift-tide-btn__${buttonShape} ${customContainerClass} ${disabled ? 'thrift-tide-btn__disabled' : ''}`}
+      className={`thrift-tide-btn thrift-tide-btn__${buttonType} thrift-tide-btn__${buttonShape} ${customContainerClass} ${isLoading && 'thrift-tide-btn__loading'} ${disabled ? 'thrift-tide-btn__disabled' : ''}`}
       disabled={disabled}
       onClick={onClick}
       type={htmlType}

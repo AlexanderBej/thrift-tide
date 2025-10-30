@@ -17,7 +17,32 @@
   @include grid($templateColumns: 1fr 60%, $columnGap: 40px);
 }
 
-.save-txn-btn {
+.apply-to-field {
+  border-radius: $radius-sm;
+  border: 1px solid #50505040;
+  padding: 12px 16px;
+  margin-bottom: 15px;
+
+  .field-legen {
+    font-size: 12px;
+    padding: 0 5px;
+    background-color: $color-bg-card;
+  }
+
+  .radio-row {
+    display: inline-flex;
+    gap: 10px;
+    width: 100%;
+
+    .hint {
+      margin-left: auto;
+      font-size: 12px;
+      font-weight: 900;
+    }
+  }
+}
+
+.save-income-btn {
   margin: 20px auto 10px;
   display: block;
 }

@@ -51,4 +51,10 @@
     pointer-events: none;
     border-color: $color-neutral-medium;
   }
+
+  &__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }

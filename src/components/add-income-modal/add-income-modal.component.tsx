@@ -10,9 +10,10 @@ import Button from '../../components-ui/button/button.component';
 import FormInput from '../../components-ui/form-input/form-input.component';
 import { changeMonthThunk, setIncomeForPeriod } from '../../store/budget-store/budget.slice';
 import { selectSettingsBudgetStartDay } from '../../store/settings-store/settings.selectors';
-
-import './add-income-modal.styles.scss';
-import { selectBudgetMonth } from '../../store/budget-store/budget.selectors.base';
+import {
+  selectBudgetMonth,
+  selectBudgetMutateStatus,
+} from '../../store/budget-store/budget.selectors.base';
 import {
   formatPeriodLabel,
   nextMonthKey,
@@ -21,24 +22,23 @@ import {
 import { selectMonthTiming } from '../../store/budget-store/budget-period.selectors';
 import CheckboxInput from '../../components-ui/checkbox-input/checkbox-input.component';
 
-interface AddTransactionProps {
-  buttonShape?: 'square' | 'rounded';
-}
+import './add-income-modal.styles.scss';
 
-const AddIncome: React.FC<AddTransactionProps> = ({ buttonShape = 'rounded' }) => {
+const AddIncome: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const user = useSelector(selectAuthUser);
   const startDay = useSelector(selectSettingsBudgetStartDay);
   const monthKey = useSelector(selectBudgetMonth);
   const { periodStart, periodEnd } = useSelector(selectMonthTiming);
+  const mutateStatus = useSelector(selectBudgetMutateStatus);
 
   const [open, setOpen] = useState(false);
-  const [amount, setAmount] = React.useState<number>(100.0);
-  const [applyTo, setApplyTo] = React.useState<'current' | 'next'>('current');
-  const [saving, setSaving] = React.useState(false);
-  const [error, setError] = React.useState<string | null>(null);
-  const [switchAfter, setSwitchAfter] = React.useState<boolean>(false);
+  const [amount, setAmount] = useState<number>(100.0);
+  const [applyTo, setApplyTo] = useState<'current' | 'next'>('current');
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [switchAfter, setSwitchAfter] = useState<boolean>(false);
 
   const nextKey = nextMonthKey(monthKey, startDay);
   const nextRepr = representativeDateFromMonthKey(nextKey, startDay);
@@ -117,8 +117,8 @@ const AddIncome: React.FC<AddTransactionProps> = ({ buttonShape = 'rounded' }) =
             required
           />
 
-          <fieldset className="field">
-            <legend>Apply to</legend>
+          <fieldset className="apply-to-field">
+            <legend className="field-legen">Apply to</legend>
 
             <label className="radio-row">
               <input
@@ -128,10 +128,10 @@ const AddIncome: React.FC<AddTransactionProps> = ({ buttonShape = 'rounded' }) =
                 checked={applyTo === 'current'}
                 onChange={() => setApplyTo('current')}
               />
-              <span>
+              <div>
                 Current period <em>({monthKey})</em>
-                <div className="hint">{currentLabel}</div>
-              </span>
+              </div>
+              <span className="hint">{currentLabel}</span>
             </label>
 
             <label className="radio-row">
@@ -142,10 +142,10 @@ const AddIncome: React.FC<AddTransactionProps> = ({ buttonShape = 'rounded' }) =
                 checked={applyTo === 'next'}
                 onChange={() => setApplyTo('next')}
               />
-              <span>
+              <div>
                 Next period <em>({nextKey})</em>
-                <div className="hint">{nextLabel}</div>
-              </span>
+              </div>
+              <span className="hint">{nextLabel}</span>
             </label>
           </fieldset>
 
@@ -162,6 +162,7 @@ const AddIncome: React.FC<AddTransactionProps> = ({ buttonShape = 'rounded' }) =
             buttonType="primary"
             htmlType="submit"
             customContainerClass="save-income-btn"
+            isLoading={mutateStatus === 'loading'}
             disabled={saving || parsedAmount == null}
           >
             <span>Save</span>
