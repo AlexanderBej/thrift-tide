@@ -1,0 +1,102 @@
+{
+  "app": "Budget Balance",
+  "hi": "Salut",
+  "language": {
+    "en": "English",
+    "ro": "Română"
+  },
+
+  "pages": {
+    "dashboard": "Panou",
+    "buckets": "Categorii",
+    "bucket": "Categorie",
+    "transactions": "Tranzacții",
+    "insights": "Perspective",
+    "history": "Istoric",
+    "settings": "Setări"
+  },
+
+  "pageContent": {
+    "percentages": "Procentajele",
+    "buckets": {
+      "header": "Selectează o categorie"
+    },
+    "bucket": {
+      "noTrans": "Nu există tranzacții pentru"
+    },
+    "insights": {
+      "runOutForecast": "Prognoză de epuizare",
+      "kpi": "KPI-uri",
+      "spentByBucket": "Cheltuit per categorie",
+      "trends": "Trenduri",
+      "legend": "Legendă"
+    },
+    "history": {
+      "allocVsSpent": "Alocat vs Cheltuit (per perioadă)",
+      "latestDist": "Cea Mai Recentă Distribuție"
+    },
+    "settings": {
+      "pref": "Preferințe legate de buget",
+      "adjust": "Ajustează împărțirea 50/30/20"
+    }
+  },
+
+  "nav": {
+    "home": "Acasă",
+    "open": "Deschide",
+    "close": "Închide",
+    "back": "Înapoi",
+    "next": "Înainte"
+  },
+
+  "actions": {
+    "add": "Adaugă",
+    "edit": "Editează",
+    "delete": "Șterge",
+    "save": "Salvează",
+    "cancel": "Anulează",
+    "confirm": "Confirmă",
+    "apply": "Aplică",
+    "reset": "Resetează"
+  },
+
+  "search": {
+    "placeholder": "Căutare…",
+    "clear": "Șterge căutarea"
+  },
+
+  "state": {
+    "loading": "Se încarcă…",
+    "empty": "Încă nu există nimic aici",
+    "error": "A apărut o eroare",
+    "retry": "Reîncearcă"
+  },
+
+  "dates": {
+    "periodLabel": "{{start, date}} → {{end, date}}",
+    "fromTo": "De la {{from, date}} până la {{to, date}}",
+    "asOf": "la {{date, date}}",
+    "yesterday": "Ieri",
+    "today": "Azi"
+  },
+
+  "confirmations": {
+    "modalTitle": "Confirmă",
+    "areYouSure": "Ești sigur?",
+    "percentages": "Ești sigur că vrei să modifici procentajele?",
+    "unsavedChanges": "Ai modificări nesalvate. Le anulezi?"
+  },
+
+  "validation": {
+    "required": "Acest câmp este obligatoriu",
+    "min": "Valoarea este prea mică",
+    "max": "Valoarea este prea mare",
+    "invalidNumber": "Introdu un număr valid"
+  },
+
+  "toast": {
+    "saved": "Salvat",
+    "deleted": "Șters",
+    "updated": "Actualizat"
+  }
+}

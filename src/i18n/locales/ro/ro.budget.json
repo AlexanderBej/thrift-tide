@@ -1,0 +1,97 @@
+{
+  "income": "Venit",
+  "spent": "Cheltuit",
+  "remaining": "Rămas",
+  "allocated": "Alocat",
+
+  "totalSpent": "Total cheltuit",
+  "totalRemaining": "Total rămas",
+  "totalBudget": "Total Buget",
+
+  "topCategories": "Categorii principale",
+  "runOutDate": "Data estimată de epuizare: {{date, date}}",
+
+  "kpi": {
+    "avgDailySpend": "Media zilnică",
+    "projected": "Total proiectat",
+    "burnVsPace": "Arderi vs. Ritm",
+    "remainingPerDay": "Rămas / zi"
+  },
+
+  "badges": {
+    "overBudget": "Peste Buget",
+    "nearBudget": "Aproape de Buget",
+    "underPace": "Sub Ritm",
+    "behindPlan": "în Urmă",
+    "highBurn": "Ritm Ridicat de Cheltuieli",
+    "good": "de bine"
+  },
+
+  "daysToZero": "zile până la 0",
+  "daysToZero_one": "{{count}} zi până la zero",
+  "daysToZero_few": "{{count}} zile până la zero",
+  "daysToZero_other": "{{count}} de zile până la zero",
+
+  "buckets": "Categorii",
+  "bucket": "Categorie",
+
+  "bucketNames": {
+    "all": "Toate",
+    "needs": "Nevoi",
+    "wants": "Dorințe",
+    "savings": "Economii"
+  },
+
+  "pace": "Ritm (Total)",
+  "noTransactions": "Nu ai încă nici o tranzacție.",
+
+  "modals": {
+    "addTransaction": "Adaugă o Tranzacție",
+    "addIncome": "Adaugă Venit",
+    "type": "Tip",
+    "amount": "Sumă",
+    "date": "Dată",
+    "category": "Categorie",
+    "note": "Notă (opțional)",
+    "applyTo": "Aplică la",
+    "currentPeriod": "Perioada actuală",
+    "nextPeriod": "Perioada următoare",
+    "keepModalOpen": "Păstrează modalul deschis după trimitere.",
+    "switchPeriod": "Mută la perioada următoare după salvare."
+  },
+
+  "sortOptions": {
+    "byDate": "Sortează după dată",
+    "byAmount": "Sortează după sumă"
+  },
+
+  "categories": {
+    "needs": {
+      "rent": "Chirie / Ipotecă",
+      "utilities": "Utilități",
+      "groceries": "Produse alimentare",
+      "transport": "Transport",
+      "insurance": "Asigurare",
+      "healthcare": "Sănătate",
+      "education": "Educație"
+    },
+    "wants": {
+      "dining": "Cina în oraș",
+      "entertainments": "Divertisment",
+      "shopping": "Cumpărături",
+      "travel": "Călătorii",
+      "subscriptions": "Abonamente",
+      "hobbies": "Hobby-uri",
+      "beauty": "Frumusețe și wellness"
+    },
+    "savings": {
+      "emergency": "Fond de urgență",
+      "investment": "Investiții",
+      "retirement": "Pensie",
+      "big_purchase": "Achiziție mare",
+      "vacation": "Fond de vacanță",
+      "education_fund": "Fond de Educație",
+      "debt_payments": "Plăți de datorii"
+    }
+  }
+}

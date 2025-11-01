@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import StackedBarChart, { BarChartRow } from '../../components-ui/charts/stacked-bar.component';
 import { selectDashboardInsights } from '../../store/budget-store/budget-insights.selectors';
@@ -17,6 +18,7 @@ const pct = (n: number | null | undefined) => (n == null ? '—' : `${Math.round
 
 const DashboardInsights: React.FC<DashboardInsightsProps> = ({ showInsights }) => {
   const insights = useSelector(selectDashboardInsights);
+  const { t } = useTranslation('budget');
 
   const { totals, avgDaily, projectedTotal, burnVsPace, remainingPerDay, distribution } = insights;
   const { burn, pace } = burnVsPace;
@@ -25,17 +27,17 @@ const DashboardInsights: React.FC<DashboardInsightsProps> = ({ showInsights }) =
 
   const barChartData: BarChartRow[] = [
     {
-      category: 'Needs',
+      category: t('bucketNames.needs') ?? 'Needs',
       allocated: totals.alloc.needs,
       spent: distribution.needs,
     },
     {
-      category: 'Wants',
+      category: t('bucketNames.wants') ?? 'Wants',
       allocated: totals.alloc.wants,
       spent: distribution.wants,
     },
     {
-      category: 'Savings',
+      category: t('bucketNames.savings') ?? 'Savings',
       allocated: totals.alloc.savings,
       spent: distribution.savings,
     },
@@ -46,7 +48,7 @@ const DashboardInsights: React.FC<DashboardInsightsProps> = ({ showInsights }) =
   return (
     <div className="cards-grid">
       <KpiCard
-        title="Avg daily spend"
+        title={t('kpi.avgDailySpend') ?? 'Avg daily spend'}
         value={fmt(avgDaily)}
         tone={
           avgDaily
@@ -58,9 +60,9 @@ const DashboardInsights: React.FC<DashboardInsightsProps> = ({ showInsights }) =
             : 'muted'
         }
       />
-      <KpiCard title="Projected total" value={fmt(projectedTotal)} />
+      <KpiCard title={t('kpi.projected') ?? 'Projected total'} value={fmt(projectedTotal)} />
       <KpiCard
-        title="Burn vs Pace"
+        title={t('kpi.burnVsPace') ?? 'Burn vs. Pace'}
         value={`${pct(burn?.total ?? null)} vs ${pct(pace ?? null)}`}
         tone={
           burn?.total != null && pace != null
@@ -73,7 +75,7 @@ const DashboardInsights: React.FC<DashboardInsightsProps> = ({ showInsights }) =
         }
       />
       <KpiCard
-        title="Remaining / day"
+        title={t('kpi.remainingPerDay') ?? 'Remaining / day'}
         value={fmt(remainingPerDay?.total ?? null)}
         tone={
           avgDaily && remainingPerDay?.total

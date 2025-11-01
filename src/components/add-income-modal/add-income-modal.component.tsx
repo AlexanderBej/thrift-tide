@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import TTIcon from '../../components-ui/icon/icon.component';
 import Modal from '../../components-ui/modal/modal.component';
@@ -26,6 +27,7 @@ import './add-income-modal.styles.scss';
 
 const AddIncome: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const { t } = useTranslation(['common', 'budget']);
 
   const user = useSelector(selectAuthUser);
   const startDay = useSelector(selectSettingsBudgetStartDay);
@@ -105,10 +107,14 @@ const AddIncome: React.FC = () => {
         </>
       </Button>
 
-      <Modal isOpen={open} onClose={() => setOpen(false)} title="Add Income">
+      <Modal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        title={t('budget:modals.addIncome') ?? 'Add Income'}
+      >
         <form className="income-form" onSubmit={handleSubmit}>
           <FormInput
-            label="Amount"
+            label={t('budget:modals.amount') ?? 'Amount'}
             inputType="number"
             name="amount"
             prefix="euro"
@@ -118,7 +124,7 @@ const AddIncome: React.FC = () => {
           />
 
           <fieldset className="apply-to-field">
-            <legend className="field-legen">Apply to</legend>
+            <legend className="field-legen">{t('budget:modals.applyTo') ?? 'Apply to'}</legend>
 
             <label className="radio-row">
               <input
@@ -129,7 +135,7 @@ const AddIncome: React.FC = () => {
                 onChange={() => setApplyTo('current')}
               />
               <div>
-                Current period <em>({monthKey})</em>
+                {t('budget:modals.currentPeriod') ?? 'Current Period'} <em>({monthKey})</em>
               </div>
               <span className="hint">{currentLabel}</span>
             </label>
@@ -143,14 +149,14 @@ const AddIncome: React.FC = () => {
                 onChange={() => setApplyTo('next')}
               />
               <div>
-                Next period <em>({nextKey})</em>
+                {t('budget:modals.nextPeriod') ?? 'Next Period'} <em>({nextKey})</em>
               </div>
               <span className="hint">{nextLabel}</span>
             </label>
           </fieldset>
 
           <CheckboxInput
-            label="Switch to next period after saving"
+            label={t('budget:modals.switchPeriod') ?? 'Switch to next period after saving'}
             name="switchAfter"
             checked={switchAfter}
             onChange={(e) => setSwitchAfter(e.target.checked)}
@@ -165,7 +171,7 @@ const AddIncome: React.FC = () => {
             isLoading={mutateStatus === 'loading'}
             disabled={saving || parsedAmount == null}
           >
-            <span>Save</span>
+            <span>{t('actions.save') ?? 'Save'}</span>
           </Button>
         </form>
       </Modal>

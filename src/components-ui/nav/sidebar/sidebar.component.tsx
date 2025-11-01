@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import TTIcon from '../../icon/icon.component';
 import { ReactComponent as Logo } from './../../../assets/logo.svg';
@@ -8,6 +9,8 @@ import { NAV_ITEMS } from '../nav.config';
 import './sidebar.styles.scss';
 
 const Sidebar: React.FC = () => {
+  const { t } = useTranslation('common');
+
   return (
     <aside className="main-sidebar">
       <div className="logo-container">
@@ -21,7 +24,7 @@ const Sidebar: React.FC = () => {
               to={navItem.to}
             >
               <TTIcon icon={navItem.icon} size={24} />
-              <span>{navItem.label}</span>
+              <span>{t(navItem.i18nLabel) ?? navItem.label}</span>
             </NavLink>
           </li>
         ))}

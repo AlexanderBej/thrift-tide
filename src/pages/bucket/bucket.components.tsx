@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import { makeSelectCategoryView } from '../../store/budget-store/budget.selectors';
 import Breadcrumbs from '../../components-ui/breadcrumb/breadcrumb.component';
@@ -24,13 +25,14 @@ import { selectMonthTiming } from '../../store/budget-store/budget-period.select
 import { enumerateDatesUTC } from '../../utils/period.util';
 import { selectDailySpendQuery } from '../../store/budget-store/budget-daily.selectors';
 import { SpendingTimelineBar } from '../../components/spending-timeline-bar/spending-timeline-bar.component';
-
-import './bucket.styles.scss';
 import TTIcon from '../../components-ui/icon/icon.component';
 import { useWindowWidth } from '../../utils/window-width.hook';
 
+import './bucket.styles.scss';
+
 const BucketPage: React.FC = () => {
   const { type } = useParams<{ type: string }>();
+  const { t } = useTranslation(['common', 'budget']);
 
   const status = useSelector(selectBudgetLoadStatus);
   const badges = useSelector(makeSelectBucketBadges(type as Bucket));
@@ -81,8 +83,6 @@ const BucketPage: React.FC = () => {
         ? BUCKET_ICONS.wants
         : BUCKET_ICONS.savings;
 
-  console.log('bucketPanel', bucketPanel);
-
   return (
     <div className="bucket-page">
       <Breadcrumbs />
@@ -93,7 +93,7 @@ const BucketPage: React.FC = () => {
         >
           <TTIcon icon={icon} color="white" />
         </div>
-        <h2>{title}</h2>
+        <h2>{t(`budget:bucketNames.${title.toLowerCase()}`)}</h2>
       </header>
       <div className="bucket-page-grid">
         <section
@@ -102,13 +102,13 @@ const BucketPage: React.FC = () => {
         >
           <div className="bucket-summary-line">
             <div className="bucket-summary">
-              Allocated: <strong>{fmt(view.allocated)}</strong>
+              {t('budget:allocated') ?? 'Allocated'}: <strong>{fmt(view.allocated)}</strong>
             </div>
             <div className="bucket-summary bucket-middle">
-              Spent: <strong>{fmt(view.spent)}</strong>
+              {t('budget:spent') ?? 'Spent'}: <strong>{fmt(view.spent)}</strong>
             </div>
             <div className="bucket-summary bucket-last">
-              Remaining: <strong>{fmt(view.remaining)}</strong>
+              {t('budget:remaining') ?? 'Remaining'}: <strong>{fmt(view.remaining)}</strong>
             </div>
           </div>
           <ProgressBar progress={view.progress} />
@@ -117,9 +117,11 @@ const BucketPage: React.FC = () => {
           </div>
         </section>
         <section className="top-categories-section">
-          <h2 className="card-header">Top categories</h2>
+          <h2 className="card-header">{t('budget:topCategories') ?? 'Top categories'}</h2>
           {view.byCategory.length === 0 ? (
-            <div className="missing-items">No transactions yet.</div>
+            <div className="missing-items">
+              {t('budget:noTransactions') ?? 'No transactions yet.'}
+            </div>
           ) : (
             <ul className="top-categories-list">
               {view.byCategory.map((row) => {
@@ -138,7 +140,7 @@ const BucketPage: React.FC = () => {
           <Donut height={isMobile ? 130 : 260} data={donutItems} showTooltip={false} />
         </section>
         <section className="bucket-insights-section">
-          <h2 className="card-header">Insights</h2>
+          <h2 className="card-header">{t('pages.insights') ?? 'Insights'}</h2>
 
           <StackedBarChart
             height={isMobile ? 180 : 260}
@@ -152,9 +154,11 @@ const BucketPage: React.FC = () => {
           />
         </section>
         <section className="bucket-transactions-section">
-          <h2 className="card-header">Transactions</h2>
+          <h2 className="card-header">{t('pages.transactions') ?? 'Transactions'}</h2>
           {view.items.length === 0 ? (
-            <div className="missing-items">No transactions for {title.toLowerCase()}.</div>
+            <div className="missing-items">
+              {t('pageContent.bucket.noTrans')} {title.toLowerCase()}.
+            </div>
           ) : (
             <div>
               {view.items.map((t) => {

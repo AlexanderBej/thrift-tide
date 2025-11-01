@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import Sidebar from '../../components-ui/nav/sidebar/sidebar.component';
 import BottomNav from '../../components-ui/nav/bottom-nav/bottom-nav.component';
@@ -8,21 +9,38 @@ import UserDropdown from '../../components/user-dropdown/user-dropdown.component
 import AddTransaction from '../../components/add-transaction-modal/add-transaction-modal.component';
 import PeriodSwitcherMonthPicker from '../../components/period-switcher/period-switcher.component';
 import { selectAppBootState } from '../../store/app.selectors';
+import PageSpinner from '../../components-ui/spinner/page-spinner/page-spinner.component';
 
 import './layout.styles.scss';
-import PageSpinner from '../../components-ui/spinner/page-spinner/page-spinner.component';
+
+const PATH_TITLES: Record<string, string> = {
+  '': 'pages.dashboard',
+  dashboard: 'pages.dashboard',
+  buckets: 'pages.buckets',
+  bucket: 'pages.bucket',
+  transactions: 'pages.transactions',
+  insights: 'pages.insights',
+  history: 'pages.history',
+  settings: 'pages.settings',
+};
 
 const Layout: React.FC = () => {
   const { booting } = useSelector(selectAppBootState);
+  const { t } = useTranslation('common');
 
   const { pathname } = useLocation();
 
   const getTitle = (path: string) => {
-    if (path === '/' || path === '') return 'Dashboard';
     const parts = path.replace(/^\/+/, '').split('/');
-    const first = parts[0];
+    const first = parts[0] ?? '';
 
-    return first.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+    // 1️⃣ Look up known route
+    const key = PATH_TITLES[first] || PATH_TITLES[''];
+    if (key) return t(key);
+
+    return first
+      ? first.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+      : t('pages.dashboard');
   };
 
   return (

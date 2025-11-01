@@ -1,15 +1,16 @@
 import React from 'react';
-import { format } from 'date-fns';
+import { useTranslation } from 'react-i18next';
+import { enUS } from 'date-fns/locale';
 
-import { fmt, toYMD } from '../../utils/format-data.util';
+import { fmt, LOCALE_MAP, makeFormatter, toYMD } from '../../utils/format-data.util';
 import { Txn } from '../../api/models/txn';
 import { CategoryOption } from '../../api/models/category-option';
 import { BUCKET_LIGHT_COLORS } from '../../api/types/bucket.types';
 import CategoryName from '../category-name/category-name.component';
-
-import './transaction-row.styles.scss';
 import { useWindowWidth } from '../../utils/window-width.hook';
 import ExpansionRow from '../../components-ui/expansion-row/expansion-row.component';
+
+import './transaction-row.styles.scss';
 
 interface TransactionRowProps {
   txn: Txn;
@@ -18,6 +19,8 @@ interface TransactionRowProps {
 }
 
 const TransactionRow: React.FC<TransactionRowProps> = ({ txn, source, category }) => {
+  const { t, i18n } = useTranslation(['common', 'budget']);
+
   const width = useWindowWidth();
   const isMobile = width < 480;
 
@@ -27,18 +30,27 @@ const TransactionRow: React.FC<TransactionRowProps> = ({ txn, source, category }
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
 
-    if (toYMD(dateObj) === toYMD(today)) return 'Today';
-    if (toYMD(dateObj) === toYMD(yesterday)) return 'Yesterday';
+    if (toYMD(dateObj) === toYMD(today)) return t('dates.today') ?? 'Today';
+    if (toYMD(dateObj) === toYMD(yesterday)) return t('dates.yesterday') ?? 'Yesterday';
 
-    const formatType = isMobile ? 'EE, MMM do' : 'EE, MMMM do';
+    // const formatType = isMobile ? 'EE, MMM do' : 'EE, MMMM do';
 
-    const formattedDate = format(new Date(date), formatType);
-    return formattedDate;
+    // const formattedDate = format(dateObj, formatType);
+    // return formattedDate;
+
+    const locale = LOCALE_MAP[i18n.language] ?? enUS;
+
+    const fmt = makeFormatter(isMobile, locale);
+    return fmt.format(dateObj);
   };
 
   const toCamelCase = (word: string): string => {
     return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
   };
+
+  // const translateBucketType = (type: string): string => {
+  //   return
+  // }
 
   if (!txn || !category) return null;
 
@@ -75,7 +87,7 @@ const TransactionRow: React.FC<TransactionRowProps> = ({ txn, source, category }
         <div className="txn-cat-row">
           <CategoryName category={category} />
           <span style={{ background: BUCKET_LIGHT_COLORS[txn.type] }} className="cat-type-badge">
-            {toCamelCase(txn.type)}
+            {t(`budget:bucketNames.${txn.type}`) ?? toCamelCase(txn.type)}
           </span>
         </div>
         <span className="note" style={{ display: isMobile ? 'none' : 'block' }}>

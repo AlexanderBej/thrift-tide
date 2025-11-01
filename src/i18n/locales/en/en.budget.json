@@ -1,0 +1,97 @@
+{
+  "income": "Income",
+  "spent": "Spent",
+  "remaining": "Remaining",
+  "allocated": "Allocated",
+
+  "totalSpent": "Total spent",
+  "totalRemaining": "Total remaining",
+  "totalBudget": "Total Budget",
+
+  "topCategories": "Top categories",
+  "runOutDate": "Estimated run-out: {{date, date}}",
+
+  "kpi": {
+    "avgDailySpend": "Avg daily spend",
+    "projected": "Projected Total",
+    "burnVsPace": "Burn vs. Pace",
+    "remainingPerDay": "Remaining / day"
+  },
+
+  "badges": {
+    "overBudget": "Over budget",
+    "nearBudget": "Near Budget",
+    "underPace": "Under Pace",
+    "behindPlan": "Behind Pland",
+    "highBurn": "High Burn Rate",
+    "good": "good"
+  },
+
+  "daysToZero": "days to 0",
+  "daysToZero_one": "{{count}} day to zero",
+  "daysToZero_other": "{{count}} days to zero",
+
+  "buckets": "Buckets",
+  "bucket": "Bucket",
+
+  "bucketNames": {
+    "all": "All",
+    "needs": "Needs",
+    "wants": "Wants",
+    "savings": "Savings"
+  },
+
+  "noTransactions": "No transactions yet.",
+
+  "pace": "Pace (Total)",
+
+  "modals": {
+    "addTransaction": "Add Transaction",
+    "addIncome": "Add Income",
+    "type": "Type",
+    "amount": "Amount",
+    "date": "Date",
+    "category": "Category",
+    "note": "Note (optional)",
+    "applyTo": "Apply to",
+    "currentPeriod": "Current period",
+    "nextPeriod": "Next period",
+    "keepModalOpen": "Keep modal open after submit",
+    "switchPeriod": "Switch to next period after saving"
+  },
+
+  "sortOptions": {
+    "byDate": "Sort by date",
+    "byAmount": "Sort by amount"
+  },
+
+  "categories": {
+    "needs": {
+      "rent": "Rent / Mortgage",
+      "utilities": "Utilities",
+      "groceries": "Groceries",
+      "transport": "Transport",
+      "insurance": "Insurance",
+      "healthcare": "Healthcare",
+      "education": "Education"
+    },
+    "wants": {
+      "dining": "Dining Out",
+      "entertainments": "Entertainment",
+      "shopping": "Shopping",
+      "travel": "Travel",
+      "subscriptions": "Subscriptions",
+      "hobbies": "Hobbies",
+      "beauty": "Beauty & Wellness"
+    },
+    "savings": {
+      "emergency": "Emergency Fund",
+      "investment": "Investments",
+      "retirement": "Retirement",
+      "big_purchase": "Big Purchase",
+      "vacation": "Vacation Fund",
+      "education_fund": "Education Fund",
+      "debt_payments": "Debt Payments"
+    }
+  }
+}

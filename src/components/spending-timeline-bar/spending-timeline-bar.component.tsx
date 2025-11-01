@@ -1,6 +1,8 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { enUS } from 'date-fns/locale';
 
-import { fmtToDEM } from '../../utils/format-data.util';
+import { fmtToDEM, LOCALE_MAP, makeFormatter } from '../../utils/format-data.util';
 
 import './spending-timeline-bar.styles.scss';
 
@@ -19,12 +21,21 @@ export const SpendingTimelineBar: React.FC<SpendingTimelineBarProps> = ({
   now = new Date(),
   isInForecast = false,
 }) => {
+  const { i18n } = useTranslation();
+
   const total = +periodEnd - +periodStart;
   const elapsed = Math.max(0, Math.min(total, +now - +periodStart));
   const runout = runOutDate ? Math.min(total, +runOutDate - +periodStart) : null;
 
   const elapsedPct = (elapsed / total) * 100;
   const runoutPct = runout != null ? (runout / total) * 100 : null;
+
+  const getTranslatedFmtDate = (d: Date) => {
+    const locale = LOCALE_MAP[i18n.language] ?? enUS;
+
+    const fmt = makeFormatter(true, locale);
+    return fmt.format(d);
+  };
 
   return (
     <div className="timeline-container" style={{ marginTop: isInForecast ? 10 : 50 }}>
@@ -37,14 +48,14 @@ export const SpendingTimelineBar: React.FC<SpendingTimelineBarProps> = ({
       </div>
       {runOutDate && !isInForecast && fmtToDEM(runOutDate) !== fmtToDEM(periodEnd) && (
         <span className="period period__run-out" style={{ left: `${runoutPct}%` }}>
-          {fmtToDEM(runOutDate)}
+          {getTranslatedFmtDate(runOutDate)}
         </span>
       )}
       <span className={`period period__start period__${isInForecast ? 'forecast' : ''}`}>
-        {fmtToDEM(periodStart)}
+        {getTranslatedFmtDate(periodStart)}
       </span>
       <span className={`period period__end period__${isInForecast ? 'forecast' : ''}`}>
-        {fmtToDEM(periodEnd)}
+        {getTranslatedFmtDate(periodEnd)}
       </span>
     </div>
   );

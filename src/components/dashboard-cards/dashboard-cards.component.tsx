@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { TbHomeStar } from 'react-icons/tb';
 import { GiWantedReward } from 'react-icons/gi';
 import { MdDataSaverOn } from 'react-icons/md';
@@ -17,10 +18,11 @@ import './dashboard-cards.styles.scss';
 const DashboardCards: React.FC = () => {
   const navigate = useNavigate();
   const cards = useSelector(selectCards);
+  const { t } = useTranslation('budget');
 
   if (!cards) return null;
 
-  const getCategoryIcon = (c: string): IconType => {
+  const getBucketIcon = (c: string): IconType => {
     switch (c) {
       case 'needs':
         return TbHomeStar;
@@ -33,7 +35,7 @@ const DashboardCards: React.FC = () => {
     }
   };
 
-  const getCategoryColor = (c: string): string => {
+  const getBucketColor = (c: string): string => {
     switch (c) {
       case 'needs':
         return 'var(--needs)';
@@ -55,27 +57,27 @@ const DashboardCards: React.FC = () => {
           onClick={() => navigate(`/buckets/${c.title.toLowerCase()}`)}
         >
           <div className="card-title-row">
-            <div className="cart-title-icon" style={{ background: getCategoryColor(c.key) }}>
-              {c.key && <TTIcon icon={getCategoryIcon(c.key)} size={22} color="white" />}
+            <div className="cart-title-icon" style={{ background: getBucketColor(c.key) }}>
+              {c.key && <TTIcon icon={getBucketIcon(c.key)} size={22} color="white" />}
             </div>
-            <span className="card-title-value">{c.title}</span>
+            <span className="card-title-value">{t(`bucketNames.${c.title.toLowerCase()}`)}</span>
           </div>
           <div className="card-details">
-            <span>Allocated</span>
+            <span>{t('allocated') ?? 'Allocated'}</span>
             <span>
               <strong>{fmt(c.allocated)}</strong>
             </span>
           </div>
 
           <div className="card-details">
-            <span>Spent</span>
+            <span>{t('spent') ?? 'Spent'}</span>
             <span>
               <strong>{fmt(c.spent)}</strong>
             </span>
           </div>
 
           <div className="card-details">
-            <span>Remaining</span>
+            <span>{t('remaining') ?? 'Remaining'}</span>
             <span>
               <strong>{fmt(c.remaining)}</strong>
             </span>

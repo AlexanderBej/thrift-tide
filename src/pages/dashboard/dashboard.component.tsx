@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import { selectAuthUser } from '../../store/auth-store/auth.selectors';
 import { selectSpentByBucket } from '../../store/budget-store/budget.selectors';
@@ -19,6 +20,7 @@ import DashboardCards from '../../components/dashboard-cards/dashboard-cards.com
 import AddIncome from '../../components/add-income-modal/add-income-modal.component';
 
 import './dashboard.styles.scss';
+import { Badge } from '../../api/models/badges';
 
 const Dashboard: React.FC = () => {
   const user = useSelector(selectAuthUser);
@@ -26,6 +28,7 @@ const Dashboard: React.FC = () => {
   const spentByBucket = useSelector(selectSpentByBucket);
   const insights = useSelector(selectDashboardInsights);
   const badges = useSelector(selectBadges);
+  const { t } = useTranslation(['common', 'budget']);
 
   const width = useWindowWidth();
   const isMobile = width < 480;
@@ -70,14 +73,18 @@ const Dashboard: React.FC = () => {
   return (
     <div className="dashboard-page">
       <section className="dashboard-intro-section">
-        <h1 className="dashboard-intro-header">Hi, {getFirstName(user?.displayName ?? '')} 👋</h1>
+        <h1 className="dashboard-intro-header">
+          {t('hi') ?? 'Hi'}, {getFirstName(user?.displayName ?? '')} 👋
+        </h1>
         <div className="dashboard-income-wrapper">
           <div className="total-income-container">
-            <span className="total-income-label">Total Income</span>
+            <span className="total-income-label">{t('budget:income') ?? 'Income'}</span>
             <h2 className="total-income-value">{fmt(budgetDoc?.income)}</h2>
           </div>
           <div className="total-income-container">
-            <span className="total-income-label">Total Remaining</span>
+            <span className="total-income-label">
+              {t('budget:totalRemaining') ?? 'Total remaining'}
+            </span>
             <h2 className="total-income-value">{fmt(insights.totals.totalRemaining)}</h2>
           </div>
         </div>
@@ -91,21 +98,22 @@ const Dashboard: React.FC = () => {
           <AddIncome />
           <div className="cat-percentage-line">
             <span className="dashboard-category" style={{ color: BUCKET_COLORS.needs }}>
-              {(budgetDoc?.percents.needs ?? 0) * 100}% Needs
+              {(budgetDoc?.percents.needs ?? 0) * 100}% {t('budget:bucketNames.needs') ?? 'Needs'}
             </span>
             <span className="dashboard-category">€{budgetDoc?.allocations.needs}</span>
           </div>
 
           <div className="cat-percentage-line">
             <span className="dashboard-category" style={{ color: BUCKET_COLORS.wants }}>
-              {(budgetDoc?.percents.wants ?? 0) * 100}% Wants
+              {(budgetDoc?.percents.wants ?? 0) * 100}% {t('budget:bucketNames.wants') ?? 'Wants'}
             </span>
             <span className="dashboard-category">€{budgetDoc?.allocations.wants}</span>
           </div>
 
           <div className="cat-percentage-line">
             <span className="dashboard-category" style={{ color: BUCKET_COLORS.savings }}>
-              {(budgetDoc?.percents.savings ?? 0) * 100}% Savings
+              {(budgetDoc?.percents.savings ?? 0) * 100}%{' '}
+              {t('budget:bucketNames.savings') ?? 'Savings'}
             </span>
             <span className="dashboard-category">€{budgetDoc?.allocations.savings}</span>
           </div>
@@ -115,7 +123,9 @@ const Dashboard: React.FC = () => {
             customContainerClass="edit-percentage-btn"
             onClick={handleEditPercentage}
           >
-            <span>Edit Percentages</span>
+            <span>
+              {t('actions.edit') ?? 'Edit'} {t('pageContent.percentages') ?? 'percentages'}
+            </span>
           </Button>
         </div>
       </section>
@@ -127,7 +137,7 @@ const Dashboard: React.FC = () => {
         <DashboardCards />
       </section>
       <section className="kpi-cards-section">
-        <h2 className="card-header">Insights</h2>
+        <h2 className="card-header">{t('pages.insights') ?? 'Insights'}</h2>
         <DashboardInsights showInsights="kpi" />
       </section>
       <section className="distribution-section">

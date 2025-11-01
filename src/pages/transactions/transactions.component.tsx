@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { enUS } from 'date-fns/locale';
 
 import Select, { SelectOption } from '../../components-ui/select/select.component';
 import { Bucket, BucketType } from '../../api/types/bucket.types';
@@ -20,11 +22,12 @@ import FormInput from '../../components-ui/form-input/form-input.component';
 import { resolveCategory } from '../../utils/category-options.util';
 import { selectBudgetTotal } from '../../store/budget-store/budget.selectors.base';
 import TransactionRow from '../../components/transaction-row/transaction-row.component';
-import { fmt, toEMD } from '../../utils/format-data.util';
+import { fmt, LOCALE_MAP, makeFormatter } from '../../utils/format-data.util';
 
 import './transactions.styles.scss';
 
 const Transaction: React.FC = () => {
+  const { t, i18n } = useTranslation(['common', 'budget']);
   const dispatch = useDispatch<AppDispatch>();
   const groups = useSelector(selectTxnsGroupedByDate);
   const totalSpent = useSelector(selectFilteredTotal);
@@ -36,15 +39,15 @@ const Transaction: React.FC = () => {
   const [sortCriteria, setSortCriteria] = useState<string>('date');
 
   const FILTER_OPTIONS: SelectOption[] = [
-    { label: 'All', value: 'all' },
-    { label: 'Needs', value: BucketType.NEEDS },
-    { label: 'Wants', value: BucketType.WANTS },
-    { label: 'Savings', value: BucketType.SAVINGS },
+    { label: t('budget:bucketNames.all') ?? 'All', value: 'all' },
+    { label: t('budget:bucketNames.needs') ?? 'Needs', value: BucketType.NEEDS },
+    { label: t('budget:bucketNames.wants') ?? 'Wants', value: BucketType.WANTS },
+    { label: t('budget:bucketNames.savings') ?? 'Savings', value: BucketType.SAVINGS },
   ];
 
   const SORT_OPTIONS: SelectOption[] = [
-    { label: 'Sort by date', value: 'date' },
-    { label: 'Sort by amount', value: 'amount' },
+    { label: t('budget:sortOptions.byDate') ?? 'Sort by date', value: 'date' },
+    { label: t('budget:sortOptions.byAmount') ?? 'Sort by amount', value: 'amount' },
   ];
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
@@ -67,14 +70,21 @@ const Transaction: React.FC = () => {
     }
   };
 
+  const getTranslatedFmtDate = (d: Date) => {
+    const locale = LOCALE_MAP[i18n.language] ?? enUS;
+
+    const fmt = makeFormatter(false, locale);
+    return fmt.format(d);
+  };
+
   return (
     <div className="transactions-page">
       <section className="txn-total-budget-section">
-        <h2 className="card-header">Total budget</h2>
+        <h2 className="card-header">{t('budget:totalBudget') ?? 'Total Budget'}</h2>
         <span className="total-value">{fmt(totalIncome)}</span>
       </section>
       <section className="txn-page-spent">
-        <h2 className="card-header">Spent</h2>
+        <h2 className="card-header">{t('budget:spent') ?? 'Spent'}</h2>
 
         <div className="spent-container-row">
           <div className="spent-container">
@@ -82,15 +92,15 @@ const Transaction: React.FC = () => {
             <span className="spent-value">{fmt(totalSpent)}</span>
           </div>
           <div className="spent-container">
-            <span className="spent-label">Needs</span>
+            <span className="spent-label">{t('budget:bucketNames.needs') ?? 'Needs'}</span>
             <span className="spent-value">{fmt(perBucket.needs)}</span>
           </div>
           <div className="spent-container">
-            <span className="spent-label">Wants</span>
+            <span className="spent-label">{t('budget:bucketNames.wants') ?? 'Wants'}</span>
             <span className="spent-value">{fmt(perBucket.wants)}</span>
           </div>
           <div className="spent-container">
-            <span className="spent-label">Savings</span>
+            <span className="spent-label">{t('budget:bucketNames.savings') ?? 'Savings'}</span>
             <span className="spent-value">{fmt(perBucket.savings)}</span>
           </div>
         </div>
@@ -112,7 +122,7 @@ const Transaction: React.FC = () => {
           value={searchCriteria}
           onChange={handleChange}
           prefix="search"
-          placeholder="Search..."
+          placeholder={t('search.placeholder') ?? 'Search...'}
         />
       </section>
       <section className="txn-sort-section">
@@ -128,7 +138,7 @@ const Transaction: React.FC = () => {
       <section className="txn-list-section">
         {groups.map((group) => (
           <div className="txn-group" key={group.date}>
-            <h3 className="txn-group-date">{toEMD(new Date(group.date))}</h3>
+            <h3 className="txn-group-date">{getTranslatedFmtDate(new Date(group.date))}</h3>
             <ul className="txn-group-list">
               {group.items.map((tx) => {
                 const cat = resolveCategory(tx.category);

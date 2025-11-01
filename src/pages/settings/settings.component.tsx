@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+
 import { AppDispatch } from '../../store/store';
 import { selectAuthUser } from '../../store/auth-store/auth.selectors';
 import { setPercentsThunk } from '../../store/budget-store/budget.slice';
-import { signOutUser } from '../../api/services/auth.service';
 import {
   selectBudgetDoc,
   selectBudgetMutateStatus,
 } from '../../store/budget-store/budget.selectors.base';
-
-import './settings.styles.scss';
 import { Donut, DonutItem } from '../../components-ui/charts/donut.component';
 import { getCssVar } from '../../utils/style-variable.util';
 import FormInput from '../../components-ui/form-input/form-input.component';
@@ -17,8 +16,12 @@ import Button from '../../components-ui/button/button.component';
 import ConfirmationModal from '../../components/confirmation-modal/confirmation-modal.component';
 import { useWindowWidth } from '../../utils/window-width.hook';
 
+import './settings.styles.scss';
+
 const Settings: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const { t } = useTranslation(['common', 'budget']);
+
   const user = useSelector(selectAuthUser);
   const doc = useSelector(selectBudgetDoc);
   const mutateStatus = useSelector(selectBudgetMutateStatus);
@@ -83,11 +86,12 @@ const Settings: React.FC = () => {
   return (
     <div className="settings-page">
       <section className="settings-page-section">
-        <h2 className="card-header">Budget Preferences</h2>
+        <h2 className="card-header">{t('pageContent.settings.pref') ?? 'Budget Preferences'}</h2>
         <p className="settings-label">
-          Adjust your 50/30/20 split
-          <h3
+          {t('pageContent.settings.adjust') ?? 'Adjust your 50/30/20 split'}
+          <span
             style={{
+              fontSize: 18,
               color:
                 total === 1
                   ? getCssVar('--success')
@@ -97,7 +101,7 @@ const Settings: React.FC = () => {
             }}
           >
             {(total * 100).toFixed(0)}%
-          </h3>
+          </span>
         </p>
 
         <div className="budget-preferences-row">
@@ -114,7 +118,7 @@ const Settings: React.FC = () => {
               return (
                 <FormInput
                   key={key}
-                  label={`${key === 'needs' ? 'Needs' : key === 'wants' ? 'Wants' : 'Savings'} (${(val * 100).toFixed(0)}%)`}
+                  label={`${key === 'needs' ? (t('budget:bucketNames.needs') ?? 'Needs') : key === 'wants' ? (t('budget:bucketNames.wants') ?? 'Wants') : (t('budget:bucketNames.savings') ?? 'Savings')} (${(val * 100).toFixed(0)}%)`}
                   name="slider"
                   value={val}
                   inputType="range"
@@ -134,8 +138,10 @@ const Settings: React.FC = () => {
 
         <div className="settings-action-btns">
           <ConfirmationModal
-            buttonLabel="Save"
-            message="Are you sure you want to change the percentages?"
+            buttonLabel={t('actions.save') ?? 'Save'}
+            message={
+              t('confirmations.percentages') ?? 'Are you sure you want to change the percentages?'
+            }
             handleConfirm={savePercents}
             loading={mutateStatus === 'loading'}
           />
@@ -145,7 +151,7 @@ const Settings: React.FC = () => {
             onClick={resetData}
             disabled={!haveChanged}
           >
-            <span>Reset</span>
+            <span>{t('actions.reset') ?? 'Reset'}</span>
           </Button>
         </div>
       </section>

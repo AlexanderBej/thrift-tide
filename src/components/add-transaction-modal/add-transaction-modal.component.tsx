@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import { Txn } from '../../api/models/txn';
 import { Bucket } from '../../api/types/bucket.types';
@@ -35,6 +36,8 @@ interface AddTransactionProps {
 }
 
 const AddTransaction: React.FC<AddTransactionProps> = ({ buttonShape = 'rounded' }) => {
+  const { t } = useTranslation(['common', 'budget']);
+
   const dispatch = useDispatch<AppDispatch>();
   const user = useSelector(selectAuthUser);
   const mutateStatus = useSelector(selectBudgetMutateStatus);
@@ -154,13 +157,17 @@ const AddTransaction: React.FC<AddTransactionProps> = ({ buttonShape = 'rounded'
         </>
       </Button>
 
-      <Modal isOpen={open} onClose={handleOnClose} title="Add Transaction">
+      <Modal
+        isOpen={open}
+        onClose={handleOnClose}
+        title={t('budget:modals.addTransaction') ?? 'Add Transaction'}
+      >
         <form className="txn-form" onSubmit={handleSubmit}>
           <TypeBoxSelector formData={formData} handleTypeChange={handleTypeChange} />
 
           <div className="amount-line">
             <FormInput
-              label="Amount"
+              label={t('budget:modals.amount') ?? 'Amount'}
               inputType="number"
               name="amount"
               prefix="euro"
@@ -172,14 +179,14 @@ const AddTransaction: React.FC<AddTransactionProps> = ({ buttonShape = 'rounded'
 
             <DatePicker
               value={formData.date as unknown as Date}
-              label="Date"
+              label={t('budget:modals.date') ?? 'Date'}
               onChange={handleDateChange}
             />
           </div>
 
           <Select
             name="category"
-            label="Category"
+            label={t('budget:modals.category') ?? 'Category'}
             options={catOptions}
             value={formData.category}
             onChange={handleChange}
@@ -187,7 +194,7 @@ const AddTransaction: React.FC<AddTransactionProps> = ({ buttonShape = 'rounded'
           />
 
           <FormInput
-            label="Note (optional)"
+            label={t('budget:modals.note') ?? 'Note (optional)'}
             inputType="textarea"
             name="note"
             value={formData.note ?? ''}
@@ -198,7 +205,7 @@ const AddTransaction: React.FC<AddTransactionProps> = ({ buttonShape = 'rounded'
           <CheckboxInput
             name="persistance"
             checked={keepModalOpen}
-            label="Keep modal open after submit"
+            label={t('budget:modals.keepModalOpen') ?? 'Keep modal open after submit'}
             onChange={(e) => setKeepModalOpen(e.target.checked)}
           />
 
@@ -209,7 +216,7 @@ const AddTransaction: React.FC<AddTransactionProps> = ({ buttonShape = 'rounded'
             isLoading={mutateStatus === 'loading'}
             disabled={!isFormValid()}
           >
-            <span>Save</span>
+            <span>{t('actions.save') ?? 'Save'}</span>
           </Button>
         </form>
       </Modal>

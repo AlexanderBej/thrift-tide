@@ -17,9 +17,12 @@ import DoubleDonutChart from '../../components-ui/charts/double-donut.component'
 import Button from '../../components-ui/button/button.component';
 
 import './history.styles.scss';
+import { useTranslation } from 'react-i18next';
 
 const History: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const { t, i18n } = useTranslation(['common', 'budget']);
+
   const user = useSelector(selectAuthUser);
   const status = useSelector(selectHistoryStatus);
   const hasMore = useSelector(selectHistoryHasMore);
@@ -39,12 +42,14 @@ const History: React.FC = () => {
   return (
     <div className="history-page">
       <section className="history-page-section">
-        <h2 className="card-header">Trend — Total Spent</h2>
+        <h2 className="card-header">Trend — {t('budget:totalSpent') ?? 'Total Spent'}</h2>
         <TrendLineChart series={trendSeries} height={300} />
       </section>
 
       <section className="history-page-section">
-        <h2 className="card-header">Allocated vs Spent (per period)</h2>
+        <h2 className="card-header">
+          {t('pageContent.history.allocVsSpent') ?? 'Allocated vs Spent (per period)'}
+        </h2>
         <StackedBarChart
           data={splitData.map(({ category, allocated, spent }) => ({ category, allocated, spent }))}
           height={320}
@@ -52,7 +57,9 @@ const History: React.FC = () => {
       </section>
 
       <section className="history-page-section">
-        <h2 className="card-header">Latest Period Distribution</h2>
+        <h2 className="card-header">
+          {t('pageContent.history.latestDist') ?? 'Latest Period Distribution'}
+        </h2>
         <DoubleDonutChart data={donutItems} height={260} />
       </section>
 

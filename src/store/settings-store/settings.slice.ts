@@ -5,8 +5,12 @@ import { DEFAULT_START_DAY } from '../../api/models/month-doc';
 import { clamp } from '../../utils/services.util';
 import toast from 'react-hot-toast';
 
+type Language = 'en' | 'es';
+
 type SettingsState = {
   startDay: number; // 1..28
+  language: Language;
+
   status: 'idle' | 'loading' | 'ready' | 'error';
   error?: string;
 };
@@ -14,6 +18,7 @@ type SettingsState = {
 const initialState: SettingsState = {
   startDay: DEFAULT_START_DAY,
   status: 'idle',
+  language: 'en',
 };
 
 export const loadSettings = createAsyncThunk(
@@ -51,6 +56,10 @@ const settingsSlice = createSlice({
       // Optional immediate local update (optimistic)
       state.startDay = action.payload;
     },
+    setLanguage(state, action: PayloadAction<Language>) {
+      state.language = action.payload;
+      localStorage.setItem('i18nextLng', action.payload); // sync detector cache
+    },
   },
   extraReducers: (b) => {
     b.addCase(loadSettings.pending, (s) => {
@@ -72,5 +81,5 @@ const settingsSlice = createSlice({
   },
 });
 
-export const { setStartDayLocal } = settingsSlice.actions;
+export const { setStartDayLocal, setLanguage } = settingsSlice.actions;
 export default settingsSlice.reducer;

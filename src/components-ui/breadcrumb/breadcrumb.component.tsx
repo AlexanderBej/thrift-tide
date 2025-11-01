@@ -1,52 +1,49 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+
+import { BucketType } from '../../api/types/bucket.types';
 
 import './breadcrumb.styles.scss';
 
 const Breadcrumbs: React.FC = () => {
   const location = useLocation();
+  const { t } = useTranslation(['common', 'budget']);
 
   const pathnames = location.pathname.split('/').filter((x) => x);
   if (pathnames.length < 2) {
     return null;
   }
 
-  const toCamelCase = (segment: string): string => {
-    if (segment && !segment.includes('-')) {
-      return segment;
-    }
-    const words = segment.split('-');
-    return words
-      .map((word, index) => {
-        if (index === 0) {
-          return word.toLowerCase();
-        }
-        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-      })
-      .join('');
-  };
+  const getTranslatedRoute = (segment: string) => {
+    if (segment === 'buckets') return t('pages.buckets').toLowerCase();
+    if (Object.values(BucketType).includes(segment as BucketType)) {
+      console.log('budget:segment', segment);
 
-  const editIndex = pathnames.findIndex((segment) => toCamelCase(segment) === 'edit');
-  const filteredPathnames = editIndex >= 0 ? pathnames.slice(0, editIndex + 1) : pathnames;
+      const lowerCaseSegment = segment.toLowerCase();
+      return t(`budget:bucketNames.${lowerCaseSegment}`);
+    }
+    return segment;
+  };
 
   return (
     <nav aria-label="breadcrumb">
       <ul className="breadcrumb-list">
-        {filteredPathnames.map((segment, index) => {
+        {pathnames.map((segment, index) => {
           // Build the path up to this segment
-          const to = '/' + filteredPathnames.slice(0, index + 1).join('/');
+          const to = '/' + pathnames.slice(0, index + 1).join('/');
 
           // Check if this is the last segment (no link)
-          const isLast = index === filteredPathnames.length - 1;
-          const label = toCamelCase(segment);
+          const isLast = index === pathnames.length - 1;
+          // const label = toCamelCase(segment);
 
           return (
             <li key={segment}>
               {isLast ? (
-                <span className="breadcrumb-current">{label}</span>
+                <span className="breadcrumb-current">{getTranslatedRoute(segment)}</span>
               ) : (
                 <Link to={to} className="breadcrumb-element">
-                  {label}
+                  {getTranslatedRoute(segment)}
                 </Link>
               )}
             </li>

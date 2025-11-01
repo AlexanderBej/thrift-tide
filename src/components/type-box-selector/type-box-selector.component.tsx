@@ -3,6 +3,7 @@ import { TbHomeStar } from 'react-icons/tb';
 import { GiWantedReward } from 'react-icons/gi';
 import { MdDataSaverOn } from 'react-icons/md';
 import { IconType } from 'react-icons';
+import { useTranslation } from 'react-i18next';
 
 import { TransactionFormData } from '../add-transaction-modal/add-transaction-modal.component';
 import { Bucket } from '../../api/types/bucket.types';
@@ -18,10 +19,12 @@ interface TypeBoxSelectorProps {
 }
 
 const TypeBoxSelector: React.FC<TypeBoxSelectorProps> = ({ formData, handleTypeChange }) => {
+  const { t } = useTranslation('budget');
+
   const TYPE_OPTIONS: SelectOption[] = [
-    { value: 'needs', label: 'Needs', icon: TbHomeStar },
-    { value: 'wants', label: 'Wants', icon: GiWantedReward },
-    { value: 'savings', label: 'Savings', icon: MdDataSaverOn },
+    { value: 'needs', label: t('bucketNames.needs') ?? 'Needs', icon: TbHomeStar },
+    { value: 'wants', label: t('bucketNames.wants') ?? 'Wants', icon: GiWantedReward },
+    { value: 'savings', label: t('bucketNames.savings') ?? 'Savings', icon: MdDataSaverOn },
   ];
 
   const getTypeColor = (value: Bucket) => {
@@ -33,7 +36,7 @@ const TypeBoxSelector: React.FC<TypeBoxSelectorProps> = ({ formData, handleTypeC
 
   return (
     <>
-      <span className="type-selector-label">Type</span>
+      <span className="type-selector-label">{t('modals.type') ?? 'Type'}</span>
       <div className="type-box-selector">
         {TYPE_OPTIONS.map((opt, index) => {
           return (

@@ -1,11 +1,13 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { enUS } from 'date-fns/locale';
 
 import { SpendingTimelineBar } from '../spending-timeline-bar/spending-timeline-bar.component';
-import { fmtDate } from '../../utils/format-data.util';
+import { fmtDate, LOCALE_MAP, makeFormatter } from '../../utils/format-data.util';
 import TTIcon from '../../components-ui/icon/icon.component';
+import { BUCKET_COLORS, BUCKET_ICONS, BucketType } from '../../api/types/bucket.types';
 
 import './forecast-row.styles.scss';
-import { BUCKET_COLORS, BUCKET_ICONS, BucketType } from '../../api/types/bucket.types';
 
 interface ForecastRowProps {
   periodStart: Date;
@@ -22,6 +24,15 @@ const ForecastRow: React.FC<ForecastRowProps> = ({
   daysToZero,
   bucket,
 }) => {
+  const { t, i18n } = useTranslation('budget');
+
+  const getTranslatedFmtDate = (d: Date) => {
+    const locale = LOCALE_MAP[i18n.language] ?? enUS;
+
+    const fmt = makeFormatter(true, locale, true);
+    return fmt.format(d);
+  };
+
   const icon =
     bucket === 'Needs'
       ? BUCKET_ICONS.needs
@@ -39,12 +50,14 @@ const ForecastRow: React.FC<ForecastRowProps> = ({
           >
             <TTIcon icon={icon} size={22} color="white" />
           </div>
-          <span className="label-text">{bucket}</span>
+          <span className="label-text">{t(`bucketNames.${bucket.toLowerCase()}`) ?? bucket}</span>
         </div>
         <div className="forecast-date-value">
-          <strong>{fmtDate(runOutDate ?? periodEnd)}</strong>{' '}
+          <strong>
+            {getTranslatedFmtDate(runOutDate ?? periodEnd) ?? fmtDate(runOutDate ?? periodEnd)}
+          </strong>{' '}
           <span className="forecast-date-dayz">
-            (<strong>{daysToZero ?? 0}</strong> days to 0)
+            (<strong>{daysToZero ?? 0}</strong> {t('daysToZero') ?? 'days to 0'})
           </span>
         </div>
       </div>

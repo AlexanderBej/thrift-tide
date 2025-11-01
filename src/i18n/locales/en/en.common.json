@@ -1,0 +1,102 @@
+{
+  "app": "Budget Balance",
+  "hi": "Hi",
+  "language": {
+    "en": "English",
+    "ro": "Română"
+  },
+
+  "pages": {
+    "dashboard": "Dashboard",
+    "buckets": "Buckets",
+    "bucket": "Bucket",
+    "transactions": "Transactions",
+    "insights": "Insights",
+    "history": "History",
+    "settings": "Settings"
+  },
+
+  "pageContent": {
+    "percentages": "Percentages",
+    "buckets": {
+      "header": "Select a bucket"
+    },
+    "bucket": {
+      "noTrans": "No transactions for"
+    },
+    "insights": {
+      "runOutForecast": "Run-out forecast",
+      "kpi": "KPIs",
+      "spentByBucket": "Spent by bucket",
+      "trends": "Trends",
+      "legend": "Legend"
+    },
+    "history": {
+      "allocVsSpent": "Allocated vs Spent (per period)",
+      "latestDist": "Latest Distribution"
+    },
+    "settings": {
+      "pref": "Budget Preferences",
+      "adjust": "Adjust your 50/30/20 split"
+    }
+  },
+
+  "nav": {
+    "home": "Home",
+    "open": "Open",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next"
+  },
+
+  "actions": {
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "apply": "Apply",
+    "reset": "Reset"
+  },
+
+  "search": {
+    "placeholder": "Search…",
+    "clear": "Clear search"
+  },
+
+  "state": {
+    "loading": "Loading…",
+    "empty": "Nothing here yet",
+    "error": "Something went wrong",
+    "retry": "Retry"
+  },
+
+  "dates": {
+    "periodLabel": "{{start, date}} → {{end, date}}",
+    "fromTo": "From {{from, date}} to {{to, date}}",
+    "asOf": "as of {{date, date}}",
+    "yesterday": "Yesterday",
+    "today": "Today"
+  },
+
+  "confirmations": {
+    "modalTitle": "Confirm",
+    "areYouSure": "Are you sure?",
+    "percentages": "Are you sure you want to change the percentages?",
+    "unsavedChanges": "You have unsaved changes. Discard them?"
+  },
+
+  "validation": {
+    "required": "This field is required",
+    "min": "Value is too small",
+    "max": "Value is too large",
+    "invalidNumber": "Enter a valid number"
+  },
+
+  "toast": {
+    "saved": "Saved",
+    "deleted": "Deleted",
+    "updated": "Updated"
+  }
+}

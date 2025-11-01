@@ -45,3 +45,25 @@ export function toYMDUTC(input: Date | string | number): string {
   const day = String(d.getUTCDate()).padStart(2, '0');
   return `${y}-${m}-${day}`;
 }
+
+export const LOCALE_MAP: Record<string, string> = {
+  en: 'en-US',
+  ro: 'ro-RO',
+};
+
+export function makeFormatter(isMobile: boolean, locale: string, withYear?: boolean) {
+  if (withYear) {
+    return new Intl.DateTimeFormat(locale, {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  }
+
+  return new Intl.DateTimeFormat(locale, {
+    weekday: 'short',
+    month: isMobile ? 'short' : 'long',
+    day: 'numeric',
+  });
+}

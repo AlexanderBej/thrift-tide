@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import Modal from '../../components-ui/modal/modal.component';
+import { useTranslation } from 'react-i18next';
 
+import Modal from '../../components-ui/modal/modal.component';
 import Button from '../../components-ui/button/button.component';
 
 import './confirmation-modal.styles.scss';
@@ -20,6 +21,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   loading,
   handleConfirm,
 }) => {
+  const { t } = useTranslation('common');
   const [open, setOpen] = useState(false);
 
   return (
@@ -33,7 +35,11 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       >
         <span>{buttonLabel}</span>
       </Button>
-      <Modal isOpen={open} onClose={() => setOpen(false)} title="Confirm">
+      <Modal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        title={t('confirmations.modalTitle') ?? 'Confirm'}
+      >
         <div className="confirmation-modal"></div>
         <p>{message}</p>
 
@@ -43,7 +49,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           onClick={handleConfirm}
           customContainerClass="confirm-modal-btn"
         >
-          <span>Confirm</span>
+          <span>{t('confirmations.modalTitle') ?? 'Confirm'}</span>
         </Button>
       </Modal>
     </>
