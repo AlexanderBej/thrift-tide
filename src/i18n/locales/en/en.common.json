@@ -39,6 +39,7 @@
       "budgetPref": "Budget Preferences",
       "adjust": "Adjust your 50/30/20 split",
       "startDay": "Period start day",
+      "language": "Change the system language",
       "appPref": "App Preferences"
     }
   },
@@ -86,6 +87,8 @@
     "modalTitle": "Confirm",
     "areYouSure": "Are you sure?",
     "percentages": "Are you sure you want to change the percentages?",
+    "language": "Are you sure you want to change the language?",
+    "startDay": "Are you sure you want to change the period start day?",
     "unsavedChanges": "You have unsaved changes. Discard them?"
   },
 

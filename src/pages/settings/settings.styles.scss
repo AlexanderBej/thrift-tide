@@ -8,6 +8,13 @@
     gap: $spacing-4;
   }
 
+  .settings-btn {
+    min-width: 100px;
+    min-height: 35px;
+    height: fit-content;
+    padding: 0;
+  }
+
   .settings-page-section {
     @include dashboard-card($radius: $radius-lg, $pad: $spacing-5 $spacing-6);
 
@@ -22,6 +29,14 @@
 
       @include mediaDown(md) {
         width: 100%;
+      }
+
+      &__start-day {
+        margin-top: 30px;
+      }
+
+      &__language {
+        margin-bottom: $spacing-4;
       }
     }
 
@@ -80,10 +95,10 @@
     }
 
     .settings-action-btns {
-      margin: $spacing-6 auto 0;
+      margin: $spacing-4 auto 0;
       display: flex;
       gap: $spacing-5;
-      justify-content: center;
+      justify-content: flex-start;
     }
   }
 }

@@ -19,8 +19,11 @@ import { useWindowWidth } from '../../utils/window-width.hook';
 import Popover from '../../components-ui/popover/popover.component';
 import TTIcon from '../../components-ui/icon/icon.component';
 import Select, { SelectOption } from '../../components-ui/select/select.component';
-import { saveLanguageThunk } from '../../store/settings-store/settings.slice';
-import { selectSettingsAppLanguage } from '../../store/settings-store/settings.selectors';
+import { saveLanguageThunk, saveStartDayThunk } from '../../store/settings-store/settings.slice';
+import {
+  selectSettingsAppLanguage,
+  selectSettingsBudgetStartDay,
+} from '../../store/settings-store/settings.selectors';
 import { Language } from '../../api/types/settings.types';
 
 import './settings.styles.scss';
@@ -33,6 +36,7 @@ const Settings: React.FC = () => {
   const doc = useSelector(selectBudgetDoc);
   const mutateStatus = useSelector(selectBudgetMutateStatus);
   const language = useSelector(selectSettingsAppLanguage);
+  const startDay = useSelector(selectSettingsBudgetStartDay);
 
   const defaultNeedsPct = doc?.percents.needs ?? 0.5;
   const defaultWantsPct = doc?.percents.wants ?? 0.3;
@@ -43,6 +47,7 @@ const Settings: React.FC = () => {
   const [savingsPercents, setSavingsPercents] = useState(defaultSavingsPct);
 
   const [nextLanguage, setNextLanguage] = useState<Language>(language);
+  const [nextStartDay, setNextStartDay] = useState<number>(startDay);
 
   const total = needsPercents + wantsPercents + savingsPercents;
   const balanced = Math.abs(total - 1) < 0.0001;
@@ -97,7 +102,17 @@ const Settings: React.FC = () => {
     dispatch(
       saveLanguageThunk({
         uid: user.uuid,
-        language: 'ro',
+        language: nextLanguage,
+      }),
+    );
+  };
+
+  const saveStartDay = () => {
+    if (!user?.uuid || !doc) return;
+    dispatch(
+      saveStartDayThunk({
+        uid: user.uuid,
+        startDay: nextStartDay,
       }),
     );
   };
@@ -183,12 +198,43 @@ const Settings: React.FC = () => {
           </div>
         </div>
 
-        <p className="settings-label">
+        <div className="settings-action-btns">
+          <ConfirmationModal
+            buttonLabel={t('actions.save') ?? 'Save'}
+            message={
+              t('confirmations.percentages') ?? 'Are you sure you want to change the percentages?'
+            }
+            handleConfirm={savePercents}
+            loading={mutateStatus === 'loading'}
+            customButtonClass="settings-btn"
+            buttonDisabled={
+              needsPercents === defaultNeedsPct &&
+              wantsPercents === defaultWantsPct &&
+              savingsPercents === defaultSavingsPct
+            }
+          />
+          <Button
+            buttonType="secondary"
+            htmlType="button"
+            onClick={resetData}
+            disabled={!haveChanged}
+            customContainerClass="settings-btn"
+          >
+            <span>{t('actions.reset') ?? 'Reset'}</span>
+          </Button>
+        </div>
+
+        <p className="settings-label settings-label__start-day">
           {t('pageContent.settings.startDay') ?? 'Change the start day of your period'}
         </p>
         <div className="start-day-settings">
           <span>Start the period on the </span>
-          <FormInput value={0} inputType="number" customClassName="start-day-input" />
+          <FormInput
+            value={nextStartDay}
+            inputType="number"
+            customClassName="start-day-input"
+            onChange={(e: { target: { value: any } }) => setNextStartDay(Number(e.target.value))}
+          />
           <span>of the month</span>
 
           <Popover toggler={<TTIcon icon={CiCircleInfo} size={18} />} position="right">
@@ -202,16 +248,19 @@ const Settings: React.FC = () => {
           <ConfirmationModal
             buttonLabel={t('actions.save') ?? 'Save'}
             message={
-              t('confirmations.percentages') ?? 'Are you sure you want to change the language?'
+              t('confirmations.startDay') ?? 'Are you sure you want to change the period start day?'
             }
-            handleConfirm={savePercents}
+            handleConfirm={saveStartDay}
             loading={mutateStatus === 'loading'}
+            customButtonClass="settings-btn"
+            buttonDisabled={startDay === nextStartDay}
           />
           <Button
             buttonType="secondary"
             htmlType="button"
-            onClick={resetData}
-            disabled={!haveChanged}
+            onClick={() => setNextStartDay(startDay)}
+            disabled={startDay === nextStartDay}
+            customContainerClass="settings-btn"
           >
             <span>{t('actions.reset') ?? 'Reset'}</span>
           </Button>
@@ -221,6 +270,9 @@ const Settings: React.FC = () => {
       <section className="settings-page-section">
         <h2 className="card-header">{t('pageContent.settings.appPref') ?? 'App Preferences'}</h2>
 
+        <p className="settings-label settings-label__language">
+          {t('pageContent.settings.language') ?? 'Change the system language'}
+        </p>
         <div className="language-selector">
           <Select
             name="language"
@@ -233,17 +285,18 @@ const Settings: React.FC = () => {
         <div className="settings-action-btns">
           <ConfirmationModal
             buttonLabel={t('actions.save') ?? 'Save'}
-            message={
-              t('confirmations.percentages') ?? 'Are you sure you want to change the percentages?'
-            }
-            handleConfirm={savePercents}
+            message={t('confirmations.language') ?? 'Are you sure you want to change the language?'}
+            handleConfirm={saveLanguage}
             loading={mutateStatus === 'loading'}
+            customButtonClass="settings-btn"
+            buttonDisabled={language === nextLanguage}
           />
           <Button
             buttonType="secondary"
             htmlType="button"
-            onClick={resetData}
-            disabled={!haveChanged}
+            onClick={() => setNextLanguage(language)}
+            disabled={language === nextLanguage}
+            customContainerClass="settings-btn"
           >
             <span>{t('actions.reset') ?? 'Reset'}</span>
           </Button>

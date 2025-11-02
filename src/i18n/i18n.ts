@@ -3,6 +3,7 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 // Optional ICU (comment out if you don't want it)
 import ICU from 'i18next-icu';
+
 import en from './locales/en/en.common.json';
 import enBudget from './locales/en/en.budget.json';
 import ro from './locales/ro/ro.common.json';

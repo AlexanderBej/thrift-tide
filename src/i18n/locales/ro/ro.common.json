@@ -39,6 +39,7 @@
       "budgetPref": "Preferințe legate de buget",
       "adjust": "Ajustează împărțirea 50/30/20",
       "startDay": "Ziua de start a perioadei",
+      "language": "Modifică limba aplicației",
       "appPref": "Preferințe legate de aplicație"
     }
   },
@@ -86,6 +87,8 @@
     "modalTitle": "Confirmă",
     "areYouSure": "Ești sigur?",
     "percentages": "Ești sigur că vrei să modifici procentajele?",
+    "language": "Ești sigur că vrei să modifici limba?",
+    "startDay": "Ești sigur că vrei să modifici ziua de început a perioadei?",
     "unsavedChanges": "Ai modificări nesalvate. Le anulezi?"
   },
 

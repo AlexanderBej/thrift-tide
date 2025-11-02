@@ -46,7 +46,7 @@ export const loadSettings = createAsyncThunk(
   },
 );
 
-export const saveStartDay = createAsyncThunk(
+export const saveStartDayThunk = createAsyncThunk(
   'settings/saveStartDay',
   async ({ uid, startDay }: { uid: string; startDay: number }, { rejectWithValue }) => {
     try {
@@ -62,9 +62,13 @@ export const saveStartDay = createAsyncThunk(
 
 export const saveLanguageThunk = createAsyncThunk(
   'settings/saveLanguage',
-  async ({ uid, language }: { uid: string; language: 'en' | 'ro' }, { rejectWithValue }) => {
+  async (
+    { uid, language }: { uid: string; language: 'en' | 'ro' },
+    { dispatch, rejectWithValue },
+  ) => {
     try {
       await upsertAppLanguage(uid, language);
+      dispatch(setLanguage(language));
       toast.success('Language changed successfuly!');
       return { language };
     } catch (error) {
@@ -118,15 +122,15 @@ const settingsSlice = createSlice({
       s.error = a.error.message ?? 'Failed to load settings';
     });
 
-    b.addCase(saveStartDay.pending, (s) => {
+    b.addCase(saveStartDayThunk.pending, (s) => {
       s.error = undefined;
       s.status = 'loading';
     });
-    b.addCase(saveStartDay.fulfilled, (s, { payload }) => {
+    b.addCase(saveStartDayThunk.fulfilled, (s, { payload }) => {
       s.startDay = payload.startDay;
       s.status = 'ready';
     });
-    b.addCase(saveStartDay.rejected, (s, a) => {
+    b.addCase(saveStartDayThunk.rejected, (s, a) => {
       s.status = 'error';
       s.error = a.error.message ?? 'Failed to save start day';
     });
