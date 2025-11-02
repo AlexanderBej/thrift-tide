@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 import { selectAuthUser } from '../../store/auth-store/auth.selectors';
 import { selectSpentByBucket } from '../../store/budget-store/budget.selectors';
@@ -20,15 +21,16 @@ import DashboardCards from '../../components/dashboard-cards/dashboard-cards.com
 import AddIncome from '../../components/add-income-modal/add-income-modal.component';
 
 import './dashboard.styles.scss';
-import { Badge } from '../../api/models/badges';
 
 const Dashboard: React.FC = () => {
+  const navigate = useNavigate();
+  const { t } = useTranslation(['common', 'budget']);
+
   const user = useSelector(selectAuthUser);
   const budgetDoc = useSelector(selectBudgetDoc);
   const spentByBucket = useSelector(selectSpentByBucket);
   const insights = useSelector(selectDashboardInsights);
   const badges = useSelector(selectBadges);
-  const { t } = useTranslation(['common', 'budget']);
 
   const width = useWindowWidth();
   const isMobile = width < 480;
@@ -64,10 +66,6 @@ const Dashboard: React.FC = () => {
     if (!name) return '';
     const names = name.split(' ');
     return names[0];
-  };
-
-  const handleEditPercentage = () => {
-    console.log('edit percentages');
   };
 
   return (
@@ -121,7 +119,7 @@ const Dashboard: React.FC = () => {
           <Button
             buttonType="neutral"
             customContainerClass="edit-percentage-btn"
-            onClick={handleEditPercentage}
+            onClick={() => navigate('/settings')}
           >
             <span>
               {t('actions.edit') ?? 'Edit'} {t('pageContent.percentages') ?? 'percentages'}

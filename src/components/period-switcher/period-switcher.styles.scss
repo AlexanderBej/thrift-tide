@@ -1,3 +1,5 @@
+@use '../../styles/global.scss' as *;
+
 .jump-backdrop {
   position: fixed;
   inset: 0;
@@ -7,12 +9,13 @@
   z-index: 50;
 }
 .jump-card {
-  background: #fff;
+  @include themed(background, color-bg-card, $color-bg-card);
   border-radius: 14px;
   padding: 16px;
   width: 320px;
-  border: 1px solid var(--border, #e5e7eb);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border: 1px solid;
+  @include themed(border-color, color-bg-main, $color-bg-main);
+  box-shadow: $shadow-md;
 }
 .grid {
   display: grid;
@@ -40,8 +43,9 @@
 .btn {
   padding: 6px 10px;
   border-radius: 10px;
-  border: 1px solid var(--border, #e5e7eb);
-  background: var(--bg, #fff);
+  border: 1px solid;
+  @include themed(border-color, color-bg-main, $color-bg-main);
+  @include themed(background, color-bg-card, $color-bg-card);
   cursor: pointer;
 }
 .btn.ghost {

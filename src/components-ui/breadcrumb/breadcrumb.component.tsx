@@ -18,8 +18,6 @@ const Breadcrumbs: React.FC = () => {
   const getTranslatedRoute = (segment: string) => {
     if (segment === 'buckets') return t('pages.buckets').toLowerCase();
     if (Object.values(BucketType).includes(segment as BucketType)) {
-      console.log('budget:segment', segment);
-
       const lowerCaseSegment = segment.toLowerCase();
       return t(`budget:bucketNames.${lowerCaseSegment}`);
     }

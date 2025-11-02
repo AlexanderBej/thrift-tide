@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { getCssVar } from '../../utils/style-variable.util';
+
 import './progress-bar.styles.scss';
 
 interface ProgressBarProps {
@@ -13,7 +15,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ progress }) => {
         className="progress-bar-progress"
         style={{
           width: `${progress * 100}%`,
-          background: progress >= 1 ? '#ef4444' : '#22c55e',
+          background: progress >= 1 ? getCssVar('--color-bg-main') : getCssVar('--color-primary'),
         }}
       />
     </div>

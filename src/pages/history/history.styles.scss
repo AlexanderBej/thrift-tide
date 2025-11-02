@@ -9,6 +9,6 @@
   }
 
   .history-page-section {
-    @include dashboard-card($radius: $radius-lg, $shadow: $shadow-lg, $pad: $spacing-5 $spacing-6);
+    @include dashboard-card($radius: $radius-lg, $pad: $spacing-5 $spacing-6);
   }
 }

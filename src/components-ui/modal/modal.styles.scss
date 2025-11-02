@@ -12,7 +12,7 @@
 }
 
 .tt-modal {
-  @include dashboard-card($radius: $radius-md, $shadow: $shadow-lg, $pad: $spacing-5);
+  @include dashboard-card($radius: $radius-md, $pad: $spacing-5);
   position: relative;
   width: 90%;
   max-height: 90vh;
@@ -81,6 +81,5 @@
     width: 100%;
     height: auto;
     margin: 0 $spacing-2;
-    align-self: flex-end;
   }
 }

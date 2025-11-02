@@ -20,12 +20,7 @@
     align-items: center;
 
     &__card {
-      @include dashboard-card(
-        $radius: $radius-lg,
-        $shadow: $shadow-lg,
-        $pad: $spacing-5 $spacing-6,
-        $bgCol: #f4f5f7
-      );
+      @include dashboard-card($radius: $radius-lg, $pad: $spacing-5 $spacing-6, $bgCol: #f4f5f7);
 
       font-size: 1rem;
 

@@ -2,26 +2,38 @@
 @forward 'mixins';
 @forward 'styles';
 
+@use 'variables' as *;
+
 :root {
-  --text-primary: #2c3e50;
-  --text-secondary: #7b8a8b;
+  --color-primary: #{$color-primary};
+  --color-primary-dark: #{$color-primary-dark};
+  --color-secondary: #{$color-secondary};
+  --color-secondary-dark: #{$color-secondary-dark};
+
+  --color-bg-main: #{$color-bg-main};
+  --color-bg-card: #{$color-bg-card};
+
+  --color-text-primary: #{$color-text-primary};
+  --color-text-secondary: #{$color-text-secondary};
+
   --grid: #e6ebef;
-  --card-bg: #ffffff;
-  --needs: #2ecc71;
-  --needs-light: #d5f5e2;
-  --wants: #5dade2;
-  --wants-light: #dfeff9;
-  --savings: #f4b63f;
-  --savings-light: #fdf0d9;
+  // --color-neutral-grey: #{$color-neutral-grey};
 
-  --success: #27ae60;
-  --success-light: #27ae5f8d;
+  --needs: #{$color-needs};
+  --needs-light: #{$color-needs-light};
+  --wants: #{$color-wants};
+  --wants-light: #{$color-wants-light};
+  --savings: #{$color-savings};
+  --savings-light: #{$color-savings-light};
 
-  --warning: #f39c12;
-  --warning-light: #f39d128b;
+  --success: #{$color-success};
+  --success-light: #{$color-success-light};
 
-  --error: #e74c3c;
-  --error-light: #e74d3c89;
+  --warning: #{$color-warning};
+  --warning-light: #{$color-warning-light};
+
+  --error: #{$color-error};
+  --error-light: #{$color-error-light};
 
   --cat-1: #4e79a7;
   --cat-2: #f28e2b;

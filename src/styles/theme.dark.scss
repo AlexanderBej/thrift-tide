@@ -1,0 +1,25 @@
+// --------- GENERAL COLORS - DARK MODE -------
+$emerald-300: #5cf0a8; // primary
+$ruby-400: #79c8ff; // secondary
+$amber-300: #ffd45b; // accent
+$rich-black: #161f27; // background
+$raisin-black: #1e2126; // cards
+$anti-flash-300: #ededed; // text / shadows
+$cadet-grey: #9ca6b5; // text secondary
+$gunmetal: #1c2833; // text inverse
+
+@use './variables' with (
+  $color-primary: $emerald-300,
+  $color-secondary: $ruby-400,
+  $color-accent: $amber-300,
+
+  $color-bg-main: $rich-black,
+  $color-bg-card: $raisin-black,
+
+  $color-text-primary: $anti-flash-300,
+  $color-text-secondary: $cadet-grey,
+  $color-text-inverse: $gunmetal
+);
+
+// Now build the rest with these values
+@use './global';

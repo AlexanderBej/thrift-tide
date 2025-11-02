@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { CiCircleInfo } from 'react-icons/ci';
 
 import { AppDispatch } from '../../store/store';
 import { selectAuthUser } from '../../store/auth-store/auth.selectors';
@@ -15,6 +16,12 @@ import FormInput from '../../components-ui/form-input/form-input.component';
 import Button from '../../components-ui/button/button.component';
 import ConfirmationModal from '../../components/confirmation-modal/confirmation-modal.component';
 import { useWindowWidth } from '../../utils/window-width.hook';
+import Popover from '../../components-ui/popover/popover.component';
+import TTIcon from '../../components-ui/icon/icon.component';
+import Select, { SelectOption } from '../../components-ui/select/select.component';
+import { saveLanguageThunk } from '../../store/settings-store/settings.slice';
+import { selectSettingsAppLanguage } from '../../store/settings-store/settings.selectors';
+import { Language } from '../../api/types/settings.types';
 
 import './settings.styles.scss';
 
@@ -25,6 +32,7 @@ const Settings: React.FC = () => {
   const user = useSelector(selectAuthUser);
   const doc = useSelector(selectBudgetDoc);
   const mutateStatus = useSelector(selectBudgetMutateStatus);
+  const language = useSelector(selectSettingsAppLanguage);
 
   const defaultNeedsPct = doc?.percents.needs ?? 0.5;
   const defaultWantsPct = doc?.percents.wants ?? 0.3;
@@ -33,6 +41,8 @@ const Settings: React.FC = () => {
   const [needsPercents, setNeedsPercents] = useState(defaultNeedsPct);
   const [wantsPercents, setWantsPercents] = useState(defaultWantsPct);
   const [savingsPercents, setSavingsPercents] = useState(defaultSavingsPct);
+
+  const [nextLanguage, setNextLanguage] = useState<Language>(language);
 
   const total = needsPercents + wantsPercents + savingsPercents;
   const balanced = Math.abs(total - 1) < 0.0001;
@@ -67,12 +77,27 @@ const Settings: React.FC = () => {
     },
   ];
 
+  const languageOptions: SelectOption[] = [
+    { label: 'English', value: 'en' },
+    { label: 'Română', value: 'ro' },
+  ];
+
   const savePercents = () => {
     if (!user?.uuid || !doc) return;
     dispatch(
       setPercentsThunk({
         uid: user.uuid,
         percents: { needs: needsPercents, wants: wantsPercents, savings: savingsPercents },
+      }),
+    );
+  };
+
+  const saveLanguage = () => {
+    if (!user?.uuid || !doc) return;
+    dispatch(
+      saveLanguageThunk({
+        uid: user.uuid,
+        language: 'ro',
       }),
     );
   };
@@ -86,7 +111,9 @@ const Settings: React.FC = () => {
   return (
     <div className="settings-page">
       <section className="settings-page-section">
-        <h2 className="card-header">{t('pageContent.settings.pref') ?? 'Budget Preferences'}</h2>
+        <h2 className="card-header">
+          {t('pageContent.settings.budgetPref') ?? 'Budget Preferences'}
+        </h2>
         <p className="settings-label">
           {t('pageContent.settings.adjust') ?? 'Adjust your 50/30/20 split'}
           <span
@@ -106,7 +133,7 @@ const Settings: React.FC = () => {
 
         <div className="budget-preferences-row">
           <div className="budget-sliders">
-            {(['needs', 'wants', 'savings'] as const).map((key) => {
+            {(['needs', 'wants', 'savings'] as const).map((key, index) => {
               const stateSetters: any = {
                 needs: setNeedsPercents,
                 wants: setWantsPercents,
@@ -115,25 +142,92 @@ const Settings: React.FC = () => {
               const val =
                 key === 'needs' ? needsPercents : key === 'wants' ? wantsPercents : savingsPercents;
               const setVal = stateSetters[key];
+
+              const inputVal = val * 100;
               return (
-                <FormInput
-                  key={key}
-                  label={`${key === 'needs' ? (t('budget:bucketNames.needs') ?? 'Needs') : key === 'wants' ? (t('budget:bucketNames.wants') ?? 'Wants') : (t('budget:bucketNames.savings') ?? 'Savings')} (${(val * 100).toFixed(0)}%)`}
-                  name="slider"
-                  value={val}
-                  inputType="range"
-                  min={0}
-                  max={1}
-                  step={0.01}
-                  onChange={(e: { target: { value: any } }) => setVal(Number(e.target.value))}
-                  customClassName="settings-slider"
-                />
+                <div className="budget-slider-row" key={index}>
+                  <FormInput
+                    label={
+                      key === 'needs'
+                        ? (t('budget:bucketNames.needs') ?? 'Needs')
+                        : key === 'wants'
+                          ? (t('budget:bucketNames.wants') ?? 'Wants')
+                          : (t('budget:bucketNames.savings') ?? 'Savings')
+                    }
+                    name="slider"
+                    value={val}
+                    inputType="range"
+                    min={0}
+                    max={1}
+                    step={0.01}
+                    color={getCssVar(`--${key}`)}
+                    onChange={(e: { target: { value: any } }) => setVal(Number(e.target.value))}
+                    customClassName="settings-slider"
+                  />
+
+                  <FormInput
+                    name="percentage"
+                    value={inputVal.toFixed()}
+                    inputType="number"
+                    customClassName="percentage-input"
+                    onChange={(e: { target: { value: any } }) =>
+                      setVal(Number(e.target.value / 100))
+                    }
+                  />
+                </div>
               );
             })}
           </div>
           <div className="donut-container">
-            <Donut height={isMobile ? 60 : 250} showTooltip={false} data={donutItems} />
+            <Donut height={isMobile ? 60 : 200} showTooltip={false} data={donutItems} />
           </div>
+        </div>
+
+        <p className="settings-label">
+          {t('pageContent.settings.startDay') ?? 'Change the start day of your period'}
+        </p>
+        <div className="start-day-settings">
+          <span>Start the period on the </span>
+          <FormInput value={0} inputType="number" customClassName="start-day-input" />
+          <span>of the month</span>
+
+          <Popover toggler={<TTIcon icon={CiCircleInfo} size={18} />} position="right">
+            <span>
+              Allowed range is from the 1st to the 28th, in order to avoid end-of-month gaps.
+            </span>
+          </Popover>
+        </div>
+
+        <div className="settings-action-btns">
+          <ConfirmationModal
+            buttonLabel={t('actions.save') ?? 'Save'}
+            message={
+              t('confirmations.percentages') ?? 'Are you sure you want to change the language?'
+            }
+            handleConfirm={savePercents}
+            loading={mutateStatus === 'loading'}
+          />
+          <Button
+            buttonType="secondary"
+            htmlType="button"
+            onClick={resetData}
+            disabled={!haveChanged}
+          >
+            <span>{t('actions.reset') ?? 'Reset'}</span>
+          </Button>
+        </div>
+      </section>
+
+      <section className="settings-page-section">
+        <h2 className="card-header">{t('pageContent.settings.appPref') ?? 'App Preferences'}</h2>
+
+        <div className="language-selector">
+          <Select
+            name="language"
+            value={nextLanguage}
+            options={languageOptions}
+            onChange={(e) => setNextLanguage(e.target.value as Language)}
+          />
         </div>
 
         <div className="settings-action-btns">

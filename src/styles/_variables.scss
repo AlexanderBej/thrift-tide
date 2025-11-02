@@ -1,41 +1,62 @@
+@use 'sass:color';
 // ==============================
 // 🎨 Budget Balance Design Tokens
 // ==============================
 
 // ---------- COLORS ----------
 
+// --------- GENERAL COLORS - LIGHT MODE -------
+$emerald-500: #2ecc71; // primary
+$ruby-600: #4ba3f2; // secondary
+$amber-500: #f4b63f; // accent
+$anti-flash-500: #e0e0e1; // background
+$pure-white: #ffffff; // cards
+$gunmetal: #1c2833; // text / shadows
+$payne-grey: #5f6a79; // text secondary
+$anti-flash-300: #ededed; // text inverse
+
+// --------- REUSABLE VARIABLES (initial for light mode) -------
+
 // Primary palette
-$color-primary: #2ecc71; // Emerald Green – main accent
-$color-primary-dark: #27ae60; // Darker variant (hover, focus)
-$color-secondary: #5dade2; // Sky Blue – actions or links
-$color-secondary-dark: #4e9acc; // Sky Blue – actions or links hover
+$color-primary: $emerald-500 !default;
+$color-primary-dark: color.scale($color-primary, $lightness: -25%);
+
+$color-secondary: $ruby-600 !default;
+$color-secondary-dark: color.scale($color-secondary, $lightness: -25%);
+
+$color-accent: $amber-500 !default;
+$color-accent-dark: color.scale($color-accent, $lightness: -25%);
 
 // Neutrals
-$color-neutral-grey: #e1e1e1; // Main body background
+// $color-neutral-grey: #e1e1e1 !default; // Main body background
 $color-neutral-light: #ebebeb; // Backgrounds
 $color-neutral-medium: #d5dbdb; // Borders, dividers
 $color-neutral-dark: #2c3e50; // Headings, text
 
 // Accents
 $color-success: #27ae60;
+$color-success-light: color.scale($color-success, $lightness: 50%);
 $color-warning: #f39c12;
+$color-warning-light: color.scale($color-warning, $lightness: 50%);
 $color-error: #e74c3c;
+$color-error-light: color.scale($color-error, $lightness: 50%);
+
+// Bucket colors
+$color-needs: $color-primary;
+$color-needs-light: color.scale($color-primary, $lightness: 75%);
+$color-wants: $color-secondary;
+$color-wants-light: color.scale($color-secondary, $lightness: 75%);
+$color-savings: $color-accent;
+$color-savings-light: color.scale($color-accent, $lightness: 75%);
 
 // Text
-$color-text-primary: $color-neutral-dark;
-$color-text-secondary: darken($color-neutral-medium, 25%);
-$color-text-inverse: #ffffff;
+$color-text-primary: $gunmetal !default;
+$color-text-secondary: $payne-grey !default;
+$color-text-inverse: $anti-flash-300 !default;
 
 // Backgrounds
-$color-bg-main: $color-neutral-grey;
-$color-bg-body: $color-neutral-light;
-$color-bg-card: #ffffff;
-
-// Optional dark theme colors (future use)
-$dark-bg-body: #121212;
-$dark-bg-card: #1e1e1e;
-$dark-text-primary: #eaeaea;
-$dark-text-secondary: #aaaaaa;
+$color-bg-main: $anti-flash-500 !default;
+$color-bg-card: $pure-white !default;
 
 // ---------- TYPOGRAPHY ----------
 
@@ -79,9 +100,9 @@ $radius-md: 12px;
 $radius-lg: 20px;
 
 // Shadows
-$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-$shadow-md: 0 2px 8px rgba(0, 0, 0, 0.12);
-$shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.15);
+$shadow-sm: 0 1px 3px color.scale($gunmetal, $lightness: 75%) !default;
+$shadow-md: 0 2px 8px color.scale($gunmetal, $lightness: 70%) !default;
+$shadow-lg: 0 4px 16px color.scale($gunmetal, $lightness: 65%) !default;
 
 // ---------- LAYOUT GRID ----------
 
@@ -92,10 +113,6 @@ $breakpoint-mobile: 480px;
 $breakpoint-tablet: 768px;
 $breakpoint-desktop: 1024px;
 $breakpoint-large: 1440px;
-
-// Grid columns (desktop)
-$grid-columns: 12;
-$grid-gutter: 24px;
 
 // ---------- TRANSITIONS ----------
 $transition-fast: 0.2s ease-in-out;

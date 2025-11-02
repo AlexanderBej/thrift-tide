@@ -47,11 +47,6 @@ const Insights: React.FC = () => {
   const width = useWindowWidth();
   const isMobile = width < 480;
 
-  console.log('bucketPanelNeeds', bucketPanelNeeds);
-  console.log('bucketPanelWants', bucketPanelWants);
-  console.log('bucketPanelSavings', bucketPanelSavings);
-  console.log('trendLineChartData', trendLineChartData);
-
   const getDonutData = (bucketPanel: any): DonutItem[] => {
     const spentPct = getSpentPct(bucketPanel);
 
@@ -83,8 +78,6 @@ const Insights: React.FC = () => {
 
   const getDonutPercentage = (bucketPanel: any) => {
     const pct = getSpentPct(bucketPanel);
-
-    console.log('getDonutPercentage', pct, getPctColor(pct));
 
     return {
       value: pct,

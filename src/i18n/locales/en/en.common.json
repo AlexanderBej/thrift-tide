@@ -36,8 +36,10 @@
       "latestDist": "Latest Distribution"
     },
     "settings": {
-      "pref": "Budget Preferences",
-      "adjust": "Adjust your 50/30/20 split"
+      "budgetPref": "Budget Preferences",
+      "adjust": "Adjust your 50/30/20 split",
+      "startDay": "Period start day",
+      "appPref": "App Preferences"
     }
   },
 

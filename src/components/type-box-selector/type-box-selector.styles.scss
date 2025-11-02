@@ -24,8 +24,12 @@
     cursor: pointer;
 
     &:hover {
-      background-color: lighten($color: $color-primary, $amount: 45) !important;
-      border-color: $color-primary;
+      @include themed(
+        background-color,
+        color-primary,
+        lighten($color: $color-primary, $amount: 45)
+      );
+      @include themed(border-color, color-primary, $color-primary);
     }
   }
 }

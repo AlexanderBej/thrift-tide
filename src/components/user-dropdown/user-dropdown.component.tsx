@@ -36,7 +36,7 @@ const UserDropdown: React.FC = () => {
 
   return (
     <Dropdown
-      customClassName="galactica-nav"
+      customClassName="user-profile-nav"
       trigger={({ toggle }) => (
         <button onClick={toggle} className="user-profile-button">
           {user.photoURL ? (

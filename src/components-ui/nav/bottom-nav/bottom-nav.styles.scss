@@ -12,7 +12,7 @@
     height: 56px;
     padding-bottom: env(safe-area-inset-bottom);
     border-top: 1px solid $color-neutral-light;
-    background: $color-secondary;
+    @include themed(background, color-secondary, $color-secondary);
   }
 
   .nav-links {

@@ -4,7 +4,7 @@
   flex-wrap: wrap;
   gap: 0.5rem;
   font-size: 0.9rem;
-  color: var(--text-secondary, #6b7280);
+  color: var(--color-text-secondary, #6b7280);
   list-style: none;
   padding: 0;
   margin: 0;
@@ -23,7 +23,7 @@
 
   .breadcrumb-element {
     text-decoration: none;
-    color: var(--text-secondary, #6b7280);
+    color: var(--color-text-secondary, #6b7280);
     font-weight: 500;
     transition: color 0.2s ease;
 
@@ -33,7 +33,7 @@
   }
 
   .breadcrumb-current {
-    color: var(--text-primary, #111827);
+    color: var(--color-text-primary, #111827);
     font-weight: 600;
     text-transform: capitalize;
   }

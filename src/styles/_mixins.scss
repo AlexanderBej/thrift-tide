@@ -20,14 +20,8 @@
   grid-row-gap: $rowGap;
 }
 
-@mixin dashboard-card(
-  $shadow: $shadow-lg,
-  $radius: $radius-lg,
-  $pad: $spacing-5 $spacing-6,
-  $bgCol: $color-bg-card
-) {
-  background-color: $bgCol;
-  box-shadow: $shadow;
+@mixin dashboard-card($radius: $radius-lg, $pad: $spacing-5 $spacing-6, $bgCol: $color-bg-card) {
+  @include themed(background-color, color-bg-card, $bgCol);
   border-radius: $radius;
   padding: $pad;
   height: auto;
@@ -67,4 +61,10 @@ $breakpoints: (
   @media (max-height: $h) {
     @content;
   }
+}
+
+// theme mixin
+@mixin themed($prop, $token, $fallback) {
+  #{$prop}: $fallback; // SSR/old browsers fallback
+  #{$prop}: var(--#{$token}, #{$fallback}); // runtime theme
 }

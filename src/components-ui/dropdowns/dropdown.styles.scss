@@ -10,7 +10,7 @@
     right: 0;
     z-index: 0;
     min-width: 100px;
-    background-color: $color-bg-card;
+    @include themed(background-color, color-bg-card, $color-bg-card);
     display: flex;
     flex-direction: column;
     gap: 10px;

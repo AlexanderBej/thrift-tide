@@ -5,7 +5,8 @@
   align-items: center;
   gap: $spacing-4;
   margin: auto;
-  background: #ffffff;
+  @include themed(background, color-bg-card, $color-bg-card);
+  @include themed(color, color-text-primary, $color-text-primary);
   padding-right: 20px;
   border-radius: 25px;
 

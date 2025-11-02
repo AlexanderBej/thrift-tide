@@ -16,8 +16,8 @@
     transition: all $transition-fast;
 
     &:checked {
-      background-color: $color-primary; // green background
-      border-color: $color-primary;
+      @include themed(background-color, color-primary, $color-primary);
+      @include themed(border-color, color-primary, $color-primary);
     }
 
     /* Custom swish/checkmark */

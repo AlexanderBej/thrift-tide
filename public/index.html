@@ -23,6 +23,35 @@
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <!-- <link rel="stylesheet" href="%PUBLIC_URL%/light.css" media="(prefers-color-scheme: light)" />
+    <link rel="stylesheet" href="%PUBLIC_URL%/dark.css" media="(prefers-color-scheme: dark)" /> -->
+
+    <link id="tt-theme" rel="stylesheet" href="%PUBLIC_URL%/light.css" />
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('theme');
+          var prefersDark = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches;
+          var theme = saved || (prefersDark ? 'dark' : 'light');
+          var link = document.getElementById('tt-theme');
+          if (link)
+            link.href = theme === 'dark' ? '%PUBLIC_URL%/dark.css' : '%PUBLIC_URL%/light.css';
+          document.documentElement.setAttribute('data-theme', theme);
+          console.log('[theme-boot] theme:', theme);
+        } catch (e) {
+          console.warn('[theme-boot] failed:', e);
+        }
+      })();
+    </script>
+
+    <script>
+      (function () {
+        document.documentElement.setAttribute('data-theme-boot', 'ran'); // check in Elements
+        window.__THEME_BOOT__ = 'ran'; // check in Console
+        // your existing code...
+      })();
+    </script>
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.

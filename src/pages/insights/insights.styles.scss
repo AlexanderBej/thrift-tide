@@ -23,7 +23,7 @@
   .top-categories-sections,
   .legend-section,
   .trends-section {
-    @include dashboard-card($radius: $radius-lg, $shadow: $shadow-lg, $pad: $spacing-5 $spacing-6);
+    @include dashboard-card($radius: $radius-lg, $pad: $spacing-5 $spacing-6);
 
     @include mediaDown(md) {
       padding: $spacing-4;

@@ -17,6 +17,7 @@ import BucketsPage from './pages/buckets/buckets.component';
 import BucketPage from './pages/bucket/bucket.components';
 
 import './App.scss';
+import { useSystemTheme } from './utils/system-theme.hook';
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -25,6 +26,12 @@ function App() {
     const unsub = initApp(dispatch);
     return () => unsub();
   }, [dispatch]);
+
+  const systemTheme = useSystemTheme();
+
+  useEffect(() => {
+    console.log('User prefers', systemTheme);
+  }, [systemTheme]);
 
   window.addEventListener('pwa:update-available', (e: Event) => {
     const reg = (e as CustomEvent<ServiceWorkerRegistration>).detail;

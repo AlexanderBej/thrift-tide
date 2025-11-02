@@ -153,11 +153,11 @@ export const makeSelectBucketTrendsNivo = (opts: Options = {}) =>
         { id: 'Savings', color: getCssVar('--savings'), data: seriesSavings },
       ];
       if (opts.includeTotal)
-        out.push({ id: 'Total', color: getCssVar('--text-primary'), data: seriesTotal });
+        out.push({ id: 'Total', color: getCssVar('--color-text-primary'), data: seriesTotal });
       if (opts.includePace)
         out.push({
           id: 'Pace (Total)',
-          color: getCssVar('--text-secondary'),
+          color: getCssVar('--color-text-secondary'),
           data: seriesPaceTotal,
         });
 

@@ -53,15 +53,17 @@ const TypeBoxSelector: React.FC<TypeBoxSelectorProps> = ({ formData, handleTypeC
                 icon={opt.icon as IconType}
                 size={18}
                 color={
-                  formData.type === opt.value ? getCssVar('--card-bg') : getCssVar('--text-primary')
+                  formData.type === opt.value
+                    ? getCssVar('--color-bg-card')
+                    : getCssVar('--color-text-primary')
                 }
               />
               <span
                 style={{
                   color:
                     formData.type === opt.value
-                      ? getCssVar('--card-bg')
-                      : getCssVar('--text-primary'),
+                      ? getCssVar('--color-bg-card')
+                      : getCssVar('--color-text-primary'),
                 }}
               >
                 {opt.label}

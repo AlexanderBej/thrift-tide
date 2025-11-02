@@ -35,22 +35,23 @@
     position: absolute;
     z-index: 20;
     margin-top: 8px;
-    background: #fff;
+    @include themed(background, color-bg-card, $color-bg-card);
     border: 1px solid #e1e4ea;
     border-radius: 12px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 
     .rdp-chevron {
-      fill: $color-primary;
+      @include themed(fill, color-primary, $color-primary);
       margin-left: 5px;
     }
 
     .rdp-today:not(.rdp-outside) {
-      color: $color-primary;
+      @include themed(color, color-primary, $color-primary);
     }
 
     .rdp-selected .rdp-day_button {
-      border: 2px solid $color-primary;
+      border: 2px solid;
+      @include themed(border-color, color-primary, $color-primary);
     }
   }
 
@@ -80,6 +81,6 @@
   }
 
   &__control {
-    background-color: $color-primary;
+    @include themed(background-color, color-primary, $color-primary);
   }
 }

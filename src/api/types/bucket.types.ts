@@ -2,6 +2,8 @@ import { TbHomeStar } from 'react-icons/tb';
 import { GiWantedReward } from 'react-icons/gi';
 import { MdDataSaverOn } from 'react-icons/md';
 
+import { getCssVar } from '../../utils/style-variable.util';
+
 export type Bucket = 'needs' | 'wants' | 'savings';
 
 export enum BucketType {
@@ -11,15 +13,15 @@ export enum BucketType {
 }
 
 export const BUCKET_COLORS = {
-  needs: '#2ecc71', // green
-  wants: '#5dade2', // blue
-  savings: '#f4b63f', // gold
+  needs: getCssVar('--needs'), // green
+  wants: getCssVar('--wants'), // blue
+  savings: getCssVar('--savings'), // gold
 };
 
 export const BUCKET_LIGHT_COLORS = {
-  needs: '#d5f5e2', // green
-  wants: '#dfeff9', // blue
-  savings: '#fdf0d9', // gold
+  needs: getCssVar('--needs-light'), // green
+  wants: getCssVar('--needs-wants'), // blue
+  savings: getCssVar('--needs-savings'), // gold
 };
 
 export const BUCKET_ICONS = {

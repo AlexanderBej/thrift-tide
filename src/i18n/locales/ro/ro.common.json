@@ -36,8 +36,10 @@
       "latestDist": "Cea Mai Recentă Distribuție"
     },
     "settings": {
-      "pref": "Preferințe legate de buget",
-      "adjust": "Ajustează împărțirea 50/30/20"
+      "budgetPref": "Preferințe legate de buget",
+      "adjust": "Ajustează împărțirea 50/30/20",
+      "startDay": "Ziua de start a perioadei",
+      "appPref": "Preferințe legate de aplicație"
     }
   },
 

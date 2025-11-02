@@ -1,0 +1,99 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  color: #1c2833;
+  background-color: #e0e0e1;
+  line-height: 1.6;
+}
+
+button {
+  background: unset;
+  border: unset;
+  cursor: pointer;
+}
+
+a,
+Link {
+  text-decoration: none;
+  color: rgb(35, 35, 35);
+  transition: all 0.2s ease-in;
+  font-weight: 500;
+  position: relative;
+}
+a:after,
+Link:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background: currentColor;
+  transition: width 0.3s ease;
+}
+a:hover::after,
+Link:hover::after {
+  width: 100%;
+}
+
+ul {
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "Poppins", sans-serif;
+}
+
+.error-text-red {
+  color: red;
+  font-size: 11px;
+}
+
+:root {
+  --color-primary: #2ecc71;
+  --color-primary-dark: rgb(34.5, 153, 84.75);
+  --color-secondary: #4ba3f2;
+  --color-secondary-dark: rgb(16.0142487047, 124.4183937824, 221.7357512953);
+  --color-bg-main: #e0e0e1;
+  --color-bg-card: #ffffff;
+  --color-text-primary: #1c2833;
+  --color-text-secondary: #5f6a79;
+  --grid: #e6ebef;
+  --needs: #2ecc71;
+  --needs-light: rgb(201.96, 243.04, 219.38);
+  --wants: #4ba3f2;
+  --wants-light: rgb(210, 232, 251.75);
+  --savings: #f4b63f;
+  --savings-light: rgb(252.25, 236.75, 207);
+  --success: #27ae60;
+  --success-light: rgb(133.6901408451, 227.8098591549, 173.4295774648);
+  --warning: #f39c12;
+  --warning-light: rgb(249, 205.5, 136.5);
+  --error: #e74c3c;
+  --error-light: rgb(243, 165.5, 157.5);
+  --cat-1: #4e79a7;
+  --cat-2: #f28e2b;
+  --cat-3: #e15759;
+  --cat-4: #76b7b2;
+  --cat-5: #59a14f;
+  --cat-6: #edc948;
+  --cat-7: #b07aa1;
+  --cat-8: #ff9da7;
+  --cat-9: #9c755f;
+  --cat-10: #bab0ac;
+}
+
+.missing-items {
+  opacity: 0.7;
+}
+
+/*# sourceMappingURL=light.css.map */

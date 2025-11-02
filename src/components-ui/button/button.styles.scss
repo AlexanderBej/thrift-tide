@@ -14,35 +14,41 @@
     min-width: 50px;
 
     &:hover {
-      background-color: lighten($color: $color-primary, $amount: 40%) !important;
+      @include themed(
+        background-color,
+        color-primary,
+        lighten($color: $color-primary, $amount: 40%)
+      );
     }
   }
 
   &__neutral {
     padding: 0;
-    color: $color-text-primary;
+    @include themed(color, color-text-primary, $color-text-primary);
     text-align: left;
-    color: $color-secondary;
+    @include themed(color, color-secondary, $color-secondary);
     min-height: unset;
   }
 
   &__primary {
-    background-color: $color-primary;
-    color: $color-text-inverse;
-    border: 3px solid $color-primary;
+    @include themed(background-color, color-primary, $color-primary);
+    @include themed(color, color-text-inverse, $color-text-inverse);
+    border: 3px solid;
+    @include themed(border-color, color-primary, $color-primary);
 
     &:hover {
       background-color: transparent;
-      color: $color-text-primary;
+      @include themed(color, color-text-primary, $color-text-primary);
     }
   }
 
   &__secondary {
-    border: 3px solid $color-secondary;
+    border: 3px solid;
+    @include themed(border-color, color-secondary, $color-secondary);
 
     &:hover {
       background-color: transparent;
-      color: $color-secondary;
+      @include themed(color, color-secondary, $color-secondary);
     }
   }
 

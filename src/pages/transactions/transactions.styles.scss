@@ -24,7 +24,7 @@
 
   .txn-total-budget-section,
   .txn-page-spent {
-    @include dashboard-card($radius: $radius-lg, $shadow: $shadow-lg, $pad: $spacing-5 $spacing-6);
+    @include dashboard-card($radius: $radius-lg, $pad: $spacing-5 $spacing-6);
 
     @include mediaDown(md) {
       padding: $spacing-4;
@@ -129,11 +129,7 @@
     }
 
     .txn-group-list {
-      @include dashboard-card(
-        $radius: $radius-md,
-        $shadow: $shadow-md,
-        $pad: $spacing-4 $spacing-5
-      );
+      @include dashboard-card($radius: $radius-md, $pad: $spacing-4 $spacing-5);
 
       .txn-line {
         @include grid($templateColumns: 1fr 1fr 120px);

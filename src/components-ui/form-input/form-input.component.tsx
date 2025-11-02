@@ -20,6 +20,7 @@ interface FormInputProps {
   required?: boolean;
   inputType?: 'text' | 'textarea' | 'number' | 'search' | 'range';
   prefix?: 'euro' | 'search' | 'other' | 'none';
+  color?: string;
   isMaxLengthShown?: boolean;
   passwordField?: PasswordFieldVisibility;
   maxLength?: number;
@@ -41,6 +42,7 @@ const FormInput: React.FC<FormInputProps> = ({
   maxLength = 999,
   numberMaxDecimals = 2,
   customClassName,
+  color = getCssVar('--color-secondary'),
   errors,
   ...otherProps
 }) => {
@@ -161,6 +163,10 @@ const FormInput: React.FC<FormInputProps> = ({
               style={{
                 paddingLeft: prefix !== 'none' ? '35px' : '15px',
                 borderColor: errors ? getCssVar('--error') : '',
+                background:
+                  inputType === 'range'
+                    ? `linear-gradient(90deg,${color} 0%, ${color} ${Number(value) * 100}%, ${getCssVar('--color-bg-main')} ${Number(value) * 100}%, ${getCssVar('--color-bg-main')} 100%)`
+                    : 'white',
               }}
               onFocus={() => setIsPasswordFocused(true)}
               onBlur={isNumber ? handleNumberBlur : () => setIsPasswordFocused(false)}

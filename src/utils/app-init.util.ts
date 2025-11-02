@@ -1,14 +1,18 @@
 import { onAuthStateChanged } from 'firebase/auth';
+import toast from 'react-hot-toast';
+
 import { authLoading, userSignedIn, userSignedOut } from '../store/auth-store/auth.slice';
 import { AppDispatch } from '../store/store';
 import { _setTxns, cleanupListeners, initBudget } from '../store/budget-store/budget.slice';
 import { onTransactionsSnapshot } from '../api/services/budget.service';
 import { auth } from '../api/services/firebase.service';
 import { loadSettings } from '../store/settings-store/settings.slice';
-import toast from 'react-hot-toast';
+import { watchThemeChanges } from './theme-listener.util';
 
 export const initApp = (dispatch: AppDispatch) => {
   dispatch(authLoading());
+
+  const unsubTheme = watchThemeChanges(); // 👈 start listening to store theme
 
   const unsubAuth = onAuthStateChanged(auth, async (fbUser) => {
     // Clear previous listeners whenever auth changes
@@ -31,6 +35,7 @@ export const initApp = (dispatch: AppDispatch) => {
     try {
       dispatch(loadSettings({ uid: fbUser.uid }))
         .unwrap()
+        .then((set) => console.log(set))
         .finally(async () => {
           // Initialize budget (uses current or remembered month)
           const result = await dispatch(initBudget({ uid: fbUser.uid })).unwrap(); // will compute monthKey using loaded startDay
@@ -40,6 +45,7 @@ export const initApp = (dispatch: AppDispatch) => {
             const unsub = onTransactionsSnapshot(fbUser.uid, result.month, (txns) => {
               dispatch(_setTxns(txns));
             });
+            return unsub;
           }
         });
     } catch (error) {
@@ -51,6 +57,7 @@ export const initApp = (dispatch: AppDispatch) => {
   return () => {
     try {
       unsubAuth();
+      unsubTheme(); // 👈 good hygiene but optional
     } catch {}
     // also ensure listeners are cleaned if app unmounts
     dispatch(cleanupListeners());
