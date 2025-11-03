@@ -15,16 +15,17 @@ import DashboardInsights from '../../components/dashboard-insights/dashboard-ins
 import { selectBadges } from '../../store/budget-store/budget-badges.selectors';
 import { BadgePills } from '../../components/badge-pills/badge-pills.component';
 import { useWindowWidth } from '../../utils/window-width.hook';
-import { fmt } from '../../utils/format-data.util';
 import { selectBudgetDoc } from '../../store/budget-store/budget.selectors.base';
 import DashboardCards from '../../components/dashboard-cards/dashboard-cards.component';
 import AddIncome from '../../components/add-income-modal/add-income-modal.component';
+import { useFormatMoney } from '../../utils/format-money.hook';
 
 import './dashboard.styles.scss';
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation(['common', 'budget']);
+  const fmt = useFormatMoney();
 
   const user = useSelector(selectAuthUser);
   const budgetDoc = useSelector(selectBudgetDoc);
@@ -98,14 +99,14 @@ const Dashboard: React.FC = () => {
             <span className="dashboard-category" style={{ color: BUCKET_COLORS.needs }}>
               {(budgetDoc?.percents.needs ?? 0) * 100}% {t('budget:bucketNames.needs') ?? 'Needs'}
             </span>
-            <span className="dashboard-category">€{budgetDoc?.allocations.needs}</span>
+            <span className="dashboard-category">{fmt(budgetDoc?.allocations.needs)}</span>
           </div>
 
           <div className="cat-percentage-line">
             <span className="dashboard-category" style={{ color: BUCKET_COLORS.wants }}>
               {(budgetDoc?.percents.wants ?? 0) * 100}% {t('budget:bucketNames.wants') ?? 'Wants'}
             </span>
-            <span className="dashboard-category">€{budgetDoc?.allocations.wants}</span>
+            <span className="dashboard-category">{fmt(budgetDoc?.allocations.wants)}</span>
           </div>
 
           <div className="cat-percentage-line">
@@ -113,7 +114,7 @@ const Dashboard: React.FC = () => {
               {(budgetDoc?.percents.savings ?? 0) * 100}%{' '}
               {t('budget:bucketNames.savings') ?? 'Savings'}
             </span>
-            <span className="dashboard-category">€{budgetDoc?.allocations.savings}</span>
+            <span className="dashboard-category">{fmt(budgetDoc?.allocations.savings)}</span>
           </div>
 
           <Button

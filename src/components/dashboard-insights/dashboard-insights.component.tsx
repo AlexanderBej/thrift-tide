@@ -5,10 +5,10 @@ import { useTranslation } from 'react-i18next';
 import StackedBarChart, { BarChartRow } from '../../components-ui/charts/stacked-bar.component';
 import { selectDashboardInsights } from '../../store/budget-store/budget-insights.selectors';
 import KpiCard from '../../components-ui/kpi-card/kpi-card.component';
-import { fmt } from '../../utils/format-data.util';
 import { selectMonthTiming } from '../../store/budget-store/budget-period.selectors';
 
 import './dashboard-insights.styles.scss';
+import { useFormatMoney } from '../../utils/format-money.hook';
 
 interface DashboardInsightsProps {
   showInsights: 'kpi' | 'distribution';
@@ -19,6 +19,7 @@ const pct = (n: number | null | undefined) => (n == null ? '—' : `${Math.round
 const DashboardInsights: React.FC<DashboardInsightsProps> = ({ showInsights }) => {
   const insights = useSelector(selectDashboardInsights);
   const { t } = useTranslation('budget');
+  const fmt = useFormatMoney();
 
   const { totals, avgDaily, projectedTotal, burnVsPace, remainingPerDay, distribution } = insights;
   const { burn, pace } = burnVsPace;

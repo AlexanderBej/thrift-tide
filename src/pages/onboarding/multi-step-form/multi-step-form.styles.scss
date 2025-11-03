@@ -1,0 +1,78 @@
+@use 'sass:color';
+@use '../../../styles/global.scss' as *;
+
+.multi-step-container {
+  width: 800px;
+  height: 90%;
+  @include themed(background-color, color-bg-card, $color-bg-card);
+  border-radius: $radius-lg;
+  box-shadow: $shadow-md;
+  padding: $spacing-5 $spacing-6;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  .step-container {
+    margin: $spacing-5 auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+
+    .step-header {
+      margin-bottom: $spacing-4;
+      text-align: center;
+    }
+
+    .step-content {
+      // background-color: white;
+      border-radius: $radius-md;
+      padding: 20px;
+
+      .step-p {
+        font-size: 14px;
+      }
+
+      ul {
+        list-style: circle;
+        margin-left: 30px;
+      }
+
+      .language-input-container {
+        margin-top: $spacing-6;
+      }
+
+      .percents-selectors-wrapper {
+        margin: $spacing-5 0;
+
+        .budget-slider-row {
+          gap: $spacing-5;
+        }
+
+        .reset-percents-btn {
+          min-width: 100px;
+          min-height: 35px;
+          height: fit-content;
+          padding: 0 $spacing-3;
+          margin: auto;
+          display: block;
+        }
+      }
+
+      .start-day-wrapper {
+        margin: $spacing-5 0;
+      }
+    }
+  }
+
+  .step-action-buttons {
+    margin-top: auto;
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+
+    .skip-btn {
+      text-align: center;
+    }
+  }
+}

@@ -47,6 +47,7 @@ export const ensureUserProfile = async (userAuth: User, overrides: Partial<UserP
       currency: 'EUR',
       defaultPercents: DEFAULT_PERCENTS,
       startDay: overrides.startDay ?? DEFAULT_START_DAY,
+      onboardingCompleted: false,
       ...overrides,
     };
     await setDoc(ref, payload);

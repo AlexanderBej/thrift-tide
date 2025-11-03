@@ -33,7 +33,6 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         htmlType="button"
         customContainerClass={`${customButtonClass} confirm-btn`}
         onClick={() => setOpen(true)}
-        isLoading={loading}
         disabled={buttonDisabled}
       >
         <span>{buttonLabel}</span>
@@ -50,6 +49,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           buttonType="primary"
           htmlType="button"
           onClick={handleConfirm}
+          isLoading={loading}
           customContainerClass="confirm-modal-btn"
         >
           <span>{t('confirmations.modalTitle') ?? 'Confirm'}</span>

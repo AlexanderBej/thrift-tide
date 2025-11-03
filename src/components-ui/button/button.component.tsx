@@ -1,5 +1,5 @@
 import React from 'react';
-import Spinner from '../spinner/local-spinner/local-spinner.component';
+import LocalSpinner from '../spinner/local-spinner/local-spinner.component';
 
 import './button.styles.scss';
 
@@ -31,7 +31,7 @@ const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       type={htmlType}
     >
-      {isLoading ? <Spinner /> : children}
+      {isLoading ? <LocalSpinner /> : children}
     </button>
   );
 };

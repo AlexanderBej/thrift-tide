@@ -1,0 +1,174 @@
+/* eslint-disable indent */
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+
+import MultiStepProgressBar from './multi-step-progress-bar/multi-step-progress-bar.component';
+import StepOne from './steps/step-one.component';
+import StepTwo from './steps/step-two.component';
+import StepThree from './steps/step-three.component';
+import StepFour from './steps/step-four.component';
+import StepFive from './steps/step-five.component';
+import { AppDispatch } from '../../../store/store';
+import { selectAuthUser } from '../../../store/auth-store/auth.selectors';
+import { Currency, DEFAULT_LANGUAGE, Language } from '../../../api/types/settings.types';
+import Button from '../../../components-ui/button/button.component';
+import { DEFAULT_PERCENTS, PercentTriple } from '../../../api/types/percent.types';
+import { DEFAULT_START_DAY } from '../../../api/models/month-doc';
+import { selectOnboardingSettings } from '../../../store/settings-store/settings.selectors';
+
+import './multi-step-form.styles.scss';
+
+export interface MultiStepFormData {
+  percents: PercentTriple;
+  startDay: number;
+  language: Language;
+  currency: Currency;
+}
+
+export interface MultiFormProp {
+  formData: MultiStepFormData;
+  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+}
+
+export interface FormPercentsProp {
+  formData: MultiStepFormData;
+  onPercentsChange: (key: keyof PercentTriple, value: string | number) => void;
+}
+
+const MultiStepForm: React.FC = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const { t } = useTranslation('common');
+
+  const user = useSelector(selectAuthUser);
+  const { startDay, language, percents } = useSelector(selectOnboardingSettings);
+
+  const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState<MultiStepFormData>({
+    percents: percents ?? DEFAULT_PERCENTS,
+    startDay: startDay ?? DEFAULT_START_DAY,
+    language: language ?? DEFAULT_LANGUAGE,
+    currency: 'EUR', // TODO
+  });
+
+  const nextStep = () => setStep((prev) => prev + 1);
+  const prevStep = () => setStep((prev) => prev - 1);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    console.log('change', name, value);
+    console.log('sd', startDay);
+    const num = name === 'startDay' ? Number(value.padStart(2, '0')) : value;
+
+    setFormData((prev) => {
+      return { ...prev, [name]: num };
+    });
+  };
+
+  const handlePercentChange = (key: keyof PercentTriple, value: string | number) => {
+    const num = typeof value === 'string' ? parseFloat(value) || 0 : value;
+
+    setFormData((prev) => ({
+      ...prev,
+      percents: {
+        ...prev.percents,
+        [key]: num,
+      },
+    }));
+  };
+
+  const getNextBtnDisabled = () => {
+    if (
+      step === 3 &&
+      formData.percents.needs + formData.percents.wants + formData.percents.savings > 1
+    )
+      return true;
+    if (step === 4 && (formData.startDay < 1 || formData.startDay > 28)) return true;
+    return false;
+  };
+
+  return (
+    <div className="multi-step-container">
+      <MultiStepProgressBar step={step} totalSteps={5} />
+      <div className="step-container">
+        {step === 1 && (
+          <>
+            <h1 className="step-header">
+              {t('hi')} {user?.displayName} 👋
+            </h1>
+            <div className="step-content">
+              <StepOne />
+            </div>
+          </>
+        )}
+        {step === 2 && (
+          <>
+            <h1 className="step-header">{t('onboarding.step2.title')}</h1>
+            <div className="step-content">
+              <StepTwo formData={formData} onChange={handleChange} />
+            </div>
+          </>
+        )}
+        {step === 3 && (
+          <>
+            <h1 className="step-header">{t('onboarding.step3.title')}</h1>
+            <div className="step-content">
+              <StepThree formData={formData} onPercentsChange={handlePercentChange} />
+            </div>
+          </>
+        )}
+        {step === 4 && (
+          <>
+            <h1 className="step-header">{t('onboarding.step4.title')}</h1>
+            <div className="step-content">
+              <StepFour formData={formData} onChange={handleChange} />
+            </div>
+          </>
+        )}
+        {step === 5 && (
+          <>
+            <h1 className="step-header">{t('onboarding.step5.title')}</h1>
+            <div className="step-content">
+              <StepFive />
+            </div>
+          </>
+        )}
+      </div>
+      <div className="step-action-buttons">
+        <Button
+          htmlType="button"
+          onClick={() => navigate('/app')}
+          buttonType="neutral"
+          customContainerClass="skip-btn"
+        >
+          <span>{t('actions.skip') ?? 'Skip'}</span>
+        </Button>
+        {step !== 1 && (
+          <Button htmlType="button" onClick={prevStep} buttonType="secondary">
+            <span>{t('actions.back') ?? 'Back'}</span>
+          </Button>
+        )}
+        {step !== 5 && (
+          <Button
+            htmlType="button"
+            onClick={nextStep}
+            buttonType="primary"
+            disabled={getNextBtnDisabled()}
+          >
+            <span>{t('actions.next') ?? 'Next'}</span>
+          </Button>
+        )}
+
+        {step === 5 && (
+          <Button onClick={() => navigate('/app')} htmlType="button" buttonType="primary">
+            <span>{t('actions.continue') ?? 'Continue'}</span>
+          </Button>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default MultiStepForm;

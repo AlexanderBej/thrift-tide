@@ -19,13 +19,14 @@ import DashboardInsights from '../../components/dashboard-insights/dashboard-ins
 import { selectTopCategoriesOverall } from '../../store/budget-store/budget.selectors';
 import { resolveCategory } from '../../utils/category-options.util';
 import CategoryName from '../../components/category-name/category-name.component';
-import { fmt } from '../../utils/format-data.util';
 import { useWindowWidth } from '../../utils/window-width.hook';
+import { useFormatMoney } from '../../utils/format-money.hook';
 
 import './insights.styles.scss';
 
 const Insights: React.FC = () => {
   const { t } = useTranslation(['common', 'budget']);
+  const fmt = useFormatMoney();
 
   const [mode, setMode] = useState<'cumulative' | 'daily'>('cumulative');
   const selectPanelNeeds = useMemo(() => makeSelectBucketPanel(BucketType.NEEDS), []);

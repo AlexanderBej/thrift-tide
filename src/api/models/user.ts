@@ -1,6 +1,5 @@
-import { Theme } from '../../utils/theme.util';
 import { PercentTriple } from '../types/percent.types';
-import { Language } from '../types/settings.types';
+import { Currency, Language, Theme } from '../types/settings.types';
 
 export type MinimalUser = {
   uuid: string;
@@ -14,9 +13,16 @@ export interface UserProfile {
   email: string | null;
   photoURL: string | null;
   createdAt: Date;
-  currency?: string; // 'USD' | 'EUR' | ...
+  currency?: Currency; // 'USD' | 'EUR' | ...
   defaultPercents?: PercentTriple;
   startDay?: number; // 1..28
   language?: Language; // app language
   theme?: Theme; // app theme
+  onboardingCompleted: boolean;
+}
+
+export interface OnboardingData {
+  percents: PercentTriple;
+  language: Language;
+  startDay: number;
 }

@@ -1,0 +1,26 @@
+@use '../../../styles/global.scss' as *;
+
+.setting-container {
+  .setting-label-row {
+    display: inline-flex;
+    gap: $spacing-6;
+    margin-bottom: $spacing-5;
+
+    .setting-label {
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+
+  .setting-body {
+    width: 80%;
+    margin: auto;
+  }
+
+  .settings-action-btns {
+    margin: $spacing-4 auto 0;
+    display: flex;
+    gap: $spacing-5;
+    justify-content: flex-start;
+  }
+}

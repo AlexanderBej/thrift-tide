@@ -22,7 +22,8 @@ import FormInput from '../../components-ui/form-input/form-input.component';
 import { resolveCategory } from '../../utils/category-options.util';
 import { selectBudgetTotal } from '../../store/budget-store/budget.selectors.base';
 import TransactionRow from '../../components/transaction-row/transaction-row.component';
-import { fmt, LOCALE_MAP, makeFormatter } from '../../utils/format-data.util';
+import { LOCALE_MAP, makeFormatter } from '../../utils/format-data.util';
+import { useFormatMoney } from '../../utils/format-money.hook';
 
 import './transactions.styles.scss';
 
@@ -33,6 +34,8 @@ const Transaction: React.FC = () => {
   const totalSpent = useSelector(selectFilteredTotal);
   const totalIncome = useSelector(selectBudgetTotal);
   const perBucket = useSelector(selectMonthTotalsByBucket);
+
+  const fmt = useFormatMoney();
 
   const [filter, setFilter] = useState<Bucket | 'all'>('all');
   const [searchCriteria, setSearchCriteria] = useState<string>('');

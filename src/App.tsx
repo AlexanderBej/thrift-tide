@@ -15,9 +15,10 @@ import History from './pages/history/history.component';
 import Insights from './pages/insights/insights.component';
 import BucketsPage from './pages/buckets/buckets.component';
 import BucketPage from './pages/bucket/bucket.components';
+import { useSystemTheme } from './utils/system-theme.hook';
+import Onboarding from './pages/onboarding/onboarding.component';
 
 import './App.scss';
-import { useSystemTheme } from './utils/system-theme.hook';
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -47,6 +48,14 @@ function App() {
       <Routes>
         <Route path="login" element={<Login />} />
         <Route
+          path="onboarding"
+          element={
+            <ProtectedRoute>
+              <Onboarding />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/"
           element={
             <ProtectedRoute>
@@ -58,7 +67,6 @@ function App() {
           <Route path="transactions" element={<Transaction />} />
           <Route path="buckets" element={<BucketsPage />} />
           <Route path="buckets/:type" element={<BucketPage />} />
-
           <Route path="insights" element={<Insights />} />
           <Route path="history" element={<History />} />
           <Route path="settings" element={<Settings />} />

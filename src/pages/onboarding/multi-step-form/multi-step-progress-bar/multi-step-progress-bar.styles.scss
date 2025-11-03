@@ -1,0 +1,20 @@
+@use '../../../../styles/global.scss' as *;
+
+.multi-step-progress-bar {
+  // width: 100%;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin: 20px;
+
+  .progress-tab {
+    background-color: grey;
+    width: 80px;
+    height: 6px;
+    border-radius: 20px;
+
+    &__selected {
+      @include themed(background-color, color-primary, $color-primary);
+    }
+  }
+}

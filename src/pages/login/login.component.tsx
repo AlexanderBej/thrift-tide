@@ -1,27 +1,34 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
+import { useSelector } from 'react-redux';
 
 import TTIcon from '../../components-ui/icon/icon.component';
-
-import './login.styles.scss';
 import Button from '../../components-ui/button/button.component';
-import { useSelector } from 'react-redux';
 import { selectAuthStatus } from '../../store/auth-store/auth.selectors';
 import { ensureUserProfile, signInWithGooglePopup } from '../../api/services/auth.service';
+import { selectSettingOnboardingState } from '../../store/settings-store/settings.selectors';
+
+import './login.styles.scss';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const userStatus = useSelector(selectAuthStatus);
+  const onboardingCompleted = useSelector(selectSettingOnboardingState);
 
   useEffect(() => {
-    if (userStatus === 'authenticated') navigate('/');
+    if (userStatus === 'authenticated') {
+      if (onboardingCompleted) navigate('/');
+      else navigate('/onboarding');
+    }
   });
 
   const logGoogleUser = async () => {
     const { user } = await signInWithGooglePopup();
     await ensureUserProfile(user);
-    navigate('/');
+    console.log('onboarding', onboardingCompleted);
+
+    // navigate('/');
   };
 
   return (

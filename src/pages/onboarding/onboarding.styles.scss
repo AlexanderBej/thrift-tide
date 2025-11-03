@@ -1,0 +1,11 @@
+@use '../../styles/global.scss' as *;
+
+.onboarding-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include themed(background, color-bg-main, $color-bg-main);
+  @include themed(color, color-text-primary, $color-text-primary);
+}

@@ -1,0 +1,44 @@
+@use '../../styles/global.scss' as *;
+
+.percents-selectors-row {
+  @include grid($templateColumns: 1fr 200px, $columnGap: $spacing-5);
+
+  .budget-sliders {
+    grid-area: 1 / 1 / 2 / 2;
+
+    .budget-slider-row {
+      display: inline-flex;
+      width: 100%;
+      gap: 50px;
+      align-items: center;
+
+      .settings-slider {
+        flex: 1;
+        @include mediaDown(md) {
+          margin-bottom: 0;
+        }
+      }
+
+      .percentage-input {
+        width: 50px;
+        margin-bottom: 0;
+        position: relative;
+
+        &::after {
+          content: '%';
+          position: absolute;
+          top: 9px;
+          right: -20px;
+        }
+      }
+    }
+  }
+
+  .percentage-donut-container {
+    grid-area: 1 / 2 / 2 / 3;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

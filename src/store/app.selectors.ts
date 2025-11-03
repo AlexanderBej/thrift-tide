@@ -3,7 +3,7 @@ import { selectAuthLoading, selectAuthStatus } from './auth-store/auth.selectors
 import { RootState } from './store';
 import { selectBudgetLoadStatus } from './budget-store/budget.selectors.base';
 
-const selectSettingsStatus = (s: RootState) => s.settings.status;
+const selectSettingsStatus = (s: RootState) => s.settings.settingsStatus;
 
 // 1) Single “key” that fully describes boot state (always a stable string)
 export const selectBootKey = createSelector(

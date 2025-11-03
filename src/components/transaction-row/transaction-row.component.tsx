@@ -2,13 +2,14 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { enUS } from 'date-fns/locale';
 
-import { fmt, LOCALE_MAP, makeFormatter, toYMD } from '../../utils/format-data.util';
+import { LOCALE_MAP, makeFormatter, toYMD } from '../../utils/format-data.util';
 import { Txn } from '../../api/models/txn';
 import { CategoryOption } from '../../api/models/category-option';
 import { BUCKET_LIGHT_COLORS } from '../../api/types/bucket.types';
 import CategoryName from '../category-name/category-name.component';
 import { useWindowWidth } from '../../utils/window-width.hook';
 import ExpansionRow from '../../components-ui/expansion-row/expansion-row.component';
+import { useFormatMoney } from '../../utils/format-money.hook';
 
 import './transaction-row.styles.scss';
 
@@ -20,6 +21,7 @@ interface TransactionRowProps {
 
 const TransactionRow: React.FC<TransactionRowProps> = ({ txn, source, category }) => {
   const { t, i18n } = useTranslation(['common', 'budget']);
+  const fmt = useFormatMoney();
 
   const width = useWindowWidth();
   const isMobile = width < 480;

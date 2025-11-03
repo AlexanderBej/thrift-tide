@@ -9,9 +9,9 @@ import { IconType } from 'react-icons';
 
 import { selectCards } from '../../store/budget-store/budget.selectors';
 import { useNavigate } from 'react-router-dom';
-import { fmt } from '../../utils/format-data.util';
 import TTIcon from '../../components-ui/icon/icon.component';
 import ProgressBar from '../../components-ui/progress-bar/progress-bar.component';
+import { useFormatMoney } from '../../utils/format-money.hook';
 
 import './dashboard-cards.styles.scss';
 
@@ -19,6 +19,7 @@ const DashboardCards: React.FC = () => {
   const navigate = useNavigate();
   const cards = useSelector(selectCards);
   const { t } = useTranslation('budget');
+  const fmt = useFormatMoney();
 
   if (!cards) return null;
 

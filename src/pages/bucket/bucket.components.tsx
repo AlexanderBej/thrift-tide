@@ -15,7 +15,6 @@ import {
   makeSelectBucketPanel,
   selectDashboardInsights,
 } from '../../store/budget-store/budget-insights.selectors';
-import { fmt } from '../../utils/format-data.util';
 import { selectBudgetLoadStatus } from '../../store/budget-store/budget.selectors.base';
 import TransactionRow from '../../components/transaction-row/transaction-row.component';
 import { Donut, DonutItem } from '../../components-ui/charts/donut.component';
@@ -27,12 +26,14 @@ import { selectDailySpendQuery } from '../../store/budget-store/budget-daily.sel
 import { SpendingTimelineBar } from '../../components/spending-timeline-bar/spending-timeline-bar.component';
 import TTIcon from '../../components-ui/icon/icon.component';
 import { useWindowWidth } from '../../utils/window-width.hook';
+import { useFormatMoney } from '../../utils/format-money.hook';
 
 import './bucket.styles.scss';
 
 const BucketPage: React.FC = () => {
   const { type } = useParams<{ type: string }>();
   const { t } = useTranslation(['common', 'budget']);
+  const fmt = useFormatMoney();
 
   const status = useSelector(selectBudgetLoadStatus);
   const badges = useSelector(makeSelectBucketBadges(type as Bucket));

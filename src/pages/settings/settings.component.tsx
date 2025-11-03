@@ -1,126 +1,166 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { CiCircleInfo } from 'react-icons/ci';
 
 import { AppDispatch } from '../../store/store';
 import { selectAuthUser } from '../../store/auth-store/auth.selectors';
-import { setPercentsThunk } from '../../store/budget-store/budget.slice';
 import {
   selectBudgetDoc,
   selectBudgetMutateStatus,
 } from '../../store/budget-store/budget.selectors.base';
-import { Donut, DonutItem } from '../../components-ui/charts/donut.component';
-import { getCssVar } from '../../utils/style-variable.util';
-import FormInput from '../../components-ui/form-input/form-input.component';
-import Button from '../../components-ui/button/button.component';
-import ConfirmationModal from '../../components/confirmation-modal/confirmation-modal.component';
-import { useWindowWidth } from '../../utils/window-width.hook';
-import Popover from '../../components-ui/popover/popover.component';
-import TTIcon from '../../components-ui/icon/icon.component';
 import Select, { SelectOption } from '../../components-ui/select/select.component';
-import { saveLanguageThunk, saveStartDayThunk } from '../../store/settings-store/settings.slice';
 import {
-  selectSettingsAppLanguage,
-  selectSettingsBudgetStartDay,
-} from '../../store/settings-store/settings.selectors';
-import { Language } from '../../api/types/settings.types';
+  saveLanguageThunk,
+  saveStartDayThunk,
+  updateCurrencyThunk,
+  updateDefaultPercentsThunk,
+} from '../../store/settings-store/settings.slice';
+import { selectSettingsAll } from '../../store/settings-store/settings.selectors';
+import { Currency, Language } from '../../api/types/settings.types';
+import PercentsSelectors from '../../components/percents-selectors/percents-selectors.component';
+import StartDayEditor from '../../components/start-day-editor/start-day-editor.component';
+import Setting from './setting/setting.component';
+import { PercentTriple } from '../../api/types/percent.types';
 
 import './settings.styles.scss';
 
+interface SettingsFormData {
+  percents: PercentTriple;
+  startDay: number;
+  currency: Currency;
+  language: Language;
+}
+
 const Settings: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { t } = useTranslation(['common', 'budget']);
+  const { t, i18n } = useTranslation(['common', 'budget']);
 
   const user = useSelector(selectAuthUser);
   const doc = useSelector(selectBudgetDoc);
-  const mutateStatus = useSelector(selectBudgetMutateStatus);
-  const language = useSelector(selectSettingsAppLanguage);
-  const startDay = useSelector(selectSettingsBudgetStartDay);
+  // const mutateStatus = useSelector(selectBudgetMutateStatus);
 
-  const defaultNeedsPct = doc?.percents.needs ?? 0.5;
-  const defaultWantsPct = doc?.percents.wants ?? 0.3;
-  const defaultSavingsPct = doc?.percents.savings ?? 0.2;
+  const { currency, defaultPercents, language, startDay, theme, settingsStatus } =
+    useSelector(selectSettingsAll);
 
-  const [needsPercents, setNeedsPercents] = useState(defaultNeedsPct);
-  const [wantsPercents, setWantsPercents] = useState(defaultWantsPct);
-  const [savingsPercents, setSavingsPercents] = useState(defaultSavingsPct);
+  const defaultValues: SettingsFormData = {
+    percents: defaultPercents,
+    startDay,
+    currency,
+    language,
+  };
 
-  const [nextLanguage, setNextLanguage] = useState<Language>(language);
-  const [nextStartDay, setNextStartDay] = useState<number>(startDay);
-
-  const total = needsPercents + wantsPercents + savingsPercents;
-  const balanced = Math.abs(total - 1) < 0.0001;
-
-  const width = useWindowWidth();
-  const isMobile = width < 480;
-
-  const haveChanged =
-    !balanced ||
-    needsPercents !== defaultNeedsPct ||
-    wantsPercents !== defaultWantsPct ||
-    savingsPercents !== defaultSavingsPct;
-
-  const donutItems: DonutItem[] = [
-    {
-      id: 'needs',
-      label: 'Needs',
-      value: needsPercents * 100,
-      color: getCssVar('--needs'),
-    },
-    {
-      id: 'wants',
-      label: 'Wants',
-      value: wantsPercents * 100,
-      color: getCssVar('--wants'),
-    },
-    {
-      id: 'savings',
-      label: 'Savings',
-      value: savingsPercents * 100,
-      color: getCssVar('--savings'),
-    },
-  ];
+  const [formData, setFormData] = useState<SettingsFormData>(defaultValues);
 
   const languageOptions: SelectOption[] = [
     { label: 'English', value: 'en' },
     { label: 'Română', value: 'ro' },
   ];
 
+  const CurrencyOptions: SelectOption[] = [
+    { label: 'Euro (€)', value: 'EUR' },
+    { label: 'Romanian Leu (RON)', value: 'RON' },
+  ];
+
   const savePercents = () => {
     if (!user?.uuid || !doc) return;
+
+    const percentsToSave = {
+      needs: formData.percents.needs,
+      wants: formData.percents.wants,
+      savings: formData.percents.savings,
+    };
     dispatch(
-      setPercentsThunk({
+      updateDefaultPercentsThunk({
         uid: user.uuid,
-        percents: { needs: needsPercents, wants: wantsPercents, savings: savingsPercents },
+        percents: percentsToSave,
       }),
     );
   };
 
   const saveLanguage = () => {
     if (!user?.uuid || !doc) return;
+
+    const languageToSave = formData.language;
+
     dispatch(
       saveLanguageThunk({
         uid: user.uuid,
-        language: nextLanguage,
+        language: languageToSave,
       }),
-    );
+    )
+      .unwrap()
+      .then((res) => {
+        if (res.language === languageToSave) {
+          i18n.changeLanguage(res.language);
+        }
+      });
   };
 
   const saveStartDay = () => {
     if (!user?.uuid || !doc) return;
+
+    const startDayToSave = formData.startDay;
     dispatch(
       saveStartDayThunk({
         uid: user.uuid,
-        startDay: nextStartDay,
+        startDay: startDayToSave,
       }),
     );
   };
 
-  const resetData = () => {
-    setNeedsPercents(defaultNeedsPct);
-    setWantsPercents(defaultWantsPct);
-    setSavingsPercents(defaultSavingsPct);
+  const saveCurrency = () => {
+    if (!user?.uuid || !doc) return;
+
+    const currencyToSave = formData.currency;
+    dispatch(
+      updateCurrencyThunk({
+        uid: user.uuid,
+        currency: currencyToSave,
+      }),
+    );
+  };
+
+  const isPercentsButtonDisabled = (action: 'confirm' | 'reset'): boolean => {
+    const total = formData.percents.needs + formData.percents.wants + formData.percents.savings;
+    const notChanged =
+      formData.percents.needs === defaultPercents.needs &&
+      formData.percents.wants === defaultPercents.wants &&
+      formData.percents.savings === defaultPercents.savings;
+
+    if (action === 'confirm') {
+      return notChanged || total > 1;
+    } else {
+      return notChanged;
+    }
+  };
+
+  const resetData = (key: string, value: any) => {
+    setFormData((prev) => {
+      return {
+        ...prev,
+        [key]: value,
+      };
+    });
+  };
+
+  const handlePercentsChange = (bucket: string, value: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      percents: {
+        ...prev.percents,
+        [bucket]: value,
+      },
+    }));
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    const isStartDay = name === 'startDay';
+    const num = Number(value).toFixed(0);
+
+    setFormData((prev) => {
+      return { ...prev, [name]: isStartDay ? num : value };
+    });
   };
 
   return (
@@ -129,219 +169,94 @@ const Settings: React.FC = () => {
         <h2 className="card-header">
           {t('pageContent.settings.budgetPref') ?? 'Budget Preferences'}
         </h2>
-        <p className="settings-label">
-          {t('pageContent.settings.adjust') ?? 'Adjust your 50/30/20 split'}
-          <span
-            style={{
-              fontSize: 18,
-              color:
-                total === 1
-                  ? getCssVar('--success')
-                  : total > 1
-                    ? getCssVar('--error')
-                    : getCssVar('--warning'),
+
+        <Setting
+          title={t('pageContent.settings.adjust') ?? 'Adjust your 50/30/20 split'}
+          confirmMessage={
+            t('confirmations.percentages') ?? 'Are you sure you want to change the percentages?'
+          }
+          confirmDisabled={isPercentsButtonDisabled('confirm')}
+          confirmLoading={settingsStatus === 'loading'}
+          onConfirmClick={savePercents}
+          resetDisabled={isPercentsButtonDisabled('reset')}
+          onResetClik={() => resetData('percents', defaultPercents)}
+        >
+          <PercentsSelectors
+            percents={{
+              needs: formData.percents.needs,
+              wants: formData.percents.wants,
+              savings: formData.percents.savings,
             }}
-          >
-            {(total * 100).toFixed(0)}%
-          </span>
-        </p>
-
-        <div className="budget-preferences-row">
-          <div className="budget-sliders">
-            {(['needs', 'wants', 'savings'] as const).map((key, index) => {
-              const stateSetters: any = {
-                needs: setNeedsPercents,
-                wants: setWantsPercents,
-                savings: setSavingsPercents,
-              };
-              const val =
-                key === 'needs' ? needsPercents : key === 'wants' ? wantsPercents : savingsPercents;
-              const setVal = stateSetters[key];
-
-              const inputVal = val * 100;
-              return (
-                <div className="budget-slider-row" key={index}>
-                  <FormInput
-                    label={
-                      key === 'needs'
-                        ? (t('budget:bucketNames.needs') ?? 'Needs')
-                        : key === 'wants'
-                          ? (t('budget:bucketNames.wants') ?? 'Wants')
-                          : (t('budget:bucketNames.savings') ?? 'Savings')
-                    }
-                    name="slider"
-                    value={val}
-                    inputType="range"
-                    min={0}
-                    max={1}
-                    step={0.01}
-                    color={getCssVar(`--${key}`)}
-                    onChange={(e: { target: { value: any } }) => setVal(Number(e.target.value))}
-                    customClassName="settings-slider"
-                  />
-
-                  <FormInput
-                    name="percentage"
-                    value={inputVal.toFixed()}
-                    inputType="number"
-                    customClassName="percentage-input"
-                    onChange={(e: { target: { value: any } }) =>
-                      setVal(Number(e.target.value / 100))
-                    }
-                  />
-                </div>
-              );
-            })}
-          </div>
-          <div className="donut-container">
-            <Donut height={isMobile ? 60 : 200} showTooltip={false} data={donutItems} />
-          </div>
-        </div>
-
-        <div className="settings-action-btns">
-          <ConfirmationModal
-            buttonLabel={t('actions.save') ?? 'Save'}
-            message={
-              t('confirmations.percentages') ?? 'Are you sure you want to change the percentages?'
-            }
-            handleConfirm={savePercents}
-            loading={mutateStatus === 'loading'}
-            customButtonClass="settings-btn"
-            buttonDisabled={
-              needsPercents === defaultNeedsPct &&
-              wantsPercents === defaultWantsPct &&
-              savingsPercents === defaultSavingsPct
-            }
+            onPercentsChange={(bucket, value) => handlePercentsChange(bucket, value)}
           />
-          <Button
-            buttonType="secondary"
-            htmlType="button"
-            onClick={resetData}
-            disabled={!haveChanged}
-            customContainerClass="settings-btn"
-          >
-            <span>{t('actions.reset') ?? 'Reset'}</span>
-          </Button>
-        </div>
+        </Setting>
 
-        <p className="settings-label settings-label__start-day">
-          {t('pageContent.settings.startDay') ?? 'Change the start day of your period'}
-        </p>
-        <div className="start-day-settings">
-          <span>Start the period on the </span>
-          <FormInput
-            value={nextStartDay}
-            inputType="number"
-            customClassName="start-day-input"
-            onChange={(e: { target: { value: any } }) => setNextStartDay(Number(e.target.value))}
+        <hr className="divider" />
+
+        <Setting
+          title={t('pageContent.settings.startDay.title') ?? 'Change the start day of your period'}
+          popoverContent={
+            t('pageContent.settings.startDay.info') ??
+            'Allowed range is from the 1st to the 28th, in order to avoid end-of-month gaps.'
+          }
+          confirmMessage={
+            t('confirmations.startDay') ?? 'Are you sure you want to change the period start day?'
+          }
+          confirmDisabled={Number(startDay) === Number(formData.startDay)}
+          confirmLoading={settingsStatus === 'loading'}
+          onConfirmClick={saveStartDay}
+          resetDisabled={Number(startDay) === Number(formData.startDay)}
+          onResetClik={() => resetData('startDay', startDay)}
+        >
+          <StartDayEditor startDay={formData.startDay} onSetStartDay={handleChange} />
+        </Setting>
+
+        <hr className="divider" />
+
+        <Setting
+          title={t('pageContent.settings.currency') ?? 'Change your budget currency'}
+          confirmMessage={
+            t('confirmations.currency') ?? 'Are you sure you want to change the budget currency?'
+          }
+          confirmDisabled={currency === formData.currency}
+          confirmLoading={settingsStatus === 'loading'}
+          onConfirmClick={saveCurrency}
+          resetDisabled={currency === formData.currency}
+          onResetClik={() => resetData('currency', currency)}
+        >
+          <Select
+            name="currency"
+            customClassName="settings-selector"
+            value={formData.currency}
+            options={CurrencyOptions}
+            onChange={handleChange}
           />
-          <span>of the month</span>
-
-          <Popover toggler={<TTIcon icon={CiCircleInfo} size={18} />} position="right">
-            <span>
-              Allowed range is from the 1st to the 28th, in order to avoid end-of-month gaps.
-            </span>
-          </Popover>
-        </div>
-
-        <div className="settings-action-btns">
-          <ConfirmationModal
-            buttonLabel={t('actions.save') ?? 'Save'}
-            message={
-              t('confirmations.startDay') ?? 'Are you sure you want to change the period start day?'
-            }
-            handleConfirm={saveStartDay}
-            loading={mutateStatus === 'loading'}
-            customButtonClass="settings-btn"
-            buttonDisabled={startDay === nextStartDay}
-          />
-          <Button
-            buttonType="secondary"
-            htmlType="button"
-            onClick={() => setNextStartDay(startDay)}
-            disabled={startDay === nextStartDay}
-            customContainerClass="settings-btn"
-          >
-            <span>{t('actions.reset') ?? 'Reset'}</span>
-          </Button>
-        </div>
+        </Setting>
       </section>
 
       <section className="settings-page-section">
         <h2 className="card-header">{t('pageContent.settings.appPref') ?? 'App Preferences'}</h2>
 
-        <p className="settings-label settings-label__language">
-          {t('pageContent.settings.language') ?? 'Change the system language'}
-        </p>
-        <div className="language-selector">
+        <Setting
+          title={t('pageContent.settings.language') ?? 'Change the system language'}
+          confirmMessage={
+            t('confirmations.language') ?? 'Are you sure you want to change the language?'
+          }
+          confirmDisabled={language === formData.language}
+          confirmLoading={settingsStatus === 'loading'}
+          onConfirmClick={saveLanguage}
+          resetDisabled={language === formData.language}
+          onResetClik={() => resetData('language', language)}
+        >
           <Select
             name="language"
-            value={nextLanguage}
+            customClassName="settings-selector"
+            value={formData.language}
             options={languageOptions}
-            onChange={(e) => setNextLanguage(e.target.value as Language)}
+            onChange={handleChange}
           />
-        </div>
-
-        <div className="settings-action-btns">
-          <ConfirmationModal
-            buttonLabel={t('actions.save') ?? 'Save'}
-            message={t('confirmations.language') ?? 'Are you sure you want to change the language?'}
-            handleConfirm={saveLanguage}
-            loading={mutateStatus === 'loading'}
-            customButtonClass="settings-btn"
-            buttonDisabled={language === nextLanguage}
-          />
-          <Button
-            buttonType="secondary"
-            htmlType="button"
-            onClick={() => setNextLanguage(language)}
-            disabled={language === nextLanguage}
-            customContainerClass="settings-btn"
-          >
-            <span>{t('actions.reset') ?? 'Reset'}</span>
-          </Button>
-        </div>
+        </Setting>
       </section>
-
-      {/* <section style={{ marginTop: 32 }}>
-        <h2 style={{ fontSize: 20, fontWeight: 600 }}>Account</h2>
-
-        <div>
-          Display: Profile picture (user.photoURL) Display name / email Option: “Sign out”
-          (Optional) Change display name (if you allow updates in Firestore) (Optional) Delete
-          account (if you wire Firebase delete) If you integrate providers: Show “Connected with
-          Google” or similar.
-        </div>
-        {user && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <img
-              src={user.photoURL ?? ''}
-              alt=""
-              width={48}
-              height={48}
-              style={{ borderRadius: '50%' }}
-            />
-            <div>
-              <div>{user.displayName}</div>
-              <div style={{ opacity: 0.7 }}>{user.email}</div>
-            </div>
-          </div>
-        )}
-        <button onClick={signOutUser} style={{ marginTop: 12 }}>
-          Sign out
-        </button>
-      </section>
-
-      <section style={{ marginTop: 32 }}>
-        <h2 style={{ fontSize: 20, fontWeight: 600 }}>App</h2>
-        <div>
-          Ideas: Theme: Light / Dark toggle Currency format: USD / EUR / etc. Language (if you plan
-          to localize) Start week on: Monday / Sunday Show onboarding again / Reset demo data
-        </div>
-        <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <input type="checkbox" /> Dark mode
-        </label>
-      </section> */}
     </div>
   );
 };

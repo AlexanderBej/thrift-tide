@@ -5,7 +5,7 @@
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: "Open Sans", sans-serif;
   color: #1c2833;
   background-color: #e0e0e1;
   line-height: 1.6;
@@ -50,7 +50,7 @@ h2,
 h3,
 h4,
 h5 {
-  font-family: "Poppins", sans-serif;
+  font-family: "Lato", sans-serif;
 }
 
 .error-text-red {
@@ -94,6 +94,11 @@ h5 {
 
 .missing-items {
   opacity: 0.7;
+}
+
+.error {
+  font-size: 12px;
+  color: #e74c3c;
 }
 
 /*# sourceMappingURL=light.css.map */

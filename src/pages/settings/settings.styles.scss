@@ -22,83 +22,14 @@
       padding: $spacing-4;
     }
 
-    .settings-label {
-      display: inline-flex;
-      width: 50%;
-      justify-content: space-between;
-
-      @include mediaDown(md) {
-        width: 100%;
-      }
-
-      &__start-day {
-        margin-top: 30px;
-      }
-
-      &__language {
-        margin-bottom: $spacing-4;
-      }
+    .settings-selector {
+      width: 300px;
     }
 
-    .budget-preferences-row {
-      @include grid($templateColumns: 1fr 250px, $columnGap: $spacing-5);
-
-      .budget-sliders {
-        grid-area: 1 / 1 / 2 / 2;
-
-        .budget-slider-row {
-          display: inline-flex;
-          width: 100%;
-          gap: 50px;
-          align-items: center;
-
-          .settings-slider {
-            flex: 1;
-            @include mediaDown(md) {
-              margin-bottom: 0;
-            }
-          }
-
-          .percentage-input {
-            width: 50px;
-            margin-bottom: 0;
-            position: relative;
-
-            &::after {
-              content: '%';
-              position: absolute;
-              top: 9px;
-              right: -20px;
-            }
-          }
-        }
-      }
-
-      .donut-container {
-        grid-area: 1 / 2 / 2 / 3;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-    }
-
-    .start-day-settings {
-      display: inline-flex;
-      align-items: center;
-      width: 100%;
-
-      .start-day-input {
-        width: 50px;
-        margin: 0 15px;
-      }
-    }
-
-    .settings-action-btns {
-      margin: $spacing-4 auto 0;
-      display: flex;
-      gap: $spacing-5;
-      justify-content: flex-start;
+    .divider {
+      margin: 30px 0;
+      color: $color-bg-main;
+      opacity: 0.4;
     }
   }
 }

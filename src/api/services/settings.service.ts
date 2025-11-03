@@ -2,13 +2,37 @@ import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 
 import { db } from './firebase.service';
 import { UserProfile } from '../models/user';
-import { Theme } from '../../utils/theme.util';
-import { Language } from '../types/settings.types';
+import { Currency, Language, Theme } from '../types/settings.types';
+import { DEFAULT_PERCENTS, PercentTriple } from '../types/percent.types';
 
 export async function readUserProfile(uid: string): Promise<UserProfile | null> {
   const ref = doc(db, 'users', uid);
   const snap = await getDoc(ref);
   return snap.exists() ? (snap.data() as UserProfile) : null;
+}
+
+export async function completeOnboarding(uid: string, onboardingData: Partial<UserProfile>) {
+  const ref = doc(db, 'users', uid);
+  // If the doc doesn't exist, create minimum viable profile
+  const snap = await getDoc(ref);
+  if (!snap.exists()) {
+    const payload: Partial<UserProfile> = {
+      createdAt: new Date(),
+      // currency,
+      defaultPercents: onboardingData.defaultPercents,
+      startDay: onboardingData.startDay,
+      language: onboardingData.language,
+      onboardingCompleted: true,
+    };
+    await setDoc(ref, payload, { merge: true });
+  } else {
+    await updateDoc(ref, {
+      defaultPercent: onboardingData.defaultPercents,
+      startDay: onboardingData.startDay,
+      language: onboardingData.language,
+      onboardingCompleted: true,
+    });
+  }
 }
 
 export async function upsertUserStartDay(uid: string, startDay: number) {
@@ -19,7 +43,7 @@ export async function upsertUserStartDay(uid: string, startDay: number) {
     const payload: Partial<UserProfile> = {
       createdAt: new Date(),
       currency: 'EUR',
-      defaultPercents: { needs: 50, wants: 30, savings: 20 },
+      defaultPercents: DEFAULT_PERCENTS,
       startDay,
     };
     await setDoc(ref, payload, { merge: true });
@@ -36,7 +60,7 @@ export async function upsertAppLanguage(uid: string, language: Language) {
     const payload: Partial<UserProfile> = {
       createdAt: new Date(),
       currency: 'EUR',
-      defaultPercents: { needs: 50, wants: 30, savings: 20 },
+      defaultPercents: DEFAULT_PERCENTS,
       startDay: 25,
       language,
     };
@@ -54,7 +78,7 @@ export async function upsertAppTheme(uid: string, theme: Theme) {
     const payload: Partial<UserProfile> = {
       createdAt: new Date(),
       currency: 'EUR',
-      defaultPercents: { needs: 50, wants: 30, savings: 20 },
+      defaultPercents: DEFAULT_PERCENTS,
       startDay: 25,
       language: 'en',
       theme,
@@ -62,5 +86,41 @@ export async function upsertAppTheme(uid: string, theme: Theme) {
     await setDoc(ref, payload, { merge: true });
   } else {
     await updateDoc(ref, { theme });
+  }
+}
+
+export async function upsertDefaultPercents(uid: string, percents: PercentTriple) {
+  const ref = doc(db, 'users', uid);
+  // If the doc doesn't exist, create minimum viable profile
+  const snap = await getDoc(ref);
+  if (!snap.exists()) {
+    const payload: Partial<UserProfile> = {
+      createdAt: new Date(),
+      currency: 'EUR',
+      defaultPercents: percents,
+      startDay: 25,
+      language: 'en',
+    };
+    await setDoc(ref, payload, { merge: true });
+  } else {
+    await updateDoc(ref, { defaultPercents: percents });
+  }
+}
+
+export async function upsertCurrency(uid: string, currency: Currency) {
+  const ref = doc(db, 'users', uid);
+  // If the doc doesn't exist, create minimum viable profile
+  const snap = await getDoc(ref);
+  if (!snap.exists()) {
+    const payload: Partial<UserProfile> = {
+      createdAt: new Date(),
+      currency,
+      defaultPercents: DEFAULT_PERCENTS,
+      startDay: 25,
+      language: 'en',
+    };
+    await setDoc(ref, payload, { merge: true });
+  } else {
+    await updateDoc(ref, { currency });
   }
 }

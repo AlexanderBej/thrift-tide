@@ -1,4 +1,5 @@
-export type Theme = 'light' | 'dark';
+import { Theme } from '../api/types/settings.types';
+
 const LINK_ID = 'tt-theme';
 const HREF = (t: Theme) => `${process.env.PUBLIC_URL}/${t}.css`;
 
