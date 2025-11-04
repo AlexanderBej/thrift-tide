@@ -1,5 +1,4 @@
-// @use './styles/styles';
-@use './styles/global.scss' as *;
+@use './styles/tokens.scss' as *;
 
 .mobile-none {
   @include mediaDown(md) {

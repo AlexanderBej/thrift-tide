@@ -1,4 +1,4 @@
-@use '../../styles/global.scss' as *;
+@use '../../styles/tokens.scss' as *;
 
 .percents-selectors-row {
   @include grid($templateColumns: 1fr 200px, $columnGap: $spacing-5);

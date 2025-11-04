@@ -170,8 +170,6 @@ const Settings: React.FC = () => {
 
     const themeValue = checked ? 'dark' : 'light';
 
-    console.log('checked', checked, themeValue);
-
     setFormData((prev) => {
       return { ...prev, theme: themeValue };
     });

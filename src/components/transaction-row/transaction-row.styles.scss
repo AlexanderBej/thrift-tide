@@ -1,4 +1,4 @@
-@use '../../styles/global.scss' as *;
+@use '../../styles/tokens.scss' as *;
 
 .transaction-line {
   @include grid($templateColumns: 200px 1fr 1fr 80px, $columnGap: 8px, $rowGap: 8px);
