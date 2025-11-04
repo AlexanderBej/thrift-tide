@@ -24,55 +24,86 @@ import { makeAllocations, toMonthDoc } from '../../utils/services.util';
 import { Txn } from '../models/txn';
 import { periodBounds, representativeDateFromMonthKey } from '../../utils/period.util';
 import { toYMDUTC } from '../../utils/format-data.util';
+import { readUser } from './auth.service';
 
-const monthDocRef = (uid: string, month: string) => doc(db, 'users', uid, 'months', month);
+const getMonthRef = (uid: string, month: string) => doc(db, 'users', uid, 'months', month);
 
 const txnsColRef = (uid: string, month: string) =>
   collection(db, 'users', uid, 'months', month, 'transactions');
 
-/** Create or update the month doc with income/percents; allocations auto-computed. */
-export const upsertMonth = async (
+export async function createOrUpdateMonth(
   uid: string,
   month: string,
-  data: Partial<Pick<MonthDoc, 'income' | 'percents'>> & { startDay?: number },
-): Promise<MonthDoc> => {
-  const ref = doc(db, 'users', uid, 'months', month);
-  const prev = await getDoc(ref);
+  data: Partial<Pick<MonthDoc, 'income' | 'percents' | 'startDay'>>,
+): Promise<MonthDoc> {
+  const existing = await readMonth(uid, month);
+  return existing ? updateMonth(uid, month, data) : createMonth(uid, month, data);
+}
 
-  const prevData = prev.exists() ? prev.data() : {};
-  const income = data.income ?? (prev.exists() ? prevData.income : 0);
-  const percents = data.percents ?? (prev.exists() ? prevData.percents : DEFAULT_PERCENTS);
+export async function createMonth(
+  uid: string,
+  month: string,
+  data: Partial<Pick<MonthDoc, 'income' | 'percents' | 'startDay'>>,
+): Promise<MonthDoc> {
+  const ref = getMonthRef(uid, month);
+  const existing = await readMonth(uid, month);
+  if (existing) throw new Error(`Month ${month} already exists`);
 
-  // Determine effective start day for THIS period
-  // const startDay = prev.exists() ? (prevData.startDay ?? 1) : (data.startDay ?? 1);
+  const user = await readUser(uid);
 
-  const startDay = prev.exists() ? prevData.startDay : (data.startDay ?? DEFAULT_START_DAY);
+  const startDay = data.startDay ?? user?.startDay ?? DEFAULT_START_DAY;
 
-  // Compute bounds from monthKey + startDay
-  const repr = representativeDateFromMonthKey(month, startDay);
-  const { start, end } = periodBounds(repr, startDay);
+  const income = data.income ?? 0;
+  const percents = data.percents ?? user?.defaultPercents ?? DEFAULT_PERCENTS;
+
+  const { start, end } = periodBounds(representativeDateFromMonthKey(month, startDay), startDay);
+
+  await setDoc(ref, {
+    month,
+    income,
+    percents,
+    allocations: makeAllocations(income, percents),
+    startDay, // freeze per-period
+    periodStart: start.toISOString(), // freeze per-period
+    periodEnd: end.toISOString(), // freeze per-period
+
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  });
+
+  const fresh = await getDoc(ref);
+  if (!fresh.exists()) throw new Error('Failed to read month after create');
+  return fresh.data() as MonthDoc;
+}
+
+// --- UPDATE (fails if missing). Only updates current doc fields. ---
+export async function updateMonth(
+  uid: string,
+  month: string,
+  data: Partial<Pick<MonthDoc, 'income' | 'percents'>>,
+): Promise<MonthDoc> {
+  const ref = getMonthRef(uid, month);
+  const prev = await readMonth(uid, month);
+  if (!prev) throw new Error(`Month ${month} does not exist`);
+
+  const income = data.income ?? prev.income;
+  const percents = data.percents ?? prev.percents;
 
   await setDoc(
     ref,
     {
-      month,
       income,
       percents,
       allocations: makeAllocations(income, percents),
-      startDay, // freeze per-period
-      periodStart: start.toISOString(), // freeze per-period
-      periodEnd: end.toISOString(), // freeze per-period
-
-      createdAt: prev.exists() ? prev.data().createdAt : serverTimestamp(),
       updatedAt: serverTimestamp(),
     },
     { merge: true },
   );
 
   const snap = await getDoc(ref);
-  if (!snap.exists()) throw new Error('Failed to read month after upsert');
+  if (!snap.exists()) throw new Error('Failed to read month after update');
   return toMonthDoc(snap.data());
-};
+}
 
 /** Read a month doc */
 export const readMonth = async (uid: string, month: string): Promise<MonthDoc | null> => {

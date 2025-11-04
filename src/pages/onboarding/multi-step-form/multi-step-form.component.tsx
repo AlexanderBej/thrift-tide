@@ -16,9 +16,14 @@ import { Currency, DEFAULT_LANGUAGE, Language } from '../../../api/types/setting
 import Button from '../../../components-ui/button/button.component';
 import { DEFAULT_PERCENTS, PercentTriple } from '../../../api/types/percent.types';
 import { DEFAULT_START_DAY } from '../../../api/models/month-doc';
-import { selectOnboardingSettings } from '../../../store/settings-store/settings.selectors';
+import {
+  selectOnboardingSettings,
+  selectSettingsStatus,
+} from '../../../store/settings-store/settings.selectors';
 
 import './multi-step-form.styles.scss';
+import { completeOnboardingThunk } from '../../../store/settings-store/settings.slice';
+import { OnboardingData } from '../../../api/models/user';
 
 export interface MultiStepFormData {
   percents: PercentTriple;
@@ -43,6 +48,7 @@ const MultiStepForm: React.FC = () => {
   const { t } = useTranslation('common');
 
   const user = useSelector(selectAuthUser);
+  const status = useSelector(selectSettingsStatus);
   const { startDay, language, percents } = useSelector(selectOnboardingSettings);
 
   const [step, setStep] = useState(1);
@@ -58,8 +64,6 @@ const MultiStepForm: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    console.log('change', name, value);
-    console.log('sd', startDay);
     const num = name === 'startDay' ? Number(value.padStart(2, '0')) : value;
 
     setFormData((prev) => {
@@ -87,6 +91,23 @@ const MultiStepForm: React.FC = () => {
       return true;
     if (step === 4 && (formData.startDay < 1 || formData.startDay > 28)) return true;
     return false;
+  };
+
+  const handleNextClick = async () => {
+    if (step < 4) {
+      nextStep();
+      return;
+    }
+    if (!user?.uuid) return;
+    const data: OnboardingData = {
+      language: formData.language,
+      currency: formData.currency,
+      startDay: formData.startDay,
+      percents: formData.percents,
+    };
+
+    await dispatch(completeOnboardingThunk({ uid: user.uuid, onboardingData: data })).unwrap();
+    nextStep();
   };
 
   return (
@@ -137,15 +158,18 @@ const MultiStepForm: React.FC = () => {
         )}
       </div>
       <div className="step-action-buttons">
-        <Button
-          htmlType="button"
-          onClick={() => navigate('/app')}
-          buttonType="neutral"
-          customContainerClass="skip-btn"
-        >
-          <span>{t('actions.skip') ?? 'Skip'}</span>
-        </Button>
-        {step !== 1 && (
+        {step < 5 && (
+          <Button
+            htmlType="button"
+            onClick={() => navigate('/')}
+            buttonType="neutral"
+            customContainerClass="skip-btn"
+          >
+            <span>{t('actions.skip') ?? 'Skip'}</span>
+          </Button>
+        )}
+
+        {step > 1 && step < 5 && (
           <Button htmlType="button" onClick={prevStep} buttonType="secondary">
             <span>{t('actions.back') ?? 'Back'}</span>
           </Button>
@@ -153,8 +177,9 @@ const MultiStepForm: React.FC = () => {
         {step !== 5 && (
           <Button
             htmlType="button"
-            onClick={nextStep}
+            onClick={handleNextClick}
             buttonType="primary"
+            isLoading={status === 'loading'}
             disabled={getNextBtnDisabled()}
           >
             <span>{t('actions.next') ?? 'Next'}</span>
@@ -162,7 +187,7 @@ const MultiStepForm: React.FC = () => {
         )}
 
         {step === 5 && (
-          <Button onClick={() => navigate('/app')} htmlType="button" buttonType="primary">
+          <Button onClick={() => navigate('/')} htmlType="button" buttonType="primary">
             <span>{t('actions.continue') ?? 'Continue'}</span>
           </Button>
         )}

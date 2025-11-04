@@ -1,6 +1,7 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import toast from 'react-hot-toast';
 
-import { AppDispatch, RootState } from '../store';
+import { RootState } from '../store';
 import { DEFAULT_START_DAY, MonthDoc } from '../../api/models/month-doc';
 import { Txn } from '../../api/models/txn';
 import { DEFAULT_PERCENTS, PercentTriple } from '../../api/types/percent.types';
@@ -8,16 +9,18 @@ import { monthKey } from '../../utils/services.util';
 import {
   addTransaction,
   computeMonthSummary,
+  createMonth,
+  createOrUpdateMonth,
   deleteTransaction,
   onTransactionsSnapshot,
   persistMonthSummary,
   readMonth,
+  updateMonth,
   updateTransaction,
-  upsertMonth,
 } from '../../api/services/budget.service';
 import { startTxnsListener, stopTxnsListener } from '../../api/services/firebase.service';
 import { monthKeyFromDate } from '../../utils/period.util';
-import toast from 'react-hot-toast';
+import { createAppAsyncThunk } from '../../api/types/store.types';
 
 // type Status = 'idle' | 'loading' | 'ready' | 'error';
 export type TxnTypeFilter = 'all' | 'needs' | 'wants' | 'savings';
@@ -55,56 +58,52 @@ const initialState: BudgetState = {
   ui: { type: 'all', search: '', sortKey: 'date', sortDir: 'desc' },
 };
 
-export const initBudget = createAsyncThunk(
-  'budget/init',
-  async (
-    { uid, month }: { uid: string; month?: string },
-    { dispatch, getState, rejectWithValue },
-  ) => {
-    try {
-      // 1) ensure settings are loaded (caller should dispatch loadSettings first; we guard anyway)
-      const state: RootState = getState() as RootState;
-      const startDay = state.settings?.startDay ?? DEFAULT_START_DAY;
+export const initBudget = createAppAsyncThunk<
+  { doc: MonthDoc; month: string },
+  { uid: string; month?: string }
+>('budget/init', async ({ uid, month }, { dispatch, getState, rejectWithValue }) => {
+  try {
+    // 1) ensure settings are loaded (caller should dispatch loadSettings first; we guard anyway)
+    const state: RootState = getState();
+    const startDay = state.settings?.startDay ?? DEFAULT_START_DAY;
 
-      // 2) derive selected month (param > localStorage > computed current)
-      const currentKey = monthKeyFromDate(new Date(), startDay);
-      const stored = localStorage.getItem('month');
-      const m = month || stored || currentKey;
-      localStorage.setItem('month', m);
+    // 2) derive selected month (param > localStorage > computed current)
+    const currentKey = monthKeyFromDate(new Date(), startDay);
+    const stored = localStorage.getItem('month');
+    const m = month || stored || currentKey;
+    localStorage.setItem('month', m);
 
-      const existing = await readMonth(uid, m);
-      const doc =
-        existing ?? (await upsertMonth(uid, m, { income: 0, percents: DEFAULT_PERCENTS }));
+    const doc = await createOrUpdateMonth(uid, m, {});
 
-      startTxnsListener(
-        onTransactionsSnapshot(uid, m, (txns) => {
-          dispatch(_setTxns(txns));
-        }),
-      );
+    startTxnsListener(
+      onTransactionsSnapshot(uid, m, (txns) => {
+        dispatch(_setTxns(txns));
+      }),
+    );
 
-      toast.success('Budget initiated successfuly!');
-      return { doc, month: m };
-    } catch (error) {
-      toast.error('Could not initialize budget!');
-      rejectWithValue(error);
-    }
-  },
-);
+    toast.success('Budget initiated successfuly!');
+    return { doc, month: m };
+  } catch (error) {
+    toast.error('Could not initialize budget!');
+    return rejectWithValue(error);
+  }
+});
 
-export const setIncomeForPeriod = createAsyncThunk<
+export const setIncomeForPeriod = createAppAsyncThunk<
   MonthDoc,
-  { uid: string; month: string; income: number; startDay?: number },
-  { state: RootState; dispatch: AppDispatch }
+  { uid: string; month: string; income: number }
 >(
   'budget/setIncomeForPeriod',
-  async ({ uid, month, income, startDay }, { getState, dispatch, rejectWithValue }) => {
+  async ({ uid, month, income }, { getState, dispatch, rejectWithValue }) => {
     try {
       // 1) read current (if exists) to preserve percents (or use defaults)
       const existing = await readMonth(uid, month);
-      const percents = existing?.percents ?? DEFAULT_PERCENTS;
+      // const percents = existing?.percents ?? DEFAULT_PERCENTS;
 
       // 2) upsert month with new income (freeze startDay only on first create)
-      const next = await upsertMonth(uid, month, { income, percents, startDay });
+      const next = existing
+        ? await updateMonth(uid, month, { income })
+        : await createMonth(uid, month, {});
 
       // 3) summaries:
       const { budget } = getState();
@@ -114,7 +113,6 @@ export const setIncomeForPeriod = createAsyncThunk<
         await dispatch(recomputeAndPersistSummary({ uid }));
       } else {
         // target != selected period → no txns loaded; optionally update snapshot bits
-        // (keeps summary's income/allocations in sync without changing spent totals)
         if (existing?.summary) {
           const snapshot = {
             ...existing.summary,
@@ -124,8 +122,6 @@ export const setIncomeForPeriod = createAsyncThunk<
           };
           await persistMonthSummary(uid, month, snapshot);
         }
-        // If no summary exists, it's fine—when user opens that period or you run backfill,
-        // the full summary will be computed with txns.
       }
 
       toast.success('Income set successfuly!');
@@ -138,28 +134,22 @@ export const setIncomeForPeriod = createAsyncThunk<
 );
 
 // DELEGATE: keep the old thunk name for current-period updates
-export const setIncomeThunk = createAsyncThunk<
-  MonthDoc,
-  { uid: string; income: number },
-  { state: RootState; dispatch: AppDispatch }
->('budget/setIncome', async ({ uid, income }, { getState, dispatch }) => {
-  const { month } = getState().budget;
-  // use startDay only if the doc might be created the first time
-  const startDay = (getState() as RootState as any)?.settings?.startDay ?? DEFAULT_START_DAY;
+export const setIncomeThunk = createAppAsyncThunk<MonthDoc, { uid: string; income: number }>(
+  'budget/setIncome',
+  async ({ uid, income }, { getState, dispatch }) => {
+    const { month } = getState().budget;
+    // Delegate to the generic thunk
+    return await dispatch(setIncomeForPeriod({ uid, month, income })).unwrap();
+  },
+);
 
-  // Delegate to the generic thunk
-  return await dispatch(setIncomeForPeriod({ uid, month, income, startDay })).unwrap();
-});
-
-export const setPercentsThunk = createAsyncThunk<
+export const setPercentsThunk = createAppAsyncThunk<
   MonthDoc,
-  { uid: string; percents: PercentTriple },
-  { state: RootState; dispatch: AppDispatch }
+  { uid: string; percents: PercentTriple }
 >('budget/setPercents', async ({ uid, percents }, { getState, rejectWithValue, dispatch }) => {
   try {
-    const { month, doc } = getState().budget;
-    const income = doc?.income ?? 0;
-    const next = await upsertMonth(uid, month, { income, percents });
+    const { month } = getState().budget;
+    const next = await updateMonth(uid, month, { percents });
     await dispatch(recomputeAndPersistSummary({ uid }));
     toast.success('Percents updated successfuly!');
     return next;
@@ -169,7 +159,7 @@ export const setPercentsThunk = createAsyncThunk<
   }
 });
 
-export const changeMonthThunk = createAsyncThunk<
+export const changeMonthThunk = createAppAsyncThunk<
   { doc: MonthDoc; month: string },
   { uid: string; month: string }
 >('budget/changeMonth', async ({ uid, month }, { dispatch, rejectWithValue }) => {
@@ -179,9 +169,7 @@ export const changeMonthThunk = createAsyncThunk<
 
     localStorage.setItem('month', month);
 
-    const doc =
-      (await readMonth(uid, month)) ??
-      (await upsertMonth(uid, month, { income: 0, percents: DEFAULT_PERCENTS }));
+    const doc = (await readMonth(uid, month)) ?? (await createOrUpdateMonth(uid, month, {}));
 
     // restart live listener for the new month
     startTxnsListener(onTransactionsSnapshot(uid, month, (txns) => dispatch(_setTxns(txns))));
@@ -193,28 +181,26 @@ export const changeMonthThunk = createAsyncThunk<
   }
 });
 
-export const addTxnThunk = createAsyncThunk<
-  string,
-  { uid: string; txn: Omit<Txn, 'id'> },
-  { state: RootState; dispatch: AppDispatch }
->('budget/addTxn', async ({ uid, txn }, { getState, dispatch, rejectWithValue }) => {
-  try {
-    const { month } = getState().budget;
-    const id = await addTransaction(uid, month, txn);
-    // recompute once mutation succeeds
-    await dispatch(recomputeAndPersistSummary({ uid }));
-    toast.success('Added a new transaction');
-    return id;
-  } catch (error) {
-    toast.error('Failed to add transaction');
-    return rejectWithValue(error);
-  }
-});
+export const addTxnThunk = createAppAsyncThunk<string, { uid: string; txn: Omit<Txn, 'id'> }>(
+  'budget/addTxn',
+  async ({ uid, txn }, { getState, dispatch, rejectWithValue }) => {
+    try {
+      const { month } = getState().budget;
+      const id = await addTransaction(uid, month, txn);
+      // recompute once mutation succeeds
+      await dispatch(recomputeAndPersistSummary({ uid }));
+      toast.success('Added a new transaction');
+      return id;
+    } catch (error) {
+      toast.error('Failed to add transaction');
+      return rejectWithValue(error);
+    }
+  },
+);
 
-export const updateTxnThunk = createAsyncThunk<
+export const updateTxnThunk = createAppAsyncThunk<
   void,
-  { uid: string; id: string; patch: Partial<Omit<Txn, 'id'>> },
-  { state: RootState; dispatch: AppDispatch }
+  { uid: string; id: string; patch: Partial<Omit<Txn, 'id'>> }
 >('budget/updateTxn', async ({ uid, id, patch }, { getState, dispatch, rejectWithValue }) => {
   try {
     const { month } = getState().budget;
@@ -227,36 +213,34 @@ export const updateTxnThunk = createAsyncThunk<
   }
 });
 
-export const deleteTxnThunk = createAsyncThunk<
-  void,
-  { uid: string; id: string },
-  { state: RootState; dispatch: AppDispatch }
->('budget/deleteTxn', async ({ uid, id }, { getState, dispatch, rejectWithValue }) => {
-  try {
-    const { month } = getState().budget;
-    await deleteTransaction(uid, month, id);
-    await dispatch(recomputeAndPersistSummary({ uid }));
-    toast.success('Transaction deleted successfuly!');
-  } catch (error) {
-    toast.error('Failed to delete transaction');
-    return rejectWithValue(error);
-  }
-});
+export const deleteTxnThunk = createAppAsyncThunk<void, { uid: string; id: string }>(
+  'budget/deleteTxn',
+  async ({ uid, id }, { getState, dispatch, rejectWithValue }) => {
+    try {
+      const { month } = getState().budget;
+      await deleteTransaction(uid, month, id);
+      await dispatch(recomputeAndPersistSummary({ uid }));
+      toast.success('Transaction deleted successfuly!');
+    } catch (error) {
+      toast.error('Failed to delete transaction');
+      return rejectWithValue(error);
+    }
+  },
+);
 
-export const recomputeAndPersistSummary = createAsyncThunk<
-  void,
-  { uid: string },
-  { state: RootState }
->('budget/recomputeAndPersistSummary', async ({ uid }, { getState }) => {
-  const state = getState().budget;
-  const doc = state.doc;
-  if (!doc) return;
+export const recomputeAndPersistSummary = createAppAsyncThunk<void, { uid: string }>(
+  'budget/recomputeAndPersistSummary',
+  async ({ uid }, { getState }) => {
+    const state = getState().budget;
+    const doc = state.doc;
+    if (!doc) return;
 
-  // Use txns that are already in memory for THIS period (no extra reads needed)
-  const txns = state.txns;
-  const summary = computeMonthSummary(doc, txns);
-  await persistMonthSummary(uid, state.month, summary);
-});
+    // Use txns that are already in memory for THIS period (no extra reads needed)
+    const txns = state.txns;
+    const summary = computeMonthSummary(doc, txns);
+    await persistMonthSummary(uid, state.month, summary);
+  },
+);
 
 const budgetSlice = createSlice({
   name: 'budget',

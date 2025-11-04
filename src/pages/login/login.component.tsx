@@ -26,9 +26,6 @@ const Login: React.FC = () => {
   const logGoogleUser = async () => {
     const { user } = await signInWithGooglePopup();
     await ensureUserProfile(user);
-    console.log('onboarding', onboardingCompleted);
-
-    // navigate('/');
   };
 
   return (

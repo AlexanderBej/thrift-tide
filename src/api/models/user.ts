@@ -25,4 +25,5 @@ export interface OnboardingData {
   percents: PercentTriple;
   language: Language;
   startDay: number;
+  currency: Currency;
 }

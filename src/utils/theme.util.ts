@@ -18,13 +18,9 @@ export function onThemeChanged(next: Theme) {
 
 export function initTheme() {
   const saved = localStorage.getItem('theme') as Theme | null;
-  console.log('init theme', saved);
-
   if (saved) return onThemeChanged(saved);
   // fallback to OS
   const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
-  console.log('init theme prefersDark', prefersDark);
-
   onThemeChanged(prefersDark ? 'dark' : 'light');
 }
 

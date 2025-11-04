@@ -1,8 +1,10 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import toast from 'react-hot-toast';
+
 import { RootState } from '../store';
 import { MonthDoc } from '../../api/models/month-doc';
 import { listMonthsWithSummary } from '../../api/services/budget.service';
-import toast from 'react-hot-toast';
+import { createAppAsyncThunk } from '../../api/types/store.types';
 
 export type HistoryRow = MonthDoc & { id: string; _cursor?: any };
 
@@ -15,33 +17,27 @@ type HistoryState = {
 
 const initialState: HistoryState = { rows: [], nextCursor: null, status: 'idle' };
 
-export const loadHistoryPage = createAsyncThunk(
-  'history/loadPage',
-  async (
-    {
-      uid,
+export const loadHistoryPage = createAppAsyncThunk<
+  { items: HistoryRow[]; nextCursor: any | null },
+  { uid: string; fromISO?: string; toISO?: string; pageSize?: number }
+>('history/loadPage', async ({ uid, fromISO, toISO, pageSize }, { getState, rejectWithValue }) => {
+  try {
+    const state = getState() as RootState; // getState already typed; explicit cast is fine or can be removed
+    const cursor = state.history.nextCursor ?? null;
+
+    const { items, nextCursor } = await listMonthsWithSummary(uid, {
       fromISO,
       toISO,
       pageSize,
-    }: { uid: string; fromISO?: string; toISO?: string; pageSize?: number },
-    { getState, rejectWithValue },
-  ) => {
-    try {
-      const state = getState() as RootState;
-      const cursor = state.history.nextCursor ?? null;
-      const { items, nextCursor } = await listMonthsWithSummary(uid, {
-        fromISO,
-        toISO,
-        pageSize,
-        pageAfter: cursor,
-      });
-      return { items, nextCursor };
-    } catch (error) {
-      toast.error('Could not load history page data!');
-      return rejectWithValue(error);
-    }
-  },
-);
+      pageAfter: cursor,
+    });
+
+    return { items: items as HistoryRow[], nextCursor: nextCursor ?? null };
+  } catch (error) {
+    toast.error('Could not load history page data!');
+    return rejectWithValue('Failed to load history page'); // typed rejectValue (string)
+  }
+});
 
 const historySlice = createSlice({
   name: 'history',
@@ -65,8 +61,9 @@ const historySlice = createSlice({
       s.nextCursor = payload.nextCursor;
     });
     b.addCase(loadHistoryPage.rejected, (s, a) => {
+      // prefer payload when using rejectWithValue
       s.status = 'error';
-      s.error = a.error.message ?? 'Failed to load history';
+      s.error = (a.payload as string) ?? a.error.message ?? 'Failed to load history';
     });
   },
 });

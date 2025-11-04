@@ -35,7 +35,6 @@ export const initApp = (dispatch: AppDispatch) => {
     try {
       dispatch(loadSettings({ uid: fbUser.uid }))
         .unwrap()
-        .then((set) => console.log(set))
         .finally(async () => {
           // Initialize budget (uses current or remembered month)
           const result = await dispatch(initBudget({ uid: fbUser.uid })).unwrap(); // will compute monthKey using loaded startDay

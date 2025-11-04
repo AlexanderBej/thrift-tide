@@ -69,8 +69,6 @@ const AddIncome: React.FC = () => {
           uid: user.uuid,
           month: targetKey,
           income: parsedAmount,
-          // only used if creating the period for the first time
-          startDay,
         }),
       ).unwrap();
 
@@ -88,7 +86,6 @@ const AddIncome: React.FC = () => {
       setIncomeForPeriod({
         uid: user?.uuid,
         income: amount,
-        startDay: startDay,
         month: monthKey,
       }),
     );

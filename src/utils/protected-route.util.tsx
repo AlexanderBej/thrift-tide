@@ -15,8 +15,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const location = useLocation();
 
   if (status === 'idle' || authLoading) {
-    console.log('status', status, 'auth loading', authLoading);
-
     return <PageSpinner />;
   }
 

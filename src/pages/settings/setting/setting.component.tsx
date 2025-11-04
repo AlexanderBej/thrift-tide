@@ -20,7 +20,7 @@ interface SettingProps {
   confirmDisabled: boolean;
   onConfirmClick: () => void;
   resetDisabled: boolean;
-  onResetClik: () => void;
+  onResetClick: () => void;
 }
 
 const Setting: React.FC<SettingProps> = ({
@@ -34,7 +34,7 @@ const Setting: React.FC<SettingProps> = ({
   resetDisabled,
   containerClassName,
   onConfirmClick,
-  onResetClik,
+  onResetClick,
 }) => {
   const { t } = useTranslation('common');
 
@@ -68,7 +68,7 @@ const Setting: React.FC<SettingProps> = ({
         <Button
           buttonType="secondary"
           htmlType="button"
-          onClick={handleConfirm}
+          onClick={onResetClick}
           disabled={resetDisabled}
           customContainerClass="settings-btn"
         >

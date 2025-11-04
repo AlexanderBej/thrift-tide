@@ -12,7 +12,7 @@ interface ConfirmationModalProps {
   customButtonClass?: string;
   buttonDisabled?: boolean;
   loading?: boolean;
-  handleConfirm: () => void;
+  handleConfirm: () => Promise<unknown> | unknown;
 }
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
@@ -25,6 +25,22 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
 }) => {
   const { t } = useTranslation('common');
   const [open, setOpen] = useState(false);
+
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const onConfirmClick = async () => {
+    setSubmitting(true);
+    setError(null);
+    try {
+      await handleConfirm(); // await the thunk (via unwrap in caller)
+      setOpen(false); // close only on success
+    } catch (e) {
+      setError(t('errors.generic') ?? 'Something went wrong. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <>
@@ -39,17 +55,20 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       </Button>
       <Modal
         isOpen={open}
-        onClose={() => setOpen(false)}
+        onClose={() => (submitting ? null : setOpen(false))}
         title={t('confirmations.modalTitle') ?? 'Confirm'}
       >
-        <div className="confirmation-modal"></div>
-        <p>{message}</p>
+        <div className="confirmation-modal">
+          <p>{message}</p>
+          {error && <p className="confirm-error">{error}</p>}
+        </div>
 
         <Button
           buttonType="primary"
           htmlType="button"
-          onClick={handleConfirm}
-          isLoading={loading}
+          onClick={onConfirmClick}
+          isLoading={submitting || loading}
+          disabled={submitting || loading}
           customContainerClass="confirm-modal-btn"
         >
           <span>{t('confirmations.modalTitle') ?? 'Confirm'}</span>

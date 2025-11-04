@@ -4,10 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { AppDispatch } from '../../store/store';
 import { selectAuthUser } from '../../store/auth-store/auth.selectors';
-import {
-  selectBudgetDoc,
-  selectBudgetMutateStatus,
-} from '../../store/budget-store/budget.selectors.base';
+import { selectBudgetDoc } from '../../store/budget-store/budget.selectors.base';
 import Select, { SelectOption } from '../../components-ui/select/select.component';
 import {
   saveLanguageThunk,
@@ -37,9 +34,8 @@ const Settings: React.FC = () => {
 
   const user = useSelector(selectAuthUser);
   const doc = useSelector(selectBudgetDoc);
-  // const mutateStatus = useSelector(selectBudgetMutateStatus);
 
-  const { currency, defaultPercents, language, startDay, theme, settingsStatus } =
+  const { currency, defaultPercents, language, startDay, theme, status } =
     useSelector(selectSettingsAll);
 
   const defaultValues: SettingsFormData = {
@@ -56,12 +52,12 @@ const Settings: React.FC = () => {
     { label: 'Română', value: 'ro' },
   ];
 
-  const CurrencyOptions: SelectOption[] = [
+  const currencyOptions: SelectOption[] = [
     { label: 'Euro (€)', value: 'EUR' },
     { label: 'Romanian Leu (RON)', value: 'RON' },
   ];
 
-  const savePercents = () => {
+  const savePercents = async () => {
     if (!user?.uuid || !doc) return;
 
     const percentsToSave = {
@@ -69,55 +65,69 @@ const Settings: React.FC = () => {
       wants: formData.percents.wants,
       savings: formData.percents.savings,
     };
-    dispatch(
+    await dispatch(
       updateDefaultPercentsThunk({
         uid: user.uuid,
         percents: percentsToSave,
       }),
-    );
+    )
+      .unwrap()
+      .catch((err) => {
+        throw err;
+      });
   };
 
-  const saveLanguage = () => {
+  const saveLanguage = async () => {
     if (!user?.uuid || !doc) return;
 
     const languageToSave = formData.language;
 
-    dispatch(
+    const res = await dispatch(
       saveLanguageThunk({
         uid: user.uuid,
         language: languageToSave,
       }),
     )
       .unwrap()
-      .then((res) => {
-        if (res.language === languageToSave) {
-          i18n.changeLanguage(res.language);
-        }
+      .catch((err) => {
+        throw err;
       });
+
+    if (res.language === languageToSave) {
+      i18n.changeLanguage(res.language);
+    }
   };
 
-  const saveStartDay = () => {
+  const saveStartDay = async () => {
     if (!user?.uuid || !doc) return;
 
     const startDayToSave = formData.startDay;
-    dispatch(
+    await dispatch(
       saveStartDayThunk({
         uid: user.uuid,
         startDay: startDayToSave,
       }),
-    );
+    )
+      .unwrap()
+      .catch((err) => {
+        throw err;
+      });
   };
 
-  const saveCurrency = () => {
+  const saveCurrency = async () => {
     if (!user?.uuid || !doc) return;
 
     const currencyToSave = formData.currency;
-    dispatch(
+    await dispatch(
       updateCurrencyThunk({
         uid: user.uuid,
         currency: currencyToSave,
       }),
-    );
+    )
+      .unwrap()
+      .catch((err) => {
+        throw err;
+      });
   };
 
   const isPercentsButtonDisabled = (action: 'confirm' | 'reset'): boolean => {
@@ -176,10 +186,10 @@ const Settings: React.FC = () => {
             t('confirmations.percentages') ?? 'Are you sure you want to change the percentages?'
           }
           confirmDisabled={isPercentsButtonDisabled('confirm')}
-          confirmLoading={settingsStatus === 'loading'}
+          confirmLoading={status === 'loading'}
           onConfirmClick={savePercents}
           resetDisabled={isPercentsButtonDisabled('reset')}
-          onResetClik={() => resetData('percents', defaultPercents)}
+          onResetClick={() => resetData('percents', defaultPercents)}
         >
           <PercentsSelectors
             percents={{
@@ -203,10 +213,10 @@ const Settings: React.FC = () => {
             t('confirmations.startDay') ?? 'Are you sure you want to change the period start day?'
           }
           confirmDisabled={Number(startDay) === Number(formData.startDay)}
-          confirmLoading={settingsStatus === 'loading'}
+          confirmLoading={status === 'loading'}
           onConfirmClick={saveStartDay}
           resetDisabled={Number(startDay) === Number(formData.startDay)}
-          onResetClik={() => resetData('startDay', startDay)}
+          onResetClick={() => resetData('startDay', startDay)}
         >
           <StartDayEditor startDay={formData.startDay} onSetStartDay={handleChange} />
         </Setting>
@@ -219,16 +229,16 @@ const Settings: React.FC = () => {
             t('confirmations.currency') ?? 'Are you sure you want to change the budget currency?'
           }
           confirmDisabled={currency === formData.currency}
-          confirmLoading={settingsStatus === 'loading'}
+          confirmLoading={status === 'loading'}
           onConfirmClick={saveCurrency}
           resetDisabled={currency === formData.currency}
-          onResetClik={() => resetData('currency', currency)}
+          onResetClick={() => resetData('currency', currency)}
         >
           <Select
             name="currency"
             customClassName="settings-selector"
             value={formData.currency}
-            options={CurrencyOptions}
+            options={currencyOptions}
             onChange={handleChange}
           />
         </Setting>
@@ -243,10 +253,10 @@ const Settings: React.FC = () => {
             t('confirmations.language') ?? 'Are you sure you want to change the language?'
           }
           confirmDisabled={language === formData.language}
-          confirmLoading={settingsStatus === 'loading'}
+          confirmLoading={status === 'loading'}
           onConfirmClick={saveLanguage}
           resetDisabled={language === formData.language}
-          onResetClik={() => resetData('language', language)}
+          onResetClick={() => resetData('language', language)}
         >
           <Select
             name="language"

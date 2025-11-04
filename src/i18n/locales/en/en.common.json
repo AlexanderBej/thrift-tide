@@ -146,7 +146,7 @@
     "step5": {
       "title": "You’re Ready to Go!",
       "text1": "That’s it — setup is complete 🎊",
-      "text2": "Your preferences are saved, and you can now start using the app. You can always return to <bold>Settings</bold> to change your language, percentages, or start day later.",
+      "text2": "Your preferences are saved, and you can now start using the app. You can always return to <bold>Settings</bold> to change your language, currency, percentages, or start day later.",
       "text3": "Press <bold>Continue</bold> to open your dashboard and start tracking your budget."
     }
   }

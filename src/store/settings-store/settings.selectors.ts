@@ -1,7 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
-export const selectSettingsStatus = (s: RootState) => s.settings.settingsStatus;
+export const selectSettingsStatus = (s: RootState) => s.settings.status;
+export const selectSettingsBootStatus = (s: RootState) => s.settings.bootStatus;
 export const selectSettingsBudgetStartDay = (s: RootState) => s.settings.startDay;
 export const selectSettingsAppLanguage = (s: RootState) => s.settings.language;
 export const selectSettingsAppTheme = (s: RootState) => s.settings.theme;

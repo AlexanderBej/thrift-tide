@@ -43,19 +43,12 @@ const Layout: React.FC = () => {
       : t('pages.dashboard');
   };
 
-  const logSomething = () => {
-    console.log('GET GERE?');
-  };
-
   return (
     <div className="main-layout">
       <Sidebar />
       <main className="main-outlet">
         {booting ? (
-          <>
-            {logSomething()}
-            <PageSpinner />
-          </>
+          <PageSpinner />
         ) : (
           <>
             <header className="page-header">

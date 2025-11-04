@@ -55,3 +55,9 @@ export const ensureUserProfile = async (userAuth: User, overrides: Partial<UserP
 
   return ref;
 };
+
+export const readUser = async (uid: string): Promise<UserProfile | null> => {
+  const ref = doc(db, 'users', uid);
+  const snap = await getDoc(ref);
+  return snap.exists() ? (snap.data() as UserProfile) : null;
+};

@@ -33,13 +33,22 @@
         font-size: 14px;
       }
 
+      .step-mt {
+        margin-top: $spacing-6;
+      }
+
       ul {
         list-style: circle;
         margin-left: 30px;
       }
 
+      .onboarding-select {
+        width: 400px;
+        margin: auto;
+      }
+
       .language-input-container {
-        margin-top: $spacing-6;
+        margin-top: $spacing-4;
       }
 
       .percents-selectors-wrapper {

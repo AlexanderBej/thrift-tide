@@ -1,7 +1,7 @@
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 
 import { db } from './firebase.service';
-import { UserProfile } from '../models/user';
+import { OnboardingData, UserProfile } from '../models/user';
 import { Currency, Language, Theme } from '../types/settings.types';
 import { DEFAULT_PERCENTS, PercentTriple } from '../types/percent.types';
 
@@ -11,7 +11,7 @@ export async function readUserProfile(uid: string): Promise<UserProfile | null> 
   return snap.exists() ? (snap.data() as UserProfile) : null;
 }
 
-export async function completeOnboarding(uid: string, onboardingData: Partial<UserProfile>) {
+export async function completeOnboarding(uid: string, onboardingData: OnboardingData) {
   const ref = doc(db, 'users', uid);
   // If the doc doesn't exist, create minimum viable profile
   const snap = await getDoc(ref);
@@ -19,7 +19,7 @@ export async function completeOnboarding(uid: string, onboardingData: Partial<Us
     const payload: Partial<UserProfile> = {
       createdAt: new Date(),
       // currency,
-      defaultPercents: onboardingData.defaultPercents,
+      defaultPercents: onboardingData.percents,
       startDay: onboardingData.startDay,
       language: onboardingData.language,
       onboardingCompleted: true,
@@ -27,7 +27,7 @@ export async function completeOnboarding(uid: string, onboardingData: Partial<Us
     await setDoc(ref, payload, { merge: true });
   } else {
     await updateDoc(ref, {
-      defaultPercent: onboardingData.defaultPercents,
+      defaultPercents: onboardingData.percents,
       startDay: onboardingData.startDay,
       language: onboardingData.language,
       onboardingCompleted: true,
