@@ -46,6 +46,7 @@
       },
       "currency": "Choose your budget currency",
       "language": "Change the system language",
+      "theme": "Change the system theme",
       "appPref": "App Preferences"
     }
   },

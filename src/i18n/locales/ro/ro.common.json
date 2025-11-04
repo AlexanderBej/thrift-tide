@@ -46,6 +46,7 @@
       },
       "currency": "Alege valuta bugetului tău.",
       "language": "Modifică limba aplicației",
+      "theme": "Modifică tema de culori a aplicației",
       "appPref": "Preferințe legate de aplicație"
     }
   },

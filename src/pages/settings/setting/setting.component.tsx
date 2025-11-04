@@ -15,7 +15,8 @@ interface SettingProps {
   popoverPosition?: 'right' | 'top' | 'bottom' | 'left';
   children: React.ReactElement;
   containerClassName?: string;
-  confirmMessage: string;
+  showConfirm?: boolean;
+  confirmMessage?: string;
   confirmLoading: boolean;
   confirmDisabled: boolean;
   onConfirmClick: () => void;
@@ -28,20 +29,16 @@ const Setting: React.FC<SettingProps> = ({
   popoverContent,
   popoverPosition = 'right',
   children,
+  showConfirm = true,
   confirmDisabled,
   confirmLoading,
-  confirmMessage,
+  confirmMessage = '',
   resetDisabled,
   containerClassName,
   onConfirmClick,
   onResetClick,
 }) => {
   const { t } = useTranslation('common');
-
-  const handleConfirm = () => {
-    // setOpen(false);
-    onConfirmClick();
-  };
 
   return (
     <div className={`setting-container ${containerClassName}`}>
@@ -57,14 +54,28 @@ const Setting: React.FC<SettingProps> = ({
       <div className="setting-body">{children}</div>
 
       <div className="settings-action-btns">
-        <ConfirmationModal
-          buttonLabel={t('actions.save') ?? 'Save'}
-          message={confirmMessage}
-          handleConfirm={onConfirmClick}
-          loading={confirmLoading}
-          customButtonClass="settings-btn"
-          buttonDisabled={confirmDisabled}
-        />
+        {showConfirm ? (
+          <ConfirmationModal
+            buttonLabel={t('actions.save') ?? 'Save'}
+            message={confirmMessage}
+            handleConfirm={onConfirmClick}
+            loading={confirmLoading}
+            customButtonClass="settings-btn"
+            buttonDisabled={confirmDisabled}
+          />
+        ) : (
+          <Button
+            buttonType="primary"
+            htmlType="button"
+            onClick={onConfirmClick}
+            disabled={confirmDisabled}
+            isLoading={confirmLoading}
+            customContainerClass="settings-btn"
+          >
+            <span>{t('actions.save') ?? 'Save'}</span>
+          </Button>
+        )}
+
         <Button
           buttonType="secondary"
           htmlType="button"

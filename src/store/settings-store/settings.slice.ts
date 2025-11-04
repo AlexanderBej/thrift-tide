@@ -24,6 +24,7 @@ import { DEFAULT_PERCENTS, PercentTriple } from '../../api/types/percent.types';
 import { OnboardingData } from '../../api/models/user';
 import { createAppAsyncThunk, StoreStatus } from '../../api/types/store.types';
 import { setPercentsThunk } from '../budget-store/budget.slice';
+import { onThemeChanged } from '../../utils/theme.util';
 
 type SettingsState = {
   startDay: number; // 1..28
@@ -121,6 +122,7 @@ export const setAppThemeThunk = createAppAsyncThunk<
 >('settings/setAppTheme', async ({ uid, theme }, { rejectWithValue }) => {
   try {
     await upsertAppTheme(uid, theme);
+    // onThemeChanged(theme);
     toast.success('Theme changed successfuly!');
     return { theme };
   } catch (error) {
@@ -236,6 +238,19 @@ const settingsSlice = createSlice({
     b.addCase(saveLanguageThunk.rejected, (s, a) => {
       s.status = 'error';
       s.error = a.error.message ?? 'Failed to change language';
+    });
+
+    b.addCase(setAppThemeThunk.pending, (s) => {
+      s.error = undefined;
+      s.status = 'loading';
+    });
+    b.addCase(setAppThemeThunk.fulfilled, (s, { payload }) => {
+      s.theme = payload.theme;
+      s.status = 'ready';
+    });
+    b.addCase(setAppThemeThunk.rejected, (s, a) => {
+      s.status = 'error';
+      s.error = a.error.message ?? 'Failed to update default app theme';
     });
 
     b.addCase(updateDefaultPercentsThunk.pending, (s) => {

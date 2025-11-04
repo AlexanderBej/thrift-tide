@@ -12,6 +12,8 @@ export function applyTheme(theme: Theme) {
 // Call this whenever settings.theme changes
 export function onThemeChanged(next: Theme) {
   applyTheme(next);
+  console.log('theme in onThemeChanged', next);
+
   // keep localStorage ONLY as a boot hint
   localStorage.setItem('theme', next);
 }

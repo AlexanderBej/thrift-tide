@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -9,23 +9,26 @@ import Select, { SelectOption } from '../../components-ui/select/select.componen
 import {
   saveLanguageThunk,
   saveStartDayThunk,
+  setAppThemeThunk,
   updateCurrencyThunk,
   updateDefaultPercentsThunk,
 } from '../../store/settings-store/settings.slice';
 import { selectSettingsAll } from '../../store/settings-store/settings.selectors';
-import { Currency, Language } from '../../api/types/settings.types';
+import { Currency, DEFAULT_THEME, Language, Theme } from '../../api/types/settings.types';
 import PercentsSelectors from '../../components/percents-selectors/percents-selectors.component';
 import StartDayEditor from '../../components/start-day-editor/start-day-editor.component';
 import Setting from './setting/setting.component';
 import { PercentTriple } from '../../api/types/percent.types';
 
 import './settings.styles.scss';
+import CheckboxInput from '../../components-ui/checkbox-input/checkbox-input.component';
 
 interface SettingsFormData {
   percents: PercentTriple;
   startDay: number;
   currency: Currency;
   language: Language;
+  theme: Theme;
 }
 
 const Settings: React.FC = () => {
@@ -43,6 +46,7 @@ const Settings: React.FC = () => {
     startDay,
     currency,
     language,
+    theme: theme ?? DEFAULT_THEME,
   };
 
   const [formData, setFormData] = useState<SettingsFormData>(defaultValues);
@@ -57,78 +61,71 @@ const Settings: React.FC = () => {
     { label: 'Romanian Leu (RON)', value: 'RON' },
   ];
 
-  const savePercents = async () => {
-    if (!user?.uuid || !doc) return;
+  const hasUserAndDoc = !!user?.uuid && !!doc;
+  const themeChecked = formData.theme === 'dark';
 
-    const percentsToSave = {
-      needs: formData.percents.needs,
-      wants: formData.percents.wants,
-      savings: formData.percents.savings,
-    };
-    await dispatch(
-      updateDefaultPercentsThunk({
-        uid: user.uuid,
-        percents: percentsToSave,
-      }),
-    )
-      .unwrap()
-      .catch((err) => {
+  type SaveKey = keyof SettingsFormData;
+
+  const runSave = useCallback(
+    async <K extends SaveKey>(key: K) => {
+      if (!hasUserAndDoc) return;
+
+      const uid = user!.uuid;
+      const value = formData[key];
+
+      // Per-setting config (payload builder + optional onSuccess)
+      const config: Record<
+        SaveKey,
+        {
+          thunk: any;
+          buildPayload: (uid: string, v: SettingsFormData[SaveKey]) => any;
+          onSuccess?: (res: any, v: any) => void;
+        }
+      > = {
+        percents: {
+          thunk: updateDefaultPercentsThunk,
+          buildPayload: (uid, v) => ({
+            uid,
+            percents: {
+              needs: (v as PercentTriple).needs,
+              wants: (v as PercentTriple).wants,
+              savings: (v as PercentTriple).savings,
+            },
+          }),
+        },
+        startDay: {
+          thunk: saveStartDayThunk,
+          buildPayload: (uid, v) => ({ uid, startDay: Number(v) }),
+        },
+        currency: {
+          thunk: updateCurrencyThunk,
+          buildPayload: (uid, v) => ({ uid, currency: v }),
+        },
+        language: {
+          thunk: saveLanguageThunk,
+          buildPayload: (uid, v) => ({ uid, language: v }),
+          onSuccess: (res, v) => {
+            if (res?.language === v) i18n.changeLanguage(res.language as string);
+          },
+        },
+        theme: {
+          thunk: setAppThemeThunk,
+          buildPayload: (uid, v) => ({ uid, theme: v }),
+        },
+      };
+
+      const { thunk, buildPayload, onSuccess } = config[key];
+      const payload = buildPayload(uid, value);
+
+      try {
+        const res = await dispatch(thunk(payload)).unwrap();
+        onSuccess?.(res, value);
+      } catch (err) {
         throw err;
-      });
-  };
-
-  const saveLanguage = async () => {
-    if (!user?.uuid || !doc) return;
-
-    const languageToSave = formData.language;
-
-    const res = await dispatch(
-      saveLanguageThunk({
-        uid: user.uuid,
-        language: languageToSave,
-      }),
-    )
-      .unwrap()
-      .catch((err) => {
-        throw err;
-      });
-
-    if (res.language === languageToSave) {
-      i18n.changeLanguage(res.language);
-    }
-  };
-
-  const saveStartDay = async () => {
-    if (!user?.uuid || !doc) return;
-
-    const startDayToSave = formData.startDay;
-    await dispatch(
-      saveStartDayThunk({
-        uid: user.uuid,
-        startDay: startDayToSave,
-      }),
-    )
-      .unwrap()
-      .catch((err) => {
-        throw err;
-      });
-  };
-
-  const saveCurrency = async () => {
-    if (!user?.uuid || !doc) return;
-
-    const currencyToSave = formData.currency;
-    await dispatch(
-      updateCurrencyThunk({
-        uid: user.uuid,
-        currency: currencyToSave,
-      }),
-    )
-      .unwrap()
-      .catch((err) => {
-        throw err;
-      });
-  };
+      }
+    },
+    [dispatch, formData, hasUserAndDoc, i18n, user],
+  );
 
   const isPercentsButtonDisabled = (action: 'confirm' | 'reset'): boolean => {
     const total = formData.percents.needs + formData.percents.wants + formData.percents.savings;
@@ -144,13 +141,8 @@ const Settings: React.FC = () => {
     }
   };
 
-  const resetData = (key: string, value: any) => {
-    setFormData((prev) => {
-      return {
-        ...prev,
-        [key]: value,
-      };
-    });
+  const resetData = <K extends keyof SettingsFormData>(key: K, value: SettingsFormData[K]) => {
+    setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
   const handlePercentsChange = (bucket: string, value: number) => {
@@ -173,6 +165,18 @@ const Settings: React.FC = () => {
     });
   };
 
+  const handleThemeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked } = e.target;
+
+    const themeValue = checked ? 'dark' : 'light';
+
+    console.log('checked', checked, themeValue);
+
+    setFormData((prev) => {
+      return { ...prev, theme: themeValue };
+    });
+  };
+
   return (
     <div className="settings-page">
       <section className="settings-page-section">
@@ -187,7 +191,7 @@ const Settings: React.FC = () => {
           }
           confirmDisabled={isPercentsButtonDisabled('confirm')}
           confirmLoading={status === 'loading'}
-          onConfirmClick={savePercents}
+          onConfirmClick={() => runSave('percents')}
           resetDisabled={isPercentsButtonDisabled('reset')}
           onResetClick={() => resetData('percents', defaultPercents)}
         >
@@ -214,7 +218,7 @@ const Settings: React.FC = () => {
           }
           confirmDisabled={Number(startDay) === Number(formData.startDay)}
           confirmLoading={status === 'loading'}
-          onConfirmClick={saveStartDay}
+          onConfirmClick={() => runSave('startDay')}
           resetDisabled={Number(startDay) === Number(formData.startDay)}
           onResetClick={() => resetData('startDay', startDay)}
         >
@@ -230,7 +234,7 @@ const Settings: React.FC = () => {
           }
           confirmDisabled={currency === formData.currency}
           confirmLoading={status === 'loading'}
-          onConfirmClick={saveCurrency}
+          onConfirmClick={() => runSave('currency')}
           resetDisabled={currency === formData.currency}
           onResetClick={() => resetData('currency', currency)}
         >
@@ -254,7 +258,7 @@ const Settings: React.FC = () => {
           }
           confirmDisabled={language === formData.language}
           confirmLoading={status === 'loading'}
-          onConfirmClick={saveLanguage}
+          onConfirmClick={() => runSave('language')}
           resetDisabled={language === formData.language}
           onResetClick={() => resetData('language', language)}
         >
@@ -264,6 +268,27 @@ const Settings: React.FC = () => {
             value={formData.language}
             options={languageOptions}
             onChange={handleChange}
+          />
+        </Setting>
+
+        <hr className="divider" />
+
+        <Setting
+          title={t('pageContent.settings.theme') ?? 'Change your app theme'}
+          showConfirm={false}
+          confirmDisabled={theme === formData.theme}
+          confirmLoading={status === 'loading'}
+          onConfirmClick={() => runSave('theme')}
+          resetDisabled={theme === formData.theme}
+          onResetClick={() => resetData('theme', theme ?? DEFAULT_THEME)}
+        >
+          <CheckboxInput
+            variant="switch"
+            onText="Light"
+            offText="Dark"
+            name="theme"
+            checked={themeChecked}
+            onChange={handleThemeChange}
           />
         </Setting>
       </section>

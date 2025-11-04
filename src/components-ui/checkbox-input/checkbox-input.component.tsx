@@ -3,22 +3,35 @@ import React from 'react';
 import './checkbox-input.styles.scss';
 
 interface CheckboxInputProps {
-  label: string;
+  label?: string;
+  onText?: string;
+  offText?: string;
   name: string;
   checked: boolean;
   // eslint-disable-next-line no-unused-vars
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
+  /** new: choose look */
+  variant?: 'checkbox' | 'switch';
+  /** optional extra class */
+  className?: string;
 }
 
 const CheckboxInput: React.FC<CheckboxInputProps> = ({
   label,
+  onText,
+  offText,
   name,
   checked,
   onChange,
   disabled = false,
+  variant = 'checkbox',
+  className,
 }) => (
-  <div className="checkbox-input">
+  <div className={`checkbox-input checkbox-input__${variant} ${className}`}>
+    <label htmlFor={name} className="checkbox-label">
+      {onText}
+    </label>
     <input
       type="checkbox"
       id={name}
@@ -26,10 +39,12 @@ const CheckboxInput: React.FC<CheckboxInputProps> = ({
       checked={checked}
       onChange={onChange}
       disabled={disabled}
-      className="form-checkbox"
+      className={`form-checkbox${variant === 'switch' && ' form-checkbox__switch'}`}
+      role={variant === 'switch' ? 'switch' : undefined} // optional ARIA hint
+      aria-checked={checked}
     />
     <label htmlFor={name} className="checkbox-label">
-      {label}
+      {label || offText}
     </label>
   </div>
 );
