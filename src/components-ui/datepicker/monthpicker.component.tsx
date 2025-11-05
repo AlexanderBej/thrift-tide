@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { DayPicker } from 'react-day-picker';
+import clsx from 'clsx';
 import 'react-day-picker/style.css';
-import { format } from 'date-fns';
 
-import './datepicker.styles.scss';
 import { useDismissOnOutside } from '../../utils/dismiss-on-outside.hook';
 import { formatPeriodLabel, periodBounds } from '../../utils/period.util';
 import { DEFAULT_START_DAY } from '../../api/models/month-doc';
+
+import './datepicker.styles.scss';
 
 type MonthPickerProps = {
   label?: string;
@@ -37,13 +38,18 @@ const MonthPicker: React.FC<MonthPickerProps> = ({
 
   const containerRef = useDismissOnOutside<HTMLDivElement>(open, () => setOpen(false));
 
+  const containerClass = clsx('date-field', className);
+  const buttonClass = clsx('date-field__control', 'monthpicker__control', {
+    'has-error': error,
+  });
+
   return (
-    <div ref={containerRef} className={`date-field ${className ?? ''}`}>
+    <div ref={containerRef} className={containerClass}>
       {label && <label className="date-field__label">{label}</label>}
 
       <button
         type="button"
-        className={`date-field__control monthpicker__control ${error ? 'has-error' : ''}`}
+        className={buttonClass}
         onClick={() => setOpen((o) => !o)}
         disabled={disabled}
         aria-haspopup="dialog"

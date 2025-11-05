@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 
 import './checkbox-input.styles.scss';
 
@@ -27,26 +28,32 @@ const CheckboxInput: React.FC<CheckboxInputProps> = ({
   disabled = false,
   variant = 'checkbox',
   className,
-}) => (
-  <div className={`checkbox-input checkbox-input__${variant} ${className}`}>
-    <label htmlFor={name} className="checkbox-label">
-      {onText}
-    </label>
-    <input
-      type="checkbox"
-      id={name}
-      name={name}
-      checked={checked}
-      onChange={onChange}
-      disabled={disabled}
-      className={`form-checkbox${variant === 'switch' && ' form-checkbox__switch'}`}
-      role={variant === 'switch' ? 'switch' : undefined} // optional ARIA hint
-      aria-checked={checked}
-    />
-    <label htmlFor={name} className="checkbox-label">
-      {label || offText}
-    </label>
-  </div>
-);
+}) => {
+  const inputClass = clsx('form-checkbox', {
+    'form-checkbox__switch': variant === 'switch',
+  });
+
+  return (
+    <div className={`checkbox-input checkbox-input__${variant} ${className}`}>
+      <label htmlFor={name} className="checkbox-label">
+        {onText}
+      </label>
+      <input
+        type="checkbox"
+        id={name}
+        name={name}
+        checked={checked}
+        onChange={onChange}
+        disabled={disabled}
+        className={inputClass}
+        role={variant === 'switch' ? 'switch' : undefined} // optional ARIA hint
+        aria-checked={checked}
+      />
+      <label htmlFor={name} className="checkbox-label">
+        {label || offText}
+      </label>
+    </div>
+  );
+};
 
 export default CheckboxInput;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { AppDispatch } from '../../store/store';
 import { selectAuthUser } from '../../store/auth-store/auth.selectors';
@@ -9,6 +9,7 @@ import { userSignedOut } from '../../store/auth-store/auth.slice';
 import Dropdown from '../../components-ui/dropdowns/dropdown.component';
 
 import './user-dropdown.styles.scss';
+import Button from '../../components-ui/button/button.component';
 
 const UserDropdown: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -53,21 +54,16 @@ const UserDropdown: React.FC = () => {
       )}
       menu={() => (
         <>
-          <Link to={user.photoURL ?? ''}>Link</Link>
           <div className="dropdown-item">
             <h3>{user.displayName}</h3>
           </div>
           <div className="dropdown-item">
             <span>{user.email}</span>
           </div>
-          <div className="dropdown-item"></div>
-          <div className="dropdown-item dev-items">
-            <Link to="/">Dashboard</Link>
-          </div>
           <hr />
-          <div className="dropdown-item logout-btn" onClick={handleLogout}>
-            Logout
-          </div>
+          <Button customContainerClass="dropdown-item logout-btn" onClick={handleLogout}>
+            <span>Logout</span>
+          </Button>
         </>
       )}
     />

@@ -1,6 +1,9 @@
+@use '../../styles/tokens' as *;
+
 .progress-bar {
   height: 10px;
   background: #eee;
+  @include themed(background, color-bg-main, $color-bg-main);
   border-radius: 999px;
   margin-top: 12px;
 

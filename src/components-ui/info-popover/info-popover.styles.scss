@@ -1,17 +1,17 @@
 @use '../../styles/tokens.scss' as *;
 
-.popover {
+.info-popover {
   position: relative;
   display: inline-flex;
   align-items: center;
 
-  .popover-toggler {
+  .info-popover-toggler {
     display: block;
     padding: 0;
     margin: 0;
   }
 
-  .popover-container {
+  .info-popover-container {
     position: absolute;
     z-index: 50;
     padding: $spacing-3 $spacing-4;

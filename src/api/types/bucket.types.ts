@@ -20,8 +20,8 @@ export const BUCKET_COLORS = {
 
 export const BUCKET_LIGHT_COLORS = {
   needs: getCssVar('--needs-light'), // green
-  wants: getCssVar('--needs-wants'), // blue
-  savings: getCssVar('--needs-savings'), // gold
+  wants: getCssVar('--wants-light'), // blue
+  savings: getCssVar('--savings-light'), // gold
 };
 
 export const BUCKET_ICONS = {

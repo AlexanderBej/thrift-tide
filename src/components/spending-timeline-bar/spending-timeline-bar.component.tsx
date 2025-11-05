@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { enUS } from 'date-fns/locale';
+import clsx from 'clsx';
 
 import { fmtToDEM, LOCALE_MAP, makeFormatter } from '../../utils/format-data.util';
 
@@ -37,6 +38,12 @@ export const SpendingTimelineBar: React.FC<SpendingTimelineBarProps> = ({
     return fmt.format(d);
   };
 
+  const getSpanClassNames = (edge: 'start' | 'end') => {
+    return clsx('period', `period__${edge}`, {
+      forecast: isInForecast,
+    });
+  };
+
   return (
     <div className="timeline-container" style={{ marginTop: isInForecast ? 10 : 50 }}>
       <div className="timeline-bar">
@@ -51,12 +58,8 @@ export const SpendingTimelineBar: React.FC<SpendingTimelineBarProps> = ({
           {getTranslatedFmtDate(runOutDate)}
         </span>
       )}
-      <span className={`period period__start period__${isInForecast ? 'forecast' : ''}`}>
-        {getTranslatedFmtDate(periodStart)}
-      </span>
-      <span className={`period period__end period__${isInForecast ? 'forecast' : ''}`}>
-        {getTranslatedFmtDate(periodEnd)}
-      </span>
+      <span className={getSpanClassNames('start')}>{getTranslatedFmtDate(periodStart)}</span>
+      <span className={getSpanClassNames('end')}>{getTranslatedFmtDate(periodEnd)}</span>
     </div>
   );
 };

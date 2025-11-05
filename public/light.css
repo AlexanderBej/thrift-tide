@@ -8,7 +8,6 @@ body {
   font-family: "Open Sans", sans-serif;
   color: #1c2833;
   background-color: #e0e0e1;
-  line-height: 1.6;
 }
 
 button {
@@ -67,6 +66,9 @@ h5 {
   --color-bg-card: #ffffff;
   --color-text-primary: #1c2833;
   --color-text-secondary: #5f6a79;
+  --color-text-inverse: #ededed;
+  --color-neutral-light: #f4f6f6;
+  --color-neutral: #d5dbdb;
   --grid: #e6ebef;
   --needs: #2ecc71;
   --needs-light: rgb(201.96, 243.04, 219.38);

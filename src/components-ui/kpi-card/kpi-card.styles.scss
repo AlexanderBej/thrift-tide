@@ -4,8 +4,9 @@
   width: 130px;
   height: 130px;
   border-radius: $radius-sm;
-  box-shadow: $shadow-md;
-  border: 1px solid $color-neutral-medium;
+  box-shadow: $shadow-sm;
+  border: 1px solid;
+  @include themed(border-color, color-neutral, $color-neutral);
   text-align: center;
   padding: 10px;
 
@@ -16,17 +17,17 @@
 
   &__danger {
     border-color: $color-error;
-    background-color: lighten($color: $color-error, $amount: 40%);
+    background-color: rgba($color-error, 0.3);
   }
 
   &__success {
     border-color: $color-success;
-    background-color: lighten($color: $color-success, $amount: 50%);
+    background-color: rgba($color-success, 0.3);
   }
 
   &__warn {
     border-color: $color-warning;
-    background-color: lighten($color: $color-warning, $amount: 40%);
+    background-color: rgba($color-warning, 0.3);
   }
 
   .kpi-value {

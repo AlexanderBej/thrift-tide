@@ -14,6 +14,8 @@ $pure-white: #ffffff; // cards
 $gunmetal: #1c2833; // text / shadows
 $payne-grey: #5f6a79; // text secondary
 $anti-flash-300: #ededed; // text inverse
+$platinum-white: #f4f6f6; // generic light
+$light-silver: #d5dbdb; // generic medium
 
 // --------- REUSABLE VARIABLES (initial for light mode) -------
 
@@ -28,10 +30,8 @@ $color-accent: $amber-500 !default;
 $color-accent-dark: color.scale($color-accent, $lightness: -25%);
 
 // Neutrals
-// $color-neutral-grey: #e1e1e1 !default; // Main body background
-$color-neutral-light: #ebebeb; // Backgrounds
-$color-neutral-medium: #d5dbdb; // Borders, dividers
-$color-neutral-dark: #2c3e50; // Headings, text
+$color-neutral-light: $platinum-white !default; // form backgrounds
+$color-neutral: $light-silver !default; // Borders, dividers
 
 // Accents
 $color-success: #27ae60;

@@ -1,3 +1,5 @@
+@use '../../styles/tokens' as *;
+
 .timeline-container {
   position: relative;
   height: 50px;
@@ -7,7 +9,8 @@
     position: relative;
     height: 16px;
     border-radius: 999px;
-    background: var(--grid, #e6ebef);
+    @include themed(background, color-neutral-light, $color-neutral-light);
+    // background: var(--grid, #e6ebef);
     overflow: hidden;
 
     .elapsed {

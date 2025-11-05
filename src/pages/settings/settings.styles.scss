@@ -8,18 +8,16 @@
     gap: $spacing-4;
   }
 
-  .settings-btn {
-    min-width: 100px;
-    min-height: 35px;
-    height: fit-content;
-    padding: 0;
-  }
-
   .settings-page-section {
     @include dashboard-card($radius: $radius-lg, $pad: $spacing-5 $spacing-6);
 
     @include mediaDown(md) {
       padding: $spacing-4;
+    }
+
+    .apply-now-row {
+      display: inline-flex;
+      gap: 30px;
     }
 
     .settings-selector {

@@ -121,6 +121,7 @@
       .txn-group-date {
         opacity: 0.6;
         font-size: 1rem;
+        margin-bottom: 10px;
 
         @include mediaDown(md) {
           font-size: 14px;
@@ -134,7 +135,9 @@
       .txn-line {
         @include grid($templateColumns: 1fr 1fr 120px);
         width: 100%;
-        border-bottom: 1px solid rgb(238, 238, 238);
+        @include themed(color, color-text-primary, $color-text-primary);
+        border-bottom: 1px solid;
+        @include themed(border-color, color-neutral, $color-neutral);
         padding: 12px 0px;
         align-items: center;
 

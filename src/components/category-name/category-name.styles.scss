@@ -9,9 +9,9 @@
     @include flex();
     width: 35px;
     height: 35px;
-    background-color: $color-neutral-light;
+    @include themed(background-color, color-neutral, $color-neutral);
     border-radius: $radius-sm;
-    box-shadow: $shadow-md;
+    box-shadow: $shadow-sm;
 
     @include mediaDown(md) {
       width: 28px;

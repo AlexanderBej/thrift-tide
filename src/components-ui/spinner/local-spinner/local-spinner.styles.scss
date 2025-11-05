@@ -17,6 +17,16 @@
       border-color: $color-primary transparent $color-primary transparent;
       animation: lds-dual-ring 1.2s linear infinite;
     }
+
+    &__small {
+      width: 20px;
+      height: 20px;
+
+      &::after {
+        width: 20px;
+        height: 20px;
+      }
+    }
   }
 }
 

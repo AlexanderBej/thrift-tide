@@ -12,15 +12,18 @@ $sub-color: grey;
 
   .form-input {
     background: none;
-    background-color: white;
-    color: $sub-color;
+    @include themed(background-color, color-neutral-light, $color-neutral-light);
+    // background-color: white;
+    @include themed(color, color-text-primary, $color-text-primary);
+    // color: $sub-color;
     font-size: 16px;
     padding: 10px 10px 10px 15px;
     display: block;
     width: 100%;
     border: none;
     border-radius: $radius-sm;
-    border: 1px solid $color-neutral-medium;
+    border: 1px solid;
+    @include themed(border-color, color-neutral, $color-neutral);
     height: 45px;
 
     &:focus {
@@ -43,7 +46,7 @@ $sub-color: grey;
       border-radius: 50%;
       @include themed(background, color-secondary, $color-secondary);
       border: 1px solid white;
-      box-shadow: $shadow-lg;
+      box-shadow: $shadow-sm;
       transition:
         transform 0.2s,
         background 0.3s;

@@ -88,7 +88,7 @@ const TransactionRow: React.FC<TransactionRowProps> = ({ txn, source, category }
       >
         <div className="txn-cat-row">
           <CategoryName category={category} />
-          <span style={{ background: BUCKET_LIGHT_COLORS[txn.type] }} className="cat-type-badge">
+          <span className={`cat-type-badge cat-type-badge__${txn.type}`}>
             {t(`budget:bucketNames.${txn.type}`) ?? toCamelCase(txn.type)}
           </span>
         </div>

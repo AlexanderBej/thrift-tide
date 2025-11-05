@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { MdEuro } from 'react-icons/md';
 import { Eye, EyeOff } from 'lucide-react';
 import { CiSearch } from 'react-icons/ci';
+import clsx from 'clsx';
 
 import AutoResizeTextarea from './auto-resize-textarea/auto-resize-textarea.component';
 import TTIcon from '../icon/icon.component';
@@ -128,12 +129,15 @@ const FormInput: React.FC<FormInputProps> = ({
   };
 
   const isNumber = inputType === 'number';
+  const labelClass = clsx('form-input-label', {
+    shrink: value,
+  });
 
   return (
     <>
       <div className={`group ${customClassName}`}>
         {label && (
-          <label className={`${value ? 'shrink' : ''} form-input-label`} htmlFor={otherProps.name}>
+          <label className={labelClass} htmlFor={otherProps.name}>
             {label} {required && <span className="text-red">*</span>}
           </label>
         )}
@@ -166,7 +170,7 @@ const FormInput: React.FC<FormInputProps> = ({
                 background:
                   inputType === 'range'
                     ? `linear-gradient(90deg,${color} 0%, ${color} ${Number(value) * 100}%, ${getCssVar('--color-bg-main')} ${Number(value) * 100}%, ${getCssVar('--color-bg-main')} 100%)`
-                    : 'white',
+                    : getCssVar('--color-neutral-light'),
               }}
               onFocus={() => setIsPasswordFocused(true)}
               onBlur={isNumber ? handleNumberBlur : () => setIsPasswordFocused(false)}
@@ -176,7 +180,11 @@ const FormInput: React.FC<FormInputProps> = ({
 
           {prefix !== 'none' ? (
             <div className="form-input-prefix">
-              <TTIcon icon={prefix === 'euro' ? MdEuro : CiSearch} size={18} />
+              <TTIcon
+                icon={prefix === 'euro' ? MdEuro : CiSearch}
+                size={18}
+                color={getCssVar('--color-text-primary')}
+              />
             </div>
           ) : (
             <span></span>

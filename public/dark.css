@@ -7,8 +7,7 @@
 body {
   font-family: "Open Sans", sans-serif;
   color: #ededed;
-  background-color: #161f27;
-  line-height: 1.6;
+  background-color: #1f282f;
 }
 
 button {
@@ -63,10 +62,13 @@ h5 {
   --color-primary-dark: rgb(20.9831460674, 228.0168539326, 127.297752809);
   --color-secondary: #79c8ff;
   --color-secondary-dark: rgb(27, 161.4179104478, 255);
-  --color-bg-main: #161f27;
+  --color-bg-main: #1f282f;
   --color-bg-card: #1e2126;
   --color-text-primary: #ededed;
   --color-text-secondary: #9ca6b5;
+  --color-text-inverse: #1c2833;
+  --color-neutral-light: #21252b;
+  --color-neutral: #2a2b2e;
   --grid: #e6ebef;
   --needs: #5cf0a8;
   --needs-light: rgb(214.25, 251.25, 233.25);

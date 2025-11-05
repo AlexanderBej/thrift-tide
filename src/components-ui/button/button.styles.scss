@@ -43,6 +43,7 @@
   }
 
   &__secondary {
+    @include themed(color, color-text-primary, $color-text-primary);
     border: 3px solid;
     @include themed(border-color, color-secondary, $color-secondary);
 
@@ -53,9 +54,9 @@
   }
 
   &__disabled {
-    background-color: $color-neutral-medium;
     pointer-events: none;
-    border-color: $color-neutral-medium;
+    @include themed(background-color, color-neutral, $color-neutral);
+    @include themed(border-color, color-neutral, $color-neutral);
     @include themed(color, color-text-secondary, $color-text-secondary);
   }
 
@@ -63,5 +64,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  &__small {
+    height: 35px;
+    min-width: 100px;
+    min-height: unset;
+    padding: 5px 10px;
   }
 }

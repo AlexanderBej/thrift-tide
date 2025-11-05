@@ -11,7 +11,8 @@
     bottom: 0;
     height: 56px;
     padding-bottom: env(safe-area-inset-bottom);
-    border-top: 1px solid $color-neutral-light;
+    border-top: 1px solid;
+    @include themed(border-color, color-neutral, $color-neutral);
     @include themed(background, color-secondary, $color-secondary);
   }
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 
 import './multi-step-progress-bar.styles.scss';
 
@@ -8,11 +9,16 @@ interface MultiStepProgressBarProps {
 }
 
 const MultiStepProgressBar: React.FC<MultiStepProgressBarProps> = ({ step, totalSteps }) => {
-  const progress = (step / totalSteps) * 100;
+  const getContainerClass = (index: number) => {
+    return clsx('progress-tab', {
+      'progress-tab__selected': index < step,
+    });
+  };
+
   return (
     <div className="multi-step-progress-bar">
       {Array.from({ length: totalSteps }, (_, index) => (
-        <div key={index} className={`progress-tab ${index < step ? 'progress-tab__selected' : ''}`} />
+        <div key={index} className={getContainerClass(index)} />
       ))}
     </div>
   );

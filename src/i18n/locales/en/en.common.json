@@ -37,7 +37,11 @@
     },
     "settings": {
       "budgetPref": "Budget Preferences",
-      "adjust": "Adjust your 50/30/20 split",
+      "percents": {
+        "adjust": "Adjust your 50/30/20 split",
+        "checkbox": "Apply starting this month",
+        "popover": "By checking this, the new percentages will apply from this month onwards, affecting your current budget as well."
+      },
       "startDay": {
         "title": "Period start day",
         "label1": "Start the period on the",

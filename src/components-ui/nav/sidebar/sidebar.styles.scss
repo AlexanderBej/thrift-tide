@@ -2,12 +2,11 @@
 
 .main-sidebar {
   width: 300px;
-  @include themed(background-color, color-secondary, $color-secondary);
   height: 100vh;
   min-height: 100vh;
   max-height: 100vh;
   overflow: hidden;
-  box-shadow: $shadow-md;
+  box-shadow: $shadow-sm;
 
   @include mediaDown(md) {
     display: none;
@@ -42,11 +41,13 @@
         align-items: center;
         gap: $spacing-4;
         padding-left: 30px;
+        @include themed(color, color-text-primary, $color-text-primary);
 
         &:hover {
           background-color: $color-secondary-dark;
         }
         &.active {
+          @include themed(color, color-text-primary, $color-text-primary);
           background-color: $color-primary-dark;
           font-weight: 600;
         }

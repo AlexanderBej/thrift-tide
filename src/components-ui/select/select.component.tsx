@@ -1,5 +1,6 @@
 import React from 'react';
 import { IconType } from 'react-icons';
+import clsx from 'clsx';
 
 import { getCssVar } from '../../utils/style-variable.util';
 
@@ -35,42 +36,45 @@ const Select: React.FC<SelectProps> = ({
   required = false,
   onChange,
   ...otherProps
-}) => (
-  <div className={`group ${customClassName}`}>
-    {label && (
-      <label
-        className={`${value !== undefined && value !== '' ? 'shrink' : ''} form-input-label`}
-        htmlFor={name}
-      >
-        {label} {required && <span className="text-red">*</span>}
-      </label>
-    )}
-    <select
-      className="form-input select-input"
-      name={name}
-      id={name}
-      value={value}
-      required={required}
-      style={{ borderColor: errors ? getCssVar('--error') : '' }}
-      onChange={onChange}
-      {...otherProps}
-    >
-      <option value="" disabled hidden>
-        {label ? `Select ${label}` : 'Select...'}
-      </option>
-      {options.map((opt, index) => (
-        <option key={index} value={opt.value}>
-          {opt.label}
-        </option>
-      ))}
-    </select>
+}) => {
+  const labelClass = clsx('form-input-label', {
+    shrink: value,
+  });
 
-    {errors && (
-      <p className="field-error" id={`err-${name}`}>
-        {errors}
-      </p>
-    )}
-  </div>
-);
+  return (
+    <div className={`group ${customClassName}`}>
+      {label && (
+        <label className={labelClass} htmlFor={name}>
+          {label} {required && <span className="text-red">*</span>}
+        </label>
+      )}
+      <select
+        className="form-input select-input"
+        name={name}
+        id={name}
+        value={value}
+        required={required}
+        style={{ borderColor: errors ? getCssVar('--error') : '' }}
+        onChange={onChange}
+        {...otherProps}
+      >
+        <option value="" disabled hidden>
+          {label ? `Select ${label}` : 'Select...'}
+        </option>
+        {options.map((opt, index) => (
+          <option key={index} value={opt.value}>
+            {opt.label}
+          </option>
+        ))}
+      </select>
+
+      {errors && (
+        <p className="field-error" id={`err-${name}`}>
+          {errors}
+        </p>
+      )}
+    </div>
+  );
+};
 
 export default Select;

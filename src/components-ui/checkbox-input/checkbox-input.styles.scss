@@ -4,6 +4,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  cursor: pointer;
 
   &__switch {
     .checkbox-label {
@@ -15,7 +16,8 @@
     appearance: none;
     width: 20px;
     height: 20px;
-    border: 2px solid $color-neutral-medium;
+    border: 2px solid;
+    @include themed(border-color, color-neutral, $color-neutral);
     border-radius: 4px;
     position: relative;
     cursor: pointer;
@@ -24,6 +26,10 @@
     &:checked {
       @include themed(background-color, color-secondary, $color-secondary);
       @include themed(border-color, color-secondary, $color-secondary);
+
+      & ~ .checkbox-label {
+        @include themed(color, color-text-primary, $color-text-primary);
+      }
     }
 
     /* Custom swish/checkmark */
@@ -90,6 +96,7 @@
     user-select: none;
     font-size: 14px;
     line-height: 1.25rem;
-    color: $color-neutral-dark;
+    cursor: pointer;
+    @include themed(color, color-text-secondary, $color-text-secondary);
   }
 }

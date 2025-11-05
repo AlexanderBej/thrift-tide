@@ -10,6 +10,7 @@ interface ConfirmationModalProps {
   message: string;
   buttonLabel: string;
   customButtonClass?: string;
+  isButtonSmall?: boolean;
   buttonDisabled?: boolean;
   loading?: boolean;
   handleConfirm: () => Promise<unknown> | unknown;
@@ -21,6 +22,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   customButtonClass,
   buttonDisabled = false,
   loading,
+  isButtonSmall = false,
   handleConfirm,
 }) => {
   const { t } = useTranslation('common');
@@ -50,6 +52,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         customContainerClass={`${customButtonClass} confirm-btn`}
         onClick={() => setOpen(true)}
         disabled={buttonDisabled}
+        isSmall={isButtonSmall}
       >
         <span>{buttonLabel}</span>
       </Button>

@@ -1,11 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { CiCircleInfo } from 'react-icons/ci';
 
 import ConfirmationModal from '../../../components/confirmation-modal/confirmation-modal.component';
 import Button from '../../../components-ui/button/button.component';
-import Popover from '../../../components-ui/popover/popover.component';
-import TTIcon from '../../../components-ui/icon/icon.component';
+import InfoPopover from '../../../components-ui/info-popover/info-popover.component';
 
 import './setting.styles.scss';
 
@@ -45,9 +43,9 @@ const Setting: React.FC<SettingProps> = ({
       <div className="setting-label-row">
         <p className="setting-label">{title}</p>
         {popoverContent && (
-          <Popover toggler={<TTIcon icon={CiCircleInfo} size={18} />} position={popoverPosition}>
+          <InfoPopover position={popoverPosition}>
             <span>{popoverContent}</span>
-          </Popover>
+          </InfoPopover>
         )}
       </div>
 
@@ -59,6 +57,7 @@ const Setting: React.FC<SettingProps> = ({
             buttonLabel={t('actions.save') ?? 'Save'}
             message={confirmMessage}
             handleConfirm={onConfirmClick}
+            isButtonSmall={true}
             loading={confirmLoading}
             customButtonClass="settings-btn"
             buttonDisabled={confirmDisabled}
@@ -70,6 +69,7 @@ const Setting: React.FC<SettingProps> = ({
             onClick={onConfirmClick}
             disabled={confirmDisabled}
             isLoading={confirmLoading}
+            isSmall={true}
             customContainerClass="settings-btn"
           >
             <span>{t('actions.save') ?? 'Save'}</span>
@@ -80,6 +80,7 @@ const Setting: React.FC<SettingProps> = ({
           buttonType="secondary"
           htmlType="button"
           onClick={onResetClick}
+          isSmall={true}
           disabled={resetDisabled}
           customContainerClass="settings-btn"
         >

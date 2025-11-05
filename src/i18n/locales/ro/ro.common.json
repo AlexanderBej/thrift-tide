@@ -37,7 +37,11 @@
     },
     "settings": {
       "budgetPref": "Preferințe legate de buget",
-      "adjust": "Ajustează împărțirea 50/30/20",
+      "percents": {
+        "adjust": "Ajustează împărțirea 50/30/20",
+        "checkbox": "Aplică începând cu luna asta",
+        "popover": "Bifând această opțiune, noile procente se vor aplica începând cu această lună, afectând și bugetul dumneavoastră actual."
+      },
       "startDay": {
         "title": "Ziua de start a perioadei",
         "label1": "Începe perioada în ziua de",

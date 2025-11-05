@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { DayPicker } from 'react-day-picker';
-import 'react-day-picker/style.css';
 import { format } from 'date-fns';
+import clsx from 'clsx';
+import 'react-day-picker/style.css';
+
+import { useDismissOnOutside } from '../../utils/dismiss-on-outside.hook';
 
 import './datepicker.styles.scss';
-import { useDismissOnOutside } from '../../utils/dismiss-on-outside.hook';
 
 type DateFieldProps = {
   label?: string;
@@ -33,13 +35,18 @@ const DatePicker: React.FC<DateFieldProps> = ({
 
   const containerRef = useDismissOnOutside<HTMLDivElement>(open, () => setOpen(false));
 
+  const containerClass = clsx('date-field', className);
+  const buttonClass = clsx('date-field__control', {
+    'has-error': error,
+  });
+
   return (
-    <div ref={containerRef} className={`date-field ${className ?? ''}`}>
+    <div ref={containerRef} className={containerClass}>
       {label && <label className="date-field__label">{label}</label>}
 
       <button
         type="button"
-        className={`date-field__control ${error ? 'has-error' : ''}`}
+        className={buttonClass}
         onClick={() => setOpen((o) => !o)}
         disabled={disabled}
         aria-haspopup="dialog"

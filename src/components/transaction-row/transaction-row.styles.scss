@@ -5,6 +5,7 @@
   padding: 8px 0px;
   align-items: center;
   justify-items: start;
+  @include themed(color, color-text-primary, $color-text-primary);
 
   @include mediaDown(xl) {
     grid-template-columns: 130px 1fr 1fr 80px;
@@ -39,5 +40,17 @@
     padding: 5px 10px;
     font-size: 11px;
     border-radius: $radius-sm;
+
+    &__needs {
+      background-color: rgba($color-needs, 0.3);
+    }
+
+    &__wants {
+      background-color: rgba($color-wants, 0.3);
+    }
+
+    &__savings {
+      background-color: rgba($color-savings, 0.3);
+    }
   }
 }

@@ -25,6 +25,7 @@
   border-radius: $radius;
   padding: $pad;
   height: auto;
+  box-shadow: $shadow-sm;
 }
 
 $breakpoints: (

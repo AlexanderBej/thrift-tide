@@ -2,11 +2,13 @@
 $emerald-300: #5cf0a8; // primary
 $ruby-400: #79c8ff; // secondary
 $amber-300: #ffd45b; // accent
-$rich-black: #161f27; // background
+$rich-black: #1f282f; // background
 $raisin-black: #1e2126; // cards
 $anti-flash-300: #ededed; // text / shadows
 $cadet-grey: #9ca6b5; // text secondary
 $gunmetal: #1c2833; // text inverse
+$dark-gunmetal: #21252b; // generic light
+$jet: #2a2b2e; // generic medium
 
 @use './variables' with (
   $color-primary: $emerald-300,
@@ -18,7 +20,10 @@ $gunmetal: #1c2833; // text inverse
 
   $color-text-primary: $anti-flash-300,
   $color-text-secondary: $cadet-grey,
-  $color-text-inverse: $gunmetal
+  $color-text-inverse: $gunmetal,
+
+  $color-neutral-light: $dark-gunmetal,
+  $color-neutral: $jet
 );
 
 // Now build the rest with these values

@@ -98,8 +98,7 @@ const BucketPage: React.FC = () => {
       </header>
       <div className="bucket-page-grid">
         <section
-          className="bucket-summary-section"
-          style={{ backgroundColor: getCssVar(`--${title.toLowerCase()}-light`) }}
+          className={`bucket-summary-section bucket-summary-section__${title.toLowerCase()}`}
         >
           <div className="bucket-summary-line">
             <div className="bucket-summary">

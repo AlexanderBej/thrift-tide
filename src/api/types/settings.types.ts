@@ -1,8 +1,11 @@
-import { PercentTriple } from './percent.types';
-
 export type Language = 'en' | 'ro';
 
 export type Theme = 'light' | 'dark';
+
+export enum Themes {
+  LIGHT = 'light',
+  DARK = 'dark',
+}
 
 export type Currency = 'EUR' | 'RON';
 
