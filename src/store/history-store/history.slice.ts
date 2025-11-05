@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import toast from 'react-hot-toast';
 
 import { RootState } from '../store';
 import { MonthDoc } from '../../api/models/month-doc';
@@ -34,7 +33,6 @@ export const loadHistoryPage = createAppAsyncThunk<
 
     return { items: items as HistoryRow[], nextCursor: nextCursor ?? null };
   } catch (error) {
-    toast.error('Could not load history page data!');
     return rejectWithValue('Failed to load history page'); // typed rejectValue (string)
   }
 });

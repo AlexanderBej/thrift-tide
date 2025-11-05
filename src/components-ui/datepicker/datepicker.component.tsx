@@ -1,10 +1,12 @@
 import React from 'react';
 import { DayPicker } from 'react-day-picker';
-import { format } from 'date-fns';
+import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
+import { enUS } from 'date-fns/locale';
 import 'react-day-picker/style.css';
 
 import { useDismissOnOutside } from '../../utils/dismiss-on-outside.hook';
+import { LOCALE_MAP, makeFormatter } from '../../utils/format-data.util';
 
 import './datepicker.styles.scss';
 
@@ -35,6 +37,15 @@ const DatePicker: React.FC<DateFieldProps> = ({
 
   const containerRef = useDismissOnOutside<HTMLDivElement>(open, () => setOpen(false));
 
+  const { i18n } = useTranslation();
+
+  const getTranslatedFmtDate = (d: Date) => {
+    const locale = LOCALE_MAP[i18n.language] ?? enUS;
+
+    const fmt = makeFormatter(false, locale, true);
+    return fmt.format(d);
+  };
+
   const containerClass = clsx('date-field', className);
   const buttonClass = clsx('date-field__control', {
     'has-error': error,
@@ -52,7 +63,7 @@ const DatePicker: React.FC<DateFieldProps> = ({
         aria-haspopup="dialog"
         aria-expanded={open}
       >
-        {value ? format(value, 'EE, MMMM do') : <span className="placeholder">{placeholder}</span>}
+        {value ? getTranslatedFmtDate(value) : <span className="placeholder">{placeholder}</span>}
         <span className="chevron" aria-hidden>
           ▾
         </span>

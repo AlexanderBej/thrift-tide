@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { FaRegWindowClose } from 'react-icons/fa';
+import { IoIosCloseCircleOutline } from 'react-icons/io';
+
+import TTIcon from '../icon/icon.component';
+import { getCssVar } from '../../utils/style-variable.util';
 
 import './modal.styles.scss';
-import TTIcon from '../icon/icon.component';
 
 interface ModalProps {
   isOpen: boolean;
@@ -32,7 +34,11 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, width =
         <hr className="tt-modal__underline"></hr>
         <div className="tt-modal__body">{children}</div>
         <button className="tt-modal__close" onClick={onClose} aria-label="Close">
-          <TTIcon icon={FaRegWindowClose} size={18} />
+          <TTIcon
+            icon={IoIosCloseCircleOutline}
+            size={24}
+            color={getCssVar('--color-text-primary')}
+          />
         </button>
       </div>
     </div>,

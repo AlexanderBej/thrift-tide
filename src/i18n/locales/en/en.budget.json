@@ -93,5 +93,63 @@
       "education_fund": "Education Fund",
       "debt_payments": "Debt Payments"
     }
+  },
+
+  "toast": {
+    "budget": {
+      "init": {
+        "success": "Budget initialized successfully!",
+        "error": "Could not initialize budget."
+      },
+      "setIncome": { "success": "Income set successfully!", "error": "Could not set income." },
+      "percents": {
+        "success": "Percents updated successfully!",
+        "error": "Failed to update percents."
+      },
+      "txn": {
+        "added": "Added a new transaction.",
+        "addFailed": "Failed to add transaction.",
+        "updated": "Transaction updated successfully!",
+        "updateFailed": "Failed to update transaction.",
+        "deleted": "Transaction deleted successfully!",
+        "deleteFailed": "Failed to delete transaction."
+      },
+      "changeMonth": { "error": "Failed to change period." },
+      "amount": {
+        "ltMax": "Amount must be less than {{max}}"
+      }
+    },
+    "history": {
+      "loadFailed": "Could not load history page data!"
+    },
+    "settings": {
+      "load": {
+        "error": "Failed to load settings."
+      },
+      "completeOnboarding": {
+        "success": "Onboarding completed. Changes saved!",
+        "error": "Failed to complete onboarding."
+      },
+      "startDay": {
+        "success": "Start day changed successfully!",
+        "error": "Failed to update start day."
+      },
+      "language": {
+        "success": "Language changed successfully!",
+        "error": "Failed to update language."
+      },
+      "theme": {
+        "success": "Theme changed successfully!",
+        "error": "Failed to change theme."
+      },
+      "percents": {
+        "success": "Default percents updated successfully!",
+        "error": "Failed to update default percents."
+      },
+      "currency": {
+        "success": "Currency updated successfully!",
+        "error": "Failed to update currency."
+      }
+    }
   }
 }

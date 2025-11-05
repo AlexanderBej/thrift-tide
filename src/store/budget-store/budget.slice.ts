@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import toast from 'react-hot-toast';
 
 import { RootState } from '../store';
 import { DEFAULT_START_DAY, MonthDoc } from '../../api/models/month-doc';
 import { Txn } from '../../api/models/txn';
-import { DEFAULT_PERCENTS, PercentTriple } from '../../api/types/percent.types';
+import { PercentTriple } from '../../api/types/percent.types';
 import { monthKey } from '../../utils/services.util';
 import {
   addTransaction,
@@ -81,10 +80,8 @@ export const initBudget = createAppAsyncThunk<
       }),
     );
 
-    toast.success('Budget initiated successfuly!');
     return { doc, month: m };
   } catch (error) {
-    toast.error('Could not initialize budget!');
     return rejectWithValue(error);
   }
 });
@@ -124,10 +121,8 @@ export const setIncomeForPeriod = createAppAsyncThunk<
         }
       }
 
-      toast.success('Income set successfuly!');
       return next;
     } catch (error) {
-      toast.error('Could not set income!');
       return rejectWithValue(error);
     }
   },
@@ -151,10 +146,8 @@ export const setPercentsThunk = createAppAsyncThunk<
     const { month } = getState().budget;
     const next = await updateMonth(uid, month, { percents });
     await dispatch(recomputeAndPersistSummary({ uid }));
-    toast.success('Percents updated successfuly!');
     return next;
   } catch (error: any) {
-    toast.error('Failed to update percents!');
     return rejectWithValue(error.message ?? 'Failed to set percents');
   }
 });
@@ -176,7 +169,6 @@ export const changeMonthThunk = createAppAsyncThunk<
 
     return { doc, month };
   } catch (error) {
-    toast.error('Failed to change period');
     return rejectWithValue(error);
   }
 });
@@ -189,10 +181,8 @@ export const addTxnThunk = createAppAsyncThunk<string, { uid: string; txn: Omit<
       const id = await addTransaction(uid, month, txn);
       // recompute once mutation succeeds
       await dispatch(recomputeAndPersistSummary({ uid }));
-      toast.success('Added a new transaction');
       return id;
     } catch (error) {
-      toast.error('Failed to add transaction');
       return rejectWithValue(error);
     }
   },
@@ -206,9 +196,7 @@ export const updateTxnThunk = createAppAsyncThunk<
     const { month } = getState().budget;
     await updateTransaction(uid, month, id, patch);
     await dispatch(recomputeAndPersistSummary({ uid }));
-    toast.success('Transaction updated successfuly!');
   } catch (error) {
-    toast.error('Failed to update transaction');
     return rejectWithValue(error);
   }
 });
@@ -220,9 +208,7 @@ export const deleteTxnThunk = createAppAsyncThunk<void, { uid: string; id: strin
       const { month } = getState().budget;
       await deleteTransaction(uid, month, id);
       await dispatch(recomputeAndPersistSummary({ uid }));
-      toast.success('Transaction deleted successfuly!');
     } catch (error) {
-      toast.error('Failed to delete transaction');
       return rejectWithValue(error);
     }
   },

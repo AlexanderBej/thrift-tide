@@ -1,7 +1,7 @@
 @use '../../styles/tokens.scss' as *;
 
 .transaction-line {
-  @include grid($templateColumns: 200px 1fr 1fr 80px, $columnGap: 8px, $rowGap: 8px);
+  @include grid($templateColumns: 200px 1fr 1fr 100px, $columnGap: 8px, $rowGap: 8px);
   padding: 8px 0px;
   align-items: center;
   justify-items: start;
@@ -40,6 +40,12 @@
     padding: 5px 10px;
     font-size: 11px;
     border-radius: $radius-sm;
+    height: $spacing-6;
+    width: 60px;
+    display: flex;
+    /* line-height: 1rem; */
+    align-items: center;
+    justify-content: center;
 
     &__needs {
       background-color: rgba($color-needs, 0.3);

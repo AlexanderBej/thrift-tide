@@ -23,12 +23,25 @@
     justify-content: center;
     cursor: pointer;
 
+    &__needs {
+      background-color: $color-needs;
+    }
+
+    &__wants {
+      background-color: $color-wants;
+    }
+
+    &__savings {
+      background-color: $color-savings;
+    }
+
     &:hover {
       @include themed(
         background-color,
         color-primary,
         lighten($color: $color-primary, $amount: 45)
       );
+      @include themed(color, color-text-secondary, $color-text-secondary);
       @include themed(border-color, color-primary, $color-primary);
     }
   }

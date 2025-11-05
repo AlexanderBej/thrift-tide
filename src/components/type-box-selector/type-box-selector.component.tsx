@@ -4,6 +4,7 @@ import { GiWantedReward } from 'react-icons/gi';
 import { MdDataSaverOn } from 'react-icons/md';
 import { IconType } from 'react-icons';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 
 import { TransactionFormData } from '../add-transaction-modal/add-transaction-modal.component';
 import { Bucket } from '../../api/types/bucket.types';
@@ -27,11 +28,12 @@ const TypeBoxSelector: React.FC<TypeBoxSelectorProps> = ({ formData, handleTypeC
     { value: 'savings', label: t('bucketNames.savings') ?? 'Savings', icon: MdDataSaverOn },
   ];
 
-  const getTypeColor = (value: Bucket) => {
-    if (formData.type === value) {
-      const colorVarName = `--${value}`;
-      return getCssVar(colorVarName);
-    } else return 'transparent';
+  const getTypeBoxClass = (value: Bucket) => {
+    return clsx('type-box', {
+      'type-box__needs': value === 'needs' && value === formData.type,
+      'type-box__wants': value === 'wants' && value === formData.type,
+      'type-box__savings': value === 'savings' && value === formData.type,
+    });
   };
 
   return (
@@ -42,11 +44,7 @@ const TypeBoxSelector: React.FC<TypeBoxSelectorProps> = ({ formData, handleTypeC
           return (
             <div
               key={index}
-              className="type-box"
-              style={{
-                background: getTypeColor(opt.value as Bucket),
-                color: formData.type === opt.value ? '' : '',
-              }}
+              className={getTypeBoxClass(opt.value as Bucket)}
               onClick={() => handleTypeChange(opt.value as Bucket)}
             >
               <TTIcon
@@ -54,7 +52,7 @@ const TypeBoxSelector: React.FC<TypeBoxSelectorProps> = ({ formData, handleTypeC
                 size={18}
                 color={
                   formData.type === opt.value
-                    ? getCssVar('--color-bg-card')
+                    ? getCssVar('--color-text-inverse')
                     : getCssVar('--color-text-primary')
                 }
               />
@@ -62,7 +60,7 @@ const TypeBoxSelector: React.FC<TypeBoxSelectorProps> = ({ formData, handleTypeC
                 style={{
                   color:
                     formData.type === opt.value
-                      ? getCssVar('--color-bg-card')
+                      ? getCssVar('--color-text-inverse')
                       : getCssVar('--color-text-primary'),
                 }}
               >

@@ -46,7 +46,7 @@ const DoubleDonutChart: React.FC<DoubleDonutChartProps> = ({
   const nivoTheme = nivoThemeBuilder(fontSize);
 
   return (
-    <div style={{ height }}>
+    <div style={{ height, width: height }}>
       <ResponsivePie<RawDatum>
         data={pieData}
         theme={nivoTheme}

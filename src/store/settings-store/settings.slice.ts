@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import toast from 'react-hot-toast';
 
 import {
   completeOnboarding,
@@ -24,7 +23,6 @@ import { DEFAULT_PERCENTS, PercentTriple } from '../../api/types/percent.types';
 import { OnboardingData } from '../../api/models/user';
 import { createAppAsyncThunk, StoreStatus } from '../../api/types/store.types';
 import { setPercentsThunk } from '../budget-store/budget.slice';
-import { onThemeChanged } from '../../utils/theme.util';
 
 type SettingsState = {
   startDay: number; // 1..28
@@ -67,7 +65,6 @@ export const loadSettings = createAppAsyncThunk<
       theme: profile?.theme ?? DEFAULT_THEME,
     };
   } catch (error) {
-    toast.error('Failed to load settings!');
     return rejectWithValue(error);
   }
 });
@@ -79,10 +76,8 @@ export const completeOnboardingThunk = createAppAsyncThunk<
   try {
     await completeOnboarding(uid, onboardingData);
     await dispatch(setPercentsThunk({ uid, percents: onboardingData.percents })).unwrap();
-    toast.success('Onboarding completed. Changes saved!');
     return { onboardingData };
   } catch (error) {
-    toast.error('Failed to complete onboarding');
     return rejectWithValue(error);
   }
 });
@@ -93,10 +88,8 @@ export const saveStartDayThunk = createAppAsyncThunk<
 >('settings/saveStartDay', async ({ uid, startDay }, { rejectWithValue }) => {
   try {
     await upsertUserStartDay(uid, clamp(startDay));
-    toast.success('Start day changed successfuly!');
     return { startDay };
   } catch (error) {
-    toast.error('Failed to update start day!');
     return rejectWithValue(error);
   }
 });
@@ -108,10 +101,8 @@ export const saveLanguageThunk = createAppAsyncThunk<
   try {
     await upsertAppLanguage(uid, language);
     dispatch(setLanguage(language));
-    toast.success('Language changed successfuly!');
     return { language };
   } catch (error) {
-    toast.error('Failed to update language');
     return rejectWithValue(error);
   }
 });
@@ -122,11 +113,8 @@ export const setAppThemeThunk = createAppAsyncThunk<
 >('settings/setAppTheme', async ({ uid, theme }, { rejectWithValue }) => {
   try {
     await upsertAppTheme(uid, theme);
-    // onThemeChanged(theme);
-    toast.success('Theme changed successfuly!');
     return { theme };
   } catch (error) {
-    toast.error('Failed to change theme');
     return rejectWithValue(error);
   }
 });
@@ -137,10 +125,8 @@ export const updateDefaultPercentsThunk = createAppAsyncThunk<
 >('settings/updateDefaultPercents', async ({ uid, percents }, { rejectWithValue }) => {
   try {
     await upsertDefaultPercents(uid, percents);
-    toast.success('Default percents updated successfuly!');
     return { percents };
   } catch (error) {
-    toast.error('Failed to update default percents');
     return rejectWithValue(error);
   }
 });
@@ -151,10 +137,8 @@ export const updateCurrencyThunk = createAppAsyncThunk<
 >('settings/updateCurrency', async ({ uid, currency }, { rejectWithValue }) => {
   try {
     await upsertCurrency(uid, currency);
-    toast.success('Currency updated successfuly!');
     return { currency };
   } catch (error) {
-    toast.error('Failed to update currency');
     return rejectWithValue(error);
   }
 });

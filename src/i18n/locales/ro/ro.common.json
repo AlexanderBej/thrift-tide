@@ -109,16 +109,25 @@
   },
 
   "validation": {
-    "required": "Acest câmp este obligatoriu",
-    "min": "Valoarea este prea mică",
-    "max": "Valoarea este prea mare",
-    "invalidNumber": "Introdu un număr valid"
-  },
-
-  "toast": {
-    "saved": "Salvat",
-    "deleted": "Șters",
-    "updated": "Actualizat"
+    "amount": {
+      "required": "Suma este obligatorie",
+      "invalidNumber": "Introduceți un număr valid",
+      "gtZero": "Suma trebuie să fie mai mare decât 0",
+      "ltMax": "Suma trebuie să fie mai mică decât {{max}}",
+      "maxTwoDecimals": "Maximum 2 zecimale"
+    },
+    "date": {
+      "required": "Data este obligatorie",
+      "invalid": "Introduceți o dată validă",
+      "notFuture": "Data nu poate fi în viitor"
+    },
+    "category": {
+      "required": "Categoria este obligatorie",
+      "invalid": "Alegeți o categorie validă"
+    },
+    "note": {
+      "underLimit": "Nota trebuie să aibă sub {{limit}} caractere"
+    }
   },
 
   "onboarding": {

@@ -109,10 +109,25 @@
   },
 
   "validation": {
-    "required": "This field is required",
-    "min": "Value is too small",
-    "max": "Value is too large",
-    "invalidNumber": "Enter a valid number"
+    "amount": {
+      "required": "Amount is required",
+      "invalidNumber": "Enter a valid number",
+      "gtZero": "Amount must be greater than 0",
+      "ltMax": "Amount must be less than 1 000 000;",
+      "maxTwoDecimals": "Max 2 decimal places"
+    },
+    "date": {
+      "required": "Date is required",
+      "invalid": "Enter a valid date",
+      "notFuture": "Date cannot be in the future"
+    },
+    "category": {
+      "required": "Category is required",
+      "invalid": "Choose a valid category"
+    },
+    "note": {
+      "underLimit": "Note must be under {{limit}} characters"
+    }
   },
 
   "toast": {

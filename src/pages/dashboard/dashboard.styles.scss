@@ -90,8 +90,6 @@
     }
 
     .dashboard-donut {
-      width: 400px;
-
       @include mediaDown(md) {
         width: 130px;
       }

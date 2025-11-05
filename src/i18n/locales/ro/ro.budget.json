@@ -93,5 +93,68 @@
       "education_fund": "Fond de Educație",
       "debt_payments": "Plăți de datorii"
     }
+  },
+
+  "toast": {
+    "budget": {
+      "init": {
+        "success": "Bugetul a fost inițializat cu succes!",
+        "error": "Nu s-a putut inițializa bugetul."
+      },
+      "setIncome": {
+        "success": "Venitul a fost setat cu succes!",
+        "error": "Nu s-a putut seta venitul."
+      },
+      "percents": {
+        "success": "Procentele au fost actualizate cu succes!",
+        "error": "Actualizarea procentelor a eșuat."
+      },
+      "txn": {
+        "added": "Tranzacție adăugată.",
+        "addFailed": "Adăugarea tranzacției a eșuat.",
+        "updated": "Tranzacția a fost actualizată cu succes!",
+        "updateFailed": "Actualizarea tranzacției a eșuat.",
+        "deleted": "Tranzacția a fost ștearsă cu succes!",
+        "deleteFailed": "Ștergerea tranzacției a eșuat."
+      },
+      "changeMonth": { "error": "Schimbarea perioadei a eșuat." },
+      "amount": {
+        "ltMax": "Suma trebuie să fie mai mică decât {{max}}"
+      }
+    },
+
+    "history": {
+      "loadFailed": "Nu s-au putut încărca datele paginii istoric!"
+    },
+
+    "settings": {
+      "load": {
+        "error": "Nu s-au putut încărca setările."
+      },
+      "completeOnboarding": {
+        "success": "Onboarding finalizat. Modificările au fost salvate!",
+        "error": "Nu s-a putut finaliza onboarding-ul."
+      },
+      "startDay": {
+        "success": "Ziua de început a fost schimbată cu succes!",
+        "error": "Actualizarea zilei de început a eșuat."
+      },
+      "language": {
+        "success": "Limba a fost schimbată cu succes!",
+        "error": "Actualizarea limbii a eșuat."
+      },
+      "theme": {
+        "success": "Tema a fost schimbată cu succes!",
+        "error": "Schimbarea temei a eșuat."
+      },
+      "percents": {
+        "success": "Procentele implicite au fost actualizate cu succes!",
+        "error": "Actualizarea procentelor implicite a eșuat."
+      },
+      "currency": {
+        "success": "Moneda a fost actualizată cu succes!",
+        "error": "Actualizarea monedei a eșuat."
+      }
+    }
   }
 }
