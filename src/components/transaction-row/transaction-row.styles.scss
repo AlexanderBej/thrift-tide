@@ -8,11 +8,11 @@
   @include themed(color, color-text-primary, $color-text-primary);
 
   @include mediaDown(xl) {
-    grid-template-columns: 130px 1fr 1fr 80px;
+    grid-template-columns: 130px 1fr 1fr 100px;
   }
 
   @include mediaDown(md) {
-    grid-template-columns: 65px 1fr 80px;
+    grid-template-columns: 65px 1fr 100px;
   }
 
   .txn-line-date {

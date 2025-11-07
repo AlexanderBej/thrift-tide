@@ -28,7 +28,7 @@ const Insights: React.FC = () => {
   const { t } = useTranslation(['common', 'budget']);
   const fmt = useFormatMoney();
 
-  const [mode, setMode] = useState<'cumulative' | 'daily'>('cumulative');
+  const [mode] = useState<'cumulative' | 'daily'>('cumulative');
   const selectPanelNeeds = useMemo(() => makeSelectBucketPanel(BucketType.NEEDS), []);
   const selectPanelWants = useMemo(() => makeSelectBucketPanel(BucketType.WANTS), []);
   const selectPanelSavings = useMemo(() => makeSelectBucketPanel(BucketType.SAVINGS), []);

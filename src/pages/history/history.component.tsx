@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import { AppDispatch } from '../../store/store';
 import { selectAuthUser } from '../../store/auth-store/auth.selectors';
@@ -17,11 +18,10 @@ import DoubleDonutChart from '../../components-ui/charts/double-donut.component'
 import Button from '../../components-ui/button/button.component';
 
 import './history.styles.scss';
-import { useTranslation } from 'react-i18next';
 
 const History: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { t, i18n } = useTranslation(['common', 'budget']);
+  const { t } = useTranslation(['common', 'budget']);
 
   const user = useSelector(selectAuthUser);
   const status = useSelector(selectHistoryStatus);

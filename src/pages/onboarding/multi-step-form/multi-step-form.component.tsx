@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -20,10 +20,10 @@ import {
   selectOnboardingSettings,
   selectSettingsStatus,
 } from '../../../store/settings-store/settings.selectors';
-
-import './multi-step-form.styles.scss';
 import { completeOnboardingThunk } from '../../../store/settings-store/settings.slice';
 import { OnboardingData } from '../../../api/models/user';
+
+import './multi-step-form.styles.scss';
 
 export interface MultiStepFormData {
   percents: PercentTriple;

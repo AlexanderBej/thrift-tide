@@ -1,19 +1,20 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+// import { NavLink } from 'react-router-dom';
+// import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import TTIcon from '../../icon/icon.component';
+// import TTIcon from '../../icon/icon.component';
 import { ReactComponent as Logo } from './../../../assets/logo.svg';
-import { NAV_ITEMS } from '../nav.config';
+// import { NAV_ITEMS } from '../nav.config';
 import { selectSettingsAppTheme } from '../../../store/settings-store/settings.selectors';
 import { getCssVar } from '../../../utils/style-variable.util';
+import { Themes } from '../../../api/types/settings.types';
+import SidebarContent from '../../../components/sidebar-content/sidebar-content.component';
 
 import './sidebar.styles.scss';
-import { Themes } from '../../../api/types/settings.types';
 
 const Sidebar: React.FC = () => {
-  const { t } = useTranslation('common');
+  // const { t } = useTranslation('common');
   const theme = useSelector(selectSettingsAppTheme);
 
   return (
@@ -27,7 +28,8 @@ const Sidebar: React.FC = () => {
       <div className="logo-container">
         <Logo className="logo" height={60} />
       </div>
-      <ul className="sidebar-links">
+      <SidebarContent />
+      {/* <ul className="sidebar-links">
         {NAV_ITEMS.map((navItem) => (
           <li key={navItem.key}>
             <NavLink
@@ -39,7 +41,7 @@ const Sidebar: React.FC = () => {
             </NavLink>
           </li>
         ))}
-      </ul>
+      </ul> */}
     </aside>
   );
 };

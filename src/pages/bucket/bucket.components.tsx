@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { makeSelectCategoryView } from '../../store/budget-store/budget.selectors';
 import Breadcrumbs from '../../components-ui/breadcrumb/breadcrumb.component';
 import ProgressBar from '../../components-ui/progress-bar/progress-bar.component';
-import { getCssVar } from '../../utils/style-variable.util';
 import { Bucket, BUCKET_COLORS, BUCKET_ICONS, BucketType } from '../../api/types/bucket.types';
 import { resolveCategory } from '../../utils/category-options.util';
 import { BadgePills } from '../../components/badge-pills/badge-pills.component';

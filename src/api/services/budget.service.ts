@@ -219,12 +219,3 @@ function normalizeTxnForWrite(txn: Omit<Txn, 'id'>): Omit<Txn, 'id'> {
     ),
   };
 }
-
-// Ensure any incoming doc gets `date` as 'YYYY-MM-DD' string
-function normalizeTxnFromFirestore(raw: any): Txn {
-  const r = { id: raw.id, ...raw } as Txn;
-  const src = (raw as any).date;
-  const asDate =
-    typeof src?.toDate === 'function' ? src.toDate() : src instanceof Date ? src : new Date(src);
-  return { ...r, date: toYMDUTC(asDate) };
-}

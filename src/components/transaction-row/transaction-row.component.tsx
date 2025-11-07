@@ -5,7 +5,6 @@ import { enUS } from 'date-fns/locale';
 import { LOCALE_MAP, makeFormatter, toYMD } from '../../utils/format-data.util';
 import { Txn } from '../../api/models/txn';
 import { CategoryOption } from '../../api/models/category-option';
-import { BUCKET_LIGHT_COLORS } from '../../api/types/bucket.types';
 import CategoryName from '../category-name/category-name.component';
 import { useWindowWidth } from '../../utils/window-width.hook';
 import ExpansionRow from '../../components-ui/expansion-row/expansion-row.component';
@@ -35,11 +34,6 @@ const TransactionRow: React.FC<TransactionRowProps> = ({ txn, source, category }
     if (toYMD(dateObj) === toYMD(today)) return t('dates.today') ?? 'Today';
     if (toYMD(dateObj) === toYMD(yesterday)) return t('dates.yesterday') ?? 'Yesterday';
 
-    // const formatType = isMobile ? 'EE, MMM do' : 'EE, MMMM do';
-
-    // const formattedDate = format(dateObj, formatType);
-    // return formattedDate;
-
     const locale = LOCALE_MAP[i18n.language] ?? enUS;
 
     const fmt = makeFormatter(isMobile, locale);
@@ -49,10 +43,6 @@ const TransactionRow: React.FC<TransactionRowProps> = ({ txn, source, category }
   const toCamelCase = (word: string): string => {
     return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
   };
-
-  // const translateBucketType = (type: string): string => {
-  //   return
-  // }
 
   if (!txn || !category) return null;
 

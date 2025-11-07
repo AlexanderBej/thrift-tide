@@ -1,5 +1,4 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { RootState } from '../store';
 import { Bucket } from '../../api/types/bucket.types';
 import { selectBudgetTxns } from './budget.selectors.base';
 

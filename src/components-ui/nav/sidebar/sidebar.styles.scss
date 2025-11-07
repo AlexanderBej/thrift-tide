@@ -26,32 +26,32 @@
     }
   }
 
-  .sidebar-links {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 50px;
+  // .sidebar-links {
+  //   display: flex;
+  //   flex-direction: column;
+  //   align-items: flex-start;
+  //   margin-top: 50px;
 
-    li {
-      width: 100%;
+  //   li {
+  //     width: 100%;
 
-      .sidebar-link {
-        height: 50px;
-        display: flex;
-        align-items: center;
-        gap: $spacing-4;
-        padding-left: 30px;
-        @include themed(color, color-text-primary, $color-text-primary);
+  //     .sidebar-link {
+  //       height: 50px;
+  //       display: flex;
+  //       align-items: center;
+  //       gap: $spacing-4;
+  //       padding-left: 30px;
+  //       @include themed(color, color-text-primary, $color-text-primary);
 
-        &:hover {
-          background-color: $color-secondary-dark;
-        }
-        &.active {
-          @include themed(color, color-text-primary, $color-text-primary);
-          background-color: $color-primary-dark;
-          font-weight: 600;
-        }
-      }
-    }
-  }
+  //       &:hover {
+  //         background-color: $color-secondary-dark;
+  //       }
+  //       &.active {
+  //         @include themed(color, color-text-primary, $color-text-primary);
+  //         background-color: $color-primary-dark;
+  //         font-weight: 600;
+  //       }
+  //     }
+  //   }
+  // }
 }

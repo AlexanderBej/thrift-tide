@@ -10,11 +10,24 @@
   padding-right: 20px;
   border-radius: 25px;
 
+  @include mediaDown(md) {
+    display: block;
+    padding: 0;
+    margin-right: 0;
+    background: unset;
+  }
+
   .cover-img {
     height: 50px;
     width: 50px;
     background-size: cover;
     background-position: center;
     border-radius: 50%;
+  }
+
+  .user-display-name {
+    @include mediaDown(md) {
+      display: none;
+    }
   }
 }
