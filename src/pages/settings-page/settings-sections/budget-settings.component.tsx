@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import Setting from '../setting/setting.component';
-import { SettingsSectionProps } from '../settings.component';
+import { SettingsSectionProps } from '../settings-shell.component';
 import {
   selectSettingsBudgetStartDay,
   selectSettingsCurrency,
@@ -23,6 +23,7 @@ interface BudgetSettingsProps extends SettingsSectionProps {
 
 const BudgetSettings: React.FC<BudgetSettingsProps> = ({
   formData,
+  withBackground = false,
   setFormData,
   runSave,
   resetData,
@@ -78,6 +79,7 @@ const BudgetSettings: React.FC<BudgetSettingsProps> = ({
         onConfirmClick={() => runSave('percents')}
         resetDisabled={isPercentsButtonDisabled('reset')}
         onResetClick={() => resetData('percents', defaultPercents)}
+        withBackground={withBackground}
       >
         <>
           <PercentsSelectors
@@ -108,7 +110,7 @@ const BudgetSettings: React.FC<BudgetSettingsProps> = ({
         </>
       </Setting>
 
-      <hr className="divider" />
+      {!withBackground && <hr className="divider" />}
 
       <Setting
         title={t('pageContent.settings.startDay.title') ?? 'Change the start day of your period'}
@@ -124,11 +126,12 @@ const BudgetSettings: React.FC<BudgetSettingsProps> = ({
         onConfirmClick={() => runSave('startDay')}
         resetDisabled={Number(startDay) === Number(formData.startDay)}
         onResetClick={() => resetData('startDay', startDay)}
+        withBackground={withBackground}
       >
         <StartDayEditor startDay={formData.startDay} onSetStartDay={handleChange} />
       </Setting>
 
-      <hr className="divider" />
+      {!withBackground && <hr className="divider" />}
 
       <Setting
         title={t('pageContent.settings.currency') ?? 'Change your budget currency'}
@@ -140,6 +143,7 @@ const BudgetSettings: React.FC<BudgetSettingsProps> = ({
         onConfirmClick={() => runSave('currency')}
         resetDisabled={currency === formData.currency}
         onResetClick={() => resetData('currency', currency)}
+        withBackground={withBackground}
       >
         <Select
           name="currency"

@@ -1,0 +1,21 @@
+@use '../../styles/tokens.scss' as *;
+
+.settings-page {
+  display: grid;
+  gap: $spacing-6;
+
+  @include mediaDown(md) {
+    gap: $spacing-4;
+    height: 100%;
+    display: block;
+    padding: $spacing-6 0;
+
+    .setting-page-title {
+      margin-bottom: $spacing-4;
+    }
+
+    .setting-page-subtitle {
+      margin: $spacing-6 0;
+    }
+  }
+}

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import Setting from '../setting/setting.component';
-import { SettingsSectionProps } from '../settings.component';
+import { SettingsSectionProps } from '../settings-shell.component';
 import {
   selectSettingsAppLanguage,
   selectSettingsAppTheme,
@@ -15,6 +15,7 @@ import { DEFAULT_THEME } from '../../../api/types/settings.types';
 
 const AppSettings: React.FC<SettingsSectionProps> = ({
   formData,
+  withBackground = false,
   setFormData,
   runSave,
   resetData,
@@ -54,6 +55,7 @@ const AppSettings: React.FC<SettingsSectionProps> = ({
         onConfirmClick={() => runSave('language')}
         resetDisabled={language === formData.language}
         onResetClick={() => resetData('language', language)}
+        withBackground={withBackground}
       >
         <Select
           name="language"
@@ -64,7 +66,7 @@ const AppSettings: React.FC<SettingsSectionProps> = ({
         />
       </Setting>
 
-      <hr className="divider" />
+      {!withBackground && <hr className="divider" />}
 
       <Setting
         title={t('pageContent.settings.theme') ?? 'Change your app theme'}
@@ -74,6 +76,7 @@ const AppSettings: React.FC<SettingsSectionProps> = ({
         onConfirmClick={() => runSave('theme')}
         resetDisabled={theme === formData.theme}
         onResetClick={() => resetData('theme', theme ?? DEFAULT_THEME)}
+        withBackground={withBackground}
       >
         <CheckboxInput
           variant="switch"

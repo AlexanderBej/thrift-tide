@@ -13,7 +13,10 @@
     "transactions": "Transactions",
     "insights": "Insights",
     "history": "History",
-    "settings": "Settings"
+    "settings": "Settings",
+    "profile": "Profile",
+    "budget": "Budget",
+    "app": "Language & Theme"
   },
 
   "pageContent": {
@@ -36,6 +39,8 @@
       "latestDist": "Latest Distribution"
     },
     "settings": {
+      "profile": "Change your appearance",
+      "displayName": "Display name",
       "budgetPref": "Budget Preferences",
       "percents": {
         "adjust": "Adjust your 50/30/20 split",
@@ -101,6 +106,7 @@
   "confirmations": {
     "modalTitle": "Confirm",
     "areYouSure": "Are you sure?",
+    "displayName": "Are you sure you want to change your display name?",
     "percentages": "Are you sure you want to change the percentages?",
     "language": "Are you sure you want to change the language?",
     "startDay": "Are you sure you want to change the period start day?",

@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import Layout from './pages/layout/layout.component';
 import Dashboard from './pages/dashboard/dashboard.component';
 import Transaction from './pages/transactions/transactions.component';
-import Settings from './pages/settings/settings.component';
+import SettingsShell from './pages/settings-page/settings-shell.component';
 import Login from './pages/login/login.component';
 import ProtectedRoute from './utils/protected-route.util';
 import { AppDispatch } from './store/store';
@@ -17,6 +17,10 @@ import BucketsPage from './pages/buckets/buckets.component';
 import BucketPage from './pages/bucket/bucket.components';
 import { useSystemTheme } from './utils/system-theme.hook';
 import Onboarding from './pages/onboarding/onboarding.component';
+import ProfilePage from './pages/settings-page/pages/profile-page/profile-page.component';
+import BudgetPage from './pages/settings-page/pages/budget-page/budget-page.component';
+import AppPreferencesPage from './pages/settings-page/pages/app-preferences-page/app-preferences-page.component';
+import SettingsLayout from './pages/settings-page/settings-layout.component';
 
 import './App.scss';
 
@@ -69,7 +73,12 @@ function App() {
           <Route path="buckets/:type" element={<BucketPage />} />
           <Route path="insights" element={<Insights />} />
           <Route path="history" element={<History />} />
-          <Route path="settings" element={<Settings />} />
+          <Route path="settings" element={<SettingsLayout />}>
+            <Route index element={<SettingsShell />} />
+            <Route path="profile" element={<ProfilePage />} />
+            <Route path="budget" element={<BudgetPage />} />
+            <Route path="app" element={<AppPreferencesPage />} />
+          </Route>
         </Route>
       </Routes>
 

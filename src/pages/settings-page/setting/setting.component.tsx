@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 
 import ConfirmationModal from '../../../components/confirmation-modal/confirmation-modal.component';
 import Button from '../../../components-ui/button/button.component';
@@ -17,6 +18,7 @@ interface SettingProps {
   confirmMessage?: string;
   confirmLoading: boolean;
   confirmDisabled: boolean;
+  withBackground?: boolean;
   onConfirmClick: () => void;
   resetDisabled: boolean;
   onResetClick: () => void;
@@ -33,13 +35,18 @@ const Setting: React.FC<SettingProps> = ({
   confirmMessage = '',
   resetDisabled,
   containerClassName,
+  withBackground = false,
   onConfirmClick,
   onResetClick,
 }) => {
   const { t } = useTranslation('common');
 
+  const containerClass = clsx('setting-container', containerClassName, {
+    'setting-container__bg': withBackground,
+  });
+
   return (
-    <div className={`setting-container ${containerClassName}`}>
+    <div className={containerClass}>
       <div className="setting-label-row">
         <p className="setting-label">{title}</p>
         {popoverContent && (

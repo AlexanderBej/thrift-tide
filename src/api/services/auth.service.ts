@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateProfile,
   User,
 } from 'firebase/auth';
 import { auth, db } from './firebase.service';
@@ -58,6 +59,38 @@ export const ensureUserProfile = async (userAuth: User, overrides: Partial<UserP
 
 export const readUser = async (uid: string): Promise<UserProfile | null> => {
   const ref = doc(db, 'users', uid);
+  const snap = await getDoc(ref);
+  return snap.exists() ? (snap.data() as UserProfile) : null;
+};
+
+export const updateUserDisplayName = async (
+  uid: string,
+  displayName: string,
+): Promise<UserProfile | null> => {
+  const name = (displayName ?? '').trim();
+  if (!uid) throw new Error('Missing uid');
+  if (!name) throw new Error('Display name is required');
+  if (name.length > 80) throw new Error('Display name too long (max 80 chars)');
+
+  const ref = doc(db, 'users', uid);
+
+  // 1) Upsert Firestore profile (merge so we don't overwrite other fields)
+  await setDoc(
+    ref,
+    {
+      displayName: name,
+      // optional: keep a timestamp for audits
+      updatedAt: new Date(),
+    },
+    { merge: true },
+  );
+
+  // 2) If the current user matches, also update Firebase Auth profile
+  if (auth.currentUser?.uid === uid) {
+    await updateProfile(auth.currentUser, { displayName: name });
+  }
+
+  // 3) Return the fresh profile
   const snap = await getDoc(ref);
   return snap.exists() ? (snap.data() as UserProfile) : null;
 };

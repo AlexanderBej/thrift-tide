@@ -106,7 +106,7 @@ const PercentsSelectors: React.FC<PercentsSelectorsProps> = ({ percents, onPerce
       </div>
       <div className="percentage-donut-container">
         <Donut
-          height={isMobile ? 60 : 200}
+          height={isMobile ? 120 : 200}
           showTooltip={false}
           data={donutItems}
           percentage={getDonutPercentage()}

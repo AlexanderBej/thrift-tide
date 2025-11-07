@@ -1,0 +1,12 @@
+@use '../../../../styles/tokens' as *;
+
+.budget-page {
+  display: grid;
+  gap: $spacing-4;
+  padding-bottom: $spacing-5;
+
+  .apply-now-row {
+    display: inline-flex;
+    gap: 12px;
+  }
+}

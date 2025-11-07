@@ -13,7 +13,10 @@
     "transactions": "Tranzacții",
     "insights": "Perspective",
     "history": "Istoric",
-    "settings": "Setări"
+    "settings": "Setări",
+    "profile": "Profil",
+    "budget": "Buget",
+    "app": "Limbă & Temă"
   },
 
   "pageContent": {
@@ -36,6 +39,8 @@
       "latestDist": "Cea Mai Recentă Distribuție"
     },
     "settings": {
+      "profile": "Schimbă-ți aspectul",
+      "displayName": "Numele afișat",
       "budgetPref": "Preferințe legate de buget",
       "percents": {
         "adjust": "Ajustează împărțirea 50/30/20",
@@ -101,6 +106,7 @@
   "confirmations": {
     "modalTitle": "Confirmă",
     "areYouSure": "Ești sigur?",
+    "displayName": "Sigur vrei să-ți schimbi numele de afișare?",
     "percentages": "Ești sigur că vrei să modifici procentajele?",
     "language": "Ești sigur că vrei să modifici limba?",
     "startDay": "Ești sigur că vrei să modifici ziua de început a perioadei?",

@@ -1,6 +1,11 @@
 @use '../../../styles/tokens.scss' as *;
 
 .setting-container {
+  &__bg {
+    @include dashboard-card($pad: $spacing-4);
+    width: 100%;
+  }
+
   .setting-label-row {
     display: inline-flex;
     gap: $spacing-6;
@@ -15,6 +20,10 @@
   .setting-body {
     width: 80%;
     margin: auto;
+
+    @include mediaDown(md) {
+      width: 100%;
+    }
   }
 
   .settings-action-btns {
