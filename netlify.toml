@@ -1,0 +1,10 @@
+[build]
+  command = "npm run build"
+  publish = "build"
+
+[build.environment]
+  NODE_VERSION = "20"                 # or "22" if you prefer
+  NODE_OPTIONS = "--max_old_space_size=4096"
+  NPM_FLAGS = "--include=dev"         # ensures devDeps like craco/sass install
+  CI = "true"                         # proper uppercase key
+  GENERATE_SOURCEMAP = "false"        # optional: reduces memory a lot
