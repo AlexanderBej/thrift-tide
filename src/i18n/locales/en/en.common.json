@@ -145,7 +145,7 @@
   "onboarding": {
     "step1": {
       "text1": "Welcome to <bold>Thrift Tide</bold>, your friendly budget assistant. This app helps you manage your monthly income using the <bold>50/30/20</bold> budgeting system — a simple method that divides your income into 50% for Needs, 30% for Wants, and 20% for Savings.",
-      "text2": " Before we begin, let’s set up a few simple preferences. Click <bold>Next</bold> to learn how to make the most out of your new dashboard. Or if you&apos;d prefer to jump right in, just click <bold>Skip</bold> and start exploring at your own pace."
+      "text2": " Before we begin, let’s set up a few simple preferences. Click <bold>Next</bold> to learn how to make the most out of your new dashboard. Or if you’d prefer to jump right in, just click <bold>Skip</bold> and start exploring at your own pace."
     },
     "step2": {
       "title": "Region settings",

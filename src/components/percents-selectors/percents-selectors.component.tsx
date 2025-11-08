@@ -12,9 +12,14 @@ import './percents-selectors.styles.scss';
 interface PercentsSelectorsProps {
   percents: PercentTriple;
   onPercentsChange: (bucket: string, value: number) => void;
+  showDonut?: boolean;
 }
 
-const PercentsSelectors: React.FC<PercentsSelectorsProps> = ({ percents, onPercentsChange }) => {
+const PercentsSelectors: React.FC<PercentsSelectorsProps> = ({
+  percents,
+  onPercentsChange,
+  showDonut = true,
+}) => {
   const { t } = useTranslation(['common', 'budget']);
   const width = useWindowWidth();
 
@@ -104,14 +109,16 @@ const PercentsSelectors: React.FC<PercentsSelectorsProps> = ({ percents, onPerce
           );
         })}
       </div>
-      <div className="percentage-donut-container">
-        <Donut
-          height={isMobile ? 120 : 200}
-          showTooltip={false}
-          data={donutItems}
-          percentage={getDonutPercentage()}
-        />
-      </div>
+      {showDonut && (
+        <div className="percentage-donut-container">
+          <Donut
+            height={isMobile ? 120 : 200}
+            showTooltip={false}
+            data={donutItems}
+            percentage={getDonutPercentage()}
+          />
+        </div>
+      )}
     </div>
   );
 };

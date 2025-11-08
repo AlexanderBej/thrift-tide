@@ -7,9 +7,12 @@ import PercentsSelectors from '../../../../components/percents-selectors/percent
 import { PercentTriple } from '../../../../api/types/percent.types';
 import Button from '../../../../components-ui/button/button.component';
 import { selectSettingsDefaultPercents } from '../../../../store/settings-store/settings.selectors';
+import { getCssVar } from '../../../../utils/style-variable.util';
 
 const StepThree: React.FC<FormPercentsProp> = ({ formData, onPercentsChange }) => {
   const percents = useSelector(selectSettingsDefaultPercents);
+
+  const total = formData.percents.needs + formData.percents.wants + formData.percents.savings;
 
   const handleReset = () => {
     onPercentsChange('needs', percents.needs);
@@ -23,6 +26,21 @@ const StepThree: React.FC<FormPercentsProp> = ({ formData, onPercentsChange }) =
       formData.percents.wants === percents.wants &&
       formData.percents.savings === percents.savings
     );
+  };
+
+  const getPctColor = (pct: number) => {
+    if (pct < 90 || pct > 100) return 'error';
+    else if (pct < 100) return 'warning';
+    return 'success';
+  };
+
+  const getDonutPercentage = () => {
+    // const pct = getTotalPercent();
+
+    return {
+      value: total * 100,
+      color: getCssVar(`--${getPctColor(total * 100)}`),
+    };
   };
 
   return (
@@ -47,19 +65,26 @@ const StepThree: React.FC<FormPercentsProp> = ({ formData, onPercentsChange }) =
       <div className="percents-selectors-wrapper">
         <PercentsSelectors
           percents={formData.percents}
+          showDonut={false}
           onPercentsChange={(bucket, value) =>
             onPercentsChange(bucket as keyof PercentTriple, value)
           }
         />
-        <Button
-          buttonType="secondary"
-          htmlType="button"
-          disabled={isResetDisabled()}
-          onClick={handleReset}
-          customContainerClass="reset-percents-btn"
-        >
-          <span>Reset percents</span>
-        </Button>
+        <div className="reset-row">
+          <Button
+            buttonType="secondary"
+            htmlType="button"
+            disabled={isResetDisabled()}
+            onClick={handleReset}
+            // customContainerClass="reset-percents-btn"
+            isSmall={true}
+          >
+            <span>Reset percents</span>
+          </Button>
+          <span style={{ backgroundColor: getDonutPercentage().color }} className="percents-total">
+            {getDonutPercentage().value}%
+          </span>
+        </div>
       </div>
       <p className="step-p">
         <Trans i18nKey="onboarding.step3.text3" components={{ bold: <strong /> }} />

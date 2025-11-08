@@ -163,14 +163,19 @@ const MultiStepForm: React.FC = () => {
             htmlType="button"
             onClick={() => navigate('/')}
             buttonType="neutral"
-            customContainerClass="skip-btn"
+            customContainerClass="skip-btn onboarding-btn"
           >
             <span>{t('actions.skip') ?? 'Skip'}</span>
           </Button>
         )}
 
         {step > 1 && step < 5 && (
-          <Button htmlType="button" onClick={prevStep} buttonType="secondary">
+          <Button
+            htmlType="button"
+            onClick={prevStep}
+            buttonType="secondary"
+            customContainerClass="onboarding-btn"
+          >
             <span>{t('actions.back') ?? 'Back'}</span>
           </Button>
         )}
@@ -181,13 +186,19 @@ const MultiStepForm: React.FC = () => {
             buttonType="primary"
             isLoading={status === 'loading'}
             disabled={getNextBtnDisabled()}
+            customContainerClass="onboarding-btn"
           >
             <span>{t('actions.next') ?? 'Next'}</span>
           </Button>
         )}
 
         {step === 5 && (
-          <Button onClick={() => navigate('/')} htmlType="button" buttonType="primary">
+          <Button
+            onClick={() => navigate('/')}
+            htmlType="button"
+            buttonType="primary"
+            customContainerClass="onboarding-btn"
+          >
             <span>{t('actions.continue') ?? 'Continue'}</span>
           </Button>
         )}

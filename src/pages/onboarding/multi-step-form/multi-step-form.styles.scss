@@ -12,6 +12,12 @@
   justify-content: center;
   flex-direction: column;
 
+  @include mediaDown(md) {
+    width: 95%;
+    height: 95%;
+    padding: $spacing-4;
+  }
+
   .step-container {
     margin: $spacing-5 auto;
     flex: 1;
@@ -25,9 +31,13 @@
     }
 
     .step-content {
-      // background-color: white;
       border-radius: $radius-md;
       padding: 20px;
+
+      @include mediaDown(md) {
+        padding: 20px 0;
+        line-height: 1.5rem;
+      }
 
       .step-p {
         font-size: 14px;
@@ -45,6 +55,10 @@
       .onboarding-select {
         width: 400px;
         margin: auto;
+
+        @include mediaDown(md) {
+          width: 100%;
+        }
       }
 
       .language-input-container {
@@ -58,14 +72,31 @@
           gap: $spacing-5;
         }
 
-        .reset-percents-btn {
-          min-width: 100px;
-          min-height: 35px;
-          height: fit-content;
-          padding: 0 $spacing-3;
-          margin: auto;
-          display: block;
+        .reset-row {
+          display: inline-flex;
+          width: 100%;
+          justify-content: space-between;
+          margin-top: $spacing-5;
+
+          .percents-total {
+            padding: 0 10px;
+            height: 35px;
+            border-radius: $radius-sm;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
         }
+        // .reset-percents-btn {
+        //   min-width: 100px;
+        //   min-height: 35px;
+        //   height: fit-content;
+        //   padding: 0 $spacing-3;
+        //   margin: auto;
+        //   display: block;
+        // }
       }
 
       .start-day-wrapper {
@@ -79,6 +110,10 @@
     display: flex;
     gap: 15px;
     justify-content: flex-end;
+
+    .onboarding-btn {
+      min-width: 100px;
+    }
 
     .skip-btn {
       text-align: center;
