@@ -6,9 +6,9 @@ import { IoIosInformationCircleOutline } from 'react-icons/io';
 import { CiSquareQuestion } from 'react-icons/ci';
 import { useTranslation } from 'react-i18next';
 
-import { Badge, BadgeKind } from '../../api/models/badges';
-import TTIcon from '../../components-ui/icon/icon.component';
-import { useWindowWidth } from '../../utils/window-width.hook';
+import { Badge, BadgeKind } from '@api/models';
+import { useWindowWidth } from '@shared/hooks';
+import { TTIcon } from '@shared/ui';
 
 import './badge-pills.styles.scss';
 
@@ -16,7 +16,7 @@ interface TranslatedBadge extends Badge {
   i18nText: string;
 }
 
-export const BadgePills: React.FC<{
+const BadgePills: React.FC<{
   badges: Badge[];
   badgeType?: 'chip' | 'card';
   onClickBadge?: (b: Badge) => void;
@@ -101,3 +101,5 @@ export const BadgePills: React.FC<{
     </div>
   );
 };
+
+export default BadgePills;

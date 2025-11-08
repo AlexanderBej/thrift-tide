@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import FormInput from '../../components-ui/form-input/form-input.component';
+import { FormInput } from '@shared/ui';
 
 import './start-day-editor.styles.scss';
 

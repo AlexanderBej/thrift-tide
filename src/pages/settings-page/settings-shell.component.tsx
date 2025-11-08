@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { useWindowWidth } from '../../utils/window-width.hook';
-import { PercentTriple } from '../../api/types/percent.types';
-import { Currency, Language, Theme } from '../../api/types/settings.types';
+import { useWindowWidth } from '@shared/hooks';
+import { PercentTriple, Currency, Language, Theme } from '@api/types';
 import DesktopSettingsPage from './pages/desktop-settings-page/desktop-settings-page.component';
 import MobileSettingsPage from './pages/mobile-settings-page/mobile-settings-page.component';
 

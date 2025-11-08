@@ -2,14 +2,12 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { AppDispatch } from '../../store/store';
-import { selectAuthUser } from '../../store/auth-store/auth.selectors';
-import { signOutUser } from '../../api/services/auth.service';
-import { userSignedOut } from '../../store/auth-store/auth.slice';
-import Dropdown from '../../components-ui/dropdowns/dropdown.component';
+import { signOutUser } from '@api/services';
+import { Button, Dropdown } from '@shared/ui';
+import { AppDispatch } from '@store/store';
+import { selectAuthUser, userSignedOut } from '@store/auth-store';
 
 import './user-dropdown.styles.scss';
-import Button from '../../components-ui/button/button.component';
 
 const UserDropdown: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();

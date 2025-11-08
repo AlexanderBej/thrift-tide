@@ -1,0 +1,89 @@
+@use '../../../styles/tokens.scss' as *;
+
+.date-field {
+  position: relative;
+  height: 45px;
+
+  &__label {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+
+  &__control {
+    width: 100%;
+    height: 100%;
+    padding: 10px 10px 10px 15px;
+    border: 1px solid;
+    @include themed(border-color, color-bg-main, $color-bg-main);
+    border-radius: 8px;
+    background: #fff;
+    @include themed(background, color-neutral-light, $color-neutral-light);
+    @include themed(color, color-text-secondary, $color-text-secondary);
+    text-align: left;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .placeholder {
+      color: #8a94a6;
+    }
+    &.has-error {
+      border-color: #e5484d;
+    }
+  }
+
+  &__popover {
+    padding: 10px;
+    position: absolute;
+    z-index: 20;
+    margin-top: 8px;
+    @include themed(background, color-bg-card, $color-bg-card);
+    border: 1px solid #e1e4ea;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+    .rdp-chevron {
+      @include themed(fill, color-primary, $color-primary);
+      margin-left: 5px;
+    }
+
+    .rdp-today:not(.rdp-outside) {
+      @include themed(color, color-primary, $color-primary);
+    }
+
+    .rdp-selected .rdp-day_button {
+      border: 2px solid;
+      @include themed(border-color, color-primary, $color-primary);
+    }
+  }
+
+  &__error {
+    margin-top: 6px;
+    color: $color-error;
+    font-size: 12px;
+  }
+}
+
+.monthpicker {
+  &__popover {
+    min-width: 200px;
+
+    .rdp-month_grid {
+      display: none;
+    }
+
+    .rdp-nav {
+      display: none;
+    }
+
+    .rdp-dropdowns {
+      justify-content: space-between;
+      gap: $spacing-5;
+    }
+  }
+
+  &__control {
+    @include themed(background-color, color-primary, $color-primary);
+  }
+}

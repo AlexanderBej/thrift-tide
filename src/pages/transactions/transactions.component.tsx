@@ -3,27 +3,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { enUS } from 'date-fns/locale';
 
-import Select, { SelectOption } from '../../components-ui/select/select.component';
-import { Bucket, BucketType } from '../../api/types/bucket.types';
+import { Bucket, BucketType } from '@api/types';
+import { TransactionRow } from '@components';
+import { useFormatMoney } from '@shared/hooks';
+import { FormInput, Select, SelectOption } from '@shared/ui';
+import { LOCALE_MAP, makeFormatter, resolveCategory } from '@shared/utils';
 import {
   selectTxnsGroupedByDate,
   selectFilteredTotal,
+  selectBudgetTotal,
   selectMonthTotalsByBucket,
-} from '../../store/budget-store/budget.selectors';
-import { AppDispatch } from '../../store/store';
-import {
+  setTxnTypeFilter,
+  TxnTypeFilter,
   setTxnSearch,
   setTxnSort,
-  setTxnTypeFilter,
   SortKey,
-  TxnTypeFilter,
-} from '../../store/budget-store/budget.slice';
-import FormInput from '../../components-ui/form-input/form-input.component';
-import { resolveCategory } from '../../utils/category-options.util';
-import { selectBudgetTotal } from '../../store/budget-store/budget.selectors.base';
-import TransactionRow from '../../components/transaction-row/transaction-row.component';
-import { LOCALE_MAP, makeFormatter } from '../../utils/format-data.util';
-import { useFormatMoney } from '../../utils/format-money.hook';
+} from '@store/budget-store';
+import { AppDispatch } from '@store/store';
 
 import './transactions.styles.scss';
 

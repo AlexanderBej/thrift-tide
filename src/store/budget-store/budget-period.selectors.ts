@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { selectBudgetDoc, selectBudgetMonth } from './budget.selectors.base';
-import { periodBounds, representativeDateFromMonthKey } from '../../utils/period.util';
+import { periodBounds, representativeDateFromMonthKey } from '@shared/utils';
 import { selectSettingsBudgetStartDay } from '../settings-store/settings.selectors';
 
 /** [Core] The concrete time window of the selected period (start inclusive, end exclusive),

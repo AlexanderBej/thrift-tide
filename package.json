@@ -37,9 +37,9 @@
     "build:themes": "sass src/styles/theme.light.scss public/light.css && sass src/styles/theme.dark.scss public/dark.css",
     "watch:themes": "sass --watch src/styles/theme.light.scss:public/light.css src/styles/theme.dark.scss:public/dark.css",
     "start": "npm-run-all -p watch:themes start:cra",
-    "start:cra": "react-scripts start",
-    "build": "npm run build:themes && react-scripts build",
-    "test": "react-scripts test",
+    "start:cra": "craco start",
+    "build": "npm run build:themes && craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -61,9 +61,11 @@
     ]
   },
   "devDependencies": {
+    "@craco/craco": "^7.1.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@types/jest": "^30.0.0",
     "@types/react-router-dom": "^5.3.3",
+    "craco-alias": "^3.0.1",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",

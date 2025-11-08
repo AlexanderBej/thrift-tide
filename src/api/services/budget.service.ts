@@ -17,14 +17,19 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
+
 import { db } from './firebase.service';
 import { DEFAULT_START_DAY, MonthDoc } from '../models/month-doc';
 import { DEFAULT_PERCENTS } from '../types/percent.types';
-import { makeAllocations, toMonthDoc } from '../../utils/services.util';
 import { Txn } from '../models/txn';
-import { periodBounds, representativeDateFromMonthKey } from '../../utils/period.util';
-import { toYMDUTC } from '../../utils/format-data.util';
 import { readUser } from './auth.service';
+import {
+  makeAllocations,
+  periodBounds,
+  representativeDateFromMonthKey,
+  toMonthDoc,
+  toYMDUTC,
+} from '@shared/utils';
 
 const getMonthRef = (uid: string, month: string) => doc(db, 'users', uid, 'months', month);
 

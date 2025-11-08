@@ -2,10 +2,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { enUS } from 'date-fns/locale';
 
-import { SpendingTimelineBar } from '../spending-timeline-bar/spending-timeline-bar.component';
-import { fmtDate, LOCALE_MAP, makeFormatter } from '../../utils/format-data.util';
-import TTIcon from '../../components-ui/icon/icon.component';
-import { BUCKET_COLORS, BUCKET_ICONS, BucketType } from '../../api/types/bucket.types';
+import { SpendingTimelineBar } from '../spending-timeline-bar';
+import { fmtDate, LOCALE_MAP, makeFormatter } from '@shared/utils';
+import { BUCKET_COLORS, BUCKET_ICONS, BucketType } from '@api/types';
+import { TTIcon } from '@shared/ui';
 
 import './forecast-row.styles.scss';
 

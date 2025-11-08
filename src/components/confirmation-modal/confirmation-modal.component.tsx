@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Modal from '../../components-ui/modal/modal.component';
-import Button from '../../components-ui/button/button.component';
+import { Button, Modal } from '@shared/ui';
 
 import './confirmation-modal.styles.scss';
 

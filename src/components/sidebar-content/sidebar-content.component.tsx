@@ -1,16 +1,15 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { NAV_ITEMS } from '../../components-ui/nav/nav.config';
-import { getCssVar } from '../../utils/style-variable.util';
-import TTIcon from '../../components-ui/icon/icon.component';
+import { NAV_ITEMS } from '../../widgets/nav.config';
+import { getCssVar } from '@shared/utils';
+import { TTIcon } from '@shared/ui';
+import { AppDispatch } from '@store/store';
+import { drawerClose, selectUIDrawerOpen } from '@store/ui-store';
 
 import './sidebar-content.styles.scss';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectUIDrawerOpen } from '../../store/ui-store/ui.selectors';
-import { AppDispatch } from '../../store/store';
-import { drawerClose } from '../../store/ui-store/ui.slice';
 
 const SidebarContent: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();

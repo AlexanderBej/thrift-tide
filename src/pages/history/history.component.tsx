@@ -2,20 +2,18 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { AppDispatch } from '../../store/store';
-import { selectAuthUser } from '../../store/auth-store/auth.selectors';
+import { TrendLineChart, StackedBarChart, DoubleDonutChart, Button } from '@shared/ui';
+import { selectAuthUser } from '@store/auth-store';
 import {
-  selectHistoryHasMore,
   selectHistoryStatus,
-  selectLatestDonutItems,
-  selectSplitBarData,
+  selectHistoryHasMore,
   selectTrendTotalSpentSeries,
-} from '../../store/history-store/history.selectors';
-import { loadHistoryPage, resetHistory } from '../../store/history-store/history.slice';
-import TrendLineChart from '../../components-ui/charts/trend-line.component';
-import StackedBarChart from '../../components-ui/charts/stacked-bar.component';
-import DoubleDonutChart from '../../components-ui/charts/double-donut.component';
-import Button from '../../components-ui/button/button.component';
+  selectSplitBarData,
+  selectLatestDonutItems,
+  resetHistory,
+  loadHistoryPage,
+} from '@store/history-store';
+import { AppDispatch } from '@store/store';
 
 import './history.styles.scss';
 

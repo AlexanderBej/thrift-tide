@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { selectAuthUser } from '../../../../store/auth-store/auth.selectors';
 import ProfileSettings from '../../settings-sections/profile-settings.component';
 import { useSettingsFormContext } from '../../settings-form-context';
+import { selectAuthUser } from '@store/auth-store';
 
 import './profile-page.styles.scss';
 

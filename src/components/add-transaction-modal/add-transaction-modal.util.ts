@@ -1,4 +1,4 @@
-import { CATEGORY_OPTIONS } from '../../utils/category-options.util';
+import { CATEGORY_OPTIONS } from '@shared/utils';
 import { TransactionFormData } from './add-transaction-modal.component';
 
 export type FormErrors = Partial<Record<'amount' | 'date' | 'category' | 'note', string>>;

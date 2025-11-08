@@ -3,23 +3,15 @@ import { FaPlus } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { Txn } from '../../api/models/txn';
-import { Bucket } from '../../api/types/bucket.types';
-import CheckboxInput from '../../components-ui/checkbox-input/checkbox-input.component';
-import DatePicker from '../../components-ui/datepicker/datepicker.component';
-import TTIcon from '../../components-ui/icon/icon.component';
-import Modal from '../../components-ui/modal/modal.component';
-import { selectAuthUser } from '../../store/auth-store/auth.selectors';
-import { addTxnThunk } from '../../store/budget-store/budget.slice';
-import { AppDispatch } from '../../store/store';
-import { CATEGORY_OPTIONS } from '../../utils/category-options.util';
-import { toYMD } from '../../utils/format-data.util';
+import { CATEGORY_OPTIONS, toYMD } from '@shared/utils';
 import { FormErrors, validateField, validateAll, toDecimal } from './add-transaction-modal.util';
 import TypeBoxSelector from '../type-box-selector/type-box-selector.component';
-import Button from '../../components-ui/button/button.component';
-import FormInput from '../../components-ui/form-input/form-input.component';
-import Select from '../../components-ui/select/select.component';
-import { selectBudgetMutateStatus } from '../../store/budget-store/budget.selectors.base';
+import { Button, CheckboxInput, DatePicker, FormInput, Modal, Select, TTIcon } from '@shared/ui';
+import { selectAuthUser } from '@store/auth-store';
+import { selectBudgetMutateStatus, addTxnThunk } from '@store/budget-store';
+import { AppDispatch } from '@store/store';
+import { Bucket } from '@api/types';
+import { Txn } from '@api/models';
 
 import './add-transaction-modal.styles.scss';
 

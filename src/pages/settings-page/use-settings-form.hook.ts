@@ -2,17 +2,17 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useState, useCallback, useMemo } from 'react';
 
-import { PercentTriple } from '../../api/types/percent.types';
+import { PercentTriple } from '@api/types';
 import { SettingsFormData } from './settings-shell.component';
-import { AppDispatch } from '../../store/store';
+import { updateDisplayNameThunk } from '@store/auth-store';
 import {
   updateDefaultPercentsThunk,
   saveStartDayThunk,
   updateCurrencyThunk,
   saveLanguageThunk,
   setAppThemeThunk,
-} from '../../store/settings-store/settings.slice';
-import { updateDisplayNameThunk } from '../../store/auth-store/auth.slice';
+} from '@store/settings-store';
+import { AppDispatch } from '@store/store';
 
 type SaveKey = keyof SettingsFormData;
 

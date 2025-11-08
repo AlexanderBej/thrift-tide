@@ -6,12 +6,12 @@ import { MdDataSaverOn } from 'react-icons/md';
 import { CiSquareQuestion } from 'react-icons/ci';
 import { useSelector } from 'react-redux';
 import { IconType } from 'react-icons';
-
-import { selectCards } from '../../store/budget-store/budget.selectors';
 import { useNavigate } from 'react-router-dom';
-import TTIcon from '../../components-ui/icon/icon.component';
-import ProgressBar from '../../components-ui/progress-bar/progress-bar.component';
-import { useFormatMoney } from '../../utils/format-money.hook';
+
+import ProgressBar from '../progress-bar/progress-bar.component';
+import { useFormatMoney } from '@shared/hooks';
+import { TTIcon } from '@shared/ui';
+import { selectCards } from '@store/budget-store';
 
 import './dashboard-cards.styles.scss';
 

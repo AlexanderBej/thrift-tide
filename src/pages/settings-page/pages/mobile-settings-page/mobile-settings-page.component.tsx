@@ -3,15 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { RiArrowRightSLine } from 'react-icons/ri';
 
-import { selectAuthUser } from '../../../../store/auth-store/auth.selectors';
-import Button from '../../../../components-ui/button/button.component';
-import { AppDispatch } from '../../../../store/store';
-import { signOutUser } from '../../../../api/services/auth.service';
-import { userSignedOut } from '../../../../store/auth-store/auth.slice';
+import { signOutUser } from '@api/services';
+import { getCssVar } from '@shared/utils';
+import { Button, TTIcon } from '@shared/ui';
+import { selectAuthUser, userSignedOut } from '@store/auth-store';
+import { AppDispatch } from '@store/store';
 
 import './mobile-settings-page.styles.scss';
-import TTIcon from '../../../../components-ui/icon/icon.component';
-import { getCssVar } from '../../../../utils/style-variable.util';
 
 const MobileSettingsPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();

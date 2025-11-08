@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import TTIcon from '../../components-ui/icon/icon.component';
-import { CategoryOption } from '../../api/models/category-option';
+import { CategoryOption } from '@api/models';
+import { TTIcon } from '@shared/ui';
 
 import './category-name.styles.scss';
 

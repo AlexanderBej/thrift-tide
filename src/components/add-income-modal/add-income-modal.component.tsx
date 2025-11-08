@@ -3,25 +3,18 @@ import { FaPlus } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import TTIcon from '../../components-ui/icon/icon.component';
-import Modal from '../../components-ui/modal/modal.component';
-import { selectAuthUser } from '../../store/auth-store/auth.selectors';
-import { AppDispatch } from '../../store/store';
-import Button from '../../components-ui/button/button.component';
-import FormInput from '../../components-ui/form-input/form-input.component';
-import { changeMonthThunk, setIncomeForPeriod } from '../../store/budget-store/budget.slice';
-import { selectSettingsBudgetStartDay } from '../../store/settings-store/settings.selectors';
+import { formatPeriodLabel, nextMonthKey, representativeDateFromMonthKey } from '@shared/utils';
+import { Button, CheckboxInput, FormInput, Modal, TTIcon } from '@shared/ui';
+import { selectAuthUser } from '@store/auth-store';
+import { AppDispatch } from '@store/store';
 import {
   selectBudgetMonth,
+  selectMonthTiming,
   selectBudgetMutateStatus,
-} from '../../store/budget-store/budget.selectors.base';
-import {
-  formatPeriodLabel,
-  nextMonthKey,
-  representativeDateFromMonthKey,
-} from '../../utils/period.util';
-import { selectMonthTiming } from '../../store/budget-store/budget-period.selectors';
-import CheckboxInput from '../../components-ui/checkbox-input/checkbox-input.component';
+  setIncomeForPeriod,
+  changeMonthThunk,
+} from '@store/budget-store';
+import { selectSettingsBudgetStartDay } from '@store/settings-store';
 
 import './add-income-modal.styles.scss';
 

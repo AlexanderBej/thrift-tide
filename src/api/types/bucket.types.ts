@@ -2,7 +2,7 @@ import { TbHomeStar } from 'react-icons/tb';
 import { GiWantedReward } from 'react-icons/gi';
 import { MdDataSaverOn } from 'react-icons/md';
 
-import { getCssVar } from '../../utils/style-variable.util';
+import { getCssVar } from '@shared/utils';
 
 export type Bucket = 'needs' | 'wants' | 'savings';
 

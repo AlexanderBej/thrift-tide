@@ -1,10 +1,10 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { Bucket } from '../../api/types/bucket.types';
-import { Txn } from '../../api/models/txn';
+import { Bucket } from '@api/types';
+import { Txn } from '@api/models';
 import { selectBudgetDoc, selectBudgetTxns, selectTxnUi } from './budget.selectors.base';
 import { selectMonthTiming } from './budget-period.selectors';
-import { toMillisSafe } from '../../utils/format-data.util';
+import { toMillisSafe } from '@shared/utils';
 
 /** All transactions that fall inside the current [periodStart, periodEnd). */
 export const selectTxnsInPeriod = createSelector([selectBudgetTxns, selectMonthTiming], (txns, t) =>

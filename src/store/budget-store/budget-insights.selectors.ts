@@ -1,9 +1,9 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { Bucket } from '../../api/types/bucket.types';
+import { Bucket } from '@api/types';
 import { selectAllocatedTriple, selectTotals, selectTxnsInPeriod } from './budget.selectors';
 import { selectMonthTiming } from './budget-period.selectors';
 import { addDays, eachDayOfInterval, format } from 'date-fns';
-import { getCssVar } from '../../utils/style-variable.util';
+import { getCssVar } from '@shared/utils';
 
 /** Average daily spend so far in the period (null for first 2 days to avoid noise). */
 export const selectAvgDaily = createSelector(

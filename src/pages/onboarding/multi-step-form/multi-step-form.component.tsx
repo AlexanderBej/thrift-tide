@@ -10,18 +10,16 @@ import StepTwo from './steps/step-two.component';
 import StepThree from './steps/step-three.component';
 import StepFour from './steps/step-four.component';
 import StepFive from './steps/step-five.component';
-import { AppDispatch } from '../../../store/store';
-import { selectAuthUser } from '../../../store/auth-store/auth.selectors';
-import { Currency, DEFAULT_LANGUAGE, Language } from '../../../api/types/settings.types';
-import Button from '../../../components-ui/button/button.component';
-import { DEFAULT_PERCENTS, PercentTriple } from '../../../api/types/percent.types';
-import { DEFAULT_START_DAY } from '../../../api/models/month-doc';
+import { Button } from '@shared/ui';
+import { selectAuthUser } from '@store/auth-store';
 import {
-  selectOnboardingSettings,
   selectSettingsStatus,
-} from '../../../store/settings-store/settings.selectors';
-import { completeOnboardingThunk } from '../../../store/settings-store/settings.slice';
-import { OnboardingData } from '../../../api/models/user';
+  selectOnboardingSettings,
+  completeOnboardingThunk,
+} from '@store/settings-store';
+import { AppDispatch } from '@store/store';
+import { DEFAULT_START_DAY, OnboardingData } from '@api/models';
+import { PercentTriple, Language, Currency, DEFAULT_PERCENTS, DEFAULT_LANGUAGE } from '@api/types';
 
 import './multi-step-form.styles.scss';
 

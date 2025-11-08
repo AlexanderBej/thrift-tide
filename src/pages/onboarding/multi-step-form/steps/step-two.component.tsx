@@ -2,11 +2,11 @@ import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
-import Select, { SelectOption } from '../../../../components-ui/select/select.component';
-import { Language } from '../../../../api/types/settings.types';
-import { AppDispatch } from '../../../../store/store';
-import { setLanguage } from '../../../../store/settings-store/settings.slice';
+import { Language } from '@api/types';
 import { MultiFormProp } from '../multi-step-form.component';
+import { Select, SelectOption } from '@shared/ui';
+import { setLanguage } from '@store/settings-store';
+import { AppDispatch } from '@store/store';
 
 const StepTwo: React.FC<MultiFormProp> = ({ formData, onChange }) => {
   const dispatch = useDispatch<AppDispatch>();

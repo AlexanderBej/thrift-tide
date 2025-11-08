@@ -1,11 +1,11 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectBudgetMonth } from '../../store/budget-store/budget.selectors.base';
-import { changeMonthThunk } from '../../store/budget-store/budget.slice';
-import { selectAuthUser } from '../../store/auth-store/auth.selectors';
-import { selectSettingsBudgetStartDay } from '../../store/settings-store/settings.selectors';
-import { representativeDateFromMonthKey } from '../../utils/period.util';
-import MonthPicker from '../../components-ui/datepicker/monthpicker.component';
+
+import { representativeDateFromMonthKey } from '@shared/utils';
+import { MonthPicker } from '@shared/ui';
+import { selectAuthUser } from '@store/auth-store';
+import { changeMonthThunk, selectBudgetMonth } from '@store/budget-store';
+import { selectSettingsBudgetStartDay } from '@store/settings-store';
 
 function toMonthKey(d: Date) {
   const y = d.getFullYear();

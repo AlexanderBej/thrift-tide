@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { RootState } from '../store';
-import { MonthDoc } from '../../api/models/month-doc';
-import { listMonthsWithSummary } from '../../api/services/budget.service';
-import { createAppAsyncThunk } from '../../api/types/store.types';
+import { MonthDoc } from '@api/models';
+import { listMonthsWithSummary } from '@api/services';
+import { createAppAsyncThunk } from '@api/types';
 
 export type HistoryRow = MonthDoc & { id: string; _cursor?: any };
 

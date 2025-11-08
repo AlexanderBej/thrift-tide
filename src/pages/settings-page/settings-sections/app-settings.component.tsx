@@ -4,14 +4,13 @@ import { useTranslation } from 'react-i18next';
 
 import Setting from '../setting/setting.component';
 import { SettingsSectionProps } from '../settings-shell.component';
+import { DEFAULT_THEME } from '@api/types';
+import { SelectOption, CheckboxInput, Select } from '@shared/ui';
 import {
   selectSettingsAppLanguage,
   selectSettingsAppTheme,
   selectSettingsStatus,
-} from '../../../store/settings-store/settings.selectors';
-import CheckboxInput from '../../../components-ui/checkbox-input/checkbox-input.component';
-import Select, { SelectOption } from '../../../components-ui/select/select.component';
-import { DEFAULT_THEME } from '../../../api/types/settings.types';
+} from '@store/settings-store';
 
 const AppSettings: React.FC<SettingsSectionProps> = ({
   formData,

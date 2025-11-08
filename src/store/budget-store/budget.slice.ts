@@ -1,25 +1,23 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from '../store';
-import { DEFAULT_START_DAY, MonthDoc } from '../../api/models/month-doc';
-import { Txn } from '../../api/models/txn';
-import { PercentTriple } from '../../api/types/percent.types';
-import { monthKey } from '../../utils/services.util';
+import { monthKey, monthKeyFromDate } from '@shared/utils';
+import { MonthDoc, Txn, DEFAULT_START_DAY } from '@api/models';
 import {
-  addTransaction,
-  computeMonthSummary,
-  createMonth,
   createOrUpdateMonth,
-  deleteTransaction,
+  startTxnsListener,
   onTransactionsSnapshot,
-  persistMonthSummary,
   readMonth,
   updateMonth,
+  createMonth,
+  persistMonthSummary,
+  stopTxnsListener,
+  addTransaction,
   updateTransaction,
-} from '../../api/services/budget.service';
-import { startTxnsListener, stopTxnsListener } from '../../api/services/firebase.service';
-import { monthKeyFromDate } from '../../utils/period.util';
-import { createAppAsyncThunk } from '../../api/types/store.types';
+  deleteTransaction,
+  computeMonthSummary,
+} from '@api/services';
+import { createAppAsyncThunk, PercentTriple } from '@api/types';
 
 // type Status = 'idle' | 'loading' | 'ready' | 'error';
 export type TxnTypeFilter = 'all' | 'needs' | 'wants' | 'savings';

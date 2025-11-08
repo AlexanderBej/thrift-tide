@@ -2,25 +2,21 @@ import React, { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
+import { BucketType } from '@api/types';
+import { getCssVar } from '@shared/utils';
+import { resolveCategory } from '@shared/utils';
+import { useWindowWidth } from '@shared/hooks';
+import { useFormatMoney } from '@shared/hooks';
+import { Donut, DonutItem, TrendLineChart } from '@shared/ui';
 import {
   makeSelectBucketPanel,
+  selectMonthTiming,
+  selectBadges,
   makeSelectBucketTrendsNivo,
   selectDashboardInsights,
-} from '../../store/budget-store/budget-insights.selectors';
-import { BucketType } from '../../api/types/bucket.types';
-import { selectMonthTiming } from '../../store/budget-store/budget-period.selectors';
-import { Donut, DonutItem } from '../../components-ui/charts/donut.component';
-import { getCssVar } from '../../utils/style-variable.util';
-import { BadgePills } from '../../components/badge-pills/badge-pills.component';
-import { selectBadges } from '../../store/budget-store/budget-badges.selectors';
-import TrendLineChart from '../../components-ui/charts/trend-line.component';
-import ForecastRow from '../../components/forecast-row/forecast-row.component';
-import DashboardInsights from '../../components/dashboard-insights/dashboard-insights.component';
-import { selectTopCategoriesOverall } from '../../store/budget-store/budget.selectors';
-import { resolveCategory } from '../../utils/category-options.util';
-import CategoryName from '../../components/category-name/category-name.component';
-import { useWindowWidth } from '../../utils/window-width.hook';
-import { useFormatMoney } from '../../utils/format-money.hook';
+  selectTopCategoriesOverall,
+} from '@store/budget-store';
+import { BadgePills, CategoryName, DashboardInsights, ForecastRow } from '@components';
 
 import './insights.styles.scss';
 

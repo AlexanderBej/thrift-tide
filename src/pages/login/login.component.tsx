@@ -3,11 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import { useSelector } from 'react-redux';
 
-import TTIcon from '../../components-ui/icon/icon.component';
-import Button from '../../components-ui/button/button.component';
-import { selectAuthStatus } from '../../store/auth-store/auth.selectors';
-import { ensureUserProfile, signInWithGooglePopup } from '../../api/services/auth.service';
-import { selectSettingOnboardingState } from '../../store/settings-store/settings.selectors';
+import { ensureUserProfile, signInWithGooglePopup } from '@api/services';
+import { Button, TTIcon } from '@shared/ui';
+import { selectAuthStatus } from '@store/auth-store';
+import { selectSettingOnboardingState } from '@store/settings-store';
 
 import './login.styles.scss';
 

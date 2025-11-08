@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
-import StartDayEditor from '../../../../components/start-day-editor/start-day-editor.component';
 import { MultiFormProp } from '../multi-step-form.component';
+import { StartDayEditor } from '@components';
 
 const StepFour: React.FC<MultiFormProp> = ({ formData, onChange }) => {
   const { t } = useTranslation('common');

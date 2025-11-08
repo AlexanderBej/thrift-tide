@@ -7,10 +7,9 @@ import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 
 import { TransactionFormData } from '../add-transaction-modal/add-transaction-modal.component';
-import { Bucket } from '../../api/types/bucket.types';
-import { SelectOption } from '../../components-ui/select/select.component';
-import { getCssVar } from '../../utils/style-variable.util';
-import TTIcon from '../../components-ui/icon/icon.component';
+import { Bucket } from '@api/types';
+import { getCssVar } from '@shared/utils';
+import { SelectOption, TTIcon } from '@shared/ui';
 
 import './type-box-selector.styles.scss';
 

@@ -15,8 +15,17 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": "src",
+    "paths": {
+      "@api/*": ["api/*"],
+      "@components": ["components/index.ts"],
+      "@pages": ["pages/index.ts"],
+      "@shared/*": ["shared/*"],
+      "@store/*": ["store/*"],
+      "@widgets": ["widgets/index.ts"]
+    },
+    "ignoreDeprecations": "6.0"
   },
   "include": ["src"]
-  // "exclude": ["src/service-worker.ts"]
 }

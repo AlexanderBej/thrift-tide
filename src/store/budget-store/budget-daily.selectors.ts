@@ -1,5 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { Bucket } from '../../api/types/bucket.types';
+import { Bucket } from '@api/types';
 import { selectBudgetTxns } from './budget.selectors.base';
 
 /** Helper: YYYY-MM-DD in UTC (stable across DST) */

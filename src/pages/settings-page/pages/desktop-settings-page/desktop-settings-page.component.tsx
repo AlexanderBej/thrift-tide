@@ -2,14 +2,14 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { selectAuthUser } from '../../../../store/auth-store/auth.selectors';
-import { selectSettingsAll } from '../../../../store/settings-store/settings.selectors';
-import { DEFAULT_THEME } from '../../../../api/types/settings.types';
+import { DEFAULT_THEME } from '@api/types';
 import BudgetSettings from '../../settings-sections/budget-settings.component';
 import AppSettings from '../../settings-sections/app-settings.component';
 import { SettingsFormData } from '../../settings-shell.component';
 import { useSettingsForm } from '../../use-settings-form.hook';
 import ProfileSettings from '../../settings-sections/profile-settings.component';
+import { selectAuthUser } from '@store/auth-store';
+import { selectSettingsAll } from '@store/settings-store';
 
 import './desktop-settings-page.styles.scss';
 

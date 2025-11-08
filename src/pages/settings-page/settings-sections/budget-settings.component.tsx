@@ -4,17 +4,14 @@ import { useTranslation } from 'react-i18next';
 
 import Setting from '../setting/setting.component';
 import { SettingsSectionProps } from '../settings-shell.component';
+import { PercentsSelectors, StartDayEditor } from '@components';
+import { CheckboxInput, InfoPopover, Select, SelectOption } from '@shared/ui';
 import {
+  selectSettingsDefaultPercents,
   selectSettingsBudgetStartDay,
   selectSettingsCurrency,
-  selectSettingsDefaultPercents,
   selectSettingsStatus,
-} from '../../../store/settings-store/settings.selectors';
-import PercentsSelectors from '../../../components/percents-selectors/percents-selectors.component';
-import CheckboxInput from '../../../components-ui/checkbox-input/checkbox-input.component';
-import Select, { SelectOption } from '../../../components-ui/select/select.component';
-import StartDayEditor from '../../../components/start-day-editor/start-day-editor.component';
-import Popover from '../../../components-ui/info-popover/info-popover.component';
+} from '@store/settings-store';
 
 interface BudgetSettingsProps extends SettingsSectionProps {
   applyToCurrentMonth: boolean;
@@ -100,12 +97,12 @@ const BudgetSettings: React.FC<BudgetSettingsProps> = ({
               onChange={(e) => setApplyToCurrentMonth(e.target.checked)}
             />
 
-            <Popover position={'right'}>
+            <InfoPopover position={'right'}>
               <span>
                 {t('pageContent.settings.percents.popover') ??
                   'By checking this, the new percentages will apply from this month onwards, affecting your current budget as well.'}
               </span>
-            </Popover>
+            </InfoPopover>
           </div>
         </>
       </Setting>

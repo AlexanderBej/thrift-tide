@@ -1,14 +1,17 @@
 import './i18n/i18n';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { store } from './store/store';
+
+import { initTheme } from '@shared/utils';
 import * as serviceWorkerRegistration from './service-worker-registration';
-import { initTheme } from './utils/theme.util';
+import { store } from './store/store';
+import reportWebVitals from './reportWebVitals';
+import App from './App';
+
+import './index.css';
+
 initTheme();
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);

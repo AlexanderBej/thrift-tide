@@ -3,24 +3,25 @@ import { Toaster } from 'react-hot-toast';
 import { Route, Routes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import Layout from './pages/layout/layout.component';
-import Dashboard from './pages/dashboard/dashboard.component';
-import Transaction from './pages/transactions/transactions.component';
-import SettingsShell from './pages/settings-page/settings-shell.component';
-import Login from './pages/login/login.component';
-import ProtectedRoute from './utils/protected-route.util';
 import { AppDispatch } from './store/store';
-import { initApp } from './utils/app-init.util';
-import History from './pages/history/history.component';
-import Insights from './pages/insights/insights.component';
-import BucketsPage from './pages/buckets/buckets.component';
-import BucketPage from './pages/bucket/bucket.components';
-import { useSystemTheme } from './utils/system-theme.hook';
-import Onboarding from './pages/onboarding/onboarding.component';
-import ProfilePage from './pages/settings-page/pages/profile-page/profile-page.component';
-import BudgetPage from './pages/settings-page/pages/budget-page/budget-page.component';
-import AppPreferencesPage from './pages/settings-page/pages/app-preferences-page/app-preferences-page.component';
-import SettingsLayout from './pages/settings-page/settings-layout.component';
+import { useSystemTheme } from '@shared/hooks';
+import { initApp, ProtectedRoute } from '@shared/providers';
+import {
+  AppPreferencesPage,
+  BucketPage,
+  History,
+  BucketsPage,
+  BudgetPage,
+  Dashboard,
+  Insights,
+  Layout,
+  Login,
+  Onboarding,
+  ProfilePage,
+  SettingsLayout,
+  SettingsShell,
+  Transaction,
+} from '@pages';
 
 import './App.scss';
 

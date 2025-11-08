@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import DashboardCards from '../../components/dashboard-cards/dashboard-cards.component';
+import { DashboardCards } from '@components';
 
 import './buckets.styles.scss';
 

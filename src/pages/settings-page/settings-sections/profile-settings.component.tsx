@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 
 import Setting from '../setting/setting.component';
 import { SettingsSectionProps } from '../settings-shell.component';
-import { selectAuthLoading, selectAuthUser } from '../../../store/auth-store/auth.selectors';
-import FormInput from '../../../components-ui/form-input/form-input.component';
+import { FormInput } from '@shared/ui';
+import { selectAuthUser, selectAuthLoading } from '@store/auth-store';
 
 const ProfileSettings: React.FC<SettingsSectionProps> = ({
   formData,

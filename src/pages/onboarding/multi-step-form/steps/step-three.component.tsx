@@ -3,11 +3,11 @@ import { Trans } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { FormPercentsProp } from '../multi-step-form.component';
-import PercentsSelectors from '../../../../components/percents-selectors/percents-selectors.component';
-import { PercentTriple } from '../../../../api/types/percent.types';
-import Button from '../../../../components-ui/button/button.component';
-import { selectSettingsDefaultPercents } from '../../../../store/settings-store/settings.selectors';
-import { getCssVar } from '../../../../utils/style-variable.util';
+import { PercentTriple } from '@api/types';
+import { getCssVar } from '@shared/utils';
+import { Button } from '@shared/ui';
+import { selectSettingsDefaultPercents } from '@store/settings-store';
+import { PercentsSelectors } from '@components';
 
 const StepThree: React.FC<FormPercentsProp> = ({ formData, onPercentsChange }) => {
   const percents = useSelector(selectSettingsDefaultPercents);

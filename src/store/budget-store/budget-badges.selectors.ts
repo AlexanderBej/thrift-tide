@@ -1,9 +1,10 @@
 import { createSelector } from '@reduxjs/toolkit';
-import type { Bucket } from '../../api/types/bucket.types';
+
 import { selectTotals } from './budget.selectors';
 import { selectBurnVsPace } from './budget-insights.selectors';
 import { selectMonthTiming } from './budget-period.selectors';
-import { Badge } from '../../api/models/badges';
+import { Badge } from '@api/models';
+import { Bucket } from '@api/types';
 
 const OVERPACE = 0.1;
 const HIGH_OVERPACE = 0.15;

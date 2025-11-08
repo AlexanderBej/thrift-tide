@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { MinimalUser, UserProfile } from '../../api/models/user';
-import { createAppAsyncThunk } from '../../api/types/store.types';
-import { updateUserDisplayName } from '../../api/services/auth.service';
+import { MinimalUser, UserProfile } from '@api/models';
+import { updateUserDisplayName } from '@api/services';
+import { createAppAsyncThunk } from '@api/types';
 
 interface AuthState {
   user: null | MinimalUser;

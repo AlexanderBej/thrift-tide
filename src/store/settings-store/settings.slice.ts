@@ -1,28 +1,29 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { clamp } from '@shared/utils';
+import { setPercentsThunk } from '../budget-store/budget.slice';
+import { DEFAULT_START_DAY, OnboardingData } from '@api/models';
 import {
-  completeOnboarding,
   readUserProfile,
+  completeOnboarding,
+  upsertUserStartDay,
   upsertAppLanguage,
   upsertAppTheme,
-  upsertCurrency,
   upsertDefaultPercents,
-  upsertUserStartDay,
-} from '../../api/services/settings.service';
-import { DEFAULT_START_DAY } from '../../api/models/month-doc';
-import { clamp } from '../../utils/services.util';
+  upsertCurrency,
+} from '@api/services';
 import {
-  Currency,
-  DEFAULT_CURRENCY,
-  DEFAULT_LANGUAGE,
-  DEFAULT_THEME,
   Language,
   Theme,
-} from '../../api/types/settings.types';
-import { DEFAULT_PERCENTS, PercentTriple } from '../../api/types/percent.types';
-import { OnboardingData } from '../../api/models/user';
-import { createAppAsyncThunk, StoreStatus } from '../../api/types/store.types';
-import { setPercentsThunk } from '../budget-store/budget.slice';
+  Currency,
+  PercentTriple,
+  StoreStatus,
+  DEFAULT_PERCENTS,
+  createAppAsyncThunk,
+  DEFAULT_LANGUAGE,
+  DEFAULT_CURRENCY,
+  DEFAULT_THEME,
+} from '@api/types';
 
 type SettingsState = {
   startDay: number; // 1..28

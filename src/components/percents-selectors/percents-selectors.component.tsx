@@ -1,11 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { getCssVar } from '../../utils/style-variable.util';
-import FormInput from '../../components-ui/form-input/form-input.component';
-import { Donut, DonutItem } from '../../components-ui/charts/donut.component';
-import { useWindowWidth } from '../../utils/window-width.hook';
-import { PercentTriple } from '../../api/types/percent.types';
+import { getCssVar } from '@shared/utils';
+import { useWindowWidth } from '@shared/hooks';
+import { PercentTriple } from '@api/types';
+import { Donut, DonutItem, FormInput } from '@shared/ui';
 
 import './percents-selectors.styles.scss';
 

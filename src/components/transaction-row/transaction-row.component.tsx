@@ -2,13 +2,12 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { enUS } from 'date-fns/locale';
 
-import { LOCALE_MAP, makeFormatter, toYMD } from '../../utils/format-data.util';
-import { Txn } from '../../api/models/txn';
-import { CategoryOption } from '../../api/models/category-option';
+import { LOCALE_MAP, makeFormatter, toYMD } from '@shared/utils';
+import { Txn, CategoryOption } from '@api/models';
 import CategoryName from '../category-name/category-name.component';
-import { useWindowWidth } from '../../utils/window-width.hook';
-import ExpansionRow from '../../components-ui/expansion-row/expansion-row.component';
-import { useFormatMoney } from '../../utils/format-money.hook';
+import { useWindowWidth } from '@shared/hooks';
+import { useFormatMoney } from '@shared/hooks';
+import { ExpansionRow } from '@shared/ui';
 
 import './transaction-row.styles.scss';
 

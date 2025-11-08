@@ -1,14 +1,14 @@
 import { Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { selectSettingsAll } from '../../store/settings-store/settings.selectors';
-import { selectAuthUser } from '../../store/auth-store/auth.selectors';
-import { DEFAULT_THEME } from '../../api/types/settings.types';
+import { DEFAULT_THEME } from '@api/types';
 import { SettingsFormProvider } from './settings-form-context';
-import { useLayoutTitle } from '../../utils/use-layout-title.hook';
+import { Breadcrumbs } from '@shared/ui';
+import { useLayoutTitle } from '@shared/hooks';
+import { selectAuthUser } from '@store/auth-store';
+import { selectSettingsAll } from '@store/settings-store';
 
 import './settings-layout.styles.scss';
-import Breadcrumbs from '../../components-ui/breadcrumb/breadcrumb.component';
 
 const SettingsLayout: React.FC = () => {
   const user = useSelector(selectAuthUser);

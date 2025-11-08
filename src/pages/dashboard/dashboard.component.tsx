@@ -3,22 +3,18 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { selectAuthUser } from '../../store/auth-store/auth.selectors';
-import { selectSpentByBucket } from '../../store/budget-store/budget.selectors';
-import Button from '../../components-ui/button/button.component';
-import DoubleDonutChart, {
-  DoubleDonutItem,
-} from '../../components-ui/charts/double-donut.component';
-import { BUCKET_COLORS } from '../../api/types/bucket.types';
-import { selectDashboardInsights } from '../../store/budget-store/budget-insights.selectors';
-import DashboardInsights from '../../components/dashboard-insights/dashboard-insights.component';
-import { selectBadges } from '../../store/budget-store/budget-badges.selectors';
-import { BadgePills } from '../../components/badge-pills/badge-pills.component';
-import { useWindowWidth } from '../../utils/window-width.hook';
-import { selectBudgetDoc } from '../../store/budget-store/budget.selectors.base';
-import DashboardCards from '../../components/dashboard-cards/dashboard-cards.component';
-import AddIncome from '../../components/add-income-modal/add-income-modal.component';
-import { useFormatMoney } from '../../utils/format-money.hook';
+import { BUCKET_COLORS } from '@api/types';
+import { useWindowWidth } from '@shared/hooks';
+import { useFormatMoney } from '@shared/hooks';
+import { Button, DoubleDonutChart, DoubleDonutItem } from '@shared/ui';
+import { selectAuthUser } from '@store/auth-store';
+import {
+  selectBudgetDoc,
+  selectSpentByBucket,
+  selectDashboardInsights,
+  selectBadges,
+} from '@store/budget-store';
+import { AddIncome, BadgePills, DashboardCards, DashboardInsights } from '@components';
 
 import './dashboard.styles.scss';
 

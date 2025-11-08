@@ -2,9 +2,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 
-import ConfirmationModal from '../../../components/confirmation-modal/confirmation-modal.component';
-import Button from '../../../components-ui/button/button.component';
-import InfoPopover from '../../../components-ui/info-popover/info-popover.component';
+import { Button, InfoPopover } from '@shared/ui';
+import { ConfirmationModal } from '@components';
 
 import './setting.styles.scss';
 

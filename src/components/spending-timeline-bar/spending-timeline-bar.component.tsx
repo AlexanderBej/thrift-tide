@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { enUS } from 'date-fns/locale';
 import clsx from 'clsx';
 
-import { fmtToDEM, LOCALE_MAP, makeFormatter } from '../../utils/format-data.util';
+import { fmtToDEM, LOCALE_MAP, makeFormatter } from '@shared/utils';
 
 import './spending-timeline-bar.styles.scss';
 
@@ -15,7 +15,7 @@ interface SpendingTimelineBarProps {
   isInForecast?: boolean;
 }
 
-export const SpendingTimelineBar: React.FC<SpendingTimelineBarProps> = ({
+const SpendingTimelineBar: React.FC<SpendingTimelineBarProps> = ({
   periodStart,
   periodEnd,
   runOutDate,
@@ -63,3 +63,5 @@ export const SpendingTimelineBar: React.FC<SpendingTimelineBarProps> = ({
     </div>
   );
 };
+
+export default SpendingTimelineBar;
