@@ -72,7 +72,6 @@
       &:checked {
         @include themed(background-color, color-bg-main, $color-bg-main);
         @include themed(border-color, color-bg-main, $color-bg-main);
-        // background: var(--switch-on, #22c55e);
       }
       &:checked::after {
         transform: translateX(36px);

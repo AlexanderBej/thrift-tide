@@ -35,8 +35,6 @@ const StepThree: React.FC<FormPercentsProp> = ({ formData, onPercentsChange }) =
   };
 
   const getDonutPercentage = () => {
-    // const pct = getTotalPercent();
-
     return {
       value: total * 100,
       color: getCssVar(`--${getPctColor(total * 100)}`),
@@ -76,7 +74,6 @@ const StepThree: React.FC<FormPercentsProp> = ({ formData, onPercentsChange }) =
             htmlType="button"
             disabled={isResetDisabled()}
             onClick={handleReset}
-            // customContainerClass="reset-percents-btn"
             isSmall={true}
           >
             <span>Reset percents</span>

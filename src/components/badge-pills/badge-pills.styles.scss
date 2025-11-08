@@ -15,7 +15,6 @@
     padding: 6px 10px;
     font-size: 0.85rem;
     background: #f4f5f7;
-    // color: ;
     @include themed(color, color-text-secondary, $color-text-secondary);
     display: flex;
     gap: $spacing-2;
@@ -35,19 +34,16 @@
 
     &__warn {
       background: rgba($color: $color-warning, $alpha: 0.3);
-      // background: #fff4e5;
       border-color: $color-warning;
     }
 
     &__danger {
       background: rgba($color: $color-error, $alpha: 0.3);
-      // background: #ffe9e9;
       border-color: $color-error;
     }
 
     &__info {
       background: rgba($color: $color-secondary, $alpha: 0.3);
-      // background: #eaf3ff;
       border-color: $color-secondary;
     }
 

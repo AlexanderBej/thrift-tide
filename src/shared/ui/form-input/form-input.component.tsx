@@ -26,7 +26,7 @@ interface FormInputProps {
   passwordField?: PasswordFieldVisibility;
   maxLength?: number;
   numberMaxDecimals?: 0 | 1 | 2 | 3 | 4;
-  errors?: string;
+  errors?: string | null;
   customClassName?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;

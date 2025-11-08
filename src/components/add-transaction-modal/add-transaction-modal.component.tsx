@@ -163,7 +163,7 @@ const AddTransaction: React.FC<AddTransactionProps> = ({ buttonShape = 'rounded'
               inputType="number"
               name="amount"
               prefix="euro"
-              errors={t(errors.amount ?? '') ?? ''}
+              errors={errors.amount ? t(errors.amount) : ''}
               value={formData.amount}
               onChange={handleChange}
               required
@@ -190,7 +190,7 @@ const AddTransaction: React.FC<AddTransactionProps> = ({ buttonShape = 'rounded'
             inputType="textarea"
             name="note"
             value={formData.note ?? ''}
-            errors={t(errors.note ?? '') ?? ''}
+            errors={errors.note ? t(errors.note) : ''}
             onChange={handleChange}
           />
 

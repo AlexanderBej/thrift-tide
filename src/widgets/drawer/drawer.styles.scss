@@ -14,10 +14,6 @@
     background: rgba(0, 0, 0, 0.4);
     opacity: 0;
     transition: opacity $transition-normal;
-
-    // &__open {
-    //   opacity: 1;
-    // }
   }
 
   .panel {
@@ -31,7 +27,6 @@
     border-top-right-radius: $radius-lg;
     border-bottom-right-radius: $radius-lg;
 
-    // background: #0b0c0f;
     border-right: 1px solid rgba(255, 255, 255, 0.08);
 
     transform: translateX(-100%);

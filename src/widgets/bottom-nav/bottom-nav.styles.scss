@@ -21,11 +21,6 @@
     margin-top: 10px;
     border-top-left-radius: $radius-md;
     border-top-right-radius: $radius-md;
-
-    // .fab {
-    //   @include themed(background, color-bg-main, $color-bg-main);
-    //   padding: 10px;
-    // }
   }
 
   .nav-links {
@@ -39,6 +34,16 @@
     .inline {
       display: inline-flex;
       gap: 10px;
+
+      .open-drawer-btn-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .open-drawer-btn {
+          width: 100%;
+        }
+      }
     }
 
     .fab {
@@ -60,7 +65,7 @@
       width: 70px;
 
       .nav-link {
-        height: 66px;
+        height: 56px;
         display: flex;
         align-items: center;
         justify-content: center;

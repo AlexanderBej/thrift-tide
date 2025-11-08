@@ -36,7 +36,7 @@ function App() {
   const systemTheme = useSystemTheme();
 
   useEffect(() => {
-    console.log('User prefers', systemTheme);
+    console.log('User prefers theme', systemTheme);
   }, [systemTheme]);
 
   window.addEventListener('pwa:update-available', (e: Event) => {

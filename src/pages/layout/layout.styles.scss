@@ -1,108 +1,7 @@
 @use '../../styles/tokens.scss' as *;
 
-$main-container-spacing: 0 30px 0 40px;
-
-// .main-layout {
-//   display: flex;
-//   align-items: center;
-//   flex-direction: row;
-//   flex-wrap: nowrap;
-
-//   // mobile styling
-//   @include mediaDown(md) {
-//     display: block;
-//     /* Fallbacks for older browsers */
-//     min-height: 100vh; /* last resort */
-//     min-height: 100svh; /* small viewport height */
-//     min-height: 100dvh; /* dynamic: matches what the user actually sees */
-//     max-height: 100vh;
-//     max-height: 100svh;
-//     max-height: 100dvh;
-
-//     /* iOS < 16 fallback */
-//     height: -webkit-fill-available;
-
-//     padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
-//   }
-
-//   .main-outlet {
-//     height: 100vh;
-//     min-height: 100vh;
-//     max-height: 100vh;
-//     flex: 1;
-//     display: flex;
-//     flex-direction: column;
-//     overflow: hidden;
-//     max-width: 1100px;
-
-//     .page-header {
-//       height: 100px;
-//       display: flex;
-//       align-items: center;
-//       justify-content: space-between;
-//       padding: $main-container-spacing;
-
-//       @include mediaDown(md) {
-//         height: 70px;
-//         padding: 0 $spacing-4;
-//       }
-
-//       .page-title-container {
-//         display: inline-flex;
-//         align-items: center;
-//         gap: 50px;
-
-//         @include mediaDown(md) {
-//           width: 100%;
-//           justify-content: space-between;
-//         }
-
-//         .page-title {
-//           @include mediaDown(md) {
-//             font-size: 24px;
-//           }
-//         }
-
-//         .page-header-monthpicker {
-//           width: 220px;
-//         }
-//       }
-//       .page-user-dropdown {
-//         @include mediaDown(md) {
-//           display: none;
-//         }
-//       }
-//     }
-
-//     .outlet-container {
-//       flex: 1;
-//       margin: $main-container-spacing;
-//       margin-bottom: 30px;
-//       height: calc(100% - 100px);
-//       overflow: auto;
-
-//       @include mediaDown(md) {
-//         margin: 0 $spacing-4;
-//         margin-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
-//         position: relative;
-//         padding-bottom: 20px;
-//       }
-//     }
-
-//     .floater {
-//       position: absolute;
-//       bottom: 30px;
-//       right: 30px;
-
-//       @include mediaDown(md) {
-//         bottom: calc(66px + env(safe-area-inset-bottom, 0px));
-//       }
-//     }
-//   }
-// }
-
 .main-layout {
-  height: 100vh;
+  height: 100dvh;
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -114,57 +13,18 @@ $main-container-spacing: 0 30px 0 40px;
   }
 
   .main-outlet {
-    height: 100%;
+    height: 100dvh;
     flex: 1;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     max-width: 1100px;
 
-    // .main-header {
-    //   height: 100px;
-    //   display: flex;
-    //   align-items: center;
-    //   justify-content: space-between;
-    //   padding: $main-container-spacing;
-    //   @include mediaDown(md) {
-    //     height: 70px;
-    //     padding: 0 $spacing-4;
-    //   }
-
-    //   .page-title-container {
-    //     display: inline-flex;
-    //     align-items: center;
-    //     gap: 50px;
-
-    //     @include mediaDown(md) {
-    //       width: 100%;
-    //       justify-content: space-between;
-    //     }
-
-    //     .page-title {
-    //       @include mediaDown(md) {
-    //         font-size: 24px;
-    //       }
-    //     }
-
-    //     .page-header-monthpicker {
-    //       width: 220px;
-    //     }
-    //   }
-    //   // .page-user-dropdown {
-    //   //   @include mediaDown(md) {
-    //   //     display: none;
-    //   //   }
-    //   // }
-    // }
-
     .outlet-container {
-      flex: 1;
-      margin: $main-container-spacing;
-      margin-bottom: 30px;
-      height: calc(100% - 100px);
+      flex: 1 1 auto;
+      min-height: 0; /* IMPORTANT: allow child to be smaller than content */
       overflow: auto;
+      margin: 30px 30px 30px 40px;
 
       @include mediaDown(md) {
         margin: 0 $spacing-4;
@@ -172,9 +32,6 @@ $main-container-spacing: 0 30px 0 40px;
         position: relative;
         padding-bottom: 20px;
       }
-    }
-
-    .main-nav {
     }
   }
 }

@@ -89,7 +89,6 @@ const Dashboard: React.FC = () => {
           <DoubleDonutChart data={items} height={isMobile ? 150 : 260} />
         </div>
         <div className="dashboard-cat-percentages">
-          {/* <Button buttonType='primary' htmlType='button' onClick={} */}
           <AddIncome />
           <div className="cat-percentage-line">
             <span className="dashboard-category" style={{ color: BUCKET_COLORS.needs }}>

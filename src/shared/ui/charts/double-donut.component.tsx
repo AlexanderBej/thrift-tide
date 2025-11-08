@@ -1,7 +1,6 @@
 import React from 'react';
 import { ComputedDatum, ResponsivePie } from '@nivo/pie';
 import { nivoThemeBuilder } from './charts.theme';
-// import { formatCurrency } from '../../utils/format-currency.util';
 import PieOverlay from './donut-overlay.component';
 
 export type DoubleDonutItem = {

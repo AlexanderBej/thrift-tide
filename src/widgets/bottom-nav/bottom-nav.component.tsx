@@ -57,8 +57,8 @@ const BottomNav: React.FC = () => {
           </li>
           <div className="inline">
             {getNavItem(insights)}
-            <li>
-              <button className="nav-link" onClick={() => handleDrawerOpen()}>
+            <li className="open-drawer-btn-container">
+              <button className="nav-link open-drawer-btn" onClick={() => handleDrawerOpen()}>
                 <TTIcon icon={CiCircleMore} size={24} color={getCssVar('--color-text-primary')} />
               </button>
             </li>

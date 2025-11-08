@@ -22,7 +22,6 @@
       align-items: center;
       justify-content: center;
       border-radius: $radius-sm;
-      // box-shadow: $shadow-md;
     }
   }
 
@@ -142,7 +141,6 @@
 
     .bucket-transactions-section {
       grid-area: 4 / 1 / 5 / 3;
-      // @include themed(color, color-text-primary, $color-text-primary);
 
       @include mediaDown(md) {
         grid-area: 5 / 1 / 6 / 2;

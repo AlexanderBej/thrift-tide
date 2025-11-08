@@ -29,10 +29,6 @@ const Drawer: React.FC = () => {
       <div className="panel">
         <div className="logo-row">
           <Logo className="logo" height={80} />
-
-          {/* <button onClick={onClose} aria-label="Close menu" className="close-drawer-btn">
-            <TTIcon icon={MdKeyboardDoubleArrowLeft} size={32} />
-          </button> */}
         </div>
         <hr />
         <SidebarContent />

@@ -34,10 +34,6 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    // This action can be used to rehydrate the token on app load
-    // setToken: (state, action: PayloadAction<string>) => {
-    //   state.token = action.payload;
-    // },
     userSignedIn(state, action: PayloadAction<MinimalUser>) {
       state.status = 'authenticated';
       state.user = action.payload;

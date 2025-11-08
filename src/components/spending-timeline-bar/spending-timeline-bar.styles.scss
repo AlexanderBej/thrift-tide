@@ -10,7 +10,6 @@
     height: 16px;
     border-radius: 999px;
     @include themed(background, color-neutral-light, $color-neutral-light);
-    // background: var(--grid, #e6ebef);
     overflow: hidden;
 
     .elapsed {

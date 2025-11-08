@@ -14,9 +14,7 @@
   .dashboard-card {
     border: 1px solid;
     @include themed(border-color, color-neutral, $color-neutral);
-    // border-left: 4px solid transparent;
     border-radius: $radius-md;
-    // box-shadow: $shadow-md;
     padding: $spacing-4;
     transition:
       border-color $transition-normal,

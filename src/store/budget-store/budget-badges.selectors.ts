@@ -26,7 +26,6 @@ export const selectBadges = createSelector(
           text: 'Wants over budget',
           kind: 'danger',
           scope: 'wants',
-          // translation:
         });
       }
     }

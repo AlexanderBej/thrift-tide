@@ -9,7 +9,6 @@ import { toMillisSafe } from '@shared/utils';
 /** All transactions that fall inside the current [periodStart, periodEnd). */
 export const selectTxnsInPeriod = createSelector([selectBudgetTxns, selectMonthTiming], (txns, t) =>
   txns.filter((x) => {
-    // const d = x.date as unknown as Date; // services should normalize to Date
     const d = new Date(x.date); // services should normalize to Date
     return d >= t.periodStart && d < t.periodEnd;
   }),

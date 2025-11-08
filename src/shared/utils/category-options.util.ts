@@ -216,8 +216,6 @@ export function resolveCategory(input: string): CategoryOption {
       icon: byValue.icon,
       color: getCategoryColor(byValue.value),
       i18nLabel: byValue.i18nLabel,
-      // type: byValue.type,
-      // isCustom: false,
     };
   }
 
@@ -230,8 +228,6 @@ export function resolveCategory(input: string): CategoryOption {
       icon: byLabel.icon,
       color: getCategoryColor(byLabel.value),
       i18nLabel: byLabel.i18nLabel,
-      // type: byLabel.type,
-      // isCustom: false,
     };
   }
 
@@ -242,7 +238,6 @@ export function resolveCategory(input: string): CategoryOption {
     icon: TbCategory, // generic icon
     color: getCategoryColor(input),
     i18nLabel: input,
-    // isCustom: true,
   };
 }
 

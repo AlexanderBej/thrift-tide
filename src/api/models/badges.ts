@@ -7,5 +7,4 @@ export type Badge = {
   text: string;
   kind: BadgeKind;
   scope?: 'total' | Bucket;
-  // translation?: { bucket: string; text: string };
 };

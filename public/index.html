@@ -44,7 +44,6 @@
           if (link)
             link.href = theme === 'dark' ? '%PUBLIC_URL%/dark.css' : '%PUBLIC_URL%/light.css';
           document.documentElement.setAttribute('data-theme', theme);
-          console.log('[theme-boot] theme:', theme);
         } catch (e) {
           console.warn('[theme-boot] failed:', e);
         }

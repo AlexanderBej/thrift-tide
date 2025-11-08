@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { useWindowWidth } from '@shared/hooks';
 import { PageSpinner } from '@shared/ui';
 import { selectAppBootState } from '@store/app.selectors';
-import { Drawer, LayoutHeader, Sidebar, BottomNav } from '@widgets';
+import { Drawer, TopNav, Sidebar, BottomNav } from '@widgets';
 
 import './layout.styles.scss';
 
@@ -15,6 +15,8 @@ const Layout: React.FC = () => {
 
   const width = useWindowWidth();
   const isMobile = width < 480;
+
+  const outletScrollRef = useRef<HTMLDivElement>(null); // 👈 add
 
   const hideSettingsOnMobile = () => {
     return isMobile && location.pathname.includes('settings');
@@ -27,15 +29,12 @@ const Layout: React.FC = () => {
           <PageSpinner />
         ) : (
           <>
-            {!hideSettingsOnMobile() && <LayoutHeader />}
+            {!hideSettingsOnMobile() && <TopNav scrollTargetRef={outletScrollRef} />}
             <Drawer />
-            <main className="outlet-container">
+            <main className="outlet-container" ref={outletScrollRef}>
               <Outlet />
             </main>
             <BottomNav />
-            {/* <div className="floater">
-              <AddTransaction />
-            </div> */}
           </>
         )}
       </div>

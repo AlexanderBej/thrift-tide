@@ -1,0 +1,133 @@
+@use '../../styles/tokens' as *;
+
+$h-row1: 56px;
+$h-row1-condensed: 44px;
+$h-row2: 44px;
+$h-desktop: 72px;
+
+.main-header {
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  // background: var(--elev-1, #fff);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  transition:
+    transform $transition-fast,
+    height $transition-fast,
+    box-shadow $transition-fast;
+
+  --header-h: calc(var(--row1-h) + var(--row2-h));
+
+  max-width: 1100px; /* match your main-outlet width */
+  margin: 0 auto; /* center it */
+  width: 100%; /* ensure it spans full area */
+
+  &.is-elevated {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  }
+
+  /* MOBILE */
+  &.main-header--mobile {
+    --row1-h: #{$h-row1};
+    --row2-h: #{$h-row2};
+
+    backdrop-filter: saturate(180%) blur(10px);
+    -webkit-backdrop-filter: saturate(180%) blur(10px);
+
+    .row1 {
+      height: var(--row1-h);
+      display: grid;
+      grid-template-columns: 100px 1fr 100px;
+      align-items: center;
+      padding: $spacing-4;
+      transition: height $transition-fast;
+
+      .user-btn {
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
+
+    .row2 {
+      height: var(--row2-h);
+      width: 230px;
+      margin: 0 auto $spacing-3;
+    }
+
+    .page-title {
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      @include mediaDown(md) {
+        font-size: 18px;
+        text-align: center;
+      }
+    }
+
+    &.is-condensed {
+      --row1-h: #{$h-row1-condensed};
+      .page-title {
+        font-size: 0.95rem;
+        grid-column: 2;
+      }
+
+      .logo,
+      .user-btn {
+        display: none;
+      }
+    }
+
+    &.is-hidden {
+      transform: translateY(calc(-1 * var(--header-h)));
+    }
+  }
+
+  /* DESKTOP */
+  &.main-header--desktop {
+    height: $h-desktop;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 10px 24px;
+
+    --header-h: #{$h-desktop};
+
+    .page-title-container {
+      display: inline-flex;
+      align-items: center;
+      gap: 50px;
+
+      @include mediaDown(md) {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .page-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        @include mediaDown(md) {
+          font-size: 18px;
+        }
+      }
+
+      .page-header-monthpicker {
+        width: 220px;
+      }
+    }
+  }
+}
+
+/* Spacer reserves the header’s layout height when visible */
+.main-header + .main-header-spacer {
+  height: var(--header-h);
+  transition: height $transition-fast;
+  display: block;
+  flex: 0 0 auto;
+  border-top: 1px solid transparent;
+}
+
+/* When hidden, collapse the spacer (content expands) */
+.main-header.is-hidden + .main-header-spacer {
+  height: 0;
+}
