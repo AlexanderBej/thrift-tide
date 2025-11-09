@@ -53,7 +53,7 @@ const BottomNav: React.FC = () => {
           </div>
 
           <li className="fab">
-            <AddTransaction />
+            <AddTransaction buttonShape="rounded" showLabel={false} />
           </li>
           <div className="inline">
             {getNavItem(insights)}
