@@ -87,9 +87,10 @@ $h-desktop: 72px;
   &.main-header--desktop {
     height: $h-desktop;
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr 200px auto;
     align-items: center;
     padding: 10px 24px;
+    gap: 50px;
 
     --header-h: #{$h-desktop};
 

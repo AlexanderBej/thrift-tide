@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import clsx from 'clsx';
 
-import { PeriodSwitcherMonthPicker, UserDropdown } from '@components';
+import { AddTransaction, PeriodSwitcherMonthPicker, UserDropdown } from '@components';
 import { ReactComponent as Logo } from '../../assets/logo.svg';
 import { useHideOnScroll, useLayoutTitle } from '@shared/hooks';
 
@@ -80,6 +80,7 @@ const TopNav: React.FC<TopNavProps> = ({ scrollTargetRef }) => {
               <h1 className="page-title">{title}</h1>
               <PeriodSwitcherMonthPicker className="page-header-monthpicker" />
             </div>
+            <AddTransaction />
             <div className="page-user-dropdown">
               <UserDropdown />
             </div>

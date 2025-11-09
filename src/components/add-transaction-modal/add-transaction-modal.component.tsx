@@ -27,7 +27,7 @@ interface AddTransactionProps {
   buttonShape?: 'square' | 'rounded';
 }
 
-const AddTransaction: React.FC<AddTransactionProps> = ({ buttonShape = 'rounded' }) => {
+const AddTransaction: React.FC<AddTransactionProps> = ({ buttonShape = 'square' }) => {
   const { t } = useTranslation(['common', 'budget']);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -146,6 +146,9 @@ const AddTransaction: React.FC<AddTransactionProps> = ({ buttonShape = 'rounded'
       >
         <>
           <TTIcon className="add-txn-icon" icon={FaPlus} size={18} />
+          <span className="add-txn-label">
+            {t('budget:modals.addTransaction') ?? 'Add Transaction'}
+          </span>
         </>
       </Button>
 

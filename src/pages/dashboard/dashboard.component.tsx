@@ -68,10 +68,10 @@ const Dashboard: React.FC = () => {
   return (
     <div className="dashboard-page">
       <section className="dashboard-intro-section">
-        <h1 className="dashboard-intro-header">
-          {t('hi') ?? 'Hi'}, {getFirstName(user?.displayName ?? '')} 👋
-        </h1>
-        <div className="dashboard-income-wrapper">
+        <div className="dashboard-intro-wrapper">
+          <h1 className="dashboard-intro-header">
+            {t('hi') ?? 'Hi'}, {getFirstName(user?.displayName ?? '')} 👋
+          </h1>
           <div className="total-income-container">
             <span className="total-income-label">{t('budget:income') ?? 'Income'}</span>
             <h2 className="total-income-value">{fmt(budgetDoc?.income)}</h2>
@@ -83,13 +83,16 @@ const Dashboard: React.FC = () => {
             <h2 className="total-income-value">{fmt(insights.totals.totalRemaining)}</h2>
           </div>
         </div>
+        <div className="add-income-wrapper">
+          <AddIncome />
+        </div>
       </section>
       <section className="dashboard-pie-section">
         <div className="dashboard-donut">
           <DoubleDonutChart data={items} height={isMobile ? 150 : 260} />
         </div>
         <div className="dashboard-cat-percentages">
-          <AddIncome />
+          {/* <AddIncome /> */}
           <div className="cat-percentage-line">
             <span className="dashboard-category" style={{ color: BUCKET_COLORS.needs }}>
               {(budgetDoc?.percents.needs ?? 0) * 100}% {t('budget:bucketNames.needs') ?? 'Needs'}

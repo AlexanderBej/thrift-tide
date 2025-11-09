@@ -94,6 +94,7 @@ const AddIncome: React.FC = () => {
       >
         <>
           <TTIcon className="add-income-icon" icon={FaPlus} size={18} />
+          <span className="add-income-label">{t('budget:modals.addIncome') ?? 'Add Income'}</span>
         </>
       </Button>
 

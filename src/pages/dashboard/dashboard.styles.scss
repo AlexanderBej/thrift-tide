@@ -43,6 +43,21 @@
 
     @include mediaDown(md) {
       grid-area: 1 / 1 / 2 / 2;
+
+      background-color: unset;
+      padding: 0;
+      box-shadow: unset;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: $spacing-4;
+
+      .dashboard-intro-wrapper {
+        @include dashboard-card($radius: $radius-lg, $pad: $spacing-4);
+      }
+
+      .add-income-wrapper {
+        border-radius: $radius-lg;
+      }
     }
 
     .dashboard-intro-header {
@@ -64,15 +79,6 @@
         .total-income-value {
           font-size: 18px;
         }
-      }
-    }
-
-    .dashboard-income-wrapper {
-      @include mediaDown(md) {
-        display: inline-flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
       }
     }
   }
