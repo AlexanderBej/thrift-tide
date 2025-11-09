@@ -8,8 +8,6 @@ $h-desktop: 72px;
 .main-header {
   position: fixed;
   top: 0;
-  z-index: 1000;
-  // background: var(--elev-1, #fff);
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   transition:
     transform $transition-fast,
