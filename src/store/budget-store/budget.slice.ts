@@ -1,7 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from '../store';
-import { monthKey, monthKeyFromDate } from '@shared/utils';
+import {
+  monthKey,
+  monthKeyFromDate,
+  periodBounds,
+  representativeDateFromMonthKey,
+} from '@shared/utils';
 import { MonthDoc, Txn, DEFAULT_START_DAY } from '@api/models';
 import {
   createOrUpdateMonth,
@@ -242,6 +247,18 @@ const budgetSlice = createSlice({
     _setDoc(state, action: PayloadAction<MonthDoc>) {
       state.doc = action.payload;
     },
+    updateBudgetStartDay(state, action: PayloadAction<number>) {
+      if (state.doc) {
+        const month = state.month;
+        const { start, end } = periodBounds(
+          representativeDateFromMonthKey(month, action.payload),
+          action.payload,
+        );
+
+        state.doc.periodStart = start.toISOString();
+        state.doc.periodEnd = end.toISOString();
+      }
+    },
     // Clean up listeners (e.g., on logout or month change)
     cleanupListeners() {
       stopTxnsListener();
@@ -323,6 +340,8 @@ const budgetSlice = createSlice({
       .addCase(changeMonthThunk.fulfilled, (s, { payload }) => {
         s.loadStatus = 'ready';
         s.doc = payload.doc;
+        console.log('get HEREEEE');
+
         s.month = payload.month;
       })
       .addCase(changeMonthThunk.rejected, (s, a) => {
@@ -362,6 +381,7 @@ export const {
   setMonth,
   _setTxns,
   _setDoc,
+  updateBudgetStartDay,
   cleanupListeners,
   setTxnTypeFilter,
   setTxnSearch,

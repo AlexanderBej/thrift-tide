@@ -77,6 +77,10 @@ const Dashboard: React.FC = () => {
             <h2 className="total-income-value">{fmt(budgetDoc?.income)}</h2>
           </div>
           <div className="total-income-container">
+            <span className="total-income-label">{t('budget:totalSpent') ?? 'Total spent'}</span>
+            <h2 className="total-income-value">{fmt(insights.totals.totalSpent)}</h2>
+          </div>
+          <div className="total-income-container">
             <span className="total-income-label">
               {t('budget:totalRemaining') ?? 'Total remaining'}
             </span>

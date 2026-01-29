@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { clamp } from '@shared/utils';
-import { setPercentsThunk } from '../budget-store/budget.slice';
+import { setPercentsThunk, updateBudgetStartDay } from '../budget-store/budget.slice';
 import { DEFAULT_START_DAY, OnboardingData } from '@api/models';
 import {
   readUserProfile,
@@ -86,9 +86,11 @@ export const completeOnboardingThunk = createAppAsyncThunk<
 export const saveStartDayThunk = createAppAsyncThunk<
   { startDay: number },
   { uid: string; startDay: number }
->('settings/saveStartDay', async ({ uid, startDay }, { rejectWithValue }) => {
+>('settings/saveStartDay', async ({ uid, startDay }, { dispatch, rejectWithValue }) => {
   try {
     await upsertUserStartDay(uid, clamp(startDay));
+
+    dispatch(updateBudgetStartDay(startDay));
     return { startDay };
   } catch (error) {
     return rejectWithValue(error);
