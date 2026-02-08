@@ -1,85 +1,76 @@
 {
-    "insights": {
-        "bucketNames": {
-            "all": "All",
-            "needs": "Needs",
-            "wants": "Wants",
-            "savings": "Savings"
-        },
-        "smart": {
-            "title": {
-                "headsUp": "Heads up",
-                "tip": "Tip",
-                "nice": "Nice",
-                "freshStart": "Fresh start"
-            },
-            "message": {
-                "canSpendPerDay": "You can spend {amountPerDay}/day and stay on track",
-                "keepUnderPerDay": "To stay on track, keep it under {amountPerDay}/day",
-                "onlyPerDayLeft": "Careful — only {amountPerDay}/day left to stay on track",
-                "spendingSlower": "Nice pace — you’re spending slower than planned",
-                "closeToPlan": "You’re close to plan — keep an eye on Wants",
-                "spendingFaster": "Heads up — you’re spending faster than planned",
-                "projectUnder": "If you keep this pace, you’ll finish under budget",
-                "projectAround": "At this pace, you’ll finish around your budget",
-                "projectOver": "At this pace, you may go over budget by {delta}",
-                "bucketRunOutDays": "{bucketName} may run out in ~{days} days",
-                "bucketTightPerDay": "{bucketName} is getting tight — {amountPerDay}/day left",
-                "bucketHealthy": "{bucketName} looks healthy — plenty of room left",
-                "noSpendEarly": "New month, fresh start. Add your first expense when you’re ready.",
-                "noIncome": "Missing puzzle piece 🧩. Set your income to get started.",
-                "noSpendLater": "No spending recorded yet — are you tracking expenses this month?"
-            },
-            "subtext": {
-                "basedOnRemaining": "Based on your remaining budget",
-                "basedOnPace": "Based on current pace",
-                "burnVsPace": "Spent {burnPct}% of budget; {pacePct}% of month passed"
-            },
-            "cta": {
-                "seeBreakdown": "See breakdown",
-                "seeInsights": "See insights",
-                "addExpense": "Add expense",
-                "reviewBucket": "Review {bucketName}"
-            }
-        },
-        "bucket": {
-            "title": {
-                "headsUp": "Heads up",
-                "tip": "Tip",
-                "nice": "Nice",
-                "info": "Info"
-            },
-            "message": {
-                "noBudget": "No budget set for {bucketName} yet",
-                "earlyMonth": "{bucketName} will stabilize after a few days of tracking",
-                "runOutInDays": "{bucketName} may run out in ~{days} days",
-                "runOutOnDate": "{bucketName} may run out around {date}",
-                "overPace": "{bucketName} is spending faster than planned",
-                "nearPace": "{bucketName} is close to plan — keep an eye on it",
-                "underPace": "{bucketName} is under plan — nice pace",
-                "perDayOk": "You can spend {amountPerDay}/day in {bucketName} and stay on track",
-                "perDayTight": "To stay on track in {bucketName}, keep it under {amountPerDay}/day",
-                "perDayVeryTight": "Careful — only {amountPerDay}/day left for {bucketName}",
-                "bucketHealthy": "{bucketName} looks healthy — plenty of room left"
-            },
-            "subtext": {
-                "burnVsPace": "Spent {burnPct}% of {bucketName}; {pacePct}% of month passed",
-                "basedOnRemaining": "Based on remaining {bucketName} budget"
-            },
-            "cta": {
-                "reviewBucket": "Review {bucketName}",
-                "addExpenseToBucket": "Add {bucketName} expense"
-            },
-            "chip": {
-                "noBudget": "No budget yet",
-                "earlyMonth": "Too little data",
-                "runOutInDays": "Only {days} left",
-                "overPace": "Over pace",
-                "nearPace": "Close to plan",
-                "underPace": "Nice pace",
-                "perDayLeft": "Can spend {amountPerDay}/day",
-                "onTrack": "Healthy pace"
-            }
-        }
+  "smart": {
+    "title": {
+      "headsUp": "Heads up",
+      "tip": "Tip",
+      "nice": "Nice",
+      "freshStart": "Fresh start"
+    },
+    "message": {
+      "canSpendPerDay": "You can spend {amountPerDay}/day and stay on track",
+      "keepUnderPerDay": "To stay on track, keep it under {amountPerDay}/day",
+      "onlyPerDayLeft": "Careful — only {amountPerDay}/day left to stay on track",
+      "spendingSlower": "Nice pace — you’re spending slower than planned",
+      "closeToPlan": "You’re close to plan — keep an eye on Wants",
+      "spendingFaster": "Heads up — you’re spending faster than planned",
+      "projectUnder": "If you keep this pace, you’ll finish under budget",
+      "projectAround": "At this pace, you’ll finish around your budget",
+      "projectOver": "At this pace, you may go over budget by {delta}",
+      "noSpendEarly": "New month, fresh start. Add your first expense when you’re ready.",
+      "noIncome": "Missing puzzle piece 🧩. Set your income to get started.",
+      "noSpendLater": "No spending recorded yet — are you tracking expenses this month?"
+    },
+    "subtext": {
+      "basedOnRemaining": "Based on your remaining budget",
+      "burnVsPace": "Spent {burnPct}% of budget; {pacePct}% of month passed"
+    },
+    "cta": {
+      "seeBreakdown": "See breakdown",
+      "seeInsights": "See insights",
+      "addExpense": "Add expense"
     }
+  },
+  "category": {
+    "title": {
+      "headsUp": "Heads up",
+      "tip": "Tip",
+      "nice": "Nice",
+      "info": "Info"
+    },
+    "message": {
+      "noBudget": "No budget set for {catName} yet",
+      "earlyMonth": "{catName} will stabilize after a few days of tracking",
+      "runOutInDays": "{catName} may run out in ~{days} days",
+      "overPace": "{catName} is spending faster than planned",
+      "nearPace": "{catName} is close to plan — keep an eye on it",
+      "underPace": "{catName} is under plan — nice pace",
+      "perDayOk": "You can spend {amountPerDay}/day in {catName} and stay on track",
+      "perDayTight": "To stay on track in {catName}, keep it under {amountPerDay}/day",
+      "perDayVeryTight": "Careful — only {amountPerDay}/day left for {catName}",
+      "categoryHealthy": "{catName} looks healthy — plenty of room left"
+    },
+    "subtext": {
+      "burnVsPace": "Spent {burnPct}% of {catName}; {pacePct}% of month passed",
+      "basedOnRemaining": "Based on remaining {catName} budget"
+    },
+    "cta": {
+      "reviewCategory": "Review {catName}"
+    },
+    "chip": {
+      "noBudget": "No budget yet",
+      "earlyMonth": "Too little data",
+      "runOutInDays": "Only {days} left",
+      "overPace": "Over pace",
+      "nearPace": "Close to plan",
+      "underPace": "Nice pace",
+      "perDayLeft": "Can spend {amountPerDay}/day",
+      "onTrack": "Healthy pace"
+    }
+  },
+  "badges": {
+    "over": "Over budget",
+    "near": "Near budget",
+    "behind": "Behind plan",
+    "under": "Under pace"
+  }
 }

@@ -1,1 +1,1 @@
-export * from './buckets-progress-bar';
+export * from './categories-progress-bar';

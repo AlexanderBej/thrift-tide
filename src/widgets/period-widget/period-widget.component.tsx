@@ -6,15 +6,18 @@ import { formatMonth } from '@shared/utils';
 import { PeriodSheet } from 'widgets/sheets';
 
 import './period-widget.styles.scss';
+import { selectSettingsAppLanguage } from '@store/settings-store';
 
 const PeriodWidget: React.FC = () => {
   const month = useSelector(selectBudgetMonth);
+  const language = useSelector(selectSettingsAppLanguage);
+
   const [open, setOpen] = useState(false);
 
   return (
     <>
       <button className="period-widget" onClick={() => setOpen(true)}>
-        {formatMonth(month)}
+        {formatMonth(month, language)}
       </button>
 
       <PeriodSheet open={open} onOpenChange={setOpen} />

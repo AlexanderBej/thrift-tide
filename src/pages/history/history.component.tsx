@@ -19,16 +19,16 @@ import { useFormatMoney } from '@shared/hooks';
 
 import './history.styles.scss';
 
-interface BucketData {
+interface CategoryData {
   key: string;
   weight: number;
   spent: number;
   color: string;
 }
 
-function buildSpentGradient(buckets: BucketData[]) {
+function buildSpentGradient(categories: CategoryData[]) {
   // weight: 0..1, spent: 0..1
-  const filledParts = buckets.map((b) => ({
+  const filledParts = categories.map((b) => ({
     key: b.key,
     w: b.weight,
     f: b.weight * b.spent,
@@ -89,7 +89,7 @@ const History: React.FC = () => {
     return `${month} ${year}`;
   };
 
-  const getBucketsData = (row: HistoryDocWithSummary): BucketData[] => {
+  const getCategoriesData = (row: HistoryDocWithSummary): CategoryData[] => {
     return [
       {
         key: 'needs',
@@ -126,8 +126,8 @@ const History: React.FC = () => {
     const date = getDate(row);
     const badgeMeta = toneConverter(badge.tone);
     const remaining = row.summary.income - row.summary.totalSpent;
-    const bucketData = getBucketsData(row);
-    const background = buildSpentGradient(bucketData);
+    const categoriesData = getCategoriesData(row);
+    const background = buildSpentGradient(categoriesData);
     const spentPercents = (row.summary.totalSpent / row.summary.income) * 100;
 
     return {
@@ -146,9 +146,9 @@ const History: React.FC = () => {
               {t('budget:spent')} <strong>{fmtMoney(row.summary.totalSpent)}</strong> of{' '}
               {fmtMoney(row.summary.income)}
             </span>
-            <div className="buckets-progress-bar">
+            <div className="categories-progress-bar">
               <div
-                className="buckets-progress"
+                className="categories-progress"
                 style={{
                   width: `${spentPercents}%`,
                   background,
@@ -164,11 +164,11 @@ const History: React.FC = () => {
       content: (
         <div className="history-doc-content">
           <div className="legends">
-            {bucketData.map((bucket, index) => (
+            {categoriesData.map((cat, index) => (
               <div className="legend-container" key={index}>
-                <div style={{ backgroundColor: bucket.color }} className="bullet" />
-                <span className="bucket-key">{bucket.key}</span>
-                <strong>{bucket.weight * 100}% </strong>
+                <div style={{ backgroundColor: cat.color }} className="bullet" />
+                <span className="category-key">{cat.key}</span>
+                <strong>{cat.weight * 100}% </strong>
               </div>
             ))}
           </div>

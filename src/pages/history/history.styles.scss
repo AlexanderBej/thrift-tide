@@ -32,7 +32,7 @@
         }
 
         &.info {
-          background-color: rgba($color: $cat-1, $alpha: 0.2);
+          background-color: rgba($color: $eg-1, $alpha: 0.2);
         }
 
         &.success {
@@ -54,7 +54,7 @@
       display: block;
     }
 
-    .buckets-progress-bar {
+    .categories-progress-bar {
       margin-top: $spacing-2;
     }
 
@@ -75,7 +75,7 @@
       gap: $spacing-1;
       font-size: 14px;
 
-      .bucket-key {
+      .category-key {
         text-transform: capitalize;
       }
 

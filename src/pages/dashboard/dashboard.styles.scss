@@ -28,14 +28,14 @@
     margin-top: $spacing-3;
   }
 
-  .bucket-cards {
+  .category-cards {
     display: inline-flex;
     // margin-top: 20px;
     width: 100%;
     align-items: center;
     position: relative;
 
-    .bucket-card {
+    .category-card {
       padding: $spacing-3;
 
       &__needs {
@@ -43,7 +43,7 @@
         border-bottom-left-radius: 10px;
         background: linear-gradient(90deg, rgba($needs, 0.2) 0%, rgba($needs, 0.4) 100%);
 
-        .bucket-percent-needs {
+        .category-percent-needs {
           font-weight: bold;
           color: color.scale($color: $needs, $lightness: -45%);
         }
@@ -52,7 +52,7 @@
       &__wants {
         background: linear-gradient(90deg, rgba($wants, 0.2) 0%, rgba($wants, 0.4) 100%);
 
-        .bucket-percent-wants {
+        .category-percent-wants {
           font-weight: bold;
           color: color.scale($color: $wants, $lightness: -45%);
         }
@@ -63,20 +63,20 @@
         border-bottom-right-radius: 10px;
         background: linear-gradient(90deg, rgba($savings, 0.2) 0%, rgba($savings, 0.4) 100%);
 
-        .bucket-percent-savings {
+        .category-percent-savings {
           font-weight: bold;
           color: color.scale($color: $savings, $lightness: -45%);
         }
       }
 
-      .bucket-title {
+      .category-title {
         font-size: 12px;
         overflow: hidden;
         display: flex;
         flex-direction: column;
         gap: $spacing-1;
 
-        .bucket-key {
+        .category-key {
           text-transform: capitalize;
         }
       }
@@ -90,12 +90,12 @@
     }
   }
 
-  .categories-list {
+  .exp-groups-list {
     @include dashboard-card($radius: $radius-lg, $pad: $spacing-4);
     display: grid;
     gap: 8px;
 
-    .top-cat-item {
+    .top-exp-groups-item {
       display: flex;
       justify-content: space-between;
       border-bottom: 1px solid rgb(238, 238, 238);

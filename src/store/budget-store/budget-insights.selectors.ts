@@ -1,5 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { Bucket } from '@api/types';
+import { Category } from '@api/types';
 import { selectTotals } from './budget.selectors';
 import { selectMonthTiming } from './budget-period.selectors';
 
@@ -8,10 +8,10 @@ const selectAvgDaily = createSelector([selectTotals, selectMonthTiming], ({ tota
   t.daysElapsed >= 3 ? totalSpent / t.daysElapsed : null,
 );
 
-/** Average daily spend for a specific bucket (null for first 2 days). */
-const makeSelectAvgDailyBucket = (bucket: Bucket) =>
+/** Average daily spend for a specific category (null for first 2 days). */
+const makeSelectAvgDailyCategory = (cat: Category) =>
   createSelector([selectTotals, selectMonthTiming], ({ spent }, t) =>
-    t.daysElapsed >= 3 ? spent[bucket] / t.daysElapsed : null,
+    t.daysElapsed >= 3 ? spent[cat] / t.daysElapsed : null,
   );
 
 /** Simple projection to period end based on current daily average (null early in period). */
@@ -59,16 +59,15 @@ export const selectDashboardInsights = createSelector(
   }),
 );
 
-export const makeSelectBucketPanel = (bucket: Bucket) =>
+export const makeSelectCategoryPanel = (cat: Category) =>
   createSelector(
-    [selectTotals, selectMonthTiming, makeSelectAvgDailyBucket(bucket)],
-    (tot, t, avgDailyBucket) => {
-      const alloc = tot.alloc[bucket];
-      const spent = tot.spent[bucket];
+    [selectTotals, selectMonthTiming, makeSelectAvgDailyCategory(cat)],
+    (tot, t, avgDailyCat) => {
+      const alloc = tot.alloc[cat];
+      const spent = tot.spent[cat];
       const remaining = Math.max(0, alloc - spent);
       const remainingPerDay = t.daysLeft > 0 ? remaining / t.daysLeft : null;
-      const daysToZero =
-        avgDailyBucket && avgDailyBucket > 0 ? Math.ceil(remaining / avgDailyBucket) : null;
+      const daysToZero = avgDailyCat && avgDailyCat > 0 ? Math.ceil(remaining / avgDailyCat) : null;
 
       // Estimated run-out date (clamped to end of period)
       const runOutDate =

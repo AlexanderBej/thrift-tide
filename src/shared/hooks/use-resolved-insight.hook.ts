@@ -10,14 +10,14 @@ export const useResolvedInsight = () => {
   const resolve = (insight: Insight) => {
     const rawVars = insight.vars ?? {};
 
-    // Resolve bucketNameKey -> localized string if present
-    const bucketName =
-      typeof rawVars.bucketNameKey === 'string' ? (t(rawVars.bucketNameKey) as string) : undefined;
+    // Resolve catNameKey -> localized string if present
+    const catName =
+      typeof rawVars.catNameKey === 'string' ? (t(rawVars.catNameKey) as string) : undefined;
 
     // Convert raw numeric money vars -> formatted strings
     const vars = {
       ...rawVars,
-      bucketName,
+      catName,
       amountPerDay: rawVars.amountPerDay?.toString(),
       delta: rawVars.delta?.toString(),
     };

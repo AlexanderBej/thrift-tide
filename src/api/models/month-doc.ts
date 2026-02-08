@@ -1,4 +1,4 @@
-import { Bucket, InsightTone } from '@api/types';
+import { Category, InsightTone } from '@api/types';
 import { PercentTriple } from '../types/percent.types';
 import { Insight } from './insight';
 
@@ -28,11 +28,11 @@ export interface MonthDocSummary {
 
 export const DEFAULT_START_DAY = 25;
 
-export interface BucketHealthSummary {
+export interface CategoryHealthSummary {
   healthyCount: number;
   attentionCount: number;
   details: Array<{
-    bucket: Bucket;
+    category: Category;
     tone: InsightTone;
     insight: Insight;
   }>;

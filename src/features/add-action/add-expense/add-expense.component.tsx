@@ -2,7 +2,7 @@ import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useState } 
 import { useDispatch, useSelector } from 'react-redux';
 
 import { SliderViewport } from '@shared/ui';
-import { CATEGORY_OPTIONS, toYMD } from '@shared/utils';
+import { EXPENSE_GROUP_OPTIONS, toYMD } from '@shared/utils';
 import {
   FormErrors,
   toDecimal,
@@ -10,11 +10,11 @@ import {
   validateAll,
   validateField,
 } from './add-expense.util';
-import { Txn } from '@api/models';
+import { ExpenseGroupOption, Txn } from '@api/models';
 import { StepHandle } from '../steps.types';
 import { ExpenseForm } from '../expense-form';
 import { TxnDayPicker } from '../txn-day-picker';
-import { AppDispatch, Bucket } from '@api/types';
+import { AppDispatch, Category } from '@api/types';
 import { addTxnThunk } from '@store/budget-store';
 import { selectAuthUser } from '@store/auth-store';
 
@@ -27,11 +27,11 @@ const AddExpense = forwardRef<StepHandle, { onCanSubmitChange?: (v: boolean) => 
     const user = useSelector(selectAuthUser);
 
     const [formData, setFormData] = useState<TransactionFormData>({
-      category: 'rent',
+      expenseGroup: 'rent',
       amount: '100',
       date: new Date(),
       note: '',
-      bucket: 'needs',
+      category: 'needs',
     });
     const [errors, setErrors] = useState<FormErrors>({});
     const [keepSheetOpen, setKeepSheetOpen] = useState(false);
@@ -60,25 +60,29 @@ const AddExpense = forwardRef<StepHandle, { onCanSubmitChange?: (v: boolean) => 
       console.log('formdata', formData);
     };
 
-    const handleTypeChange = (t: Bucket) => {
+    const handleTypeChange = (t: Category) => {
       setFormData((prev) => {
-        const next = { ...prev, bucket: t };
-        // If current category no longer valid for the new type, reset to first option
-        const valid = CATEGORY_OPTIONS[t].some((o) => o.value === next.category);
-        if (!valid && CATEGORY_OPTIONS[t][0]) {
-          next.category = CATEGORY_OPTIONS[t][0].value as string;
+        const next = { ...prev, category: t };
+        // If current expenseGroup no longer valid for the new type, reset to first option
+        const valid = EXPENSE_GROUP_OPTIONS[t].some(
+          (o: ExpenseGroupOption) => o.value === next.expenseGroup,
+        );
+        if (!valid && EXPENSE_GROUP_OPTIONS[t][0]) {
+          next.expenseGroup = EXPENSE_GROUP_OPTIONS[t][0].value as string;
         }
-        // also re-validate category under new type
+        // also re-validate expenseGroup under new type
         setErrors((prevErr) => ({
           ...prevErr,
-          category: validateField('category', next.category, next),
+          expenseGroup: validateField('expenseGroup', next.expenseGroup, next),
         }));
         return next;
       });
     };
 
     const canSubmit = useMemo(() => {
-      return !errors.amount && !errors.category && !errors.date && !errors.note && step === 'form';
+      return (
+        !errors.amount && !errors.expenseGroup && !errors.date && !errors.note && step === 'form'
+      );
     }, [errors, step]);
 
     useEffect(() => {
@@ -98,18 +102,18 @@ const AddExpense = forwardRef<StepHandle, { onCanSubmitChange?: (v: boolean) => 
       const payload: Txn = {
         date: toYMD(formData.date), // normalize to YYYY-MM-DD
         amount: amountNum,
-        type: formData.bucket,
-        category: formData.category,
+        type: formData.category,
+        expenseGroup: formData.expenseGroup,
         note: formData.note?.trim() || '',
       };
 
       dispatch(addTxnThunk({ uid: user?.uuid ?? '', txn: payload })).then(() => {
         setFormData({
-          category: 'rent',
+          expenseGroup: 'rent',
           amount: '100',
           date: new Date(),
           note: '',
-          bucket: 'needs',
+          category: 'needs',
         });
       });
       console.log('sumbit expense', payload);

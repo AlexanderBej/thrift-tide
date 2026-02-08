@@ -27,8 +27,8 @@ const CurrencySheet: React.FC<CurrencySheetProps> = ({ open, onOpenChange }) => 
   const [selectedCurrency, setSelectedCurrency] = useState<Currency>(currency);
 
   const currencyOptions: { flag: string; label: string; value: Currency }[] = [
-    { label: t('pageContent.settings.currency.labelEu'), value: 'EUR', flag: '🇪🇺' },
-    { label: t('pageContent.settings.currency.labelRo'), value: 'RON', flag: '🇷🇴' },
+    { label: t('settings:currency.labelEu'), value: 'EUR', flag: '🇪🇺' },
+    { label: t('settings:currency.labelRo'), value: 'RON', flag: '🇷🇴' },
   ];
 
   const handleSubmit = () => {
@@ -40,13 +40,15 @@ const CurrencySheet: React.FC<CurrencySheetProps> = ({ open, onOpenChange }) => 
       });
   };
 
+  const btnLabel = t('settings:currency.button');
+
   return (
     <BaseSheet
       open={open}
       onOpenChange={onOpenChange}
-      title={t('pageContent.settings.currency.title')}
+      title={t('settings:currency.title')}
       btnDisabled={selectedCurrency === currency}
-      btnLabel="Change currency"
+      btnLabel={btnLabel}
       onButtonClick={handleSubmit}
     >
       <div className="currency-selectors">

@@ -1,18 +1,24 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
-import { format } from 'date-fns';
+import { format, Locale } from 'date-fns';
+import { enUS, ro } from 'date-fns/locale';
 import { useDispatch, useSelector } from 'react-redux';
 import Picker from 'react-mobile-picker';
+import { useTranslation } from 'react-i18next';
 
 import { BaseSheet } from '@shared/ui';
-import { AppDispatch } from '@api/types';
+import { AppDispatch, Language } from '@api/types';
 import { selectAuthUser } from '@store/auth-store';
-import { HistoryRow, loadRecentMonths, selectHistoryRecents } from '@store/history-store';
+import { loadRecentMonths, selectHistoryRecents } from '@store/history-store';
 import { changeMonthThunk, selectBudgetMonth } from '@store/budget-store';
 import { formatMonth } from '@shared/utils';
 
 import './period-sheet.styles.scss';
 
+const dateLocales: Record<'en' | 'ro', Locale> = {
+  en: enUS,
+  ro: ro,
+};
 export interface PeriodWheelItem {
   key: string;
   title: string;
@@ -31,19 +37,6 @@ interface PeriodSheetProps {
   closeOnConfirm?: boolean;
 }
 
-const buildSubtitle = (m: any) => {
-  const start = new Date(m.periodStart);
-  const end = new Date(m.periodEnd);
-
-  const y1 = start.getFullYear();
-  const y2 = end.getFullYear();
-
-  if (y1 !== y2) {
-    return `${format(start, 'd MMMM')} ${y1} – ${format(end, 'd MMMM')} ${y2}`;
-  }
-  return `${format(start, 'd MMMM')} – ${format(end, 'd MMMM')} ${y1}`;
-};
-
 const PeriodSheet: React.FC<PeriodSheetProps> = ({
   open,
   onOpenChange,
@@ -51,11 +44,16 @@ const PeriodSheet: React.FC<PeriodSheetProps> = ({
   visibleItems = 5,
   closeOnConfirm = true,
 }) => {
+  const { t, i18n } = useTranslation('budget');
   const dispatch = useDispatch<AppDispatch>();
 
   const user = useSelector(selectAuthUser);
   const month = useSelector(selectBudgetMonth);
   const recents = useSelector(selectHistoryRecents);
+
+  const lang = i18n.language.split('-')[0] as 'en' | 'ro';
+
+  const locale = dateLocales[lang] ?? enUS;
 
   const items: PeriodWheelItem[] = useMemo(() => {
     if (!recents) return [];
@@ -64,24 +62,49 @@ const PeriodSheet: React.FC<PeriodSheetProps> = ({
       (a, b) => new Date(a.periodStart).getTime() - new Date(b.periodStart).getTime(),
     );
 
+    const current = t('sheets.periodSheet.current');
+    const title = t('sheets.periodSheet.create.title');
+    const sub = t('sheets.periodSheet.create.sub');
+
+    const buildSubtitle = (m: any) => {
+      const start = new Date(m.periodStart);
+      const end = new Date(m.periodEnd);
+
+      const y1 = start.getFullYear();
+      const y2 = end.getFullYear();
+
+      if (y1 !== y2) {
+        return `${format(start, 'd MMMM', {
+          locale,
+        })} ${y1} – ${format(end, 'd MMMM', {
+          locale,
+        })} ${y2}`;
+      }
+      return `${format(start, 'd MMMM', {
+        locale,
+      })} – ${format(end, 'd MMMM', {
+        locale,
+      })} ${y1}`;
+    };
+
     const periodItems: PeriodWheelItem[] = sorted.map((m: any) => ({
       key: m.id,
       kind: 'period',
-      title: formatMonth(m.month),
+      title: formatMonth(m.month, i18n.language as Language),
       subtitle: buildSubtitle(m),
-      badge: m.id === month ? 'Current' : undefined,
+      badge: m.id === month ? current : undefined,
     }));
 
     // append special action row
     periodItems.push({
       key: '__create_next__',
       kind: 'createNext',
-      title: 'Create next period',
-      subtitle: 'Set up income & allocations for the upcoming period',
+      title: title,
+      subtitle: sub,
     });
 
     return periodItems;
-  }, [recents, month]);
+  }, [recents, month, t, i18n, locale]);
 
   // local highlighted key (UI)
   const [value, setValue] = useState<PickerValue>({ period: month });
@@ -124,6 +147,7 @@ const PeriodSheet: React.FC<PeriodSheetProps> = ({
   };
 
   const pickerHeight = itemHeight * visibleItems;
+  const btnLabel = t('sheets.periodSheet.btnLabel');
 
   console.log('items', items);
 
@@ -131,8 +155,8 @@ const PeriodSheet: React.FC<PeriodSheetProps> = ({
     <BaseSheet
       open={open}
       onOpenChange={onOpenChange}
-      title="Select a period"
-      btnLabel="Select period"
+      title={t('sheets.periodSheet.title')}
+      btnLabel={btnLabel}
       btnDisabled={!items.length || !selectedKey}
       onButtonClick={handleConfirm}
     >

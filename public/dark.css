@@ -83,16 +83,16 @@ h5 {
   --warning-light: rgb(249, 205.5, 136.5);
   --error: #e74c3c;
   --error-light: rgb(243, 165.5, 157.5);
-  --cat-1: #508ac8;
-  --cat-2: #f28e2b;
-  --cat-3: #6c6cb4;
-  --cat-4: #76b7b2;
-  --cat-5: #59a14f;
-  --cat-6: #edc948;
-  --cat-7: #b07aa1;
-  --cat-8: #ff9da7;
-  --cat-9: #9c755f;
-  --cat-10: #e15759;
+  --eg-1: #508ac8;
+  --eg-2: #f28e2b;
+  --eg-3: #6c6cb4;
+  --eg-4: #76b7b2;
+  --eg-5: #59a14f;
+  --eg-6: #edc948;
+  --eg-7: #b07aa1;
+  --eg-8: #ff9da7;
+  --eg-9: #9c755f;
+  --eg-10: #e15759;
 }
 
 .missing-items {

@@ -1,5 +1,5 @@
 export * from './add-action';
-export * from './buckets';
+export * from './categories';
 export * from './dashboard';
 export * from './insights';
 export * from './profile';

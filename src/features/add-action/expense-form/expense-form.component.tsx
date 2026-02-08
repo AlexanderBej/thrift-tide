@@ -6,11 +6,11 @@ import clsx from 'clsx';
 import { format } from 'date-fns';
 
 import { FauxRadios, Input, TTIcon } from '@shared/ui';
-import { CATEGORY_OPTIONS, getCssVar } from '@shared/utils';
+import { EXPENSE_GROUP_OPTIONS, getCssVar } from '@shared/utils';
 import { TypeBoxSelector } from '@components';
 import { TransactionFormData } from '../add-expense/add-expense.util';
 import { selectSettingsCurrency } from '@store/settings-store';
-import { Bucket } from '@api/types';
+import { Category } from '@api/types';
 
 import './expense-form.styles.scss';
 
@@ -26,7 +26,7 @@ interface ExpenseFormProps {
   keepSheetOpen: boolean;
   setKeepSheetOpen: React.Dispatch<React.SetStateAction<boolean>>;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleTypeChange: (t: Bucket) => void;
+  handleTypeChange: (t: Category) => void;
   setStep: React.Dispatch<React.SetStateAction<'form' | 'calendar'>>;
 }
 
@@ -47,14 +47,14 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({
   const yesterday = new Date(today);
   yesterday.setDate(today.getDate() - 1);
 
-  const catOptions = CATEGORY_OPTIONS[formData.bucket];
+  const ExpGroupsOptions = EXPENSE_GROUP_OPTIONS[formData.category];
   const dateOptions: DateMeta[] = [
     {
-      label: 'Today',
+      label: t('sheets.addSheet.expense.dates.today'),
       value: today,
     },
     {
-      label: 'Yesterday',
+      label: t('sheets.addSheet.expense.dates.yesterday'),
       value: yesterday,
     },
     {
@@ -63,7 +63,7 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({
         formData.date.getDay() !== today.getDay() &&
         formData.date.getDay() !== yesterday.getDay()
           ? format(formData.date, 'dd MMM')
-          : 'Pick a day',
+          : t('sheets.addSheet.expense.dates.pick'),
       value:
         formData.date &&
         formData.date.getDay() !== today.getDay() &&
@@ -94,6 +94,8 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({
     });
   };
 
+  const popover = t('sheets.addSheet.expense.after.popover');
+
   return (
     <div className="expense-form">
       <Input
@@ -107,26 +109,26 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({
       />
 
       <div className="expense-input-group">
-        <span className="expense-input-label">{t('bucket')}</span>
-        <TypeBoxSelector bucket={formData.bucket} handleTypeChange={handleTypeChange} />
+        <span className="expense-input-label">{t('category')}</span>
+        <TypeBoxSelector category={formData.category} handleTypeChange={handleTypeChange} />
       </div>
 
-      <div className="expense-input-group category-chips-group">
-        <span className="expense-input-label">{t('category')}</span>
-        <div className="expense-chips category-chips">
-          {catOptions.map((cat, index) => (
+      <div className="expense-input-group exp-group-chips-group">
+        <span className="expense-input-label">{t('expGroup')}</span>
+        <div className="expense-chips exp-group-chips">
+          {ExpGroupsOptions.map((eg, index) => (
             <button
               type="button"
               key={index}
-              className={clsx('chip', { active: cat.value === formData.category })}
+              className={clsx('chip', { active: eg.value === formData.expenseGroup })}
               onClick={() =>
                 setFormData((prev) => {
-                  return { ...prev, category: cat.value ?? today };
+                  return { ...prev, expenseGroup: eg.value ?? today };
                 })
               }
             >
-              <TTIcon icon={cat.icon} size={14} color={cat.color} />
-              <span className="chip-label">{t(cat.i18nLabel)}</span>
+              <TTIcon icon={eg.icon} size={14} color={eg.color} />
+              <span className="chip-label">{t(eg.i18nLabel)}</span>
             </button>
           ))}
         </div>
@@ -164,10 +166,10 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({
       <FauxRadios
         value={keepSheetOpen}
         setValue={setKeepSheetOpen}
-        title="After save"
-        falseLabel="Close sheet"
-        trueLabel="Keep sheet open"
-        popover="This is used in case you wish to add more transactions after this one"
+        title={t('sheets.addSheet.afterSave')}
+        falseLabel={t('sheets.addSheet.expense.after.close')}
+        trueLabel={t('sheets.addSheet.expense.after.open')}
+        popover={popover}
       />
     </div>
   );

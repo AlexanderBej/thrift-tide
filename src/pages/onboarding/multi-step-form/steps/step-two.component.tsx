@@ -32,7 +32,7 @@ const StepTwo: React.FC<MultiFormProp> = ({ formData, onChange }) => {
   return (
     <div className="step-two">
       <p className="step-p">
-        <Trans i18nKey="onboarding.step2.text1" components={{ bold: <strong /> }} />
+        <Trans i18nKey="onboarding:step2.text1" components={{ bold: <strong /> }} />
       </p>
       <div className="language-input-container">
         <Select
@@ -46,7 +46,7 @@ const StepTwo: React.FC<MultiFormProp> = ({ formData, onChange }) => {
       </div>
 
       <p className="step-p step-mt">
-        <Trans i18nKey="onboarding.step2.text2" components={{ bold: <strong /> }} />
+        <Trans i18nKey="onboarding:step2.text2" components={{ bold: <strong /> }} />
       </p>
       <div className="language-input-container">
         <Select
@@ -59,7 +59,7 @@ const StepTwo: React.FC<MultiFormProp> = ({ formData, onChange }) => {
         />
       </div>
       <p className="step-p step-mt">
-        <Trans i18nKey="onboarding.step2.text3" components={{ bold: <strong /> }} />
+        <Trans i18nKey="onboarding:step2.text3" components={{ bold: <strong /> }} />
       </p>
     </div>
   );

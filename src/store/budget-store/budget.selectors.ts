@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { Bucket } from '@api/types';
+import { Category } from '@api/types';
 import { Txn } from '@api/models';
 import { selectBudgetDoc, selectBudgetTxns, selectTxnUi } from './budget.selectors.base';
 import { selectMonthTiming } from './budget-period.selectors';
@@ -14,8 +14,8 @@ export const selectTxnsInPeriod = createSelector([selectBudgetTxns, selectMonthT
   }),
 );
 
-/** Sums spent per high-level bucket within the selected period. */
-const selectSpentByBucket = createSelector([selectTxnsInPeriod], (txns) => {
+/** Sums spent per high-level category within the selected period. */
+const selectSpentByCategory = createSelector([selectTxnsInPeriod], (txns) => {
   let needs = 0,
     wants = 0,
     savings = 0;
@@ -27,8 +27,8 @@ const selectSpentByBucket = createSelector([selectTxnsInPeriod], (txns) => {
   return { needs, wants, savings };
 });
 
-export interface CategoryCard {
-  key: Bucket;
+export interface ExpenseGroupCard {
+  key: Category;
   title: string;
   allocated: number;
   spent: number;
@@ -36,46 +36,49 @@ export interface CategoryCard {
   progress: number; // 0..1
 }
 
-/** The 3 Category cards (Needs/Wants/Savings) with allocated/spent/remaining/progress for the period. */
-export const selectCards = createSelector([selectBudgetDoc, selectSpentByBucket], (doc, spent) => {
-  if (!doc) return [] as CategoryCard[];
-  return (['needs', 'wants', 'savings'] as const).map((k) => {
-    const allocated = doc.allocations[k] ?? 0;
-    const used = spent[k];
-    const remaining = Math.max(0, allocated - used);
-    const progress = allocated > 0 ? Math.min(1, used / allocated) : 0;
-    return {
-      key: k,
-      title: k[0].toUpperCase() + k.slice(1),
-      allocated,
-      spent: used,
-      remaining,
-      progress,
-    };
-  });
-});
+/** The 3 ExpenseGroup cards (Needs/Wants/Savings) with allocated/spent/remaining/progress for the period. */
+export const selectCards = createSelector(
+  [selectBudgetDoc, selectSpentByCategory],
+  (doc, spent) => {
+    if (!doc) return [] as ExpenseGroupCard[];
+    return (['needs', 'wants', 'savings'] as const).map((k) => {
+      const allocated = doc.allocations[k] ?? 0;
+      const used = spent[k];
+      const remaining = Math.max(0, allocated - used);
+      const progress = allocated > 0 ? Math.min(1, used / allocated) : 0;
+      return {
+        key: k,
+        title: k[0].toUpperCase() + k.slice(1),
+        allocated,
+        spent: used,
+        remaining,
+        progress,
+      };
+    });
+  },
+);
 
-/** Detailed view for a single bucket: items list, totals, and per-category breakdown. */
-export const makeSelectCategoryView = (bucket: Bucket) =>
+/** Detailed view for a single categories: items list, totals, and per-exp group breakdown. */
+export const makeSelectExpenseGroupView = (cat: Category) =>
   createSelector([selectBudgetDoc, selectTxnsInPeriod], (doc, txns) => {
     if (!doc) return null;
 
-    const allocated = doc.allocations[bucket] ?? 0;
-    const filtered = txns.filter((t) => t.type === bucket);
+    const allocated = doc.allocations[cat] ?? 0;
+    const filtered = txns.filter((t) => t.type === cat);
     const spent = filtered.reduce((sum, t) => sum + t.amount, 0);
     const remaining = Math.max(0, allocated - spent);
     const progress = allocated > 0 ? Math.min(1, spent / allocated) : 0;
 
-    const byCategoryMap = new Map<string, number>();
+    const byExpGroupMap = new Map<string, number>();
     for (const t of filtered) {
-      const key = t.category || 'Uncategorized';
-      byCategoryMap.set(key, (byCategoryMap.get(key) ?? 0) + t.amount);
+      const key = t.expenseGroup || 'Uncategorized';
+      byExpGroupMap.set(key, (byExpGroupMap.get(key) ?? 0) + t.amount);
     }
-    const byCategory = Array.from(byCategoryMap, ([category, total]) => ({ category, total })).sort(
+    const byExpGroup = Array.from(byExpGroupMap, ([expGroup, total]) => ({ expGroup, total })).sort(
       (a, b) => b.total - a.total,
     );
 
-    return { allocated, spent, remaining, progress, items: filtered, byCategory };
+    return { allocated, spent, remaining, progress, items: filtered, byExpGroup };
   });
 
 /** Filter/search/sort the in-period transactions according to UI state. */
@@ -87,7 +90,8 @@ const selectFilteredTxns = createSelector([selectTxnsInPeriod, selectTxnUi], (tx
     .filter((t) =>
       q.length === 0
         ? true
-        : (t.note ?? '').toLowerCase().includes(q) || (t.category ?? '').toLowerCase().includes(q),
+        : (t.note ?? '').toLowerCase().includes(q) ||
+          (t.expenseGroup ?? '').toLowerCase().includes(q),
     );
 
   const dir = ui.sortDir === 'asc' ? 1 : -1;
@@ -103,15 +107,15 @@ const selectFilteredTxns = createSelector([selectTxnsInPeriod, selectTxnUi], (tx
 /** Group filtered list by calendar day string (YYYY-MM-DD), newest group first. */
 export const selectTxnsGroupedByDate = createSelector([selectFilteredTxns], (txns) => {
   // const toYYYYMMDD = (d: Date) => d.toISOString().slice(0, 10);
-  const buckets = new Map<string, Txn[]>();
+  const categories = new Map<string, Txn[]>();
 
   for (const t of txns) {
     const day = t.date;
-    if (!buckets.has(day)) buckets.set(day, []);
-    buckets.get(day)!.push(t);
+    if (!categories.has(day)) categories.set(day, []);
+    categories.get(day)!.push(t);
   }
 
-  return Array.from(buckets.entries())
+  return Array.from(categories.entries())
     .sort((a, b) => b[0].localeCompare(a[0]))
     .map(([date, items]) => ({ date, items }));
 });
@@ -121,14 +125,14 @@ export const selectFilteredTotal = createSelector([selectFilteredTxns], (txns) =
   txns.reduce((sum, t) => sum + t.amount, 0),
 );
 
-/** Period-allocated amounts per bucket (pulled from MonthDoc). */
+/** Period-allocated amounts per category (pulled from MonthDoc). */
 const selectAllocatedTriple = createSelector([selectBudgetDoc], (doc) => ({
   needs: doc?.allocations.needs ?? 0,
   wants: doc?.allocations.wants ?? 0,
   savings: doc?.allocations.savings ?? 0,
 }));
 
-/** Period-spent amounts per bucket (derived from in-period txns). */
+/** Period-spent amounts per category (derived from in-period txns). */
 const selectSpentTriple = createSelector([selectTxnsInPeriod], (txns) => {
   const acc = { needs: 0, wants: 0, savings: 0 };
   for (const t of txns) {
@@ -137,7 +141,7 @@ const selectSpentTriple = createSelector([selectTxnsInPeriod], (txns) => {
   return acc;
 });
 
-/** Aggregated totals for the period: per-bucket & grand totals, remaining, etc. */
+/** Aggregated totals for the period: per-category & grand totals, remaining, etc. */
 export const selectTotals = createSelector(
   [selectAllocatedTriple, selectSpentTriple],
   (alloc, spent) => {
@@ -153,35 +157,35 @@ export const selectTotals = createSelector(
   },
 );
 
-export const selectTopCategoriesOverall = createSelector([selectTxnsInPeriod], (txns) => {
-  const map = new Map<string, { total: number; byBucket: Record<Bucket, number> }>();
+export const selectTopExpenseGroupsOverall = createSelector([selectTxnsInPeriod], (txns) => {
+  const map = new Map<string, { total: number; byCategory: Record<Category, number> }>();
 
   for (const t of txns) {
-    const category = t.category || 'Uncategorized';
+    const expGroup = t.expenseGroup || 'Uncategorized';
 
-    if (!map.has(category)) {
-      map.set(category, {
+    if (!map.has(expGroup)) {
+      map.set(expGroup, {
         total: 0,
-        byBucket: { needs: 0, wants: 0, savings: 0 },
+        byCategory: { needs: 0, wants: 0, savings: 0 },
       });
     }
 
-    const entry = map.get(category)!;
+    const entry = map.get(expGroup)!;
     entry.total += t.amount;
-    entry.byBucket[t.type] += t.amount;
+    entry.byCategory[t.type] += t.amount;
   }
 
-  const pickBucket = (byBucket: Record<Bucket, number>): Bucket => {
-    const entries = Object.entries(byBucket) as Array<[Bucket, number]>;
-    // choose the bucket with the largest total for this category
+  const pickCategory = (byCategory: Record<Category, number>): Category => {
+    const entries = Object.entries(byCategory) as Array<[Category, number]>;
+    // choose the category with the largest total for this expGroup
     return entries.reduce((best, cur) => (cur[1] > best[1] ? cur : best))[0];
   };
 
   return Array.from(map.entries())
-    .map(([category, { total, byBucket }]) => ({
-      category,
+    .map(([expGroup, { total, byCategory }]) => ({
+      expGroup,
       total,
-      bucket: pickBucket(byBucket),
+      category: pickCategory(byCategory),
     }))
     .sort((a, b) => b.total - a.total)
     .slice(0, 5);

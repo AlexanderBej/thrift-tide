@@ -4,7 +4,7 @@
   width: 100%;
   min-height: 100px;
   border-radius: $radius-lg;
-  background-color: rgba($cat-1, 0.2);
+  background-color: rgba($eg-1, 0.2);
   @include themed(color, color-text-secondary, $color-text-secondary);
   display: flex;
   gap: $spacing-4;

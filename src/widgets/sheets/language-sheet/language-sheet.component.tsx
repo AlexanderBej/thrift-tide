@@ -40,13 +40,15 @@ const LanguageSheet: React.FC<LanguageSheetProps> = ({ open, onOpenChange }) => 
       });
   };
 
+  const btnLabel = t('settings:language.button');
+
   return (
     <BaseSheet
       open={open}
       onOpenChange={onOpenChange}
-      title={t('pageContent.settings.language')}
+      title={t('settings:language.title')}
       btnDisabled={selectedLanguage === language}
-      btnLabel="Change language"
+      btnLabel={btnLabel}
       onButtonClick={handleSubmit}
     >
       <div className="language-selectors">

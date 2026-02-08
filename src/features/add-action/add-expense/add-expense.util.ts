@@ -1,13 +1,13 @@
-import { Bucket } from '@api/types';
-import { CATEGORY_OPTIONS } from '@shared/utils';
+import { Category } from '@api/types';
+import { EXPENSE_GROUP_OPTIONS } from '@shared/utils';
 
-export type FormErrors = Partial<Record<'amount' | 'date' | 'category' | 'note', string>>;
+export type FormErrors = Partial<Record<'amount' | 'date' | 'expenseGroup' | 'note', string>>;
 
 export interface TransactionFormData {
   date: Date;
   amount: string;
-  bucket: Bucket;
-  category: string;
+  category: Category;
+  expenseGroup: string;
   note?: string;
 }
 
@@ -54,10 +54,10 @@ export const validateField = (
       if (isFuture(d)) return 'validation.date.notFuture';
       return;
     }
-    case 'category': {
-      const inList = CATEGORY_OPTIONS[ctx.bucket].some((opt) => opt.value === value);
-      if (!value) return 'validation.category.required';
-      if (!inList) return 'validation.category.invalid';
+    case 'expenseGroup': {
+      const inList = EXPENSE_GROUP_OPTIONS[ctx.category].some((opt) => opt.value === value);
+      if (!value) return 'validation.expGroup.required';
+      if (!inList) return 'validation.expGroup.invalid';
       return;
     }
     case 'note': {
@@ -74,7 +74,7 @@ export const validateAll = (data: TransactionFormData): FormErrors => {
   return {
     amount: validateField('amount', data.amount, data),
     date: validateField('date', data.date, data),
-    category: validateField('category', data.category, data),
+    expenseGroup: validateField('expenseGroup', data.expenseGroup, data),
     note: validateField('note', data.note ?? '', data),
   };
 };

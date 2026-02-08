@@ -13,7 +13,7 @@ export const toneConverter = (tone: string): { color: string; icon: IconType } =
     case 'danger':
       return { color: getCssVar('--error'), icon: MdOutlineDangerous };
     case 'info':
-      return { color: getCssVar('--cat-1'), icon: IoIosInformationCircleOutline };
+      return { color: getCssVar('--eg-1'), icon: IoIosInformationCircleOutline };
     case 'success':
       return { color: getCssVar('--success'), icon: LuPartyPopper };
     case 'warn':

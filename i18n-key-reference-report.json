@@ -1,0 +1,3454 @@
+{
+  "generatedAt": "2026-02-08T18:11:15.892Z",
+  "scope": "src/**/*.{ts,tsx,js,jsx} excluding src/i18n/locales",
+  "summary": {
+    "en": {
+      "total": 208,
+      "used": 208,
+      "unused": 0
+    },
+    "ro": {
+      "total": 208,
+      "used": 208,
+      "unused": 0
+    }
+  },
+  "byLocale": {
+    "en": {
+      "budget": {
+        "total": 75,
+        "usedCount": 75,
+        "unusedCount": 0,
+        "usedKeys": [
+          "allocated",
+          "badges.behindPlan",
+          "badges.good",
+          "badges.highBurn",
+          "badges.nearBudget",
+          "badges.overBudget",
+          "badges.underPace",
+          "bucket",
+          "buckets",
+          "budget",
+          "categories.needs.education",
+          "categories.needs.groceries",
+          "categories.needs.healthcare",
+          "categories.needs.insurance",
+          "categories.needs.rent",
+          "categories.needs.transport",
+          "categories.needs.utilities",
+          "categories.savings.big_purchase",
+          "categories.savings.debt_payments",
+          "categories.savings.education_fund",
+          "categories.savings.emergency",
+          "categories.savings.investment",
+          "categories.savings.retirement",
+          "categories.savings.vacation",
+          "categories.wants.beauty",
+          "categories.wants.dining",
+          "categories.wants.entertainments",
+          "categories.wants.hobbies",
+          "categories.wants.shopping",
+          "categories.wants.subscriptions",
+          "categories.wants.travel",
+          "category",
+          "contributed",
+          "date",
+          "income",
+          "modals.addIncome",
+          "modals.amount",
+          "modals.note",
+          "noTransactions",
+          "pace",
+          "remaining",
+          "sheets.addSheet.choose.options.expense.subtitle",
+          "sheets.addSheet.choose.options.expense.title",
+          "sheets.addSheet.choose.options.income.subtitle",
+          "sheets.addSheet.choose.options.income.title",
+          "sheets.addSheet.choose.subtitle",
+          "sheets.addSheet.choose.title",
+          "sheets.addSheet.expense.subtitle",
+          "sheets.addSheet.expense.title",
+          "sheets.addSheet.income.afterSave",
+          "sheets.addSheet.income.input",
+          "sheets.addSheet.income.stay",
+          "sheets.addSheet.income.subtitle",
+          "sheets.addSheet.income.switch",
+          "sheets.addSheet.income.title",
+          "sheets.common.applyTo",
+          "sheets.common.nextMonth",
+          "sheets.common.thisMonth",
+          "sortOptions.byAmount",
+          "sortOptions.byDate",
+          "spent",
+          "toast.changeMonth.error",
+          "toast.init.error",
+          "toast.init.success",
+          "toast.percents.error",
+          "toast.percents.success",
+          "toast.setIncome.error",
+          "toast.setIncome.success",
+          "toast.txn.addFailed",
+          "toast.txn.added",
+          "toast.txn.deleteFailed",
+          "toast.txn.deleted",
+          "toast.txn.updateFailed",
+          "toast.txn.updated",
+          "topCategories"
+        ],
+        "unusedKeys": []
+      },
+      "common": {
+        "total": 28,
+        "usedCount": 28,
+        "unusedCount": 0,
+        "usedKeys": [
+          "actions.back",
+          "actions.continue",
+          "actions.next",
+          "actions.skip",
+          "confirmations.modalTitle",
+          "dates.today",
+          "dates.yesterday",
+          "errors.generic",
+          "hi",
+          "pageContent.bucket.noTrans",
+          "pageContent.buckets.header",
+          "pages.buckets",
+          "pages.dashboard",
+          "pages.history",
+          "pages.insights",
+          "pages.profile",
+          "pages.transactions",
+          "search.placeholder",
+          "validation.amount.gtZero",
+          "validation.amount.invalidNumber",
+          "validation.amount.ltMax",
+          "validation.amount.maxTwoDecimals",
+          "validation.amount.required",
+          "validation.category.invalid",
+          "validation.category.required",
+          "validation.date.invalid",
+          "validation.date.notFuture",
+          "validation.date.required"
+        ],
+        "unusedKeys": []
+      },
+      "history": {
+        "total": 1,
+        "usedCount": 1,
+        "unusedCount": 0,
+        "usedKeys": [
+          "toast.loadFailed"
+        ],
+        "unusedKeys": []
+      },
+      "insights": {
+        "total": 46,
+        "usedCount": 46,
+        "unusedCount": 0,
+        "usedKeys": [
+          "bucket.chip.earlyMonth",
+          "bucket.chip.nearPace",
+          "bucket.chip.noBudget",
+          "bucket.chip.onTrack",
+          "bucket.chip.overPace",
+          "bucket.chip.perDayLeft",
+          "bucket.chip.runOutInDays",
+          "bucket.chip.underPace",
+          "bucket.cta.reviewCategory",
+          "bucket.message.categoryHealthy",
+          "bucket.message.earlyMonth",
+          "bucket.message.nearPace",
+          "bucket.message.noBudget",
+          "bucket.message.overPace",
+          "bucket.message.perDayOk",
+          "bucket.message.perDayTight",
+          "bucket.message.perDayVeryTight",
+          "bucket.message.runOutInDays",
+          "bucket.message.underPace",
+          "bucket.subtext.basedOnRemaining",
+          "bucket.subtext.burnVsPace",
+          "bucket.title.headsUp",
+          "bucket.title.info",
+          "bucket.title.nice",
+          "bucket.title.tip",
+          "smart.cta.addExpense",
+          "smart.cta.seeBreakdown",
+          "smart.cta.seeInsights",
+          "smart.message.canSpendPerDay",
+          "smart.message.closeToPlan",
+          "smart.message.keepUnderPerDay",
+          "smart.message.noIncome",
+          "smart.message.noSpendEarly",
+          "smart.message.noSpendLater",
+          "smart.message.onlyPerDayLeft",
+          "smart.message.projectAround",
+          "smart.message.projectOver",
+          "smart.message.projectUnder",
+          "smart.message.spendingFaster",
+          "smart.message.spendingSlower",
+          "smart.subtext.basedOnRemaining",
+          "smart.subtext.burnVsPace",
+          "smart.title.freshStart",
+          "smart.title.headsUp",
+          "smart.title.nice",
+          "smart.title.tip"
+        ],
+        "unusedKeys": []
+      },
+      "onboarding": {
+        "total": 22,
+        "usedCount": 22,
+        "unusedCount": 0,
+        "usedKeys": [
+          "step1.text1",
+          "step1.text2",
+          "step2.text1",
+          "step2.text2",
+          "step2.text3",
+          "step2.title",
+          "step3.li1",
+          "step3.li2",
+          "step3.li3",
+          "step3.text1",
+          "step3.text2",
+          "step3.text3",
+          "step3.title",
+          "step4.text1",
+          "step4.text2",
+          "step4.text3",
+          "step4.text4",
+          "step4.title",
+          "step5.text1",
+          "step5.text2",
+          "step5.text3",
+          "step5.title"
+        ],
+        "unusedKeys": []
+      },
+      "settings": {
+        "total": 32,
+        "usedCount": 32,
+        "unusedCount": 0,
+        "usedKeys": [
+          "budgetPref",
+          "currency.labelEu",
+          "currency.labelRo",
+          "currency.title",
+          "language",
+          "percents.adjust",
+          "percents.checkbox.labelFuture",
+          "percents.checkbox.labelNow",
+          "percents.checkbox.title",
+          "percents.popover",
+          "percents.title",
+          "shortNames.appearance",
+          "shortNames.currency",
+          "shortNames.language",
+          "startDay.info",
+          "startDay.title",
+          "theme.labelDark",
+          "theme.labelLight",
+          "theme.title",
+          "toast.completeOnboarding.error",
+          "toast.completeOnboarding.success",
+          "toast.currency.error",
+          "toast.currency.success",
+          "toast.language.error",
+          "toast.language.success",
+          "toast.load.error",
+          "toast.percents.error",
+          "toast.percents.success",
+          "toast.startDay.error",
+          "toast.startDay.success",
+          "toast.theme.error",
+          "toast.theme.success"
+        ],
+        "unusedKeys": []
+      },
+      "taxonomy": {
+        "total": 4,
+        "usedCount": 4,
+        "unusedCount": 0,
+        "usedKeys": [
+          "categoryNames.all",
+          "categoryNames.needs",
+          "categoryNames.savings",
+          "categoryNames.wants"
+        ],
+        "unusedKeys": []
+      }
+    },
+    "ro": {
+      "budget": {
+        "total": 75,
+        "usedCount": 75,
+        "unusedCount": 0,
+        "usedKeys": [
+          "allocated",
+          "badges.behindPlan",
+          "badges.good",
+          "badges.highBurn",
+          "badges.nearBudget",
+          "badges.overBudget",
+          "badges.underPace",
+          "bucket",
+          "buckets",
+          "budget",
+          "categories.needs.education",
+          "categories.needs.groceries",
+          "categories.needs.healthcare",
+          "categories.needs.insurance",
+          "categories.needs.rent",
+          "categories.needs.transport",
+          "categories.needs.utilities",
+          "categories.savings.big_purchase",
+          "categories.savings.debt_payments",
+          "categories.savings.education_fund",
+          "categories.savings.emergency",
+          "categories.savings.investment",
+          "categories.savings.retirement",
+          "categories.savings.vacation",
+          "categories.wants.beauty",
+          "categories.wants.dining",
+          "categories.wants.entertainments",
+          "categories.wants.hobbies",
+          "categories.wants.shopping",
+          "categories.wants.subscriptions",
+          "categories.wants.travel",
+          "category",
+          "contributed",
+          "date",
+          "income",
+          "modals.addIncome",
+          "modals.amount",
+          "modals.note",
+          "noTransactions",
+          "pace",
+          "remaining",
+          "sheets.addSheet.choose.options.expense.subtitle",
+          "sheets.addSheet.choose.options.expense.title",
+          "sheets.addSheet.choose.options.income.subtitle",
+          "sheets.addSheet.choose.options.income.title",
+          "sheets.addSheet.choose.subtitle",
+          "sheets.addSheet.choose.title",
+          "sheets.addSheet.expense.subtitle",
+          "sheets.addSheet.expense.title",
+          "sheets.addSheet.income.afterSave",
+          "sheets.addSheet.income.input",
+          "sheets.addSheet.income.stay",
+          "sheets.addSheet.income.subtitle",
+          "sheets.addSheet.income.switch",
+          "sheets.addSheet.income.title",
+          "sheets.common.applyTo",
+          "sheets.common.nextMonth",
+          "sheets.common.thisMonth",
+          "sortOptions.byAmount",
+          "sortOptions.byDate",
+          "spent",
+          "toast.changeMonth.error",
+          "toast.init.error",
+          "toast.init.success",
+          "toast.percents.error",
+          "toast.percents.success",
+          "toast.setIncome.error",
+          "toast.setIncome.success",
+          "toast.txn.addFailed",
+          "toast.txn.added",
+          "toast.txn.deleteFailed",
+          "toast.txn.deleted",
+          "toast.txn.updateFailed",
+          "toast.txn.updated",
+          "topCategories"
+        ],
+        "unusedKeys": []
+      },
+      "common": {
+        "total": 28,
+        "usedCount": 28,
+        "unusedCount": 0,
+        "usedKeys": [
+          "actions.back",
+          "actions.continue",
+          "actions.next",
+          "actions.skip",
+          "confirmations.modalTitle",
+          "dates.today",
+          "dates.yesterday",
+          "errors.generic",
+          "hi",
+          "pageContent.bucket.noTrans",
+          "pageContent.buckets.header",
+          "pages.buckets",
+          "pages.dashboard",
+          "pages.history",
+          "pages.insights",
+          "pages.profile",
+          "pages.transactions",
+          "search.placeholder",
+          "validation.amount.gtZero",
+          "validation.amount.invalidNumber",
+          "validation.amount.ltMax",
+          "validation.amount.maxTwoDecimals",
+          "validation.amount.required",
+          "validation.category.invalid",
+          "validation.category.required",
+          "validation.date.invalid",
+          "validation.date.notFuture",
+          "validation.date.required"
+        ],
+        "unusedKeys": []
+      },
+      "history": {
+        "total": 1,
+        "usedCount": 1,
+        "unusedCount": 0,
+        "usedKeys": [
+          "toast.loadFailed"
+        ],
+        "unusedKeys": []
+      },
+      "insights": {
+        "total": 46,
+        "usedCount": 46,
+        "unusedCount": 0,
+        "usedKeys": [
+          "bucket.chip.earlyMonth",
+          "bucket.chip.nearPace",
+          "bucket.chip.noBudget",
+          "bucket.chip.onTrack",
+          "bucket.chip.overPace",
+          "bucket.chip.perDayLeft",
+          "bucket.chip.runOutInDays",
+          "bucket.chip.underPace",
+          "bucket.cta.reviewCategory",
+          "bucket.message.categoryHealthy",
+          "bucket.message.earlyMonth",
+          "bucket.message.nearPace",
+          "bucket.message.noBudget",
+          "bucket.message.overPace",
+          "bucket.message.perDayOk",
+          "bucket.message.perDayTight",
+          "bucket.message.perDayVeryTight",
+          "bucket.message.runOutInDays",
+          "bucket.message.underPace",
+          "bucket.subtext.basedOnRemaining",
+          "bucket.subtext.burnVsPace",
+          "bucket.title.headsUp",
+          "bucket.title.info",
+          "bucket.title.nice",
+          "bucket.title.tip",
+          "smart.cta.addExpense",
+          "smart.cta.seeBreakdown",
+          "smart.cta.seeInsights",
+          "smart.message.canSpendPerDay",
+          "smart.message.closeToPlan",
+          "smart.message.keepUnderPerDay",
+          "smart.message.noIncome",
+          "smart.message.noSpendEarly",
+          "smart.message.noSpendLater",
+          "smart.message.onlyPerDayLeft",
+          "smart.message.projectAround",
+          "smart.message.projectOver",
+          "smart.message.projectUnder",
+          "smart.message.spendingFaster",
+          "smart.message.spendingSlower",
+          "smart.subtext.basedOnRemaining",
+          "smart.subtext.burnVsPace",
+          "smart.title.freshStart",
+          "smart.title.headsUp",
+          "smart.title.nice",
+          "smart.title.tip"
+        ],
+        "unusedKeys": []
+      },
+      "onboarding": {
+        "total": 22,
+        "usedCount": 22,
+        "unusedCount": 0,
+        "usedKeys": [
+          "step1.text1",
+          "step1.text2",
+          "step2.text1",
+          "step2.text2",
+          "step2.text3",
+          "step2.title",
+          "step3.li1",
+          "step3.li2",
+          "step3.li3",
+          "step3.text1",
+          "step3.text2",
+          "step3.text3",
+          "step3.title",
+          "step4.text1",
+          "step4.text2",
+          "step4.text3",
+          "step4.text4",
+          "step4.title",
+          "step5.text1",
+          "step5.text2",
+          "step5.text3",
+          "step5.title"
+        ],
+        "unusedKeys": []
+      },
+      "settings": {
+        "total": 32,
+        "usedCount": 32,
+        "unusedCount": 0,
+        "usedKeys": [
+          "budgetPref",
+          "currency.labelEu",
+          "currency.labelRo",
+          "currency.title",
+          "language",
+          "percents.adjust",
+          "percents.checkbox.labelFuture",
+          "percents.checkbox.labelNow",
+          "percents.checkbox.title",
+          "percents.popover",
+          "percents.title",
+          "shortNames.appearance",
+          "shortNames.currency",
+          "shortNames.language",
+          "startDay.info",
+          "startDay.title",
+          "theme.labelDark",
+          "theme.labelLight",
+          "theme.title",
+          "toast.completeOnboarding.error",
+          "toast.completeOnboarding.success",
+          "toast.currency.error",
+          "toast.currency.success",
+          "toast.language.error",
+          "toast.language.success",
+          "toast.load.error",
+          "toast.percents.error",
+          "toast.percents.success",
+          "toast.startDay.error",
+          "toast.startDay.success",
+          "toast.theme.error",
+          "toast.theme.success"
+        ],
+        "unusedKeys": []
+      },
+      "taxonomy": {
+        "total": 4,
+        "usedCount": 4,
+        "unusedCount": 0,
+        "usedKeys": [
+          "categoryNames.all",
+          "categoryNames.needs",
+          "categoryNames.savings",
+          "categoryNames.wants"
+        ],
+        "unusedKeys": []
+      }
+    }
+  },
+  "byKeyRefs": {
+    "budget": {
+      "allocated": [
+        {
+          "file": "src/features/buckets/bucket-cards/bucket-cards.component.tsx",
+          "line": 52,
+          "kind": "literal",
+          "match": "'allocated'"
+        },
+        {
+          "file": "src/features/buckets/bucket-info/bucket-info.component.tsx",
+          "line": 80,
+          "kind": "literal",
+          "match": "'allocated'"
+        },
+        {
+          "file": "src/pages/bucket/bucket.component.tsx",
+          "line": 101,
+          "kind": "literal",
+          "match": "'budget:allocated'"
+        },
+        {
+          "file": "src/shared/ui/charts/stacked-bar.component.tsx",
+          "line": 24,
+          "kind": "literal",
+          "match": "'allocated'"
+        }
+      ],
+      "badges.behindPlan": [
+        {
+          "file": "src/components/badge-pills/badge-pills.component.tsx",
+          "line": 51,
+          "kind": "literal",
+          "match": "'budget:badges.behindPlan'"
+        }
+      ],
+      "badges.good": [
+        {
+          "file": "src/components/badge-pills/badge-pills.component.tsx",
+          "line": 57,
+          "kind": "literal",
+          "match": "'budget:badges.good'"
+        }
+      ],
+      "badges.highBurn": [
+        {
+          "file": "src/components/badge-pills/badge-pills.component.tsx",
+          "line": 45,
+          "kind": "literal",
+          "match": "'budget:badges.highBurn'"
+        }
+      ],
+      "badges.nearBudget": [
+        {
+          "file": "src/components/badge-pills/badge-pills.component.tsx",
+          "line": 40,
+          "kind": "literal",
+          "match": "'budget:badges.nearBudget'"
+        }
+      ],
+      "badges.overBudget": [
+        {
+          "file": "src/components/badge-pills/badge-pills.component.tsx",
+          "line": 35,
+          "kind": "literal",
+          "match": "'budget:badges.overBudget'"
+        }
+      ],
+      "badges.underPace": [
+        {
+          "file": "src/components/badge-pills/badge-pills.component.tsx",
+          "line": 57,
+          "kind": "literal",
+          "match": "'budget:badges.underPace'"
+        }
+      ],
+      "bucket": [
+        {
+          "file": "src/features/add-action/expense-form/expense-form.component.tsx",
+          "line": 110,
+          "kind": "literal",
+          "match": "'bucket'"
+        }
+      ],
+      "buckets": [
+        {
+          "file": "src/api/types/insight.types.ts",
+          "line": 7,
+          "kind": "literal",
+          "match": "'buckets'"
+        },
+        {
+          "file": "src/App.tsx",
+          "line": 69,
+          "kind": "literal",
+          "match": "\"buckets\""
+        },
+        {
+          "file": "src/pages/profile/profile.component.tsx",
+          "line": 68,
+          "kind": "literal",
+          "match": "'buckets'"
+        },
+        {
+          "file": "src/shared/utils/budget-insights.util.ts",
+          "line": 24,
+          "kind": "literal",
+          "match": "'buckets'"
+        },
+        {
+          "file": "src/widgets/nav.config.ts",
+          "line": 27,
+          "kind": "literal",
+          "match": "'buckets'"
+        }
+      ],
+      "budget": [
+        {
+          "file": "src/components/badge-pills/badge-pills.component.tsx",
+          "line": 24,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/components/bucket-name/bucket-name.component.tsx",
+          "line": 19,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/components/category-name/category-name.component.tsx",
+          "line": 15,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/components/transaction-row/transaction-row.component.tsx",
+          "line": 21,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/components/type-box-selector/type-box-selector.component.tsx",
+          "line": 21,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/features/add-action/action-selector/action-selector.component.tsx",
+          "line": 23,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/features/add-action/add-income/add-income.component.tsx",
+          "line": 22,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/features/add-action/expense-form/expense-form.component.tsx",
+          "line": 42,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/features/buckets/bucket-cards/bucket-cards.component.tsx",
+          "line": 17,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/features/buckets/bucket-info/bucket-info.component.tsx",
+          "line": 22,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/features/buckets/buckets-health/buckets-health.component.tsx",
+          "line": 15,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/features/insights/health-insight/health-insight.component.tsx",
+          "line": 19,
+          "kind": "literal",
+          "match": "\"budget\""
+        },
+        {
+          "file": "src/features/txns/transaction-line/transaction-line.component.tsx",
+          "line": 19,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/i18n/i18n.ts",
+          "line": 52,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/pages/bucket/bucket.component.tsx",
+          "line": 33,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/pages/dashboard/dashboard.component.tsx",
+          "line": 44,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/pages/dashboard/dashboard.component.tsx",
+          "line": 100,
+          "kind": "literal",
+          "match": "'budget:budget'"
+        },
+        {
+          "file": "src/pages/history/history.component.tsx",
+          "line": 59,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/pages/profile/profile.component.tsx",
+          "line": 36,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/pages/profile/profile.component.tsx",
+          "line": 44,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/pages/profile/profile.component.tsx",
+          "line": 137,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/pages/profile/profile.component.tsx",
+          "line": 202,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/pages/profile/profile.component.tsx",
+          "line": 203,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/pages/transactions/transactions.component.tsx",
+          "line": 40,
+          "kind": "literal",
+          "match": "\"budget\""
+        },
+        {
+          "file": "src/pages/transactions/transactions.component.tsx",
+          "line": 65,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/pages/transactions/transactions.component.tsx",
+          "line": 143,
+          "kind": "literal",
+          "match": "'budget:budget'"
+        },
+        {
+          "file": "src/shared/hooks/use-resolved-insight.hook.ts",
+          "line": 7,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/store/app.selectors.ts",
+          "line": 27,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/store/budget-store/budget.slice.ts",
+          "line": 281,
+          "kind": "literal",
+          "match": "'budget'"
+        },
+        {
+          "file": "src/widgets/sheets/action-sheet/action-sheet.component.tsx",
+          "line": 21,
+          "kind": "literal",
+          "match": "'budget'"
+        }
+      ],
+      "categories.needs.education": [
+        {
+          "file": "src/shared/utils/category-options.util.ts",
+          "line": 68,
+          "kind": "literal",
+          "match": "'budget:categories.needs.education'"
+        }
+      ],
+      "categories.needs.groceries": [
+        {
+          "file": "src/shared/utils/category-options.util.ts",
+          "line": 40,
+          "kind": "literal",
+          "match": "'budget:categories.needs.groceries'"
+        }
+      ],
+      "categories.needs.healthcare": [
+        {
+          "file": "src/shared/utils/category-options.util.ts",
+          "line": 61,
+          "kind": "literal",
+          "match": "'budget:categories.needs.healthcare'"
+        }
+      ],
+      "categories.needs.insurance": [
+        {
+          "file": "src/shared/utils/category-options.util.ts",
+          "line": 54,
+          "kind": "literal",
+          "match": "'budget:categories.needs.insurance'"
+        }
+      ],
+      "categories.needs.rent": [
+        {
+          "file": "src/shared/utils/category-options.util.ts",
+          "line": 26,
+          "kind": "literal",
+          "match": "'budget:categories.needs.rent'"
+        }
+      ],
+      "categories.needs.transport": [
+        {
+          "file": "src/shared/utils/category-options.util.ts",
+          "line": 47,
+          "kind": "literal",
+          "match": "'budget:categories.needs.transport'"
+        }
+      ],
+      "categories.needs.utilities": [
+        {
+          "file": "src/shared/utils/category-options.util.ts",
+          "line": 33,
+          "kind": "literal",
+          "match": "'budget:categories.needs.utilities'"
+        }
+      ],
+      "categories.savings.big_purchase": [
+        {
+          "file": "src/shared/utils/category-options.util.ts",
+          "line": 149,
+          "kind": "literal",
+          "match": "'budget:categories.savings.big_purchase'"
+        }
+      ],
+      "categories.savings.debt_payments": [
+        {
+          "file": "src/shared/utils/category-options.util.ts",
+          "line": 170,
+          "kind": "literal",
+          "match": "'budget:categories.savings.debt_payments'"
+        }
+      ],
+      "categories.savings.education_fund": [
+        {
+          "file": "src/shared/utils/category-options.util.ts",
+          "line": 163,
+          "kind": "literal",
+          "match": "'budget:categories.savings.education_fund'"
+        }
+      ],
+      "categories.savings.emergency": [
+        {
+          "file": "src/shared/utils/category-options.util.ts",
+          "line": 128,
+          "kind": "literal",
+          "match": "'budget:categories.savings.emergency'"
+        }
+      ],
+      "categories.savings.investment": [
+        {
+          "file": "src/shared/utils/category-options.util.ts",
+          "line": 135,
+          "kind": "literal",
+          "match": "'budget:categories.savings.investment'"
+        }
+      ],
+      "categories.savings.retirement": [
+        {
+          "file": "src/shared/utils/category-options.util.ts",
+          "line": 142,
+          "kind": "literal",
+          "match": "'budget:categories.savings.retirement'"
+        }
+      ],
+      "categories.savings.vacation": [
+        {
+          "file": "src/shared/utils/category-options.util.ts",
+          "line": 156,
+          "kind": "literal",
+          "match": "'budget:categories.savings.vacation'"
+        }
+      ],
+      "categories.wants.beauty": [
+        {
+          "file": "src/shared/utils/category-options.util.ts",
+          "line": 119,
+          "kind": "literal",
+          "match": "'budget:categories.wants.beauty'"
+        }
+      ],
+      "categories.wants.dining": [
+        {
+          "file": "src/shared/utils/category-options.util.ts",
+          "line": 77,
+          "kind": "literal",
+          "match": "'budget:categories.wants.dining'"
+        }
+      ],
+      "categories.wants.entertainments": [
+        {
+          "file": "src/shared/utils/category-options.util.ts",
+          "line": 84,
+          "kind": "literal",
+          "match": "'budget:categories.wants.entertainments'"
+        }
+      ],
+      "categories.wants.hobbies": [
+        {
+          "file": "src/shared/utils/category-options.util.ts",
+          "line": 112,
+          "kind": "literal",
+          "match": "'budget:categories.wants.hobbies'"
+        }
+      ],
+      "categories.wants.shopping": [
+        {
+          "file": "src/shared/utils/category-options.util.ts",
+          "line": 91,
+          "kind": "literal",
+          "match": "'budget:categories.wants.shopping'"
+        }
+      ],
+      "categories.wants.subscriptions": [
+        {
+          "file": "src/shared/utils/category-options.util.ts",
+          "line": 105,
+          "kind": "literal",
+          "match": "'budget:categories.wants.subscriptions'"
+        }
+      ],
+      "categories.wants.travel": [
+        {
+          "file": "src/shared/utils/category-options.util.ts",
+          "line": 98,
+          "kind": "literal",
+          "match": "'budget:categories.wants.travel'"
+        }
+      ],
+      "category": [
+        {
+          "file": "src/components/transaction-row/transaction-row.component.tsx",
+          "line": 16,
+          "kind": "literal",
+          "match": "'category'"
+        },
+        {
+          "file": "src/components/transaction-row/transaction-row.component.tsx",
+          "line": 48,
+          "kind": "literal",
+          "match": "'category'"
+        },
+        {
+          "file": "src/features/add-action/add-expense/add-expense.component.tsx",
+          "line": 74,
+          "kind": "literal",
+          "match": "'category'"
+        },
+        {
+          "file": "src/features/add-action/add-expense/add-expense.util.ts",
+          "line": 4,
+          "kind": "literal",
+          "match": "'category'"
+        },
+        {
+          "file": "src/features/add-action/add-expense/add-expense.util.ts",
+          "line": 57,
+          "kind": "literal",
+          "match": "'category'"
+        },
+        {
+          "file": "src/features/add-action/add-expense/add-expense.util.ts",
+          "line": 77,
+          "kind": "literal",
+          "match": "'category'"
+        },
+        {
+          "file": "src/features/add-action/expense-form/expense-form.component.tsx",
+          "line": 115,
+          "kind": "literal",
+          "match": "'category'"
+        },
+        {
+          "file": "src/shared/ui/charts/stacked-bar.component.tsx",
+          "line": 23,
+          "kind": "literal",
+          "match": "\"category\""
+        }
+      ],
+      "contributed": [
+        {
+          "file": "src/features/buckets/bucket-cards/bucket-cards.component.tsx",
+          "line": 60,
+          "kind": "literal",
+          "match": "'contributed'"
+        }
+      ],
+      "date": [
+        {
+          "file": "src/api/services/budget.service.ts",
+          "line": 144,
+          "kind": "literal",
+          "match": "'date'"
+        },
+        {
+          "file": "src/features/add-action/add-expense/add-expense.util.ts",
+          "line": 4,
+          "kind": "literal",
+          "match": "'date'"
+        },
+        {
+          "file": "src/features/add-action/add-expense/add-expense.util.ts",
+          "line": 50,
+          "kind": "literal",
+          "match": "'date'"
+        },
+        {
+          "file": "src/features/add-action/add-expense/add-expense.util.ts",
+          "line": 76,
+          "kind": "literal",
+          "match": "'date'"
+        },
+        {
+          "file": "src/features/add-action/expense-form/expense-form.component.tsx",
+          "line": 136,
+          "kind": "literal",
+          "match": "'date'"
+        },
+        {
+          "file": "src/pages/transactions/transactions.component.tsx",
+          "line": 78,
+          "kind": "literal",
+          "match": "'date'"
+        },
+        {
+          "file": "src/pages/transactions/transactions.component.tsx",
+          "line": 88,
+          "kind": "literal",
+          "match": "'date'"
+        },
+        {
+          "file": "src/store/budget-store/budget.selectors.ts",
+          "line": 95,
+          "kind": "literal",
+          "match": "'date'"
+        },
+        {
+          "file": "src/store/budget-store/budget.slice.ts",
+          "line": 31,
+          "kind": "literal",
+          "match": "'date'"
+        },
+        {
+          "file": "src/store/budget-store/budget.slice.ts",
+          "line": 62,
+          "kind": "literal",
+          "match": "'date'"
+        },
+        {
+          "file": "src/store/budget-store/budget.slice.ts",
+          "line": 324,
+          "kind": "literal",
+          "match": "'date'"
+        },
+        {
+          "file": "src/widgets/sheets/sort-sheet/sort-sheet.component.tsx",
+          "line": 38,
+          "kind": "literal",
+          "match": "'date'"
+        },
+        {
+          "file": "src/widgets/sheets/sort-sheet/sort-sheet.component.tsx",
+          "line": 39,
+          "kind": "literal",
+          "match": "'date'"
+        }
+      ],
+      "income": [
+        {
+          "file": "src/api/services/budget.service.ts",
+          "line": 43,
+          "kind": "literal",
+          "match": "'income'"
+        },
+        {
+          "file": "src/api/services/budget.service.ts",
+          "line": 52,
+          "kind": "literal",
+          "match": "'income'"
+        },
+        {
+          "file": "src/api/services/budget.service.ts",
+          "line": 89,
+          "kind": "literal",
+          "match": "'income'"
+        },
+        {
+          "file": "src/api/types/sheets.types.ts",
+          "line": 1,
+          "kind": "literal",
+          "match": "'income'"
+        },
+        {
+          "file": "src/features/add-action/action-selector/action-selector.component.tsx",
+          "line": 33,
+          "kind": "literal",
+          "match": "'income'"
+        },
+        {
+          "file": "src/features/insights/smart-insight-card/smart-insight-card.component.tsx",
+          "line": 85,
+          "kind": "literal",
+          "match": "\"income\""
+        },
+        {
+          "file": "src/store/budget-store/budget-daily.selectors.ts",
+          "line": 69,
+          "kind": "literal",
+          "match": "'income'"
+        },
+        {
+          "file": "src/widgets/sheets/action-sheet/action-sheet.component.tsx",
+          "line": 26,
+          "kind": "literal",
+          "match": "'income'"
+        },
+        {
+          "file": "src/widgets/sheets/action-sheet/action-sheet.component.tsx",
+          "line": 31,
+          "kind": "literal",
+          "match": "'income'"
+        },
+        {
+          "file": "src/widgets/sheets/action-sheet/action-sheet.component.tsx",
+          "line": 55,
+          "kind": "literal",
+          "match": "'income'"
+        }
+      ],
+      "modals.addIncome": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 43,
+          "kind": "literal",
+          "match": "'budget:modals.addIncome'"
+        }
+      ],
+      "modals.amount": [
+        {
+          "file": "src/features/add-action/expense-form/expense-form.component.tsx",
+          "line": 100,
+          "kind": "literal",
+          "match": "'modals.amount'"
+        }
+      ],
+      "modals.note": [
+        {
+          "file": "src/features/add-action/expense-form/expense-form.component.tsx",
+          "line": 155,
+          "kind": "literal",
+          "match": "'budget:modals.note'"
+        }
+      ],
+      "noTransactions": [
+        {
+          "file": "src/pages/bucket/bucket.component.tsx",
+          "line": 128,
+          "kind": "literal",
+          "match": "'budget:noTransactions'"
+        }
+      ],
+      "pace": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 470,
+          "kind": "literal",
+          "match": "'pace'"
+        }
+      ],
+      "remaining": [
+        {
+          "file": "src/features/buckets/bucket-cards/bucket-cards.component.tsx",
+          "line": 70,
+          "kind": "literal",
+          "match": "'remaining'"
+        },
+        {
+          "file": "src/features/buckets/bucket-info/bucket-info.component.tsx",
+          "line": 85,
+          "kind": "literal",
+          "match": "'remaining'"
+        },
+        {
+          "file": "src/pages/bucket/bucket.component.tsx",
+          "line": 111,
+          "kind": "literal",
+          "match": "'budget:remaining'"
+        },
+        {
+          "file": "src/pages/history/history.component.tsx",
+          "line": 159,
+          "kind": "literal",
+          "match": "'budget:remaining'"
+        },
+        {
+          "file": "src/pages/transactions/transactions.component.tsx",
+          "line": 146,
+          "kind": "literal",
+          "match": "'budget:remaining'"
+        }
+      ],
+      "sheets.addSheet.choose.options.expense.subtitle": [
+        {
+          "file": "src/features/add-action/action-selector/action-selector.component.tsx",
+          "line": 30,
+          "kind": "literal",
+          "match": "'sheets.addSheet.choose.options.expense.subtitle'"
+        },
+        {
+          "file": "src/widgets/sheets/action-sheet/action-sheet.component.tsx",
+          "line": 53,
+          "kind": "template",
+          "match": "`sheets.addSheet.${step}.subtitle`"
+        }
+      ],
+      "sheets.addSheet.choose.options.expense.title": [
+        {
+          "file": "src/features/add-action/action-selector/action-selector.component.tsx",
+          "line": 29,
+          "kind": "literal",
+          "match": "'sheets.addSheet.choose.options.expense.title'"
+        },
+        {
+          "file": "src/widgets/sheets/action-sheet/action-sheet.component.tsx",
+          "line": 52,
+          "kind": "template",
+          "match": "`sheets.addSheet.${step}.title`"
+        }
+      ],
+      "sheets.addSheet.choose.options.income.subtitle": [
+        {
+          "file": "src/features/add-action/action-selector/action-selector.component.tsx",
+          "line": 36,
+          "kind": "literal",
+          "match": "'sheets.addSheet.choose.options.income.subtitle'"
+        },
+        {
+          "file": "src/widgets/sheets/action-sheet/action-sheet.component.tsx",
+          "line": 53,
+          "kind": "template",
+          "match": "`sheets.addSheet.${step}.subtitle`"
+        }
+      ],
+      "sheets.addSheet.choose.options.income.title": [
+        {
+          "file": "src/features/add-action/action-selector/action-selector.component.tsx",
+          "line": 35,
+          "kind": "literal",
+          "match": "'sheets.addSheet.choose.options.income.title'"
+        },
+        {
+          "file": "src/widgets/sheets/action-sheet/action-sheet.component.tsx",
+          "line": 52,
+          "kind": "template",
+          "match": "`sheets.addSheet.${step}.title`"
+        }
+      ],
+      "sheets.addSheet.choose.subtitle": [
+        {
+          "file": "src/widgets/sheets/action-sheet/action-sheet.component.tsx",
+          "line": 53,
+          "kind": "template",
+          "match": "`sheets.addSheet.${step}.subtitle`"
+        }
+      ],
+      "sheets.addSheet.choose.title": [
+        {
+          "file": "src/widgets/sheets/action-sheet/action-sheet.component.tsx",
+          "line": 52,
+          "kind": "template",
+          "match": "`sheets.addSheet.${step}.title`"
+        }
+      ],
+      "sheets.addSheet.expense.subtitle": [
+        {
+          "file": "src/widgets/sheets/action-sheet/action-sheet.component.tsx",
+          "line": 53,
+          "kind": "template",
+          "match": "`sheets.addSheet.${step}.subtitle`"
+        }
+      ],
+      "sheets.addSheet.expense.title": [
+        {
+          "file": "src/widgets/sheets/action-sheet/action-sheet.component.tsx",
+          "line": 52,
+          "kind": "template",
+          "match": "`sheets.addSheet.${step}.title`"
+        }
+      ],
+      "sheets.addSheet.income.afterSave": [
+        {
+          "file": "src/features/add-action/add-income/add-income.component.tsx",
+          "line": 103,
+          "kind": "literal",
+          "match": "'sheets.addSheet.income.afterSave'"
+        }
+      ],
+      "sheets.addSheet.income.input": [
+        {
+          "file": "src/features/add-action/add-income/add-income.component.tsx",
+          "line": 82,
+          "kind": "literal",
+          "match": "'sheets.addSheet.income.input'"
+        }
+      ],
+      "sheets.addSheet.income.stay": [
+        {
+          "file": "src/features/add-action/add-income/add-income.component.tsx",
+          "line": 105,
+          "kind": "literal",
+          "match": "'sheets.addSheet.income.stay'"
+        }
+      ],
+      "sheets.addSheet.income.subtitle": [
+        {
+          "file": "src/widgets/sheets/action-sheet/action-sheet.component.tsx",
+          "line": 53,
+          "kind": "template",
+          "match": "`sheets.addSheet.${step}.subtitle`"
+        }
+      ],
+      "sheets.addSheet.income.switch": [
+        {
+          "file": "src/features/add-action/add-income/add-income.component.tsx",
+          "line": 104,
+          "kind": "literal",
+          "match": "'sheets.addSheet.income.switch'"
+        }
+      ],
+      "sheets.addSheet.income.title": [
+        {
+          "file": "src/widgets/sheets/action-sheet/action-sheet.component.tsx",
+          "line": 52,
+          "kind": "template",
+          "match": "`sheets.addSheet.${step}.title`"
+        }
+      ],
+      "sheets.common.applyTo": [
+        {
+          "file": "src/features/add-action/add-income/add-income.component.tsx",
+          "line": 94,
+          "kind": "literal",
+          "match": "'sheets.common.applyTo'"
+        }
+      ],
+      "sheets.common.nextMonth": [
+        {
+          "file": "src/features/add-action/add-income/add-income.component.tsx",
+          "line": 95,
+          "kind": "literal",
+          "match": "'sheets.common.nextMonth'"
+        }
+      ],
+      "sheets.common.thisMonth": [
+        {
+          "file": "src/features/add-action/add-income/add-income.component.tsx",
+          "line": 96,
+          "kind": "literal",
+          "match": "'sheets.common.thisMonth'"
+        }
+      ],
+      "sortOptions.byAmount": [
+        {
+          "file": "src/pages/transactions/transactions.component.tsx",
+          "line": 89,
+          "kind": "literal",
+          "match": "'budget:sortOptions.byAmount'"
+        }
+      ],
+      "sortOptions.byDate": [
+        {
+          "file": "src/pages/transactions/transactions.component.tsx",
+          "line": 88,
+          "kind": "literal",
+          "match": "'budget:sortOptions.byDate'"
+        }
+      ],
+      "spent": [
+        {
+          "file": "src/features/buckets/bucket-cards/bucket-cards.component.tsx",
+          "line": 62,
+          "kind": "literal",
+          "match": "'spent'"
+        },
+        {
+          "file": "src/pages/bucket/bucket.component.tsx",
+          "line": 108,
+          "kind": "literal",
+          "match": "'budget:spent'"
+        },
+        {
+          "file": "src/pages/dashboard/dashboard.component.tsx",
+          "line": 103,
+          "kind": "literal",
+          "match": "'budget:spent'"
+        },
+        {
+          "file": "src/pages/history/history.component.tsx",
+          "line": 146,
+          "kind": "literal",
+          "match": "'budget:spent'"
+        },
+        {
+          "file": "src/pages/transactions/transactions.component.tsx",
+          "line": 139,
+          "kind": "literal",
+          "match": "'budget:spent'"
+        },
+        {
+          "file": "src/shared/ui/charts/stacked-bar.component.tsx",
+          "line": 24,
+          "kind": "literal",
+          "match": "'spent'"
+        },
+        {
+          "file": "src/shared/ui/charts/stacked-bar.component.tsx",
+          "line": 30,
+          "kind": "literal",
+          "match": "'spent'"
+        }
+      ],
+      "toast.changeMonth.error": [
+        {
+          "file": "src/store/middlewares/budget.toast.middleware.ts",
+          "line": 63,
+          "kind": "literal",
+          "match": "'budget:toast.changeMonth.error'"
+        }
+      ],
+      "toast.init.error": [
+        {
+          "file": "src/store/middlewares/budget.toast.middleware.ts",
+          "line": 56,
+          "kind": "literal",
+          "match": "'budget:toast.init.error'"
+        }
+      ],
+      "toast.init.success": [
+        {
+          "file": "src/store/middlewares/budget.toast.middleware.ts",
+          "line": 30,
+          "kind": "literal",
+          "match": "'budget:toast.init.success'"
+        }
+      ],
+      "toast.percents.error": [
+        {
+          "file": "src/store/middlewares/budget.toast.middleware.ts",
+          "line": 59,
+          "kind": "literal",
+          "match": "'budget:toast.percents.error'"
+        }
+      ],
+      "toast.percents.success": [
+        {
+          "file": "src/store/middlewares/budget.toast.middleware.ts",
+          "line": 33,
+          "kind": "literal",
+          "match": "'budget:toast.percents.success'"
+        }
+      ],
+      "toast.setIncome.error": [
+        {
+          "file": "src/store/middlewares/budget.toast.middleware.ts",
+          "line": 57,
+          "kind": "literal",
+          "match": "'budget:toast.setIncome.error'"
+        },
+        {
+          "file": "src/store/middlewares/budget.toast.middleware.ts",
+          "line": 58,
+          "kind": "literal",
+          "match": "'budget:toast.setIncome.error'"
+        }
+      ],
+      "toast.setIncome.success": [
+        {
+          "file": "src/store/middlewares/budget.toast.middleware.ts",
+          "line": 31,
+          "kind": "literal",
+          "match": "'budget:toast.setIncome.success'"
+        },
+        {
+          "file": "src/store/middlewares/budget.toast.middleware.ts",
+          "line": 32,
+          "kind": "literal",
+          "match": "'budget:toast.setIncome.success'"
+        }
+      ],
+      "toast.txn.addFailed": [
+        {
+          "file": "src/store/middlewares/budget.toast.middleware.ts",
+          "line": 60,
+          "kind": "literal",
+          "match": "'budget:toast.txn.addFailed'"
+        }
+      ],
+      "toast.txn.added": [
+        {
+          "file": "src/store/middlewares/budget.toast.middleware.ts",
+          "line": 34,
+          "kind": "literal",
+          "match": "'budget:toast.txn.added'"
+        }
+      ],
+      "toast.txn.deleteFailed": [
+        {
+          "file": "src/store/middlewares/budget.toast.middleware.ts",
+          "line": 62,
+          "kind": "literal",
+          "match": "'budget:toast.txn.deleteFailed'"
+        }
+      ],
+      "toast.txn.deleted": [
+        {
+          "file": "src/store/middlewares/budget.toast.middleware.ts",
+          "line": 36,
+          "kind": "literal",
+          "match": "'budget:toast.txn.deleted'"
+        }
+      ],
+      "toast.txn.updateFailed": [
+        {
+          "file": "src/store/middlewares/budget.toast.middleware.ts",
+          "line": 61,
+          "kind": "literal",
+          "match": "'budget:toast.txn.updateFailed'"
+        }
+      ],
+      "toast.txn.updated": [
+        {
+          "file": "src/store/middlewares/budget.toast.middleware.ts",
+          "line": 35,
+          "kind": "literal",
+          "match": "'budget:toast.txn.updated'"
+        }
+      ],
+      "topCategories": [
+        {
+          "file": "src/pages/bucket/bucket.component.tsx",
+          "line": 125,
+          "kind": "literal",
+          "match": "'budget:topCategories'"
+        },
+        {
+          "file": "src/pages/dashboard/dashboard.component.tsx",
+          "line": 145,
+          "kind": "literal",
+          "match": "'budget:topCategories'"
+        }
+      ]
+    },
+    "common": {
+      "actions.back": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/multi-step-form.component.tsx",
+          "line": 177,
+          "kind": "literal",
+          "match": "'actions.back'"
+        }
+      ],
+      "actions.continue": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/multi-step-form.component.tsx",
+          "line": 200,
+          "kind": "literal",
+          "match": "'actions.continue'"
+        }
+      ],
+      "actions.next": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/multi-step-form.component.tsx",
+          "line": 189,
+          "kind": "literal",
+          "match": "'actions.next'"
+        }
+      ],
+      "actions.skip": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/multi-step-form.component.tsx",
+          "line": 166,
+          "kind": "literal",
+          "match": "'actions.skip'"
+        }
+      ],
+      "confirmations.modalTitle": [
+        {
+          "file": "src/components/confirmation-modal/confirmation-modal.component.tsx",
+          "line": 61,
+          "kind": "literal",
+          "match": "'confirmations.modalTitle'"
+        },
+        {
+          "file": "src/components/confirmation-modal/confirmation-modal.component.tsx",
+          "line": 76,
+          "kind": "literal",
+          "match": "'confirmations.modalTitle'"
+        }
+      ],
+      "dates.today": [
+        {
+          "file": "src/components/transaction-row/transaction-row.component.tsx",
+          "line": 33,
+          "kind": "literal",
+          "match": "'dates.today'"
+        },
+        {
+          "file": "src/features/txns/transaction-line/transaction-line.component.tsx",
+          "line": 28,
+          "kind": "literal",
+          "match": "'common:dates.today'"
+        }
+      ],
+      "dates.yesterday": [
+        {
+          "file": "src/components/transaction-row/transaction-row.component.tsx",
+          "line": 34,
+          "kind": "literal",
+          "match": "'dates.yesterday'"
+        },
+        {
+          "file": "src/features/txns/transaction-line/transaction-line.component.tsx",
+          "line": 29,
+          "kind": "literal",
+          "match": "'common:dates.yesterday'"
+        }
+      ],
+      "errors.generic": [
+        {
+          "file": "src/components/confirmation-modal/confirmation-modal.component.tsx",
+          "line": 40,
+          "kind": "literal",
+          "match": "'errors.generic'"
+        }
+      ],
+      "hi": [
+        {
+          "file": "src/pages/dashboard/dashboard.component.tsx",
+          "line": 91,
+          "kind": "literal",
+          "match": "'hi'"
+        },
+        {
+          "file": "src/pages/onboarding/multi-step-form/multi-step-form.component.tsx",
+          "line": 118,
+          "kind": "literal",
+          "match": "'hi'"
+        }
+      ],
+      "pageContent.bucket.noTrans": [
+        {
+          "file": "src/pages/bucket/bucket.component.tsx",
+          "line": 166,
+          "kind": "literal",
+          "match": "'pageContent.bucket.noTrans'"
+        }
+      ],
+      "pageContent.buckets.header": [
+        {
+          "file": "src/pages/buckets/buckets.component.tsx",
+          "line": 25,
+          "kind": "literal",
+          "match": "'pageContent.buckets.header'"
+        }
+      ],
+      "pages.buckets": [
+        {
+          "file": "src/pages/profile/profile.component.tsx",
+          "line": 71,
+          "kind": "literal",
+          "match": "'pages.buckets'"
+        },
+        {
+          "file": "src/widgets/nav.config.ts",
+          "line": 30,
+          "kind": "literal",
+          "match": "'pages.buckets'"
+        }
+      ],
+      "pages.dashboard": [
+        {
+          "file": "src/widgets/nav.config.ts",
+          "line": 23,
+          "kind": "literal",
+          "match": "'pages.dashboard'"
+        }
+      ],
+      "pages.history": [
+        {
+          "file": "src/pages/profile/profile.component.tsx",
+          "line": 78,
+          "kind": "literal",
+          "match": "'pages.history'"
+        },
+        {
+          "file": "src/widgets/nav.config.ts",
+          "line": 51,
+          "kind": "literal",
+          "match": "'pages.history'"
+        }
+      ],
+      "pages.insights": [
+        {
+          "file": "src/widgets/nav.config.ts",
+          "line": 44,
+          "kind": "literal",
+          "match": "'pages.insights'"
+        }
+      ],
+      "pages.profile": [
+        {
+          "file": "src/widgets/nav.config.ts",
+          "line": 58,
+          "kind": "literal",
+          "match": "'pages.profile'"
+        }
+      ],
+      "pages.transactions": [
+        {
+          "file": "src/pages/bucket/bucket.component.tsx",
+          "line": 163,
+          "kind": "literal",
+          "match": "'pages.transactions'"
+        },
+        {
+          "file": "src/widgets/nav.config.ts",
+          "line": 37,
+          "kind": "literal",
+          "match": "'pages.transactions'"
+        }
+      ],
+      "search.placeholder": [
+        {
+          "file": "src/pages/transactions/transactions.component.tsx",
+          "line": 171,
+          "kind": "literal",
+          "match": "'search.placeholder'"
+        }
+      ],
+      "validation.amount.gtZero": [
+        {
+          "file": "src/features/add-action/add-expense/add-expense.util.ts",
+          "line": 43,
+          "kind": "literal",
+          "match": "'validation.amount.gtZero'"
+        }
+      ],
+      "validation.amount.invalidNumber": [
+        {
+          "file": "src/features/add-action/add-expense/add-expense.util.ts",
+          "line": 42,
+          "kind": "literal",
+          "match": "'validation.amount.invalidNumber'"
+        }
+      ],
+      "validation.amount.ltMax": [
+        {
+          "file": "src/features/add-action/add-expense/add-expense.util.ts",
+          "line": 44,
+          "kind": "literal",
+          "match": "'validation.amount.ltMax'"
+        }
+      ],
+      "validation.amount.maxTwoDecimals": [
+        {
+          "file": "src/features/add-action/add-expense/add-expense.util.ts",
+          "line": 47,
+          "kind": "literal",
+          "match": "'validation.amount.maxTwoDecimals'"
+        }
+      ],
+      "validation.amount.required": [
+        {
+          "file": "src/features/add-action/add-expense/add-expense.util.ts",
+          "line": 41,
+          "kind": "literal",
+          "match": "'validation.amount.required'"
+        }
+      ],
+      "validation.category.invalid": [
+        {
+          "file": "src/features/add-action/add-expense/add-expense.util.ts",
+          "line": 60,
+          "kind": "literal",
+          "match": "'validation.category.invalid'"
+        }
+      ],
+      "validation.category.required": [
+        {
+          "file": "src/features/add-action/add-expense/add-expense.util.ts",
+          "line": 59,
+          "kind": "literal",
+          "match": "'validation.category.required'"
+        }
+      ],
+      "validation.date.invalid": [
+        {
+          "file": "src/features/add-action/add-expense/add-expense.util.ts",
+          "line": 53,
+          "kind": "literal",
+          "match": "'validation.date.invalid'"
+        }
+      ],
+      "validation.date.notFuture": [
+        {
+          "file": "src/features/add-action/add-expense/add-expense.util.ts",
+          "line": 54,
+          "kind": "literal",
+          "match": "'validation.date.notFuture'"
+        }
+      ],
+      "validation.date.required": [
+        {
+          "file": "src/features/add-action/add-expense/add-expense.util.ts",
+          "line": 51,
+          "kind": "literal",
+          "match": "'validation.date.required'"
+        }
+      ]
+    },
+    "history": {
+      "toast.loadFailed": [
+        {
+          "file": "src/store/middlewares/history.toast.middleware.ts",
+          "line": 11,
+          "kind": "literal",
+          "match": "'history:toast.loadFailed'"
+        }
+      ]
+    },
+    "insights": {
+      "bucket.chip.earlyMonth": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 404,
+          "kind": "literal",
+          "match": "'bucket.chip.earlyMonth'"
+        }
+      ],
+      "bucket.chip.nearPace": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 457,
+          "kind": "literal",
+          "match": "'bucket.chip.nearPace'"
+        }
+      ],
+      "bucket.chip.noBudget": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 388,
+          "kind": "literal",
+          "match": "'bucket.chip.noBudget'"
+        }
+      ],
+      "bucket.chip.onTrack": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 547,
+          "kind": "literal",
+          "match": "'bucket.chip.onTrack'"
+        }
+      ],
+      "bucket.chip.overPace": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 443,
+          "kind": "literal",
+          "match": "'bucket.chip.overPace'"
+        }
+      ],
+      "bucket.chip.perDayLeft": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 494,
+          "kind": "literal",
+          "match": "'bucket.chip.perDayLeft'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 511,
+          "kind": "literal",
+          "match": "'bucket.chip.perDayLeft'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 528,
+          "kind": "literal",
+          "match": "'bucket.chip.perDayLeft'"
+        }
+      ],
+      "bucket.chip.runOutInDays": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 423,
+          "kind": "literal",
+          "match": "'bucket.chip.runOutInDays'"
+        }
+      ],
+      "bucket.chip.underPace": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 471,
+          "kind": "literal",
+          "match": "'bucket.chip.underPace'"
+        }
+      ],
+      "bucket.cta.reviewCategory": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 228,
+          "kind": "literal",
+          "match": "'bucket.cta.reviewCategory'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 241,
+          "kind": "literal",
+          "match": "'bucket.cta.reviewCategory'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 260,
+          "kind": "literal",
+          "match": "'bucket.cta.reviewCategory'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 275,
+          "kind": "literal",
+          "match": "'bucket.cta.reviewCategory'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 288,
+          "kind": "literal",
+          "match": "'bucket.cta.reviewCategory'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 307,
+          "kind": "literal",
+          "match": "'bucket.cta.reviewCategory'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 320,
+          "kind": "literal",
+          "match": "'bucket.cta.reviewCategory'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 334,
+          "kind": "literal",
+          "match": "'bucket.cta.reviewCategory'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 347,
+          "kind": "literal",
+          "match": "'bucket.cta.reviewCategory'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 359,
+          "kind": "literal",
+          "match": "'bucket.cta.reviewCategory'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 385,
+          "kind": "literal",
+          "match": "'bucket.cta.reviewCategory'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 401,
+          "kind": "literal",
+          "match": "'bucket.cta.reviewCategory'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 420,
+          "kind": "literal",
+          "match": "'bucket.cta.reviewCategory'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 440,
+          "kind": "literal",
+          "match": "'bucket.cta.reviewCategory'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 454,
+          "kind": "literal",
+          "match": "'bucket.cta.reviewCategory'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 468,
+          "kind": "literal",
+          "match": "'bucket.cta.reviewCategory'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 490,
+          "kind": "literal",
+          "match": "'bucket.cta.reviewCategory'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 507,
+          "kind": "literal",
+          "match": "'bucket.cta.reviewCategory'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 524,
+          "kind": "literal",
+          "match": "'bucket.cta.reviewCategory'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 544,
+          "kind": "literal",
+          "match": "'bucket.cta.reviewCategory'"
+        }
+      ],
+      "bucket.message.categoryHealthy": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 357,
+          "kind": "literal",
+          "match": "'bucket.message.categoryHealthy'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 542,
+          "kind": "literal",
+          "match": "'bucket.message.categoryHealthy'"
+        }
+      ],
+      "bucket.message.earlyMonth": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 239,
+          "kind": "literal",
+          "match": "'bucket.message.earlyMonth'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 399,
+          "kind": "literal",
+          "match": "'bucket.message.earlyMonth'"
+        }
+      ],
+      "bucket.message.nearPace": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 285,
+          "kind": "literal",
+          "match": "'bucket.message.nearPace'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 451,
+          "kind": "literal",
+          "match": "'bucket.message.nearPace'"
+        }
+      ],
+      "bucket.message.noBudget": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 226,
+          "kind": "literal",
+          "match": "'bucket.message.noBudget'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 383,
+          "kind": "literal",
+          "match": "'bucket.message.noBudget'"
+        }
+      ],
+      "bucket.message.overPace": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 272,
+          "kind": "literal",
+          "match": "'bucket.message.overPace'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 437,
+          "kind": "literal",
+          "match": "'bucket.message.overPace'"
+        }
+      ],
+      "bucket.message.perDayOk": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 344,
+          "kind": "literal",
+          "match": "'bucket.message.perDayOk'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 521,
+          "kind": "literal",
+          "match": "'bucket.message.perDayOk'"
+        }
+      ],
+      "bucket.message.perDayTight": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 317,
+          "kind": "literal",
+          "match": "'bucket.message.perDayTight'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 504,
+          "kind": "literal",
+          "match": "'bucket.message.perDayTight'"
+        }
+      ],
+      "bucket.message.perDayVeryTight": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 304,
+          "kind": "literal",
+          "match": "'bucket.message.perDayVeryTight'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 487,
+          "kind": "literal",
+          "match": "'bucket.message.perDayVeryTight'"
+        }
+      ],
+      "bucket.message.runOutInDays": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 258,
+          "kind": "literal",
+          "match": "'bucket.message.runOutInDays'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 418,
+          "kind": "literal",
+          "match": "'bucket.message.runOutInDays'"
+        }
+      ],
+      "bucket.message.underPace": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 331,
+          "kind": "literal",
+          "match": "'bucket.message.underPace'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 465,
+          "kind": "literal",
+          "match": "'bucket.message.underPace'"
+        }
+      ],
+      "bucket.subtext.basedOnRemaining": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 305,
+          "kind": "literal",
+          "match": "'bucket.subtext.basedOnRemaining'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 318,
+          "kind": "literal",
+          "match": "'bucket.subtext.basedOnRemaining'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 345,
+          "kind": "literal",
+          "match": "'bucket.subtext.basedOnRemaining'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 488,
+          "kind": "literal",
+          "match": "'bucket.subtext.basedOnRemaining'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 505,
+          "kind": "literal",
+          "match": "'bucket.subtext.basedOnRemaining'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 522,
+          "kind": "literal",
+          "match": "'bucket.subtext.basedOnRemaining'"
+        }
+      ],
+      "bucket.subtext.burnVsPace": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 273,
+          "kind": "literal",
+          "match": "'bucket.subtext.burnVsPace'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 286,
+          "kind": "literal",
+          "match": "'bucket.subtext.burnVsPace'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 332,
+          "kind": "literal",
+          "match": "'bucket.subtext.burnVsPace'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 438,
+          "kind": "literal",
+          "match": "'bucket.subtext.burnVsPace'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 452,
+          "kind": "literal",
+          "match": "'bucket.subtext.burnVsPace'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 466,
+          "kind": "literal",
+          "match": "'bucket.subtext.burnVsPace'"
+        }
+      ],
+      "bucket.title.headsUp": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 257,
+          "kind": "literal",
+          "match": "'bucket.title.headsUp'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 271,
+          "kind": "literal",
+          "match": "'bucket.title.headsUp'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 303,
+          "kind": "literal",
+          "match": "'bucket.title.headsUp'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 416,
+          "kind": "literal",
+          "match": "'bucket.title.headsUp'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 436,
+          "kind": "literal",
+          "match": "'bucket.title.headsUp'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 486,
+          "kind": "literal",
+          "match": "'bucket.title.headsUp'"
+        }
+      ],
+      "bucket.title.info": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 225,
+          "kind": "literal",
+          "match": "'bucket.title.info'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 238,
+          "kind": "literal",
+          "match": "'bucket.title.info'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 382,
+          "kind": "literal",
+          "match": "'bucket.title.info'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 398,
+          "kind": "literal",
+          "match": "'bucket.title.info'"
+        }
+      ],
+      "bucket.title.nice": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 330,
+          "kind": "literal",
+          "match": "'bucket.title.nice'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 343,
+          "kind": "literal",
+          "match": "'bucket.title.nice'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 356,
+          "kind": "literal",
+          "match": "'bucket.title.nice'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 464,
+          "kind": "literal",
+          "match": "'bucket.title.nice'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 520,
+          "kind": "literal",
+          "match": "'bucket.title.nice'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 541,
+          "kind": "literal",
+          "match": "'bucket.title.nice'"
+        }
+      ],
+      "bucket.title.tip": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 284,
+          "kind": "literal",
+          "match": "'bucket.title.tip'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 316,
+          "kind": "literal",
+          "match": "'bucket.title.tip'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 417,
+          "kind": "literal",
+          "match": "'bucket.title.tip'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 450,
+          "kind": "literal",
+          "match": "'bucket.title.tip'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 503,
+          "kind": "literal",
+          "match": "'bucket.title.tip'"
+        }
+      ],
+      "smart.cta.addExpense": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 156,
+          "kind": "literal",
+          "match": "'smart.cta.addExpense'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 165,
+          "kind": "literal",
+          "match": "'smart.cta.addExpense'"
+        }
+      ],
+      "smart.cta.seeBreakdown": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 59,
+          "kind": "literal",
+          "match": "'smart.cta.seeBreakdown'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 77,
+          "kind": "literal",
+          "match": "'smart.cta.seeBreakdown'"
+        }
+      ],
+      "smart.cta.seeInsights": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 88,
+          "kind": "literal",
+          "match": "'smart.cta.seeInsights'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 99,
+          "kind": "literal",
+          "match": "'smart.cta.seeInsights'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 117,
+          "kind": "literal",
+          "match": "'smart.cta.seeInsights'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 130,
+          "kind": "literal",
+          "match": "'smart.cta.seeInsights'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 143,
+          "kind": "literal",
+          "match": "'smart.cta.seeInsights'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 177,
+          "kind": "literal",
+          "match": "'smart.cta.seeInsights'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 189,
+          "kind": "literal",
+          "match": "'smart.cta.seeInsights'"
+        }
+      ],
+      "smart.message.canSpendPerDay": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 140,
+          "kind": "literal",
+          "match": "'smart.message.canSpendPerDay'"
+        }
+      ],
+      "smart.message.closeToPlan": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 188,
+          "kind": "literal",
+          "match": "'smart.message.closeToPlan'"
+        }
+      ],
+      "smart.message.keepUnderPerDay": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 127,
+          "kind": "literal",
+          "match": "'smart.message.keepUnderPerDay'"
+        }
+      ],
+      "smart.message.noIncome": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 41,
+          "kind": "literal",
+          "match": "'smart.message.noIncome'"
+        }
+      ],
+      "smart.message.noSpendEarly": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 155,
+          "kind": "literal",
+          "match": "'smart.message.noSpendEarly'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 197,
+          "kind": "literal",
+          "match": "'smart.message.noSpendEarly'"
+        }
+      ],
+      "smart.message.noSpendLater": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 164,
+          "kind": "literal",
+          "match": "'smart.message.noSpendLater'"
+        }
+      ],
+      "smart.message.onlyPerDayLeft": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 114,
+          "kind": "literal",
+          "match": "'smart.message.onlyPerDayLeft'"
+        }
+      ],
+      "smart.message.projectAround": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 98,
+          "kind": "literal",
+          "match": "'smart.message.projectAround'"
+        }
+      ],
+      "smart.message.projectOver": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 75,
+          "kind": "literal",
+          "match": "'smart.message.projectOver'"
+        }
+      ],
+      "smart.message.projectUnder": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 87,
+          "kind": "literal",
+          "match": "'smart.message.projectUnder'"
+        }
+      ],
+      "smart.message.spendingFaster": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 53,
+          "kind": "literal",
+          "match": "'smart.message.spendingFaster'"
+        }
+      ],
+      "smart.message.spendingSlower": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 176,
+          "kind": "literal",
+          "match": "'smart.message.spendingSlower'"
+        }
+      ],
+      "smart.subtext.basedOnRemaining": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 115,
+          "kind": "literal",
+          "match": "'smart.subtext.basedOnRemaining'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 128,
+          "kind": "literal",
+          "match": "'smart.subtext.basedOnRemaining'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 141,
+          "kind": "literal",
+          "match": "'smart.subtext.basedOnRemaining'"
+        }
+      ],
+      "smart.subtext.burnVsPace": [
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 54,
+          "kind": "literal",
+          "match": "'smart.subtext.burnVsPace'"
+        }
+      ],
+      "smart.title.freshStart": [
+        {
+          "file": "src/features/insights/smart-insight-chip/smart-insight-chip.component.tsx",
+          "line": 44,
+          "kind": "literal",
+          "match": "'smart.title.freshStart'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 154,
+          "kind": "literal",
+          "match": "'smart.title.freshStart'"
+        }
+      ],
+      "smart.title.headsUp": [
+        {
+          "file": "src/features/insights/smart-insight-chip/smart-insight-chip.component.tsx",
+          "line": 38,
+          "kind": "literal",
+          "match": "'smart.title.headsUp'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 52,
+          "kind": "literal",
+          "match": "'smart.title.headsUp'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 74,
+          "kind": "literal",
+          "match": "'smart.title.headsUp'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 113,
+          "kind": "literal",
+          "match": "'smart.title.headsUp'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 163,
+          "kind": "literal",
+          "match": "'smart.title.headsUp'"
+        }
+      ],
+      "smart.title.nice": [
+        {
+          "file": "src/features/insights/smart-insight-chip/smart-insight-chip.component.tsx",
+          "line": 41,
+          "kind": "literal",
+          "match": "'smart.title.nice'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 86,
+          "kind": "literal",
+          "match": "'smart.title.nice'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 139,
+          "kind": "literal",
+          "match": "'smart.title.nice'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 175,
+          "kind": "literal",
+          "match": "'smart.title.nice'"
+        }
+      ],
+      "smart.title.tip": [
+        {
+          "file": "src/features/insights/smart-insight-chip/smart-insight-chip.component.tsx",
+          "line": 35,
+          "kind": "literal",
+          "match": "'smart.title.tip'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 40,
+          "kind": "literal",
+          "match": "'smart.title.tip'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 97,
+          "kind": "literal",
+          "match": "'smart.title.tip'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 126,
+          "kind": "literal",
+          "match": "'smart.title.tip'"
+        },
+        {
+          "file": "src/store/budget-store/budget-smart-insights.selectors.ts",
+          "line": 187,
+          "kind": "literal",
+          "match": "'smart.title.tip'"
+        }
+      ]
+    },
+    "onboarding": {
+      "step1.text1": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/steps/step-one.component.tsx",
+          "line": 8,
+          "kind": "literal",
+          "match": "\"onboarding:step1.text1\""
+        }
+      ],
+      "step1.text2": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/steps/step-one.component.tsx",
+          "line": 12,
+          "kind": "literal",
+          "match": "\"onboarding:step1.text2\""
+        }
+      ],
+      "step2.text1": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/steps/step-two.component.tsx",
+          "line": 35,
+          "kind": "literal",
+          "match": "\"onboarding:step2.text1\""
+        }
+      ],
+      "step2.text2": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/steps/step-two.component.tsx",
+          "line": 49,
+          "kind": "literal",
+          "match": "\"onboarding:step2.text2\""
+        }
+      ],
+      "step2.text3": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/steps/step-two.component.tsx",
+          "line": 62,
+          "kind": "literal",
+          "match": "\"onboarding:step2.text3\""
+        }
+      ],
+      "step2.title": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/multi-step-form.component.tsx",
+          "line": 127,
+          "kind": "literal",
+          "match": "'onboarding:step2.title'"
+        }
+      ],
+      "step3.li1": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/steps/step-three.component.tsx",
+          "line": 50,
+          "kind": "literal",
+          "match": "\"onboarding:step3.li1\""
+        }
+      ],
+      "step3.li2": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/steps/step-three.component.tsx",
+          "line": 53,
+          "kind": "literal",
+          "match": "\"onboarding:step3.li2\""
+        }
+      ],
+      "step3.li3": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/steps/step-three.component.tsx",
+          "line": 56,
+          "kind": "literal",
+          "match": "\"onboarding:step3.li3\""
+        }
+      ],
+      "step3.text1": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/steps/step-three.component.tsx",
+          "line": 46,
+          "kind": "literal",
+          "match": "\"onboarding:step3.text1\""
+        }
+      ],
+      "step3.text2": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/steps/step-three.component.tsx",
+          "line": 60,
+          "kind": "literal",
+          "match": "\"onboarding:step3.text2\""
+        }
+      ],
+      "step3.text3": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/steps/step-three.component.tsx",
+          "line": 86,
+          "kind": "literal",
+          "match": "\"onboarding:step3.text3\""
+        }
+      ],
+      "step3.title": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/multi-step-form.component.tsx",
+          "line": 135,
+          "kind": "literal",
+          "match": "'onboarding:step3.title'"
+        }
+      ],
+      "step4.text1": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/steps/step-four.component.tsx",
+          "line": 22,
+          "kind": "literal",
+          "match": "\"onboarding:step4.text1\""
+        }
+      ],
+      "step4.text2": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/steps/step-four.component.tsx",
+          "line": 25,
+          "kind": "literal",
+          "match": "\"onboarding:step4.text2\""
+        }
+      ],
+      "step4.text3": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/steps/step-four.component.tsx",
+          "line": 28,
+          "kind": "literal",
+          "match": "\"onboarding:step4.text3\""
+        }
+      ],
+      "step4.text4": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/steps/step-four.component.tsx",
+          "line": 35,
+          "kind": "literal",
+          "match": "\"onboarding:step4.text4\""
+        }
+      ],
+      "step4.title": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/multi-step-form.component.tsx",
+          "line": 143,
+          "kind": "literal",
+          "match": "'onboarding:step4.title'"
+        }
+      ],
+      "step5.text1": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/steps/step-five.component.tsx",
+          "line": 7,
+          "kind": "literal",
+          "match": "\"onboarding:step5.text1\""
+        }
+      ],
+      "step5.text2": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/steps/step-five.component.tsx",
+          "line": 10,
+          "kind": "literal",
+          "match": "\"onboarding:step5.text2\""
+        }
+      ],
+      "step5.text3": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/steps/step-five.component.tsx",
+          "line": 13,
+          "kind": "literal",
+          "match": "\"onboarding:step5.text3\""
+        }
+      ],
+      "step5.title": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/multi-step-form.component.tsx",
+          "line": 151,
+          "kind": "literal",
+          "match": "'onboarding:step5.title'"
+        }
+      ]
+    },
+    "settings": {
+      "budgetPref": [
+        {
+          "file": "src/pages/profile/profile.component.tsx",
+          "line": 135,
+          "kind": "literal",
+          "match": "'settings:budgetPref'"
+        }
+      ],
+      "currency.labelEu": [
+        {
+          "file": "src/widgets/sheets/currency-sheet/currency-sheet.component.tsx",
+          "line": 30,
+          "kind": "literal",
+          "match": "'settings:currency.labelEu'"
+        }
+      ],
+      "currency.labelRo": [
+        {
+          "file": "src/widgets/sheets/currency-sheet/currency-sheet.component.tsx",
+          "line": 31,
+          "kind": "literal",
+          "match": "'settings:currency.labelRo'"
+        }
+      ],
+      "currency.title": [
+        {
+          "file": "src/widgets/sheets/currency-sheet/currency-sheet.component.tsx",
+          "line": 47,
+          "kind": "literal",
+          "match": "'settings:currency.title'"
+        }
+      ],
+      "language": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/steps/step-two.component.tsx",
+          "line": 39,
+          "kind": "literal",
+          "match": "\"language\""
+        },
+        {
+          "file": "src/pages/profile/profile.component.tsx",
+          "line": 36,
+          "kind": "literal",
+          "match": "'language'"
+        },
+        {
+          "file": "src/pages/profile/profile.component.tsx",
+          "line": 121,
+          "kind": "literal",
+          "match": "'language'"
+        },
+        {
+          "file": "src/pages/profile/profile.component.tsx",
+          "line": 176,
+          "kind": "literal",
+          "match": "'language'"
+        },
+        {
+          "file": "src/pages/profile/profile.component.tsx",
+          "line": 193,
+          "kind": "literal",
+          "match": "'language'"
+        },
+        {
+          "file": "src/pages/profile/profile.component.tsx",
+          "line": 194,
+          "kind": "literal",
+          "match": "'language'"
+        },
+        {
+          "file": "src/widgets/sheets/language-sheet/language-sheet.component.tsx",
+          "line": 47,
+          "kind": "literal",
+          "match": "'settings:language'"
+        }
+      ],
+      "percents.adjust": [
+        {
+          "file": "src/widgets/sheets/budget-split-sheet/budget-split-sheet.component.tsx",
+          "line": 118,
+          "kind": "literal",
+          "match": "'settings:percents.adjust'"
+        }
+      ],
+      "percents.checkbox.labelFuture": [
+        {
+          "file": "src/features/profile/apply-editor/apply-editor.component.tsx",
+          "line": 54,
+          "kind": "literal",
+          "match": "'settings:percents.checkbox.labelFuture'"
+        }
+      ],
+      "percents.checkbox.labelNow": [
+        {
+          "file": "src/features/profile/apply-editor/apply-editor.component.tsx",
+          "line": 44,
+          "kind": "literal",
+          "match": "'settings:percents.checkbox.labelNow'"
+        }
+      ],
+      "percents.checkbox.title": [
+        {
+          "file": "src/features/profile/apply-editor/apply-editor.component.tsx",
+          "line": 32,
+          "kind": "literal",
+          "match": "'settings:percents.checkbox.title'"
+        }
+      ],
+      "percents.popover": [
+        {
+          "file": "src/features/profile/apply-editor/apply-editor.component.tsx",
+          "line": 29,
+          "kind": "literal",
+          "match": "'settings:percents.popover'"
+        }
+      ],
+      "percents.title": [
+        {
+          "file": "src/pages/profile/profile.component.tsx",
+          "line": 142,
+          "kind": "literal",
+          "match": "'settings:percents.title'"
+        },
+        {
+          "file": "src/widgets/sheets/budget-split-sheet/budget-split-sheet.component.tsx",
+          "line": 136,
+          "kind": "literal",
+          "match": "'settings:percents.title'"
+        }
+      ],
+      "shortNames.appearance": [
+        {
+          "file": "src/pages/profile/profile.component.tsx",
+          "line": 129,
+          "kind": "literal",
+          "match": "'settings:shortNames.appearance'"
+        }
+      ],
+      "shortNames.currency": [
+        {
+          "file": "src/pages/profile/profile.component.tsx",
+          "line": 124,
+          "kind": "literal",
+          "match": "'settings:shortNames.currency'"
+        }
+      ],
+      "shortNames.language": [
+        {
+          "file": "src/pages/profile/profile.component.tsx",
+          "line": 119,
+          "kind": "literal",
+          "match": "'settings:shortNames.language'"
+        }
+      ],
+      "startDay.info": [
+        {
+          "file": "src/pages/onboarding/multi-step-form/steps/step-four.component.tsx",
+          "line": 13,
+          "kind": "literal",
+          "match": "'settings:startDay.info'"
+        },
+        {
+          "file": "src/widgets/sheets/start-day-sheet/start-day-sheet.component.tsx",
+          "line": 72,
+          "kind": "literal",
+          "match": "'settings:startDay.info'"
+        }
+      ],
+      "startDay.title": [
+        {
+          "file": "src/pages/profile/profile.component.tsx",
+          "line": 164,
+          "kind": "literal",
+          "match": "'settings:startDay.title'"
+        },
+        {
+          "file": "src/widgets/sheets/start-day-sheet/start-day-sheet.component.tsx",
+          "line": 80,
+          "kind": "literal",
+          "match": "'settings:startDay.title'"
+        }
+      ],
+      "theme.labelDark": [
+        {
+          "file": "src/widgets/sheets/theme-sheet/theme-sheet.component.tsx",
+          "line": 34,
+          "kind": "literal",
+          "match": "'settings:theme.labelDark'"
+        }
+      ],
+      "theme.labelLight": [
+        {
+          "file": "src/widgets/sheets/theme-sheet/theme-sheet.component.tsx",
+          "line": 33,
+          "kind": "literal",
+          "match": "'settings:theme.labelLight'"
+        }
+      ],
+      "theme.title": [
+        {
+          "file": "src/widgets/sheets/theme-sheet/theme-sheet.component.tsx",
+          "line": 50,
+          "kind": "literal",
+          "match": "'settings:theme.title'"
+        }
+      ],
+      "toast.completeOnboarding.error": [
+        {
+          "file": "src/store/middlewares/settings.toast.middleware.ts",
+          "line": 56,
+          "kind": "literal",
+          "match": "'settings:toast.completeOnboarding.error'"
+        }
+      ],
+      "toast.completeOnboarding.success": [
+        {
+          "file": "src/store/middlewares/settings.toast.middleware.ts",
+          "line": 29,
+          "kind": "literal",
+          "match": "'settings:toast.completeOnboarding.success'"
+        }
+      ],
+      "toast.currency.error": [
+        {
+          "file": "src/store/middlewares/settings.toast.middleware.ts",
+          "line": 62,
+          "kind": "literal",
+          "match": "'settings:toast.currency.error'"
+        }
+      ],
+      "toast.currency.success": [
+        {
+          "file": "src/store/middlewares/settings.toast.middleware.ts",
+          "line": 35,
+          "kind": "literal",
+          "match": "'settings:toast.currency.success'"
+        }
+      ],
+      "toast.language.error": [
+        {
+          "file": "src/store/middlewares/settings.toast.middleware.ts",
+          "line": 59,
+          "kind": "literal",
+          "match": "'settings:toast.language.error'"
+        }
+      ],
+      "toast.language.success": [
+        {
+          "file": "src/store/middlewares/settings.toast.middleware.ts",
+          "line": 32,
+          "kind": "literal",
+          "match": "'settings:toast.language.success'"
+        }
+      ],
+      "toast.load.error": [
+        {
+          "file": "src/store/middlewares/settings.toast.middleware.ts",
+          "line": 54,
+          "kind": "literal",
+          "match": "'settings:toast.load.error'"
+        }
+      ],
+      "toast.percents.error": [
+        {
+          "file": "src/store/middlewares/settings.toast.middleware.ts",
+          "line": 61,
+          "kind": "literal",
+          "match": "'settings:toast.percents.error'"
+        }
+      ],
+      "toast.percents.success": [
+        {
+          "file": "src/store/middlewares/settings.toast.middleware.ts",
+          "line": 34,
+          "kind": "literal",
+          "match": "'settings:toast.percents.success'"
+        }
+      ],
+      "toast.startDay.error": [
+        {
+          "file": "src/store/middlewares/settings.toast.middleware.ts",
+          "line": 58,
+          "kind": "literal",
+          "match": "'settings:toast.startDay.error'"
+        }
+      ],
+      "toast.startDay.success": [
+        {
+          "file": "src/store/middlewares/settings.toast.middleware.ts",
+          "line": 31,
+          "kind": "literal",
+          "match": "'settings:toast.startDay.success'"
+        }
+      ],
+      "toast.theme.error": [
+        {
+          "file": "src/store/middlewares/settings.toast.middleware.ts",
+          "line": 60,
+          "kind": "literal",
+          "match": "'settings:toast.theme.error'"
+        }
+      ],
+      "toast.theme.success": [
+        {
+          "file": "src/store/middlewares/settings.toast.middleware.ts",
+          "line": 33,
+          "kind": "literal",
+          "match": "'settings:toast.theme.success'"
+        }
+      ]
+    },
+    "taxonomy": {
+      "categoryNames.all": [
+        {
+          "file": "src/components/bucket-name/bucket-name.component.tsx",
+          "line": 52,
+          "kind": "template",
+          "match": "`taxonomy:categoryNames.${bucket}`"
+        },
+        {
+          "file": "src/components/transaction-row/transaction-row.component.tsx",
+          "line": 81,
+          "kind": "template",
+          "match": "`taxonomy:categoryNames.${txn.type}`"
+        },
+        {
+          "file": "src/features/txns/transaction-line/transaction-line.component.tsx",
+          "line": 45,
+          "kind": "template",
+          "match": "`taxonomy:categoryNames.${txn.type}`"
+        },
+        {
+          "file": "src/pages/bucket/bucket.component.tsx",
+          "line": 98,
+          "kind": "template",
+          "match": "`taxonomy:categoryNames.${bucketData.title?.toLowerCase()}`"
+        },
+        {
+          "file": "src/pages/transactions/transactions.component.tsx",
+          "line": 81,
+          "kind": "literal",
+          "match": "'taxonomy:categoryNames.all'"
+        },
+        {
+          "file": "src/shared/utils/budget-insights.util.ts",
+          "line": 19,
+          "kind": "template",
+          "match": "`taxonomy:categoryNames.${b}`"
+        }
+      ],
+      "categoryNames.needs": [
+        {
+          "file": "src/components/badge-pills/badge-pills.component.tsx",
+          "line": 40,
+          "kind": "literal",
+          "match": "'taxonomy:categoryNames.needs'"
+        },
+        {
+          "file": "src/components/bucket-name/bucket-name.component.tsx",
+          "line": 52,
+          "kind": "template",
+          "match": "`taxonomy:categoryNames.${bucket}`"
+        },
+        {
+          "file": "src/components/transaction-row/transaction-row.component.tsx",
+          "line": 81,
+          "kind": "template",
+          "match": "`taxonomy:categoryNames.${txn.type}`"
+        },
+        {
+          "file": "src/components/type-box-selector/type-box-selector.component.tsx",
+          "line": 24,
+          "kind": "literal",
+          "match": "'taxonomy:categoryNames.needs'"
+        },
+        {
+          "file": "src/features/txns/transaction-line/transaction-line.component.tsx",
+          "line": 45,
+          "kind": "template",
+          "match": "`taxonomy:categoryNames.${txn.type}`"
+        },
+        {
+          "file": "src/pages/bucket/bucket.component.tsx",
+          "line": 98,
+          "kind": "template",
+          "match": "`taxonomy:categoryNames.${bucketData.title?.toLowerCase()}`"
+        },
+        {
+          "file": "src/pages/transactions/transactions.component.tsx",
+          "line": 82,
+          "kind": "literal",
+          "match": "'taxonomy:categoryNames.needs'"
+        },
+        {
+          "file": "src/shared/utils/budget-insights.util.ts",
+          "line": 19,
+          "kind": "template",
+          "match": "`taxonomy:categoryNames.${b}`"
+        }
+      ],
+      "categoryNames.savings": [
+        {
+          "file": "src/components/badge-pills/badge-pills.component.tsx",
+          "line": 51,
+          "kind": "literal",
+          "match": "'taxonomy:categoryNames.savings'"
+        },
+        {
+          "file": "src/components/bucket-name/bucket-name.component.tsx",
+          "line": 52,
+          "kind": "template",
+          "match": "`taxonomy:categoryNames.${bucket}`"
+        },
+        {
+          "file": "src/components/transaction-row/transaction-row.component.tsx",
+          "line": 81,
+          "kind": "template",
+          "match": "`taxonomy:categoryNames.${txn.type}`"
+        },
+        {
+          "file": "src/components/type-box-selector/type-box-selector.component.tsx",
+          "line": 26,
+          "kind": "literal",
+          "match": "'taxonomy:categoryNames.savings'"
+        },
+        {
+          "file": "src/features/txns/transaction-line/transaction-line.component.tsx",
+          "line": 45,
+          "kind": "template",
+          "match": "`taxonomy:categoryNames.${txn.type}`"
+        },
+        {
+          "file": "src/pages/bucket/bucket.component.tsx",
+          "line": 98,
+          "kind": "template",
+          "match": "`taxonomy:categoryNames.${bucketData.title?.toLowerCase()}`"
+        },
+        {
+          "file": "src/pages/transactions/transactions.component.tsx",
+          "line": 84,
+          "kind": "literal",
+          "match": "'taxonomy:categoryNames.savings'"
+        },
+        {
+          "file": "src/shared/utils/budget-insights.util.ts",
+          "line": 19,
+          "kind": "template",
+          "match": "`taxonomy:categoryNames.${b}`"
+        }
+      ],
+      "categoryNames.wants": [
+        {
+          "file": "src/components/badge-pills/badge-pills.component.tsx",
+          "line": 35,
+          "kind": "literal",
+          "match": "'taxonomy:categoryNames.wants'"
+        },
+        {
+          "file": "src/components/bucket-name/bucket-name.component.tsx",
+          "line": 52,
+          "kind": "template",
+          "match": "`taxonomy:categoryNames.${bucket}`"
+        },
+        {
+          "file": "src/components/transaction-row/transaction-row.component.tsx",
+          "line": 81,
+          "kind": "template",
+          "match": "`taxonomy:categoryNames.${txn.type}`"
+        },
+        {
+          "file": "src/components/type-box-selector/type-box-selector.component.tsx",
+          "line": 25,
+          "kind": "literal",
+          "match": "'taxonomy:categoryNames.wants'"
+        },
+        {
+          "file": "src/features/txns/transaction-line/transaction-line.component.tsx",
+          "line": 45,
+          "kind": "template",
+          "match": "`taxonomy:categoryNames.${txn.type}`"
+        },
+        {
+          "file": "src/pages/bucket/bucket.component.tsx",
+          "line": 98,
+          "kind": "template",
+          "match": "`taxonomy:categoryNames.${bucketData.title?.toLowerCase()}`"
+        },
+        {
+          "file": "src/pages/transactions/transactions.component.tsx",
+          "line": 83,
+          "kind": "literal",
+          "match": "'taxonomy:categoryNames.wants'"
+        },
+        {
+          "file": "src/shared/utils/budget-insights.util.ts",
+          "line": 19,
+          "kind": "template",
+          "match": "`taxonomy:categoryNames.${b}`"
+        }
+      ]
+    }
+  }
+}

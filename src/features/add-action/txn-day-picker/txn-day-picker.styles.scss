@@ -5,8 +5,14 @@
     margin-bottom: $spacing-5;
     display: flex;
 
-    .step-back-btn-label {
-      @include themed(color, color-text-secondary, $color-text-secondary);
+    .step-back-btn {
+      display: flex;
+      gap: $spacing-1;
+      align-items: center;
+
+      .step-back-btn-label {
+        @include themed(color, color-text-secondary, $color-text-secondary);
+      }
     }
   }
 

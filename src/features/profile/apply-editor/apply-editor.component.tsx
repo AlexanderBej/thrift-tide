@@ -26,10 +26,10 @@ const ApplyEditor: React.FC<ApplyEditorProps> = ({
       <div className="apply-label">
         {!hidePopover && (
           <InfoPopover position={'right'}>
-            <span>{t('pageContent.settings.percents.popover')}</span>
+            <span>{t('settings:percents.popover')}</span>
           </InfoPopover>
         )}
-        <span>{t('pageContent.settings.percents.checkbox.title')}</span>
+        <span>{t('settings:percents.checkbox.title')}</span>
       </div>
 
       <div className="apply-options">
@@ -41,7 +41,7 @@ const ApplyEditor: React.FC<ApplyEditorProps> = ({
           })}
           onClick={() => setApplyToCurrentMonth(true)}
         >
-          {t('pageContent.settings.percents.checkbox.labelNow')}
+          {t('settings:percents.checkbox.labelNow')}
         </button>
         <button
           type="button"
@@ -51,7 +51,7 @@ const ApplyEditor: React.FC<ApplyEditorProps> = ({
           })}
           onClick={() => setApplyToCurrentMonth(false)}
         >
-          {t('pageContent.settings.percents.checkbox.labelFuture')}
+          {t('settings:percents.checkbox.labelFuture')}
         </button>
       </div>
     </div>

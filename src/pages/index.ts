@@ -1,5 +1,5 @@
-export * from './bucket';
-export * from './buckets';
+export * from './category';
+export * from './categories';
 export * from './dashboard';
 export * from './history';
 export * from './insights';

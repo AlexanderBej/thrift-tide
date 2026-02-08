@@ -24,10 +24,10 @@ export const NAV_ITEMS: NavItem[] = [
     icon: RxDashboard,
   },
   {
-    key: 'buckets',
-    to: '/buckets',
-    label: 'Buckets',
-    i18nLabel: 'pages.buckets',
+    key: 'categories',
+    to: '/categories',
+    label: 'Categories',
+    i18nLabel: 'pages.categories',
     icon: MdOutlineCategory,
   },
   {

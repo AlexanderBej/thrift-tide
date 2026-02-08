@@ -1,0 +1,100 @@
+@use '../../styles/tokens.scss' as *;
+
+.category-page {
+  .category-page-header,
+  .top-egs-section,
+  .category-chart-section,
+  .category-insights-section,
+  .category-transactions-section {
+    @include dashboard-card($radius: $radius-lg, $pad: $spacing-4);
+  }
+
+  .category-page-header {
+    &__needs {
+      background-color: rgba($color-needs, 0.3);
+    }
+
+    &__wants {
+      background-color: rgba($color-wants, 0.3);
+    }
+
+    &__savings {
+      background-color: rgba($color-savings, 0.3);
+    }
+
+    .category-name-line {
+      margin: 0 $spacing-4 $spacing-5 $spacing-4;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .category-icon-wrapper {
+        display: flex;
+        width: 35px;
+        height: 35px;
+        background: aliceblue;
+        align-items: center;
+        justify-content: center;
+        border-radius: $radius-sm;
+      }
+
+      .allocated-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+
+        .allocated-label {
+          font-size: 14px;
+        }
+      }
+    }
+
+    .values-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-top: $spacing-2;
+    }
+  }
+
+  .eg-summary-badges {
+    margin-top: $spacing-4;
+  }
+
+  .top-egs-list {
+    display: grid;
+    gap: 8px;
+
+    .egs-item {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid rgb(238, 238, 238);
+      padding: 8px 0px;
+
+      &:last-child {
+        border-bottom: unset;
+      }
+    }
+  }
+
+  .category-transaction {
+    margin-bottom: $spacing-3;
+    border-bottom: 1px solid rgba($color-neutral, 0.7);
+    padding-bottom: $spacing-3;
+
+    &:last-child {
+      margin: unset;
+      border: unset;
+      padding: unset;
+    }
+
+    .see-txns-link {
+      display: flex;
+      align-items: center;
+      gap: $spacing-3;
+      width: fit-content;
+      font-size: 14px;
+      color: $color-primary;
+    }
+  }
+}

@@ -5,13 +5,13 @@ import { FaPlus, FaMinus } from 'react-icons/fa6';
 
 import { BaseSheet, InfoBlock, TTIcon } from '@shared/ui';
 import { selectSettingsDefaultPercents, updateDefaultPercentsThunk } from '@store/settings-store';
-import { AppDispatch, Bucket, PercentTriple } from '@api/types';
+import { AppDispatch, Category, PercentTriple } from '@api/types';
 import { selectAuthUser } from '@store/auth-store';
 import { getCssVar } from '@shared/utils';
 import { ApplyEditor } from 'features';
+import { selectBudgetDoc } from '@store/budget-store';
 
 import './budget-split-sheet.styles.scss';
-import { selectBudgetDoc } from '@store/budget-store';
 
 interface BudgetSplitSheetProps {
   open: boolean;
@@ -33,10 +33,10 @@ const toFrac = (p: PercentTripleInt): PercentTriple => ({
 });
 
 const clampInt = (v: number, min = 0, max = 100) => Math.min(max, Math.max(min, v));
-const buckets: Bucket[] = ['needs', 'wants', 'savings'];
+const categories: Category[] = ['needs', 'wants', 'savings'];
 
-const findDonorBucketInt = (p: PercentTripleInt, exclude: Bucket): Bucket | null => {
-  const donor = buckets
+const findDonorCategoryInt = (p: PercentTripleInt, exclude: Category): Category | null => {
+  const donor = categories
     .filter((b) => b !== exclude)
     .map((b) => ({ b, v: p[b] }))
     .sort((a, c) => c.v - a.v)[0];
@@ -45,7 +45,7 @@ const findDonorBucketInt = (p: PercentTripleInt, exclude: Bucket): Bucket | null
 };
 
 const BudgetSplitSheet: React.FC<BudgetSplitSheetProps> = ({ open, onOpenChange }) => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation(['common', 'settings']);
   const dispatch = useDispatch<AppDispatch>();
 
   const percents = useSelector(selectSettingsDefaultPercents);
@@ -61,17 +61,17 @@ const BudgetSplitSheet: React.FC<BudgetSplitSheetProps> = ({ open, onOpenChange 
     setSelectedPercents(toInt(doc?.percents ?? percents));
   }, [doc?.percents, percents]);
 
-  const adjustPercent = (bucket: Bucket, delta: number) => {
+  const adjustPercent = (cat: Category, delta: number) => {
     setSelectedPercents((prev) => {
-      const donor = findDonorBucketInt(prev, bucket);
+      const donor = findDonorCategoryInt(prev, cat);
       if (!donor) return prev;
 
       // Can't take from donor or reduce below 0
       if (delta > 0 && prev[donor] <= 0) return prev;
-      if (delta < 0 && prev[bucket] <= 0) return prev;
+      if (delta < 0 && prev[cat] <= 0) return prev;
 
       const next = { ...prev };
-      next[bucket] = clampInt(prev[bucket] + delta);
+      next[cat] = clampInt(prev[cat] + delta);
       next[donor] = clampInt(prev[donor] - delta);
 
       // Ensure sum stays exactly 100 (safety)
@@ -105,7 +105,7 @@ const BudgetSplitSheet: React.FC<BudgetSplitSheetProps> = ({ open, onOpenChange 
       });
   };
 
-  const getPercentsValues = (key: Bucket): number => {
+  const getPercentsValues = (key: Category): number => {
     const val =
       key === 'needs'
         ? selectedPercents?.needs
@@ -115,7 +115,9 @@ const BudgetSplitSheet: React.FC<BudgetSplitSheetProps> = ({ open, onOpenChange 
     return val ?? 0;
   };
 
-  const desc = t('pageContent.settings.percents.adjust');
+  const desc = t('settings:percents.adjust');
+  const resetLabel = t('actions.reset');
+  const btnLabel = t('settings:percents.button');
 
   const originalPercentsInt = toInt(percents);
 
@@ -133,24 +135,21 @@ const BudgetSplitSheet: React.FC<BudgetSplitSheetProps> = ({ open, onOpenChange 
     <BaseSheet
       open={open}
       onOpenChange={onOpenChange}
-      title={t('pageContent.settings.percents.title')}
+      title={t('settings:percents.title')}
       description={desc}
       btnDisabled={!hasModified}
-      btnLabel="Update Percents"
+      btnLabel={btnLabel}
       onButtonClick={handleSubmit}
-      headerNode={
-        <button className="reset-btn" onClick={handleReset}>
-          Reset
-        </button>
-      }
+      secondaryButtonLabel={resetLabel}
+      handleSecondaryClick={handleReset}
     >
       <div className="budget-split-sheet">
         {areDifferent && (
           <InfoBlock className="sheet-info-block">
             <div>
-              <span>Future months use different settings. </span>
+              <span>{t('settings:percents.info.title')}</span>
               <span>
-                From your next period the budget split will be{' '}
+                {t('settings:percents.info.subtitle')}{' '}
                 <strong>
                   {percents.needs * 100}/{percents.wants * 100}/{percents.savings * 100}
                 </strong>
@@ -160,7 +159,7 @@ const BudgetSplitSheet: React.FC<BudgetSplitSheetProps> = ({ open, onOpenChange 
         )}
 
         <div className="bugget-split-bar">
-          {buckets.map((key, index) => {
+          {categories.map((key, index) => {
             const inputVal = getPercentsValues(key);
             return (
               <div
@@ -175,7 +174,7 @@ const BudgetSplitSheet: React.FC<BudgetSplitSheetProps> = ({ open, onOpenChange 
         </div>
 
         <div className="percents-editors">
-          {buckets.map((key, index) => {
+          {categories.map((key, index) => {
             const inputVal = getPercentsValues(key);
 
             const canIncrease = selectedPercents[key] < 100;
@@ -184,7 +183,7 @@ const BudgetSplitSheet: React.FC<BudgetSplitSheetProps> = ({ open, onOpenChange 
               <div key={index} className="percent-input-line">
                 <div className="percent-label">
                   <div className="bullet" style={{ backgroundColor: getCssVar(`--${key}`) }} />
-                  <span className="percent-key">{key}</span>
+                  <span className="percent-key">{t(`taxonomy:categoryNames.${key}`)}</span>
                 </div>
 
                 <div className="percent-btn-group">

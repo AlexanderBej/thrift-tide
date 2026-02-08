@@ -19,7 +19,7 @@ interface StartDaySheetProps {
 }
 
 const StartDaySheet: React.FC<StartDaySheetProps> = ({ open, onOpenChange }) => {
-  const { t } = useTranslation('common');
+  const { t, i18n } = useTranslation(['common', 'settings']);
   const dispatch = useDispatch<AppDispatch>();
 
   const startDay = useSelector(selectSettingsBudgetStartDay);
@@ -53,6 +53,11 @@ const StartDaySheet: React.FC<StartDaySheetProps> = ({ open, onOpenChange }) => 
       });
   };
 
+  const days =
+    i18n.language === 'ro'
+      ? ['Lu', 'Ma', 'Mi', 'Jo', 'Vi', 'Sâ', 'Du']
+      : ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+
   const getCalendarCells = (): { cells: any[]; today: number } => {
     const days = Array.from({ length: 28 }, (_, i) => i + 1);
 
@@ -69,7 +74,9 @@ const StartDaySheet: React.FC<StartDaySheetProps> = ({ open, onOpenChange }) => 
     return { cells, today: new Date().getDate() };
   };
 
-  const desc = t('pageContent.settings.startDay.info');
+  const desc = t('settings:startDay.subtitle');
+  const resetLabel = t('actions.reset');
+  const btnLabel = t('settings:startDay.button');
 
   const areDifferent = startDay !== doc?.startDay;
 
@@ -77,32 +84,28 @@ const StartDaySheet: React.FC<StartDaySheetProps> = ({ open, onOpenChange }) => 
     <BaseSheet
       open={open}
       onOpenChange={onOpenChange}
-      title={t('pageContent.settings.startDay.title')}
+      title={t('settings:startDay.title')}
       description={desc}
       btnDisabled={startDay === selectedDay}
-      btnLabel="Update Start Day"
+      btnLabel={btnLabel}
       onButtonClick={handleSubmit}
-      headerNode={
-        <button className="reset-btn" onClick={handleReset}>
-          Reset
-        </button>
-      }
+      secondaryButtonLabel={resetLabel}
+      handleSecondaryClick={handleReset}
     >
       <div className="start-day-sheet">
         {areDifferent && (
           <InfoBlock className="sheet-info-block">
             <div>
-              <span>Future months use different settings. </span>
+              <span>{t('settings:startDay.info.title')}</span>
               <span>
-                From your next period the start day will be{' '}
-                <strong>{formatStartDay(startDay)}</strong>
+                {t('settings:startDay.info.subtitle')} <strong>{formatStartDay(startDay)}</strong>
               </span>
             </div>
           </InfoBlock>
         )}
 
         <div className="dow">
-          {['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'].map((d) => (
+          {days.map((d) => (
             <div key={d} className="dow__cell">
               {d}
             </div>

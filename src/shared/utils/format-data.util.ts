@@ -1,3 +1,4 @@
+import { Language } from '@api/types';
 import { format } from 'date-fns';
 
 // format currency for charts
@@ -68,11 +69,11 @@ export function makeFormatter(
   });
 }
 
-export function formatMonth(yyyyMm: string) {
+export function formatMonth(yyyyMm: string, lang?: Language) {
   const [year, month] = yyyyMm.split('-');
   const date = new Date(Number(year), Number(month) - 1);
 
-  return date.toLocaleString('en-US', { month: 'long' });
+  return date.toLocaleString(lang === 'ro' ? 'ro-RO' : 'en-US', { month: 'long' });
 }
 
 export const formatStartDay = (day: number | undefined) => {

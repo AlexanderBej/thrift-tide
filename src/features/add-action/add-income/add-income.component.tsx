@@ -100,7 +100,7 @@ const AddIncome = forwardRef<StepHandle, { onCanSubmitChange?: (v: boolean) => v
           disabled={!applyToNextMonth || Number(amount) < 1}
           value={switchAfter}
           setValue={setSwitchAfter}
-          title={t('sheets.addSheet.income.afterSave')}
+          title={t('sheets.addSheet.afterSave')}
           trueLabel={t('sheets.addSheet.income.switch')}
           falseLabel={t('sheets.addSheet.income.stay')}
         />

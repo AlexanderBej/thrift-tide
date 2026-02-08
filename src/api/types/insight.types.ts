@@ -4,10 +4,10 @@ export type InsightTone = 'success' | 'warn' | 'danger' | 'info' | 'muted';
 export type InsightTarget =
   | 'insights'
   | 'transactions'
-  | 'buckets'
-  | 'bucket:needs'
-  | 'bucket:wants'
-  | 'bucket:savings';
+  | 'categories'
+  | 'categories:needs'
+  | 'categories:wants'
+  | 'categories:savings';
 
 export const toneWeight: Record<InsightTone, number> = {
   danger: 500,
@@ -17,7 +17,7 @@ export const toneWeight: Record<InsightTone, number> = {
   muted: 0,
 };
 
-export type BucketInsightCandidate = Insight & {
+export type CategoryInsightCandidate = Insight & {
   // local-only meta for ranking (not rendered)
   _scoreHint?: {
     daysToZero?: number | null;

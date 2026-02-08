@@ -1,32 +1,32 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
-import { makeSelectBucketBadges, selectTotals } from '@store/budget-store';
-import { Bucket } from '@api/types';
-import { BadgePills, BucketName, ProgressBar } from '@components';
+import { makeSelectCategoryBadges, selectTotals } from '@store/budget-store';
+import { Category } from '@api/types';
+import { BadgePills, CategoryName, ProgressBar } from '@components';
 import { getCssVar } from '@shared/utils';
-import { BucketInsightList } from '../bucket-insight';
+import { CategoryInsightList } from '../category-insight';
 
 import './health-insight.styles.scss';
 
-function getScopedTotals(totals: any, bucket: Bucket) {
-  const allocated = totals.alloc[bucket];
-  const spent = totals.spent[bucket];
-  const remaining = totals.remaining[bucket];
+function getScopedTotals(totals: any, category: Category) {
+  const allocated = totals.alloc[category];
+  const spent = totals.spent[category];
+  const remaining = totals.remaining[category];
 
   const budgetLabelValue = (() => {
-    if (totals.income) return totals.income[bucket];
+    if (totals.income) return totals.income[category];
     return allocated; // fallback: treat allocated as the relevant "budget"
   })();
 
   const progress = allocated > 0 ? Math.min(1, spent / allocated) : 0;
 
   const cssVarName =
-    bucket === 'needs'
+    category === 'needs'
       ? '--needs'
-      : bucket === 'wants'
+      : category === 'wants'
         ? '--wants'
-        : bucket === 'savings'
+        : category === 'savings'
           ? '--savings'
           : '--color-primary';
 
@@ -40,24 +40,24 @@ function getScopedTotals(totals: any, bucket: Bucket) {
   };
 }
 
-interface BucketHealthProps {
-  bucket: Bucket;
+interface CategoryHealthProps {
+  category: Category;
 }
 
-const HealthInsight: React.FC<BucketHealthProps> = ({ bucket }) => {
-  const badges = useSelector(makeSelectBucketBadges(bucket as Bucket));
+const HealthInsight: React.FC<CategoryHealthProps> = ({ category }) => {
+  const badges = useSelector(makeSelectCategoryBadges(category as Category));
   const totals = useSelector(selectTotals);
-  const scoped = useMemo(() => getScopedTotals(totals, bucket), [totals, bucket]);
+  const scoped = useMemo(() => getScopedTotals(totals, category), [totals, category]);
 
   return (
-    <div className="bucket-health">
-      <div className="bucket-name-row">
-        <BucketName bucket={bucket} />
+    <div className="category-health">
+      <div className="category-name-row">
+        <CategoryName category={category} />
         <BadgePills badges={badges} />
       </div>
       <ProgressBar progress={scoped.progress} color={getCssVar(scoped.cssVarName)} />
-      <div className="bucket-insight-wrapper">
-        <BucketInsightList bucket={bucket} />
+      <div className="category-insight-wrapper">
+        <CategoryInsightList category={category} />
       </div>
     </div>
   );

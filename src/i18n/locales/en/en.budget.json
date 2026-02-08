@@ -3,19 +3,11 @@
   "spent": "Spent",
   "contributed": "Contributed",
   "remaining": "Remaining",
+  "left": "left",
+  "headerRemaining": "You have {remaining} left",
   "allocated": "Allocated",
-  "totalSpent": "Total spent",
-  "totalRemaining": "Total remaining",
-  "totalBudget": "Total Budget",
   "budget": "Budget",
-  "topCategories": "Top categories",
-  "runOutDate": "Estimated run-out: {{date, date}}",
-  "kpi": {
-    "avgDailySpend": "Avg daily spend",
-    "projected": "Projected Total",
-    "burnVsPace": "Burn vs. Pace",
-    "remainingPerDay": "Remaining / day"
-  },
+  "topExpGroups": "Top expense groups",
   "badges": {
     "overBudget": "Over budget",
     "nearBudget": "Near Budget",
@@ -24,35 +16,20 @@
     "highBurn": "High Burn Rate",
     "good": "good"
   },
-  "daysToZero": "days to 0",
-  "daysToZero_one": "{{count}} day to zero",
-  "daysToZero_other": "{{count}} days to zero",
-  "buckets": "Buckets",
-  "bucket": "Bucket",
+  "categories": "Categories",
   "category": "Category",
+  "expGroup": "Expense Group",
   "date": "Date",
-  "bucketNames": {
-    "all": "All",
-    "needs": "Needs",
-    "wants": "Wants",
-    "savings": "Savings"
-  },
   "noTransactions": "No transactions yet.",
   "pace": "Pace (Total)",
   "modals": {
-    "addTransaction": "Add Transaction",
     "addIncome": "Add Income",
-    "type": "Type",
     "amount": "Amount",
-    "note": "Note (optional)",
-    "applyTo": "Apply to",
-    "currentPeriod": "Current period",
-    "nextPeriod": "Next period",
-    "keepModalOpen": "Keep modal open after submit",
-    "switchPeriod": "Switch to next period after saving"
+    "note": "Note (optional)"
   },
   "sheets": {
     "addSheet": {
+      "afterSave": "After saving",
       "choose": {
         "title": "Let’s add something",
         "subtitle": "An expense or new income?",
@@ -68,17 +45,35 @@
         }
       },
       "expense": {
-        "title": "Add Transaction",
-        "subtitle": "What is your expense?"
+        "title": "Add transaction",
+        "subtitle": "What is your expense?",
+        "dates": {
+          "today": "Today",
+          "yesterday": "Yesterday",
+          "pick": "Pick a day"
+        },
+        "after": {
+          "close": "Close sheet",
+          "open": "Keep it open",
+          "popover": "This is used in case you wish to add more transactions after this one"
+        },
+        "back": "Back to expense"
       },
       "income": {
         "title": "Add Income",
         "subtitle": "Add money to your budget",
         "input": "How much did you receive?",
-        "afterSave": "After saving",
         "stay": "Stay here",
-        "switch": "Switch to next period",
-        "popover": "Choose whether to add the income to the current period or the next one"
+        "switch": "Switch to next period"
+      }
+    },
+    "periodSheet": {
+      "title": "Select a period",
+      "btnLabel": "Select period",
+      "current": "Current",
+      "create": {
+        "title": "Create next period",
+        "sub": "Go for a fresh start and track your expenses"
       }
     },
     "common": {
@@ -91,7 +86,7 @@
     "byDate": "Sort: date",
     "byAmount": "Sort: amount"
   },
-  "categories": {
+  "expGroups": {
     "needs": {
       "rent": "Rent / Mortgage",
       "utilities": "Utilities",
@@ -121,65 +116,28 @@
     }
   },
   "toast": {
-    "budget": {
-      "init": {
-        "success": "Budget initialized successfully!",
-        "error": "Could not initialize budget."
-      },
-      "setIncome": {
-        "success": "Income set successfully!",
-        "error": "Could not set income."
-      },
-      "percents": {
-        "success": "Percents updated successfully!",
-        "error": "Failed to update percents."
-      },
-      "txn": {
-        "added": "Added a new transaction.",
-        "addFailed": "Failed to add transaction.",
-        "updated": "Transaction updated successfully!",
-        "updateFailed": "Failed to update transaction.",
-        "deleted": "Transaction deleted successfully!",
-        "deleteFailed": "Failed to delete transaction."
-      },
-      "changeMonth": {
-        "error": "Failed to change period."
-      },
-      "amount": {
-        "ltMax": "Amount must be less than {{max}}"
-      }
+    "init": {
+      "success": "Budget initialized successfully!",
+      "error": "Could not initialize budget."
     },
-    "history": {
-      "loadFailed": "Could not load history page data!"
+    "setIncome": {
+      "success": "Income set successfully!",
+      "error": "Could not set income."
     },
-    "settings": {
-      "load": {
-        "error": "Failed to load settings."
-      },
-      "completeOnboarding": {
-        "success": "Onboarding completed. Changes saved!",
-        "error": "Failed to complete onboarding."
-      },
-      "startDay": {
-        "success": "Start day changed successfully!",
-        "error": "Failed to update start day."
-      },
-      "language": {
-        "success": "Language changed successfully!",
-        "error": "Failed to update language."
-      },
-      "theme": {
-        "success": "Theme changed successfully!",
-        "error": "Failed to change theme."
-      },
-      "percents": {
-        "success": "Default percents updated successfully!",
-        "error": "Failed to update default percents."
-      },
-      "currency": {
-        "success": "Currency updated successfully!",
-        "error": "Failed to update currency."
-      }
+    "percents": {
+      "success": "Percents updated successfully!",
+      "error": "Failed to update percents."
+    },
+    "txn": {
+      "added": "Added a new transaction.",
+      "addFailed": "Failed to add transaction.",
+      "updated": "Transaction updated successfully!",
+      "updateFailed": "Failed to update transaction.",
+      "deleted": "Transaction deleted successfully!",
+      "deleteFailed": "Failed to delete transaction."
+    },
+    "changeMonth": {
+      "error": "Failed to change period."
     }
   }
 }

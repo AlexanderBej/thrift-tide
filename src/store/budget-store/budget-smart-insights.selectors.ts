@@ -1,12 +1,12 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { bucketNameKey, toPctInt } from '@shared/utils';
-import { makeSelectBucketPanel, selectDashboardInsights } from './budget-insights.selectors';
+import { catNameKey, toPctInt } from '@shared/utils';
+import { makeSelectCategoryPanel, selectDashboardInsights } from './budget-insights.selectors';
 import { selectMonthTiming } from './budget-period.selectors';
 import { selectTotals } from './budget.selectors';
 import { Insight } from '@api/models/insight';
-import { Bucket, BucketInsightCandidate, InsightTone, toneWeight } from '@api/types';
-import { BucketHealthSummary } from '@api/models';
+import { Category, CategoryInsightCandidate, InsightTone, toneWeight } from '@api/types';
+import { CategoryHealthSummary } from '@api/models';
 
 // Tune these once and reuse
 const THRESH = {
@@ -37,8 +37,8 @@ export const selectSmartDashboardInsight: any = createSelector(
       insightList.push({
         id: 'no_budget',
         tone: 'muted',
-        title: 'insights.smart.title.tip',
-        message: 'insights.smart.message.noIncome',
+        title: 'smart.title.tip',
+        message: 'smart.message.noIncome',
         subtext: undefined,
         ctaLabel: 'budget:modals.addIncome',
       });
@@ -49,14 +49,14 @@ export const selectSmartDashboardInsight: any = createSelector(
       insightList.push({
         id: 'burn_fast',
         tone: 'danger',
-        title: 'insights.smart.title.headsUp',
-        message: 'insights.smart.message.spendingFaster',
-        subtext: 'insights.smart.subtext.burnVsPace',
+        title: 'smart.title.headsUp',
+        message: 'smart.message.spendingFaster',
+        subtext: 'smart.subtext.burnVsPace',
         vars: {
           burnPct: Math.round(burnPct ?? 0),
           pacePct: Math.round(pacePct ?? 0),
         },
-        ctaLabel: 'insights.smart.cta.seeBreakdown',
+        ctaLabel: 'smart.cta.seeBreakdown',
         ctaTarget: 'insights',
       });
     }
@@ -71,10 +71,10 @@ export const selectSmartDashboardInsight: any = createSelector(
         insightList.push({
           id: 'project_over',
           tone: 'danger',
-          title: 'insights.smart.title.headsUp',
-          message: 'insights.smart.message.projectOver',
+          title: 'smart.title.headsUp',
+          message: 'smart.message.projectOver',
           vars: { delta: delta }, // format in UI with fmtMoney before passing (recommended), or pass raw and format in i18n (not ideal)
-          ctaLabel: 'insights.smart.cta.seeBreakdown',
+          ctaLabel: 'smart.cta.seeBreakdown',
           ctaTarget: 'insights',
         });
       }
@@ -83,9 +83,9 @@ export const selectSmartDashboardInsight: any = createSelector(
         insightList.push({
           id: 'project_under',
           tone: 'success',
-          title: 'insights.smart.title.nice',
-          message: 'insights.smart.message.projectUnder',
-          ctaLabel: 'insights.smart.cta.seeInsights',
+          title: 'smart.title.nice',
+          message: 'smart.message.projectUnder',
+          ctaLabel: 'smart.cta.seeInsights',
           ctaTarget: 'insights',
         });
       }
@@ -94,9 +94,9 @@ export const selectSmartDashboardInsight: any = createSelector(
       insightList.push({
         id: 'project_around',
         tone: 'warn',
-        title: 'insights.smart.title.tip',
-        message: 'insights.smart.message.projectAround',
-        ctaLabel: 'insights.smart.cta.seeInsights',
+        title: 'smart.title.tip',
+        message: 'smart.message.projectAround',
+        ctaLabel: 'smart.cta.seeInsights',
         ctaTarget: 'insights',
       });
     }
@@ -110,11 +110,11 @@ export const selectSmartDashboardInsight: any = createSelector(
           insightList.push({
             id: 'rpd_danger',
             tone: 'danger',
-            title: 'insights.smart.title.headsUp',
-            message: 'insights.smart.message.onlyPerDayLeft',
-            subtext: 'insights.smart.subtext.basedOnRemaining',
+            title: 'smart.title.headsUp',
+            message: 'smart.message.onlyPerDayLeft',
+            subtext: 'smart.subtext.basedOnRemaining',
             vars: { amountPerDay: rpd.toFixed(2) },
-            ctaLabel: 'insights.smart.cta.seeInsights',
+            ctaLabel: 'smart.cta.seeInsights',
             ctaTarget: 'insights',
           });
         }
@@ -123,11 +123,11 @@ export const selectSmartDashboardInsight: any = createSelector(
           insightList.push({
             id: 'rpd_warn',
             tone: 'warn',
-            title: 'insights.smart.title.tip',
-            message: 'insights.smart.message.keepUnderPerDay',
-            subtext: 'insights.smart.subtext.basedOnRemaining',
+            title: 'smart.title.tip',
+            message: 'smart.message.keepUnderPerDay',
+            subtext: 'smart.subtext.basedOnRemaining',
             vars: { amountPerDay: rpd.toFixed(2) },
-            ctaLabel: 'insights.smart.cta.seeInsights',
+            ctaLabel: 'smart.cta.seeInsights',
             ctaTarget: 'insights',
           });
         }
@@ -136,11 +136,11 @@ export const selectSmartDashboardInsight: any = createSelector(
       insightList.push({
         id: 'rpd_ok',
         tone: 'success',
-        title: 'insights.smart.title.nice',
-        message: 'insights.smart.message.canSpendPerDay',
-        subtext: 'insights.smart.subtext.basedOnRemaining',
+        title: 'smart.title.nice',
+        message: 'smart.message.canSpendPerDay',
+        subtext: 'smart.subtext.basedOnRemaining',
         vars: { amountPerDay: rpd.toFixed(2) },
-        ctaLabel: 'insights.smart.cta.seeInsights',
+        ctaLabel: 'smart.cta.seeInsights',
         ctaTarget: 'insights',
       });
     }
@@ -151,18 +151,18 @@ export const selectSmartDashboardInsight: any = createSelector(
         insightList.push({
           id: 'fresh_start',
           tone: 'info',
-          title: 'insights.smart.title.freshStart',
-          message: 'insights.smart.message.noSpendEarly',
-          ctaLabel: 'insights.smart.cta.addExpense',
+          title: 'smart.title.freshStart',
+          message: 'smart.message.noSpendEarly',
+          ctaLabel: 'smart.cta.addExpense',
           ctaTarget: 'transactions',
         });
       }
       insightList.push({
         id: 'no_spend_late',
         tone: 'warn',
-        title: 'insights.smart.title.headsUp',
-        message: 'insights.smart.message.noSpendLater',
-        ctaLabel: 'insights.smart.cta.addExpense',
+        title: 'smart.title.headsUp',
+        message: 'smart.message.noSpendLater',
+        ctaLabel: 'smart.cta.addExpense',
         ctaTarget: 'transactions',
       });
     }
@@ -172,9 +172,9 @@ export const selectSmartDashboardInsight: any = createSelector(
       insightList.push({
         id: 'burn_slow',
         tone: 'success',
-        title: 'insights.smart.title.nice',
-        message: 'insights.smart.message.spendingSlower',
-        ctaLabel: 'insights.smart.cta.seeInsights',
+        title: 'smart.title.nice',
+        message: 'smart.message.spendingSlower',
+        ctaLabel: 'smart.cta.seeInsights',
         ctaTarget: 'insights',
       });
     }
@@ -184,9 +184,9 @@ export const selectSmartDashboardInsight: any = createSelector(
       insightList.push({
         id: 'close_to_plan',
         tone: 'warn',
-        title: 'insights.smart.title.tip',
-        message: 'insights.smart.message.closeToPlan',
-        ctaLabel: 'insights.smart.cta.seeInsights',
+        title: 'smart.title.tip',
+        message: 'smart.message.closeToPlan',
+        ctaLabel: 'smart.cta.seeInsights',
         ctaTarget: 'insights',
       });
     }
@@ -194,14 +194,14 @@ export const selectSmartDashboardInsight: any = createSelector(
     // insightList.push({
     //   id: 'muted',
     //   tone: 'muted',
-    //   message: 'insights.smart.message.noSpendEarly',
+    //   message: 'smart.message.noSpendEarly',
     // });
 
     return insightList;
   },
 );
 
-const BUCKET_THRESH = {
+const CATEGORY_THRESH = {
   overPaceDanger: 0.12,
   overPaceWarn: 0.05,
   underPaceSuccess: 0.06,
@@ -213,33 +213,33 @@ const BUCKET_THRESH = {
   daysToZeroDanger: 5,
 };
 
-export const makeSelectBucketInsight = (bucket: Bucket) =>
-  createSelector([makeSelectBucketPanel(bucket), selectMonthTiming], (p, t): Insight => {
-    const nameKey = bucketNameKey(bucket);
+export const makeSelectCategoryInsight = (cat: Category) =>
+  createSelector([makeSelectCategoryPanel(cat), selectMonthTiming], (p, t): Insight => {
+    const nameKey = catNameKey(cat);
 
     // No budget
     if (!p.alloc || p.alloc <= 0) {
       return {
-        id: `bucket_${bucket}_no_budget`,
+        id: `category_${cat}_no_budget`,
         tone: 'muted',
-        title: 'insights.bucket.title.info',
-        message: 'insights.bucket.message.noBudget',
-        vars: { bucketNameKey: nameKey },
-        ctaLabel: 'insights.bucket.cta.reviewBucket',
-        ctaTarget: `bucket:${bucket}`,
+        title: 'category.title.info',
+        message: 'category.message.noBudget',
+        vars: { categoryNameKey: nameKey },
+        ctaLabel: 'category.cta.reviewCategory',
+        ctaTarget: `categories:${cat}`,
       };
     }
 
     // Early month noise
     if (t.daysElapsed < 3) {
       return {
-        id: `bucket_${bucket}_early`,
+        id: `category_${cat}_early`,
         tone: 'info',
-        title: 'insights.bucket.title.info',
-        message: 'insights.bucket.message.earlyMonth',
-        vars: { bucketNameKey: nameKey },
-        ctaLabel: 'insights.bucket.cta.reviewBucket',
-        ctaTarget: `bucket:${bucket}`,
+        title: 'category.title.info',
+        message: 'category.message.earlyMonth',
+        vars: { categoryNameKey: nameKey },
+        ctaLabel: 'category.cta.reviewCategory',
+        ctaTarget: `categories:${cat}`,
       };
     }
 
@@ -250,43 +250,43 @@ export const makeSelectBucketInsight = (bucket: Bucket) =>
     const pacePct = toPctInt(pace);
 
     // Run-out warning (strongest)
-    if (p.daysToZero != null && p.daysToZero <= BUCKET_THRESH.daysToZeroDanger) {
+    if (p.daysToZero != null && p.daysToZero <= CATEGORY_THRESH.daysToZeroDanger) {
       return {
-        id: `bucket_${bucket}_runout_days`,
+        id: `category_${cat}_runout_days`,
         tone: 'danger',
-        title: 'insights.bucket.title.headsUp',
-        message: 'insights.bucket.message.runOutInDays',
-        vars: { bucketNameKey: nameKey, days: p.daysToZero },
-        ctaLabel: 'insights.bucket.cta.reviewBucket',
-        ctaTarget: `bucket:${bucket}`,
+        title: 'category.title.headsUp',
+        message: 'category.message.runOutInDays',
+        vars: { categoryNameKey: nameKey, days: p.daysToZero },
+        ctaLabel: 'category.cta.reviewCategory',
+        ctaTarget: `categories:${cat}`,
       };
     }
 
     // Burn vs pace
     if (burn != null && pace != null) {
-      if (burn > pace + BUCKET_THRESH.overPaceDanger) {
+      if (burn > pace + CATEGORY_THRESH.overPaceDanger) {
         return {
-          id: `bucket_${bucket}_overpace_danger`,
+          id: `category_${cat}_overpace_danger`,
           tone: 'danger',
-          title: 'insights.bucket.title.headsUp',
-          message: 'insights.bucket.message.overPace',
-          subtext: 'insights.bucket.subtext.burnVsPace',
-          vars: { bucketNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
-          ctaLabel: 'insights.bucket.cta.reviewBucket',
-          ctaTarget: `bucket:${bucket}`,
+          title: 'category.title.headsUp',
+          message: 'category.message.overPace',
+          subtext: 'category.subtext.burnVsPace',
+          vars: { categoryNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
+          ctaLabel: 'category.cta.reviewCategory',
+          ctaTarget: `categories:${cat}`,
         };
       }
 
-      if (burn > pace + BUCKET_THRESH.overPaceWarn) {
+      if (burn > pace + CATEGORY_THRESH.overPaceWarn) {
         return {
-          id: `bucket_${bucket}_overpace_warn`,
+          id: `category_${cat}_overpace_warn`,
           tone: 'warn',
-          title: 'insights.bucket.title.tip',
-          message: 'insights.bucket.message.nearPace',
-          subtext: 'insights.bucket.subtext.burnVsPace',
-          vars: { bucketNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
-          ctaLabel: 'insights.bucket.cta.reviewBucket',
-          ctaTarget: `bucket:${bucket}`,
+          title: 'category.title.tip',
+          message: 'category.message.nearPace',
+          subtext: 'category.subtext.burnVsPace',
+          vars: { categoryNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
+          ctaLabel: 'category.cta.reviewCategory',
+          ctaTarget: `categories:${cat}`,
         };
       }
     }
@@ -296,77 +296,77 @@ export const makeSelectBucketInsight = (bucket: Bucket) =>
       const normalPerDay = p.alloc / t.totalDays;
       const ratio = normalPerDay > 0 ? p.remainingPerDay / normalPerDay : null;
 
-      if (ratio != null && ratio < BUCKET_THRESH.rpdDanger) {
+      if (ratio != null && ratio < CATEGORY_THRESH.rpdDanger) {
         return {
-          id: `bucket_${bucket}_rpd_danger`,
+          id: `category_${cat}_rpd_danger`,
           tone: 'danger',
-          title: 'insights.bucket.title.headsUp',
-          message: 'insights.bucket.message.perDayVeryTight',
-          subtext: 'insights.bucket.subtext.basedOnRemaining',
-          vars: { bucketNameKey: nameKey, amountPerDay: p.remainingPerDay.toFixed(2) },
-          ctaLabel: 'insights.bucket.cta.reviewBucket',
-          ctaTarget: `bucket:${bucket}`,
+          title: 'category.title.headsUp',
+          message: 'category.message.perDayVeryTight',
+          subtext: 'category.subtext.basedOnRemaining',
+          vars: { categoryNameKey: nameKey, amountPerDay: p.remainingPerDay.toFixed(2) },
+          ctaLabel: 'category.cta.reviewCategory',
+          ctaTarget: `categories:${cat}`,
         };
       }
 
-      if (ratio != null && ratio < BUCKET_THRESH.rpdWarn) {
+      if (ratio != null && ratio < CATEGORY_THRESH.rpdWarn) {
         return {
-          id: `bucket_${bucket}_rpd_warn`,
+          id: `category_${cat}_rpd_warn`,
           tone: 'warn',
-          title: 'insights.bucket.title.tip',
-          message: 'insights.bucket.message.perDayTight',
-          subtext: 'insights.bucket.subtext.basedOnRemaining',
-          vars: { bucketNameKey: nameKey, amountPerDay: p.remainingPerDay.toFixed(2) },
-          ctaLabel: 'insights.bucket.cta.reviewBucket',
-          ctaTarget: `bucket:${bucket}`,
+          title: 'category.title.tip',
+          message: 'category.message.perDayTight',
+          subtext: 'category.subtext.basedOnRemaining',
+          vars: { categoryNameKey: nameKey, amountPerDay: p.remainingPerDay.toFixed(2) },
+          ctaLabel: 'category.cta.reviewCategory',
+          ctaTarget: `categories:${cat}`,
         };
       }
 
       // under pace positive
-      if (burn != null && pace != null && burn < pace - BUCKET_THRESH.underPaceSuccess) {
+      if (burn != null && pace != null && burn < pace - CATEGORY_THRESH.underPaceSuccess) {
         return {
-          id: `bucket_${bucket}_underpace`,
+          id: `category_${cat}_underpace`,
           tone: 'success',
-          title: 'insights.bucket.title.nice',
-          message: 'insights.bucket.message.underPace',
-          subtext: 'insights.bucket.subtext.burnVsPace',
-          vars: { bucketNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
-          ctaLabel: 'insights.bucket.cta.reviewBucket',
-          ctaTarget: `bucket:${bucket}`,
+          title: 'category.title.nice',
+          message: 'category.message.underPace',
+          subtext: 'category.subtext.burnVsPace',
+          vars: { categoryNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
+          ctaLabel: 'category.cta.reviewCategory',
+          ctaTarget: `categories:${cat}`,
         };
       }
 
       // default: perDayOk
       return {
-        id: `bucket_${bucket}_perday_ok`,
+        id: `category_${cat}_perday_ok`,
         tone: 'success',
-        title: 'insights.bucket.title.nice',
-        message: 'insights.bucket.message.perDayOk',
-        subtext: 'insights.bucket.subtext.basedOnRemaining',
-        vars: { bucketNameKey: nameKey, amountPerDay: p.remainingPerDay.toFixed(2) },
-        ctaLabel: 'insights.bucket.cta.reviewBucket',
-        ctaTarget: `bucket:${bucket}`,
+        title: 'category.title.nice',
+        message: 'category.message.perDayOk',
+        subtext: 'category.subtext.basedOnRemaining',
+        vars: { categoryNameKey: nameKey, amountPerDay: p.remainingPerDay.toFixed(2) },
+        ctaLabel: 'category.cta.reviewCategory',
+        ctaTarget: `categories:${cat}`,
       };
     }
 
     // fallback: healthy
     return {
-      id: `bucket_${bucket}_healthy`,
+      id: `category_${cat}_healthy`,
       tone: 'success',
-      title: 'insights.bucket.title.nice',
-      message: 'insights.bucket.message.bucketHealthy',
-      vars: { bucketNameKey: nameKey },
-      ctaLabel: 'insights.bucket.cta.reviewBucket',
-      ctaTarget: `bucket:${bucket}`,
+      title: 'category.title.nice',
+      message: 'category.message.categoryHealthy',
+      vars: { categoryNameKey: nameKey },
+      ctaLabel: 'category.cta.reviewCategory',
+      ctaTarget: `categories:${cat}`,
     };
   });
 
-export const makeSelectBucketInsightList = (bucket: Bucket) =>
+export const makeSelectCategoryInsightList = (category: Category) =>
   createSelector(
-    [makeSelectBucketPanel(bucket), selectMonthTiming],
-    (p, t): BucketInsightCandidate[] => {
-      const nameKey = bucketNameKey(bucket);
-      const out: BucketInsightCandidate[] = [];
+    [makeSelectCategoryPanel(category), selectMonthTiming],
+    (p, t): CategoryInsightCandidate[] => {
+      const nameKey = catNameKey(category);
+      const out: CategoryInsightCandidate[] = [];
 
       const pace = t.totalDays > 0 ? t.daysElapsed / t.totalDays : null;
       const burn = p.alloc > 0 ? p.spent / p.alloc : null;
@@ -377,15 +377,15 @@ export const makeSelectBucketInsightList = (bucket: Bucket) =>
       // Candidate: no budget
       if (!p.alloc || p.alloc <= 0) {
         out.push({
-          id: `bucket_${bucket}_no_budget`,
+          id: `category_${category}_no_budget`,
           tone: 'muted',
-          title: 'insights.bucket.title.info',
-          message: 'insights.bucket.message.noBudget',
-          vars: { bucketNameKey: nameKey },
-          ctaLabel: 'insights.bucket.cta.reviewBucket',
-          ctaTarget: `bucket:${bucket}`,
+          title: 'category.title.info',
+          message: 'category.message.noBudget',
+          vars: { categoryNameKey: nameKey },
+          ctaLabel: 'category.cta.reviewCategory',
+          ctaTarget: `categories:${category}`,
           group: 'setup',
-          chip: { key: 'insights.bucket.chip.noBudget' },
+          chip: { key: 'category.chip.noBudget' },
         });
         return out;
       }
@@ -393,15 +393,15 @@ export const makeSelectBucketInsightList = (bucket: Bucket) =>
       // Candidate: early month noise (kept but low priority)
       if (t.daysElapsed < 3) {
         out.push({
-          id: `bucket_${bucket}_early`,
+          id: `category_${category}_early`,
           tone: 'info',
-          title: 'insights.bucket.title.info',
-          message: 'insights.bucket.message.earlyMonth',
-          vars: { bucketNameKey: nameKey },
-          ctaLabel: 'insights.bucket.cta.reviewBucket',
-          ctaTarget: `bucket:${bucket}`,
+          title: 'category.title.info',
+          message: 'category.message.earlyMonth',
+          vars: { categoryNameKey: nameKey },
+          ctaLabel: 'category.cta.reviewCategory',
+          ctaTarget: `categories:${category}`,
           group: 'setup',
-          chip: { key: 'insights.bucket.chip.earlyMonth' },
+          chip: { key: 'category.chip.earlyMonth' },
         });
         // don't return; real dangers can still exist if user spent a lot on day 1-2
       }
@@ -409,18 +409,18 @@ export const makeSelectBucketInsightList = (bucket: Bucket) =>
       // Candidate: run-out days (urgent)
       if (p.daysToZero != null) {
         out.push({
-          id: `bucket_${bucket}_runout_days`,
-          tone: p.daysToZero <= BUCKET_THRESH.daysToZeroDanger ? 'danger' : 'warn',
+          id: `category_${category}_runout_days`,
+          tone: p.daysToZero <= CATEGORY_THRESH.daysToZeroDanger ? 'danger' : 'warn',
           title:
-            p.daysToZero <= BUCKET_THRESH.daysToZeroDanger
-              ? 'insights.bucket.title.headsUp'
-              : 'insights.bucket.title.tip',
-          message: 'insights.bucket.message.runOutInDays',
-          vars: { bucketNameKey: nameKey, days: p.daysToZero },
-          ctaLabel: 'insights.bucket.cta.reviewBucket',
-          ctaTarget: `bucket:${bucket}`,
+            p.daysToZero <= CATEGORY_THRESH.daysToZeroDanger
+              ? 'category.title.headsUp'
+              : 'category.title.tip',
+          message: 'category.message.runOutInDays',
+          vars: { categoryNameKey: nameKey, days: p.daysToZero },
+          ctaLabel: 'category.cta.reviewCategory',
+          ctaTarget: `categories:${category}`,
           group: 'runout',
-          chip: { key: 'insights.bucket.chip.runOutInDays', vars: { days: p.daysToZero } },
+          chip: { key: 'category.chip.runOutInDays', vars: { days: p.daysToZero } },
           _scoreHint: { daysToZero: p.daysToZero, burn, pace },
         });
       }
@@ -429,46 +429,46 @@ export const makeSelectBucketInsightList = (bucket: Bucket) =>
       if (burn != null && pace != null) {
         const delta = burn - pace;
 
-        if (delta > BUCKET_THRESH.overPaceDanger) {
+        if (delta > CATEGORY_THRESH.overPaceDanger) {
           out.push({
-            id: `bucket_${bucket}_overpace_danger`,
+            id: `category_${category}_overpace_danger`,
             tone: 'danger',
-            title: 'insights.bucket.title.headsUp',
-            message: 'insights.bucket.message.overPace',
-            subtext: 'insights.bucket.subtext.burnVsPace',
-            vars: { bucketNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
-            ctaLabel: 'insights.bucket.cta.reviewBucket',
-            ctaTarget: `bucket:${bucket}`,
+            title: 'category.title.headsUp',
+            message: 'category.message.overPace',
+            subtext: 'category.subtext.burnVsPace',
+            vars: { categoryNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
+            ctaLabel: 'category.cta.reviewCategory',
+            ctaTarget: `categories:${category}`,
             group: 'overpace',
-            chip: { key: 'insights.bucket.chip.overPace' },
+            chip: { key: 'category.chip.overPace' },
             _scoreHint: { burn, pace },
           });
-        } else if (delta > BUCKET_THRESH.overPaceWarn) {
+        } else if (delta > CATEGORY_THRESH.overPaceWarn) {
           out.push({
-            id: `bucket_${bucket}_overpace_warn`,
+            id: `category_${category}_overpace_warn`,
             tone: 'warn',
-            title: 'insights.bucket.title.tip',
-            message: 'insights.bucket.message.nearPace',
-            subtext: 'insights.bucket.subtext.burnVsPace',
-            vars: { bucketNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
-            ctaLabel: 'insights.bucket.cta.reviewBucket',
-            ctaTarget: `bucket:${bucket}`,
+            title: 'category.title.tip',
+            message: 'category.message.nearPace',
+            subtext: 'category.subtext.burnVsPace',
+            vars: { categoryNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
+            ctaLabel: 'category.cta.reviewCategory',
+            ctaTarget: `categories:${category}`,
             group: 'overpace',
-            chip: { key: 'insights.bucket.chip.nearPace' },
+            chip: { key: 'category.chip.nearPace' },
             _scoreHint: { burn, pace },
           });
-        } else if (burn < pace - BUCKET_THRESH.underPaceSuccess) {
+        } else if (burn < pace - CATEGORY_THRESH.underPaceSuccess) {
           out.push({
-            id: `bucket_${bucket}_underpace`,
+            id: `category_${category}_underpace`,
             tone: 'success',
-            title: 'insights.bucket.title.nice',
-            message: 'insights.bucket.message.underPace',
-            subtext: 'insights.bucket.subtext.burnVsPace',
-            vars: { bucketNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
-            ctaLabel: 'insights.bucket.cta.reviewBucket',
-            ctaTarget: `bucket:${bucket}`,
+            title: 'category.title.nice',
+            message: 'category.message.underPace',
+            subtext: 'category.subtext.burnVsPace',
+            vars: { categoryNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
+            ctaLabel: 'category.cta.reviewCategory',
+            ctaTarget: `categories:${category}`,
             group: 'pace',
-            chip: { key: 'insights.bucket.chip.underPace' },
+            chip: { key: 'category.chip.underPace' },
             _scoreHint: { burn, pace },
           });
         }
@@ -479,53 +479,53 @@ export const makeSelectBucketInsightList = (bucket: Bucket) =>
         const normalPerDay = p.alloc / t.totalDays;
         const ratio = normalPerDay > 0 ? p.remainingPerDay / normalPerDay : null;
 
-        if (ratio != null && ratio < BUCKET_THRESH.rpdDanger) {
+        if (ratio != null && ratio < CATEGORY_THRESH.rpdDanger) {
           out.push({
-            id: `bucket_${bucket}_rpd_danger`,
+            id: `category_${category}_rpd_danger`,
             tone: 'danger',
-            title: 'insights.bucket.title.headsUp',
-            message: 'insights.bucket.message.perDayVeryTight',
-            subtext: 'insights.bucket.subtext.basedOnRemaining',
-            vars: { bucketNameKey: nameKey, amountPerDay: p.remainingPerDay.toFixed(2) },
-            ctaLabel: 'insights.bucket.cta.reviewBucket',
-            ctaTarget: `bucket:${bucket}`,
+            title: 'category.title.headsUp',
+            message: 'category.message.perDayVeryTight',
+            subtext: 'category.subtext.basedOnRemaining',
+            vars: { categoryNameKey: nameKey, amountPerDay: p.remainingPerDay.toFixed(2) },
+            ctaLabel: 'category.cta.reviewCategory',
+            ctaTarget: `categories:${category}`,
             group: 'rpd',
             chip: {
-              key: 'insights.bucket.chip.perDayLeft',
+              key: 'category.chip.perDayLeft',
               vars: { amountPerDay: p.remainingPerDay.toFixed(0) },
             },
             _scoreHint: { remainingPerDayRatio: ratio, burn, pace },
           });
-        } else if (ratio != null && ratio < BUCKET_THRESH.rpdWarn) {
+        } else if (ratio != null && ratio < CATEGORY_THRESH.rpdWarn) {
           out.push({
-            id: `bucket_${bucket}_rpd_warn`,
+            id: `category_${category}_rpd_warn`,
             tone: 'warn',
-            title: 'insights.bucket.title.tip',
-            message: 'insights.bucket.message.perDayTight',
-            subtext: 'insights.bucket.subtext.basedOnRemaining',
-            vars: { bucketNameKey: nameKey, amountPerDay: p.remainingPerDay.toFixed(2) },
-            ctaLabel: 'insights.bucket.cta.reviewBucket',
-            ctaTarget: `bucket:${bucket}`,
+            title: 'category.title.tip',
+            message: 'category.message.perDayTight',
+            subtext: 'category.subtext.basedOnRemaining',
+            vars: { categoryNameKey: nameKey, amountPerDay: p.remainingPerDay.toFixed(2) },
+            ctaLabel: 'category.cta.reviewCategory',
+            ctaTarget: `categories:${category}`,
             group: 'rpd',
             chip: {
-              key: 'insights.bucket.chip.perDayLeft',
+              key: 'category.chip.perDayLeft',
               vars: { amountPerDay: p.remainingPerDay.toFixed(0) },
             },
             _scoreHint: { remainingPerDayRatio: ratio, burn, pace },
           });
         } else {
           out.push({
-            id: `bucket_${bucket}_perday_ok`,
+            id: `category_${category}_perday_ok`,
             tone: 'success',
-            title: 'insights.bucket.title.nice',
-            message: 'insights.bucket.message.perDayOk',
-            subtext: 'insights.bucket.subtext.basedOnRemaining',
-            vars: { bucketNameKey: nameKey, amountPerDay: p.remainingPerDay.toFixed(2) },
-            ctaLabel: 'insights.bucket.cta.reviewBucket',
-            ctaTarget: `bucket:${bucket}`,
+            title: 'category.title.nice',
+            message: 'category.message.perDayOk',
+            subtext: 'category.subtext.basedOnRemaining',
+            vars: { categoryNameKey: nameKey, amountPerDay: p.remainingPerDay.toFixed(2) },
+            ctaLabel: 'category.cta.reviewCategory',
+            ctaTarget: `categories:${category}`,
             group: 'rpd',
             chip: {
-              key: 'insights.bucket.chip.perDayLeft',
+              key: 'category.chip.perDayLeft',
               vars: { amountPerDay: p.remainingPerDay.toFixed(0) },
             },
             _scoreHint: { remainingPerDayRatio: ratio, burn, pace },
@@ -536,15 +536,15 @@ export const makeSelectBucketInsightList = (bucket: Bucket) =>
       // Fallback
       if (out.length === 0) {
         out.push({
-          id: `bucket_${bucket}_healthy`,
+          id: `category_${category}_healthy`,
           tone: 'success',
-          title: 'insights.bucket.title.nice',
-          message: 'insights.bucket.message.bucketHealthy',
-          vars: { bucketNameKey: nameKey },
-          ctaLabel: 'insights.bucket.cta.reviewBucket',
-          ctaTarget: `bucket:${bucket}`,
+          title: 'category.title.nice',
+          message: 'category.message.categoryHealthy',
+          vars: { categoryNameKey: nameKey },
+          ctaLabel: 'category.cta.reviewCategory',
+          ctaTarget: `categories:${category}`,
           group: 'health',
-          chip: { key: 'insights.bucket.chip.onTrack' },
+          chip: { key: 'category.chip.onTrack' },
         });
       }
 
@@ -552,34 +552,34 @@ export const makeSelectBucketInsightList = (bucket: Bucket) =>
     },
   );
 
-// Convenience selector: all 3 bucket insights in one go
-export const selectBucketInsights = createSelector(
+// Convenience selector: all 3 category insights in one go
+export const selectCategoryInsights = createSelector(
   [
-    makeSelectBucketInsight('needs'),
-    makeSelectBucketInsight('wants'),
-    makeSelectBucketInsight('savings'),
+    makeSelectCategoryInsight('needs'),
+    makeSelectCategoryInsight('wants'),
+    makeSelectCategoryInsight('savings'),
   ],
   (needs, wants, savings) => ({ needs, wants, savings }),
 );
 
-export const makeSelectBucketPrimaryInsight = (bucket: Bucket) =>
-  createSelector([makeSelectBucketInsightList(bucket)], (list) => {
-    const sorted = [...list].sort((a, b) => scoreBucketInsight(b) - scoreBucketInsight(a));
+export const makeSelectCategoryPrimaryInsight = (category: Category) =>
+  createSelector([makeSelectCategoryInsightList(category)], (list) => {
+    const sorted = [...list].sort((a, b) => scoreCategoryInsight(b) - scoreCategoryInsight(a));
     return sorted[0];
   });
 
-export const selectBucketPrimaryInsights = createSelector(
+export const selectCategoryPrimaryInsights = createSelector(
   [
-    makeSelectBucketPrimaryInsight('needs'),
-    makeSelectBucketPrimaryInsight('wants'),
-    makeSelectBucketPrimaryInsight('savings'),
+    makeSelectCategoryPrimaryInsight('needs'),
+    makeSelectCategoryPrimaryInsight('wants'),
+    makeSelectCategoryPrimaryInsight('savings'),
   ],
   (needs, wants, savings) => ({ needs, wants, savings }),
 );
 
-export const makeSelectBucketTopInsights = (bucket: Bucket, limit = 3) =>
-  createSelector([makeSelectBucketInsightList(bucket)], (list) => {
-    const sorted = [...list].sort((a, b) => scoreBucketInsight(b) - scoreBucketInsight(a));
+export const makeSelectCategoryTopInsights = (category: Category, limit = 3) =>
+  createSelector([makeSelectCategoryInsightList(category)], (list) => {
+    const sorted = [...list].sort((a, b) => scoreCategoryInsight(b) - scoreCategoryInsight(a));
 
     // Deduplicate by "theme"
     const deduped = uniqueBy(sorted, insightGroupKey);
@@ -593,26 +593,26 @@ export const makeSelectBucketTopInsights = (bucket: Bucket, limit = 3) =>
     return filtered.slice(0, limit);
   });
 
-export const selectBucketsTopInsights = createSelector(
+export const selectCategoriesTopInsights = createSelector(
   [
-    makeSelectBucketTopInsights('needs'),
-    makeSelectBucketTopInsights('wants'),
-    makeSelectBucketTopInsights('savings'),
+    makeSelectCategoryTopInsights('needs'),
+    makeSelectCategoryTopInsights('wants'),
+    makeSelectCategoryTopInsights('savings'),
   ],
   (needs, wants, savings) => ({ needs, wants, savings }),
 );
 
-export const selectBucketHealthSummary = createSelector(
+export const selectCategoryHealthSummary = createSelector(
   [
-    makeSelectBucketTopInsights('needs', 1),
-    makeSelectBucketTopInsights('wants', 1),
-    makeSelectBucketTopInsights('savings', 1),
+    makeSelectCategoryTopInsights('needs', 1),
+    makeSelectCategoryTopInsights('wants', 1),
+    makeSelectCategoryTopInsights('savings', 1),
   ],
-  (needs, wants, savings): BucketHealthSummary => {
+  (needs, wants, savings): CategoryHealthSummary => {
     const items = [
-      { bucket: 'needs' as const, insight: needs[0] },
-      { bucket: 'wants' as const, insight: wants[0] },
-      { bucket: 'savings' as const, insight: savings[0] },
+      { category: 'needs' as const, insight: needs[0] },
+      { category: 'wants' as const, insight: wants[0] },
+      { category: 'savings' as const, insight: savings[0] },
     ].filter((x) => x.insight);
 
     let healthyCount = 0;
@@ -629,8 +629,8 @@ export const selectBucketHealthSummary = createSelector(
     return {
       healthyCount,
       attentionCount,
-      details: items.map(({ bucket, insight }) => ({
-        bucket,
+      details: items.map(({ category, insight }) => ({
+        category,
         tone: insight.tone,
         insight,
       })),
@@ -644,7 +644,7 @@ export const selectBucketHealthSummary = createSelector(
 -------------------------------------------------
 ---------------------------------------------- */
 
-export const scoreBucketInsight = (x: BucketInsightCandidate): number => {
+export const scoreCategoryInsight = (x: CategoryInsightCandidate): number => {
   let score = toneWeight[x.tone as InsightTone] ?? 0;
 
   const h = x._scoreHint;

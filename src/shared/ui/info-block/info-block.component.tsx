@@ -15,7 +15,7 @@ interface InfoBlockProps {
 const InfoBlock: React.FC<InfoBlockProps> = ({ children, className }) => {
   return (
     <div className={clsx('info-block', className)}>
-      <TTIcon icon={IoIosInformationCircle} size={28} color={getCssVar('--cat-1')} />
+      <TTIcon icon={IoIosInformationCircle} size={28} color={getCssVar('--eg-1')} />
       <div className="info-block-content">{children}</div>
     </div>
   );

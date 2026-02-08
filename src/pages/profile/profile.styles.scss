@@ -39,7 +39,7 @@
         gap: $spacing-3;
         font-weight: 500;
 
-        &.buckets {
+        &.categories {
           justify-content: center;
           background: linear-gradient(
             90deg,
@@ -57,7 +57,7 @@
         }
 
         &.history {
-          background: linear-gradient(90deg, rgba($cat-3, 0.1) 0%, rgba($cat-3, 0.3) 100%);
+          background: linear-gradient(90deg, rgba($eg-3, 0.1) 0%, rgba($eg-3, 0.3) 100%);
         }
       }
     }

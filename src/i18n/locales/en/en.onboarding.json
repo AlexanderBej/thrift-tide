@@ -1,0 +1,34 @@
+{
+  "step1": {
+    "text1": "Welcome to <bold>Thrift Tide</bold>, your friendly budget assistant. This app helps you manage your monthly income using the <bold>50/30/20</bold> budgeting system — a simple method that divides your income into 50% for Needs, 30% for Wants, and 20% for Savings.",
+    "text2": " Before we begin, let’s set up a few simple preferences. Click <bold>Next</bold> to learn how to make the most out of your new dashboard. Or if you’d prefer to jump right in, just click <bold>Skip</bold> and start exploring at your own pace."
+  },
+  "step2": {
+    "title": "Region settings",
+    "text1": "Please select the language you want the app to use. This will change all the buttons, labels, and messages to the language you feel most comfortable with. You can always change this later in <bold>Settings</bold>.",
+    "text2": "Also select the currency you are using for your income",
+    "text3": "Once you’ve chosen your language and currency, click <bold>Next</bold>."
+  },
+  "step3": {
+    "title": "Choose How You Split Your Income",
+    "text1": "Every month, your income is divided into three main parts:",
+    "li1": "<bold>Needs</bold> (for essentials like food, rent, or bills),",
+    "li2": "<bold>Wants</bold> (for nice-to-have things and fun activities),",
+    "li3": "and <bold>Savings</bold> (for your goals or emergencies).",
+    "text2": "Adjust the sliders or numbers below to choose how much (%) you’d like to allocate to each category. Make sure they add up to <bold>100%</bold>.",
+    "text3": " When you’re done, click <bold>Next</bold>."
+  },
+  "step4": {
+    "title": "Pick When Your Month Starts",
+    "text1": "Everyone’s pay schedule is different!",
+    "text2": "Choose which day your 'budget month' should start on — for example, the <bold>1st</bold> or <bold>the day you usually receive your salary.</bold>",
+    "text3": "The app will calculate spending and summaries starting from that day each month.",
+    "text4": "Click <bold>Next</bold> when you’re ready."
+  },
+  "step5": {
+    "title": "You’re Ready to Go!",
+    "text1": "That’s it — setup is complete 🎊",
+    "text2": "Your preferences are saved, and you can now start using the app. You can always return to <bold>Settings</bold> to change your language, currency, percentages, or start day later.",
+    "text3": "Press <bold>Continue</bold> to open your dashboard and start tracking your budget."
+  }
+}

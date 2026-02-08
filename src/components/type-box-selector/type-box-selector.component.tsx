@@ -6,24 +6,28 @@ import { IconType } from 'react-icons';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 
-import { Bucket } from '@api/types';
+import { Category } from '@api/types';
 import { getCssVar } from '@shared/utils';
 import { SelectOption, TTIcon } from '@shared/ui';
 
 import './type-box-selector.styles.scss';
 
 interface TypeBoxSelectorProps {
-  bucket: Bucket;
-  handleTypeChange: (e: Bucket) => void;
+  category: Category;
+  handleTypeChange: (e: Category) => void;
 }
 
-const TypeBoxSelector: React.FC<TypeBoxSelectorProps> = ({ bucket, handleTypeChange }) => {
+const TypeBoxSelector: React.FC<TypeBoxSelectorProps> = ({ category, handleTypeChange }) => {
   const { t } = useTranslation('budget');
 
   const TYPE_OPTIONS: SelectOption[] = [
-    { value: 'needs', label: t('bucketNames.needs') ?? 'Needs', icon: TbHomeStar },
-    { value: 'wants', label: t('bucketNames.wants') ?? 'Wants', icon: GiWantedReward },
-    { value: 'savings', label: t('bucketNames.savings') ?? 'Savings', icon: MdDataSaverOn },
+    { value: 'needs', label: t('taxonomy:categoryNames.needs') ?? 'Needs', icon: TbHomeStar },
+    { value: 'wants', label: t('taxonomy:categoryNames.wants') ?? 'Wants', icon: GiWantedReward },
+    {
+      value: 'savings',
+      label: t('taxonomy:categoryNames.savings') ?? 'Savings',
+      icon: MdDataSaverOn,
+    },
   ];
 
   return (
@@ -34,22 +38,22 @@ const TypeBoxSelector: React.FC<TypeBoxSelectorProps> = ({ bucket, handleTypeCha
             type="button"
             key={index}
             className={clsx('type-box', opt.value, {
-              selected: opt.value === bucket,
+              selected: opt.value === category,
             })}
-            onClick={() => handleTypeChange(opt.value as Bucket)}
+            onClick={() => handleTypeChange(opt.value as Category)}
           >
             <TTIcon
               icon={opt.icon as IconType}
               size={24}
               color={
-                bucket === opt.value
+                category === opt.value
                   ? getCssVar('--color-text-inverse')
                   : getCssVar(`--${opt.value}`)
               }
             />
             <span
-              className={clsx('bucket-value', `bucket-value__${opt.value}`, {
-                selected: bucket === opt.value,
+              className={clsx('category-value', `category-value__${opt.value}`, {
+                selected: category === opt.value,
               })}
             >
               {opt.label}

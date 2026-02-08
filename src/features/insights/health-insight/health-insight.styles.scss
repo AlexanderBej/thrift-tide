@@ -1,14 +1,14 @@
 @use '../../../styles/tokens' as *;
 
-.bucket-health {
+.category-health {
   @include dashboard-card($radius: $radius-lg, $pad: $spacing-4, $bgCol: #f4f5f7);
 
-  .bucket-name-row {
+  .category-name-row {
     display: flex;
     justify-content: space-between;
   }
 
-  .bucket-insight-wrapper {
+  .category-insight-wrapper {
     margin-top: $spacing-4;
   }
 }

@@ -2,119 +2,50 @@
   "hi": "Salut",
   "pages": {
     "dashboard": "Panou",
-    "buckets": "Categorii",
-    "bucket": "Categorie",
+    "categories": "Categorii",
+    "category": "Categorie",
     "transactions": "Tranzacții",
     "insights": "Perspective",
     "history": "Istoric",
-    "settings": "Setări",
-    "profile": "Profil",
-    "budget": "Buget",
-    "trends": "Trenduri",
-    "app": "Limbă & Temă"
+    "profile": "Profil"
   },
   "pageContent": {
-    "buckets": {
+    "categories": {
       "header": "Selectează o categorie"
     },
-    "bucket": {
+    "category": {
       "noTrans": "Nu există tranzacții pentru"
     },
     "insights": {
-      "runOutForecast": "Prognoză de epuizare",
-      "kpi": "KPI-uri",
-      "spentByBucket": "Cheltuit per categorie",
-      "trends": "Trenduri",
-      "legend": "Legendă"
+      "categoryHealth": "Sănătatea Categoriilor",
+      "spending": "Ce îți determină cheltuielile"
     },
-    "history": {
-      "allocVsSpent": "Alocat vs Cheltuit (per perioadă)",
-      "latestDist": "Cea Mai Recentă Distribuție"
-    },
-    "settings": {
-      "shortNames": {
-        "currency": "Valuta",
-        "language": "Limba",
-        "appearance": "Aspect"
-      },
-      "profile": "Schimbă-ți aspectul",
-      "displayName": "Numele afișat",
-      "budgetPref": "Planifică-ți bugetul",
-      "percents": {
-        "title": "Împărțirea bugetului",
-        "adjust": "Ajustează-ți nevoile, dorințele și economiile pentru a corespunde cu modul în care cheltuiești cu adevărat. Poți ajusta acest lucru oricând.",
-        "checkbox": {
-          "title": "Aplică începând cu",
-          "labelNow": "Perioada asta",
-          "labelFuture": "Perioada viitoare"
-        },
-        "popover": "Dacă aplicați modificările începând cu această perioadă, alocările și valorile rămase se vor modifica."
-      },
-      "startDay": {
-        "title": "Ziua de start a perioadei",
-        "info": "Intervalul permis este de la 1 la 28, pentru a evita decalajele de sfârșit de lună."
-      },
-      "currency": {
-        "title": "Alege valuta bugetului tău.",
-        "labelRo": "Leu Românesc (RON)",
-        "labelEu": "Euro European (EUR)"
-      },
-      "language": "Modifică limba aplicației",
-      "theme": {
-        "title": "Modifică tema de culori a aplicației",
-        "labelLight": "Luminos",
-        "labelDark": "Întunecat"
-      },
-      "appPref": "Preferințe legate de aplicație"
+    "profile": {
+      "quick": "Acțiuni rapide",
+      "eachMonth": "a fiecărei luni",
+      "reset": "Resetează perioada curentă",
+      "logout": "Deconectează"
     }
   },
-  "nav": {
-    "home": "Acasă",
-    "open": "Deschide",
-    "close": "Închide",
-    "back": "Înapoi",
-    "next": "Înainte"
-  },
   "actions": {
-    "add": "Adaugă",
-    "edit": "Editează",
-    "delete": "Șterge",
-    "save": "Salvează",
-    "cancel": "Anulează",
     "continue": "Continuă",
-    "confirm": "Confirmă",
-    "apply": "Aplică",
-    "reset": "Resetează",
     "next": "Următorul",
     "skip": "Sari Peste",
-    "back": "Înapoi"
+    "back": "Înapoi",
+    "reset": "Resetează",
+    "dismiss": "Închide",
+    "add": "Adaugă",
+    "goToCategory": "Mergi la categoria {catName}"
   },
   "search": {
-    "placeholder": "Căutare…",
-    "clear": "Șterge căutarea"
-  },
-  "state": {
-    "loading": "Se încarcă…",
-    "empty": "Încă nu există nimic aici",
-    "error": "A apărut o eroare",
-    "retry": "Reîncearcă"
+    "placeholder": "Căutare…"
   },
   "dates": {
-    "periodLabel": "{{start, date}} → {{end, date}}",
-    "fromTo": "De la {{from, date}} până la {{to, date}}",
-    "asOf": "la {{date, date}}",
     "yesterday": "Ieri",
     "today": "Azi"
   },
   "confirmations": {
-    "modalTitle": "Confirmă",
-    "areYouSure": "Ești sigur?",
-    "displayName": "Sigur vrei să-ți schimbi numele de afișare?",
-    "percentages": "Ești sigur că vrei să modifici procentajele?",
-    "language": "Ești sigur că vrei să modifici limba?",
-    "startDay": "Ești sigur că vrei să modifici ziua de început a perioadei?",
-    "currency": "Ești sigur că vrei să modifici valuta bugetului?",
-    "unsavedChanges": "Ai modificări nesalvate. Le anulezi?"
+    "modalTitle": "Confirmă"
   },
   "validation": {
     "amount": {
@@ -129,46 +60,12 @@
       "invalid": "Introduceți o dată validă",
       "notFuture": "Data nu poate fi în viitor"
     },
-    "category": {
-      "required": "Categoria este obligatorie",
-      "invalid": "Alegeți o categorie validă"
-    },
-    "note": {
-      "underLimit": "Nota trebuie să aibă sub {{limit}} caractere"
+    "expGroup": {
+      "required": "Grupul de cheltuieli este obligatoriu",
+      "invalid": "Alegeți un grup valid"
     }
   },
-  "onboarding": {
-    "step1": {
-      "text1": "Bun venit la <bold>Thrift Tide</bold>, asistentul tău de buget prietenos. Această aplicație te ajută să îți gestionezi veniturile lunare folosind sistemul de bugetare <bold>50/30/20</bold> — o metodă simplă care împarte venitul în 50% pentru Nevoi, 30% pentru Dorințe și 20% pentru Economii.",
-      "text2": "Înainte să începem, să configurăm câteva preferințe simple. Apasă <bold>Următorul</bold> pentru a învăța cum să folosești la maximum noul tău tablou de bord. Dacă preferi să începi direct, apasă <bold>Sari</bold> peste și explorează în propriul tău ritm."
-    },
-    "step2": {
-      "title": "Setări pentru regiune",
-      "text1": "Selectează limba pe care dorești să o folosească aplicația. Toate butoanele, etichetele și mesajele vor fi afișate în limba aleasă. Poți schimba limba oricând din <bold>Setări</bold>.",
-      "text2": "Selectează și moneda pe care o utilizezi pentru venitul tău.",
-      "text3": "După ce ai ales, apasă <bold>Următorul</bold>."
-    },
-    "step3": {
-      "title": "Alege Cum Îți Împarți Venitul",
-      "text1": "În fiecare lună, venitul tău este împărțit în trei părți principale:",
-      "li1": "<bold>Nevoi</bold> (pentru cheltuieli esențiale, cum ar fi mâncarea, chiria sau facturile),",
-      "li2": "<bold>Dorințe</bold> (pentru lucruri care îți fac plăcere)",
-      "li3": "și <bold>Economii</bold> (pentru obiective sau urgențe).",
-      "text2": "Ajustează barele sau valorile de mai jos pentru a stabili cât (%) dorești să aloci fiecărei categorii. Asigură-te că totalul este <bold>100%</bold>.",
-      "text3": " Când ai terminat, apasă <bold>Următorul</bold."
-    },
-    "step4": {
-      "title": "Alege Ziua de Început a Lunii",
-      "text1": "Fiecare persoană are un program de plată diferit!",
-      "text2": "Alege în ce zi ar trebui să înceapă „luna ta de buget” — de exemplu, în <bold>prima zi a lunii</bold> sau <bold>ziua în care primești salariul.</bold>",
-      "text3": "Aplicația va calcula cheltuielile și rezumatele începând din acea zi în fiecare lună.",
-      "text4": "Apasă <bold>Următorul</bold> când ești gata."
-    },
-    "step5": {
-      "title": "Totul este Gata!",
-      "text1": "Asta a fost tot — configurarea este completă 🎊",
-      "text2": "Preferințele tale au fost salvate și poți începe să folosești aplicația. Poți reveni oricând la <bold>Setări</bold> pentru a schimba limba, valuta, procentele sau ziua de început.",
-      "text3": "Apasă <bold>Continuă</bold> pentru a deschide tabloul de bord și a începe urmărirea bugetului."
-    }
+  "errors": {
+    "generic": "Ceva nu a mers bine. Încearcă din nou."
   }
 }

@@ -1,0 +1,77 @@
+{
+  "shortNames": {
+    "currency": "Currency",
+    "language": "Language",
+    "appearance": "Appearance"
+  },
+  "budgetPref": "Plan your budget",
+  "percents": {
+    "info": {
+      "title": "Future months use different settings.",
+      "subtitle": "From your next period the budget split will be"
+    },
+    "title": "Budget split",
+    "adjust": "Adjust your needs, wants, and savings to match how you really spend. You can adjust this anytime.",
+    "checkbox": {
+      "title": "Apply starting",
+      "labelNow": "This period",
+      "labelFuture": "Next period"
+    },
+    "popover": "If you apply the changes starting this period, your allocations and remaining values will change.",
+    "button": "Update percents"
+  },
+  "startDay": {
+    "info": {
+      "title": "Future months use different settings.",
+      "subtitle": "From your next period the start day will be"
+    },
+    "title": "Period start day",
+    "subtitle": "Allowed range is from the 1st to the 28th, in order to avoid end-of-month gaps.",
+    "button": "Update start day"
+  },
+  "currency": {
+    "title": "Choose your budget currency",
+    "labelRo": "Romanian Leu (RON)",
+    "labelEu": "European Euro (EUR)",
+    "button": "Change currency"
+  },
+  "language": {
+    "title": "Change the system language",
+    "button": "Change language"
+  },
+  "theme": {
+    "title": "Change the system theme",
+    "labelLight": "Light",
+    "labelDark": "Dark",
+    "button": "Change theme"
+  },
+  "toast": {
+    "load": {
+      "error": "Failed to load settings."
+    },
+    "completeOnboarding": {
+      "success": "Onboarding completed. Changes saved!",
+      "error": "Failed to complete onboarding."
+    },
+    "startDay": {
+      "success": "Start day changed successfully!",
+      "error": "Failed to update start day."
+    },
+    "language": {
+      "success": "Language changed successfully!",
+      "error": "Failed to update language."
+    },
+    "theme": {
+      "success": "Theme changed successfully!",
+      "error": "Failed to change theme."
+    },
+    "percents": {
+      "success": "Default percents updated successfully!",
+      "error": "Failed to update default percents."
+    },
+    "currency": {
+      "success": "Currency updated successfully!",
+      "error": "Failed to update currency."
+    }
+  }
+}

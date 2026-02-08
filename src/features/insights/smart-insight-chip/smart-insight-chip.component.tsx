@@ -32,16 +32,16 @@ const SmartInsightChip: React.FC<SmartInsightCardProps> = ({
 
   const titleToIcon = () => {
     switch (insight.title) {
-      case 'insights.smart.title.tip':
+      case 'smart.title.tip':
         return MdOutlineTipsAndUpdates;
 
-      case 'insights.smart.title.headsUp':
+      case 'smart.title.headsUp':
         return IoWarning;
 
-      case 'insights.smart.title.nice':
+      case 'smart.title.nice':
         return LuPartyPopper;
 
-      case 'insights.smart.title.freshStart':
+      case 'smart.title.freshStart':
         return PiShootingStarThin;
 
       default:

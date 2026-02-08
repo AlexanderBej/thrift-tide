@@ -1,4 +1,3 @@
-export * from './dismiss-on-outside.hook';
 export * from './format-money.hook';
 export * from './system-theme.hook';
 export * from './window-width.hook';

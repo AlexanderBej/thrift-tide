@@ -32,12 +32,12 @@ const BadgePills: React.FC<{
         case 'wants-over':
           return {
             ...l,
-            i18nText: `${t('budget:bucketNames.wants')} ${t('budget:badges.overBudget')}`,
+            i18nText: `${t('taxonomy:categoryNames.wants')} ${t('budget:badges.overBudget')}`,
           } as TranslatedBadge;
         case 'needs-near':
           return {
             ...l,
-            i18nText: `${t('budget:bucketNames.needs')} ${t('budget:badges.nearBudget')}`,
+            i18nText: `${t('taxonomy:categoryNames.needs')} ${t('budget:badges.nearBudget')}`,
           } as TranslatedBadge;
         case 'high-burn':
           return {
@@ -48,7 +48,7 @@ const BadgePills: React.FC<{
         case 'save-behind':
           return {
             ...l,
-            i18nText: `${t('budget:bucketNames.savings')} ${t('budget:badges.behindPlan')}`,
+            i18nText: `${t('taxonomy:categoryNames.savings')} ${t('budget:badges.behindPlan')}`,
           } as TranslatedBadge;
 
         case 'under-pace':

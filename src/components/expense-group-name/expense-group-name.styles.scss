@@ -1,0 +1,30 @@
+@use '../../styles/tokens.scss' as *;
+
+.expense-group-row {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-4;
+
+  .expense-group-icon-wrapper {
+    @include flex();
+    width: 28px;
+    height: 28px;
+    @include themed(background-color, color-neutral, $color-neutral);
+    border-radius: $radius-sm;
+    box-shadow: $shadow-sm;
+  }
+
+  .expense-group-label-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    .expense-group-label {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .note {
+      font-size: 11px;
+    }
+  }
+}

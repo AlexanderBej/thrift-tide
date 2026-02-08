@@ -39,23 +39,6 @@ export const selectTrendTotalSpentSeries = createSelector([selectHistoryRows], (
   return [{ id: 'Total Spent', color: 'var(--accent)', data }];
 });
 
-export const selectSplitBarData = createSelector([selectHistoryRows], (rows) =>
-  rows
-    .filter((r) => r.summary?.spent)
-    .sort(sortByStart)
-    .map((r) => ({
-      category: r.month,
-      allocated:
-        (r.summary?.allocations.needs ?? 0) +
-        (r.summary?.allocations.wants ?? 0) +
-        (r.summary?.allocations.savings ?? 0),
-      spent: r.summary!.totalSpent,
-      needs: r.summary!.spent.needs,
-      wants: r.summary!.spent.wants,
-      savings: r.summary!.spent.savings,
-    })),
-);
-
 export const selectLatestDonutItems = createSelector([selectHistoryRows], (rows) => {
   if (!rows.length || !rows[rows.length - 1].summary?.spent) return [];
   const r = rows.slice().sort(sortByStart)[rows.length - 1];

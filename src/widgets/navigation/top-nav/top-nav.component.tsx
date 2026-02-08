@@ -6,8 +6,10 @@ import { TTIcon } from '@shared/ui';
 import { routes } from '@shared/utils';
 
 import './top-nav.styles.scss';
+import { useTranslation } from 'react-i18next';
 
 const TopNav: React.FC = () => {
+  const { t } = useTranslation('common');
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -21,7 +23,7 @@ const TopNav: React.FC = () => {
           <button className="back-btn" onClick={() => navigate(-1)}>
             <TTIcon icon={FaChevronLeft} size={18} />
           </button>
-          <span className="page-title">{title}</span>
+          <span className="page-title">{t(`pages.${title.toLowerCase()}`)}</span>
         </div>
       )}
     </header>

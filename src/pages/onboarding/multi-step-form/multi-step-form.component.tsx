@@ -124,7 +124,7 @@ const MultiStepForm: React.FC = () => {
         )}
         {step === 2 && (
           <>
-            <h1 className="step-header">{t('onboarding.step2.title')}</h1>
+            <h1 className="step-header">{t('onboarding:step2.title')}</h1>
             <div className="step-content">
               <StepTwo formData={formData} onChange={handleChange} />
             </div>
@@ -132,7 +132,7 @@ const MultiStepForm: React.FC = () => {
         )}
         {step === 3 && (
           <>
-            <h1 className="step-header">{t('onboarding.step3.title')}</h1>
+            <h1 className="step-header">{t('onboarding:step3.title')}</h1>
             <div className="step-content">
               <StepThree formData={formData} onPercentsChange={handlePercentChange} />
             </div>
@@ -140,7 +140,7 @@ const MultiStepForm: React.FC = () => {
         )}
         {step === 4 && (
           <>
-            <h1 className="step-header">{t('onboarding.step4.title')}</h1>
+            <h1 className="step-header">{t('onboarding:step4.title')}</h1>
             <div className="step-content">
               <StepFour formData={formData} onChange={handleChange} />
             </div>
@@ -148,7 +148,7 @@ const MultiStepForm: React.FC = () => {
         )}
         {step === 5 && (
           <>
-            <h1 className="step-header">{t('onboarding.step5.title')}</h1>
+            <h1 className="step-header">{t('onboarding:step5.title')}</h1>
             <div className="step-content">
               <StepFive />
             </div>

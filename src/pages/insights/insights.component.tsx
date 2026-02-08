@@ -1,43 +1,45 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
-import { Bucket, BucketType } from '@api/types';
-import { resolveCategory } from '@shared/utils';
+import { Category, CategoryType } from '@api/types';
+import { resolveExpenseGroup } from '@shared/utils';
 import { useFormatMoney } from '@shared/hooks';
 import { EmblaCarousel } from '@shared/ui';
 import {
-  makeSelectBucketPanel,
-  selectTopCategoriesOverall,
+  makeSelectCategoryPanel,
   selectSmartDashboardInsight,
+  selectTopExpenseGroupsOverall,
 } from '@store/budget-store';
-import { CategoryName, ProgressBar } from '@components';
+import { ExpenseGroupName, ProgressBar } from '@components';
 import { Insight } from '@api/models';
 import { HealthInsight, SmartInsightCard } from 'features';
 
 import './insights.styles.scss';
 
 const Insights: React.FC = () => {
+  const { t } = useTranslation('common');
   const fmt = useFormatMoney();
 
-  const selectPanelNeeds = useMemo(() => makeSelectBucketPanel(BucketType.NEEDS), []);
-  const selectPanelWants = useMemo(() => makeSelectBucketPanel(BucketType.WANTS), []);
-  const selectPanelSavings = useMemo(() => makeSelectBucketPanel(BucketType.SAVINGS), []);
-  const bucketPanelNeeds = useSelector(selectPanelNeeds);
-  const bucketPanelWants = useSelector(selectPanelWants);
-  const bucketPanelSavings = useSelector(selectPanelSavings);
+  const selectPanelNeeds = useMemo(() => makeSelectCategoryPanel(CategoryType.NEEDS), []);
+  const selectPanelWants = useMemo(() => makeSelectCategoryPanel(CategoryType.WANTS), []);
+  const selectPanelSavings = useMemo(() => makeSelectCategoryPanel(CategoryType.SAVINGS), []);
+  const categoryPanelNeeds = useSelector(selectPanelNeeds);
+  const categoryPanelWants = useSelector(selectPanelWants);
+  const categoryPanelSavings = useSelector(selectPanelSavings);
 
-  const topCategories = useSelector(selectTopCategoriesOverall);
+  const topExpenseGroups = useSelector(selectTopExpenseGroupsOverall);
 
   const smartInsights = useSelector(selectSmartDashboardInsight) as Insight[];
 
-  const getBucketProgress = (bucket: Bucket, catTotal: number) => {
-    const bucketPanel =
-      bucket === 'needs'
-        ? bucketPanelNeeds
-        : bucket === 'wants'
-          ? bucketPanelWants
-          : bucketPanelSavings;
-    return catTotal / bucketPanel.alloc;
+  const getCategoryProgress = (cat: Category, egTotal: number) => {
+    const categoryPanel =
+      cat === 'needs'
+        ? categoryPanelNeeds
+        : cat === 'wants'
+          ? categoryPanelWants
+          : categoryPanelSavings;
+    return egTotal / categoryPanel.alloc;
   };
 
   return (
@@ -49,34 +51,34 @@ const Insights: React.FC = () => {
       </EmblaCarousel>
 
       <section className="tt-section">
-        <h3 className="tt-section-header">Buckets health</h3>
-        {[BucketType.NEEDS, BucketType.WANTS, BucketType.SAVINGS].map((bucket, index) => (
+        <h3 className="tt-section-header">{t('pageContent.insights.categoryHealth')}</h3>
+        {[CategoryType.NEEDS, CategoryType.WANTS, CategoryType.SAVINGS].map((cat, index) => (
           <div className="health-wrapper" key={index}>
-            <HealthInsight bucket={bucket} />
+            <HealthInsight category={cat} />
           </div>
         ))}
       </section>
 
       <section className="tt-section">
-        <h3 className="tt-section-header">What's driving your spending</h3>
+        <h3 className="tt-section-header">{t('pageContent.insights.spending')}</h3>
         <ul className="top-spenders-list">
-          {topCategories.map((cat, index) => {
-            const fullCat = resolveCategory(cat.category);
+          {topExpenseGroups.map((eg, index) => {
+            const fullEG = resolveExpenseGroup(eg.expGroup);
 
             return (
               <li className="top-spender" key={index}>
                 <div className="spender-row">
-                  <CategoryName category={fullCat} />
-                  <strong>{fmt(cat.total)}</strong>
+                  <ExpenseGroupName expenseGroup={fullEG} />
+                  <strong>{fmt(eg.total)}</strong>
                 </div>
                 <div className="spender-bar">
                   <ProgressBar
-                    progress={getBucketProgress(cat.bucket, cat.total)}
-                    color={fullCat.color}
+                    progress={getCategoryProgress(eg.category, eg.total)}
+                    color={fullEG.color}
                   />
                   <span className="spender-percent">
-                    {Number(getBucketProgress(cat.bucket, cat.total) * 100).toFixed(0)}% of{' '}
-                    {cat.bucket}
+                    {Number(getCategoryProgress(eg.category, eg.total) * 100).toFixed(0)}% of{' '}
+                    {eg.category}
                   </span>
                 </div>
               </li>

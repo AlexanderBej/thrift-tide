@@ -43,21 +43,21 @@ const StepThree: React.FC<FormPercentsProp> = ({ formData, onPercentsChange }) =
   return (
     <div className="step-three">
       <p className="step-p">
-        <Trans i18nKey="onboarding.step3.text1" components={{ bold: <strong /> }} />
+        <Trans i18nKey="onboarding:step3.text1" components={{ bold: <strong /> }} />
       </p>
       <ul className="step-p">
         <li>
-          <Trans i18nKey="onboarding.step3.li1" components={{ bold: <strong /> }} />
+          <Trans i18nKey="onboarding:step3.li1" components={{ bold: <strong /> }} />
         </li>
         <li>
-          <Trans i18nKey="onboarding.step3.li2" components={{ bold: <strong /> }} />
+          <Trans i18nKey="onboarding:step3.li2" components={{ bold: <strong /> }} />
         </li>
         <li>
-          <Trans i18nKey="onboarding.step3.li3" components={{ bold: <strong /> }} />
+          <Trans i18nKey="onboarding:step3.li3" components={{ bold: <strong /> }} />
         </li>
       </ul>
       <p className="step-p">
-        <Trans i18nKey="onboarding.step3.text2" components={{ bold: <strong /> }} />
+        <Trans i18nKey="onboarding:step3.text2" components={{ bold: <strong /> }} />
       </p>
       <div className="percents-selectors-wrapper">
         {/* <PercentsSelectors
@@ -83,7 +83,7 @@ const StepThree: React.FC<FormPercentsProp> = ({ formData, onPercentsChange }) =
         </div>
       </div>
       <p className="step-p">
-        <Trans i18nKey="onboarding.step3.text3" components={{ bold: <strong /> }} />
+        <Trans i18nKey="onboarding:step3.text3" components={{ bold: <strong /> }} />
       </p>
     </div>
   );

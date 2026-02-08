@@ -20,13 +20,13 @@ import {
   StartDaySheet,
   ThemeSheet,
 } from '@widgets';
+import { selectBudgetDoc } from '@store/budget-store';
 
-import actionBucket from '../../assets/illustrations/action-bucket.png';
+import actionCategory from '../../assets/illustrations/action-bucket.png';
 import actionHistory from '../../assets/illustrations/action-history.png';
 import calendaryIcon from '../../assets/illustrations/calendar-ill.png';
 
 import './profile.styles.scss';
-import { selectBudgetDoc } from '@store/budget-store';
 
 const LANGUAGE_LABELS: Record<string, string> = {
   en: 'English',
@@ -41,7 +41,7 @@ const ProfilePage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const { t } = useTranslation(['common', 'budget']);
+  const { t } = useTranslation(['common', 'budget', 'taxonomy']);
 
   const user = useSelector(selectAuthUser);
   const { defaultPercents, startDay, language, theme, currency } = useSelector(selectSettingsAll);
@@ -65,11 +65,11 @@ const ProfilePage: React.FC = () => {
 
   const linkItems = [
     {
-      key: 'buckets',
-      to: '/buckets',
-      label: 'Buckets',
-      i18nLabel: 'pages.buckets',
-      image: actionBucket,
+      key: 'categories',
+      to: '/categories',
+      label: 'Categories',
+      i18nLabel: 'pages.categories',
+      image: actionCategory,
     },
     {
       key: 'history',
@@ -103,7 +103,7 @@ const ProfilePage: React.FC = () => {
           </div>
         </div>
 
-        <h3 className="quick-actions">Quick actions</h3>
+        <h3 className="quick-actions">{t('pageContent.profile.quick')}</h3>
         <div className="quick-action-links">
           {linkItems.map((link, index) => (
             <NavLink key={index} to={link.to} className={clsx('action-link', link.key)}>
@@ -116,34 +116,36 @@ const ProfilePage: React.FC = () => {
 
       <SettingsBlock title="GENERAL">
         <SettingsButton
-          title={t('pageContent.settings.shortNames.language') ?? 'Language'}
+          title={t('settings:shortNames.language') ?? 'Language'}
           value={languageLabel}
           openSheet={() => openSheet('language')}
         />
         <SettingsButton
-          title={t('pageContent.settings.shortNames.currency') ?? 'Currency'}
+          title={t('settings:shortNames.currency') ?? 'Currency'}
           value={currency}
           openSheet={() => openSheet('currency')}
         />
         <SettingsButton
-          title={t('pageContent.settings.shortNames.appearance') ?? 'Appearance'}
+          title={t('settings:shortNames.appearance') ?? 'Appearance'}
           value={theme?.toString()}
           openSheet={() => openSheet('theme')}
         />
       </SettingsBlock>
 
-      <SettingsBlock title={t('pageContent.settings.budgetPref')}>
+      <SettingsBlock title={t('settings:budgetPref')}>
         <SettingsButton
           openSheet={() => openSheet('budget')}
           title={
             <div className="settings-label-wrapper">
               <Donut height={50} showTooltip={false} data={donutItems} />
               <div className="settings-title-wrapper">
-                <h3>{t('pageContent.settings.percents.title')}</h3>
+                <h3>{t('settings:percents.title')}</h3>
                 <div className="settings-subtitle">
                   {donutItems.map((item, index) => (
                     <div key={index} className="percent-legend">
-                      <span style={{ textTransform: 'capitalize' }}>{item.label}</span>
+                      <span style={{ textTransform: 'capitalize' }}>
+                        {t(`taxonomy:categoryNames.${item.label}`)}
+                      </span>
                       <span style={{ color: item.color, fontWeight: 900 }}>
                         {Math.round(item.value)}%
                       </span>
@@ -161,9 +163,10 @@ const ProfilePage: React.FC = () => {
             <div className="settings-label-wrapper">
               <img src={calendaryIcon} height={50} alt="Calendar" />
               <div className="settings-title-wrapper">
-                <h3>{t('pageContent.settings.startDay.title')}</h3>
+                <h3>{t('settings:startDay.title')}</h3>
                 <span className="settings-subtitle">
-                  {formatStartDay(doc?.startDay) ?? formatStartDay(startDay)} of each month
+                  {formatStartDay(doc?.startDay) ?? formatStartDay(startDay)}{' '}
+                  {t('pageContent.profile.eachMonth')}
                 </span>
               </div>
             </div>
@@ -177,7 +180,7 @@ const ProfilePage: React.FC = () => {
           title={
             <div className="settings-label-wrapper">
               <TTIcon icon={BiReset} size={22} color={getCssVar('--error')} />
-              <span className="settings-label error-label">Reset Current Period</span>
+              <span className="settings-label error-label">{t('pageContent.profile.reset')}</span>
             </div>
           }
         />
@@ -185,7 +188,7 @@ const ProfilePage: React.FC = () => {
 
       <section className="tt-section">
         <button onClick={handleLogout} className="logout-btn">
-          <span>Logout</span>
+          <span>{t('pageContent.profile.logout')}</span>
         </button>
       </section>
 

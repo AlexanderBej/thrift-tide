@@ -5,11 +5,11 @@ import { enUS } from 'date-fns/locale';
 import clsx from 'clsx';
 import { FaChevronDown } from 'react-icons/fa';
 
-import { Bucket, BucketType } from '@api/types';
+import { Category, CategoryType } from '@api/types';
 import { ProgressBar } from '@components';
 import { useFormatMoney } from '@shared/hooks';
 import { Input, SelectOption, TTIcon } from '@shared/ui';
-import { getCssVar, LOCALE_MAP, makeFormatter, resolveCategory } from '@shared/utils';
+import { getCssVar, LOCALE_MAP, makeFormatter, resolveExpenseGroup } from '@shared/utils';
 import {
   selectTxnsGroupedByDate,
   selectFilteredTotal,
@@ -27,15 +27,15 @@ import './transactions.styles.scss';
 import { Txn } from '@api/models';
 import { TransactionLine } from 'features';
 
-function getScopedTotals(totals: any, filter: Bucket | 'all') {
-  const isBucket = filter !== 'all';
+function getScopedTotals(totals: any, filter: Category | 'all') {
+  const isCategory = filter !== 'all';
 
-  const allocated = isBucket ? totals.alloc[filter] : totals.totalAllocated;
-  const spent = isBucket ? totals.spent[filter] : totals.totalSpent;
-  const remaining = isBucket ? totals.remaining[filter] : totals.totalRemaining;
+  const allocated = isCategory ? totals.alloc[filter] : totals.totalAllocated;
+  const spent = isCategory ? totals.spent[filter] : totals.totalSpent;
+  const remaining = isCategory ? totals.remaining[filter] : totals.totalRemaining;
 
   const budgetLabelValue = (() => {
-    if (!isBucket) return totals.totalIncome;
+    if (!isCategory) return totals.totalIncome;
     if (totals.income) return totals.income[filter];
     return allocated; // fallback: treat allocated as the relevant "budget"
   })();
@@ -73,15 +73,15 @@ const Transaction: React.FC = () => {
 
   // const fmt = useFormatMoney();
 
-  const [filter, setFilter] = useState<Bucket | 'all'>('all');
+  const [filter, setFilter] = useState<Category | 'all'>('all');
   const [searchCriteria, setSearchCriteria] = useState<string>('');
   const [sortCriteria, setSortCriteria] = useState<SortKey>('date');
 
   const FILTER_OPTIONS: SelectOption[] = [
-    { label: t('budget:bucketNames.all') ?? 'All', value: 'all' },
-    { label: t('budget:bucketNames.needs') ?? 'Needs', value: BucketType.NEEDS },
-    { label: t('budget:bucketNames.wants') ?? 'Wants', value: BucketType.WANTS },
-    { label: t('budget:bucketNames.savings') ?? 'Savings', value: BucketType.SAVINGS },
+    { label: t('taxonomy:categoryNames.all') ?? 'All', value: 'all' },
+    { label: t('taxonomy:categoryNames.needs') ?? 'Needs', value: CategoryType.NEEDS },
+    { label: t('taxonomy:categoryNames.wants') ?? 'Wants', value: CategoryType.WANTS },
+    { label: t('taxonomy:categoryNames.savings') ?? 'Savings', value: CategoryType.SAVINGS },
   ];
 
   const SORT_OPTIONS: SelectOption[] = [
@@ -95,8 +95,8 @@ const Transaction: React.FC = () => {
     dispatch(setTxnSearch(value));
   };
 
-  const handleFilterChange = (filter: Bucket | 'all') => {
-    setFilter(filter as Bucket | 'all');
+  const handleFilterChange = (filter: Category | 'all') => {
+    setFilter(filter as Category | 'all');
     dispatch(setTxnTypeFilter(filter as TxnTypeFilter));
   };
 
@@ -113,7 +113,7 @@ const Transaction: React.FC = () => {
   };
 
   const scoped = useMemo(
-    () => getScopedTotals(totals, (filter ?? 'all') as Bucket | 'all'),
+    () => getScopedTotals(totals, (filter ?? 'all') as Category | 'all'),
     [totals, filter],
   );
 
@@ -153,7 +153,7 @@ const Transaction: React.FC = () => {
         <div className="filters-row">
           {FILTER_OPTIONS.map((filt, index) => (
             <button
-              onClick={() => handleFilterChange(filt.value as Bucket | 'all')}
+              onClick={() => handleFilterChange(filt.value as Category | 'all')}
               key={index}
               className={clsx('filter', { selected: filter === filt.value })}
             >
@@ -187,11 +187,11 @@ const Transaction: React.FC = () => {
             </div>
             <ul className="txn-group-list">
               {group.items.map((tx) => {
-                const cat = resolveCategory(tx.category);
+                const ep = resolveExpenseGroup(tx.expenseGroup);
 
                 return (
                   <div key={tx.id} className="txn-line-wrapper">
-                    <TransactionLine txn={tx} category={cat} />
+                    <TransactionLine txn={tx} expenseGroup={ep} />
                   </div>
                 );
               })}

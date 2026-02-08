@@ -1,5 +1,5 @@
 export * from './budget-insights.util';
-export * from './category-options.util';
+export * from './expense-group-options.util';
 export * from './format-data.util';
 export * from './history.util';
 export * from './period.util';

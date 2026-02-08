@@ -42,7 +42,7 @@
         }
       }
 
-      &.category-chips {
+      &.exp-group-chips {
         display: flex;
         flex-wrap: nowrap;
         gap: 8px;
@@ -62,7 +62,7 @@
       }
     }
 
-    &.category-chips-group::after {
+    &.exp-group-chips-group::after {
       content: '';
       position: absolute;
       top: 0;

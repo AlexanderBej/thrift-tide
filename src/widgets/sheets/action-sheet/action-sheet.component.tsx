@@ -18,7 +18,7 @@ const AddActionSheet: React.FC<AddActionSheetProps> = ({
   onOpenChange,
   defaultStep = 'choose',
 }) => {
-  const { t } = useTranslation('budget');
+  const { t } = useTranslation(['common', 'budget']);
 
   const [step, setStep] = useState<SheetStep>(defaultStep);
   const [canSubmit, setCanSubmit] = useState(false);
@@ -49,13 +49,14 @@ const AddActionSheet: React.FC<AddActionSheetProps> = ({
     setCanSubmit(false);
   }, [step]);
 
-  const title = t(`sheets.addSheet.${step}.title`);
-  const description = t(`sheets.addSheet.${step}.subtitle`);
+  const title = t(`budget:sheets.addSheet.${step}.title`);
+  const description = t(`budget:sheets.addSheet.${step}.subtitle`);
+  const backLabel = step !== 'choose' ? t('actions.back') : '';
 
   const isIncome = step === 'income';
   const isExpense = step === 'expense';
 
-  const btnLabel = isExpense ? 'Add transaction' : isIncome ? 'Add income' : '';
+  const btnLabel = isExpense || isIncome ? t('actions.add') : '';
   const className = isExpense ? 'expense-sheet' : isIncome ? 'income-sheet' : 'action-sheet';
 
   return (
@@ -69,13 +70,8 @@ const AddActionSheet: React.FC<AddActionSheetProps> = ({
       btnDisabled={btnDisabled}
       className={className}
       onButtonClick={onPrimary}
-      headerNode={
-        step !== 'choose' ? (
-          <button className="reset-btn" onClick={() => setStep('choose')}>
-            Back
-          </button>
-        ) : null
-      }
+      secondaryButtonLabel={backLabel}
+      handleSecondaryClick={() => setStep('choose')}
     >
       <SliderViewport
         activeIndex={stepIndex}

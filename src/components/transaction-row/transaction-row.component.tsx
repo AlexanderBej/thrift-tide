@@ -3,21 +3,21 @@ import { useTranslation } from 'react-i18next';
 import { enUS } from 'date-fns/locale';
 
 import { LOCALE_MAP, makeFormatter, toYMD } from '@shared/utils';
-import { Txn, CategoryOption } from '@api/models';
-import CategoryName from '../category-name/category-name.component';
+import { Txn, ExpenseGroupOption } from '@api/models';
 import { useWindowWidth } from '@shared/hooks';
 import { useFormatMoney } from '@shared/hooks';
 import { ExpansionRow } from '@shared/ui';
+import { ExpenseGroupName } from 'components/expense-group-name';
 
 import './transaction-row.styles.scss';
 
 interface TransactionRowProps {
   txn: Txn;
-  source: 'category' | 'transaction';
-  category?: CategoryOption;
+  source: 'expenseGroup' | 'transaction';
+  expGroup?: ExpenseGroupOption;
 }
 
-const TransactionRow: React.FC<TransactionRowProps> = ({ txn, source, category }) => {
+const TransactionRow: React.FC<TransactionRowProps> = ({ txn, source, expGroup }) => {
   const { t, i18n } = useTranslation(['common', 'budget']);
   const fmt = useFormatMoney();
 
@@ -43,9 +43,9 @@ const TransactionRow: React.FC<TransactionRowProps> = ({ txn, source, category }
     return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
   };
 
-  if (!txn || !category) return null;
+  if (!txn || !expGroup) return null;
 
-  if (source === 'category') {
+  if (source === 'expenseGroup') {
     return (
       <ExpansionRow
         buttonClassName="transaction-row"
@@ -58,7 +58,7 @@ const TransactionRow: React.FC<TransactionRowProps> = ({ txn, source, category }
         }
       >
         <div className="txn-line-date">{getFormattedDate(txn.date)}</div>
-        <CategoryName category={category} />
+        <ExpenseGroupName expenseGroup={expGroup} />
         <div style={{ opacity: 0.7, display: isMobile ? 'none' : 'block' }}>{txn.note ?? ''}</div>
         <div style={{ marginLeft: 'auto', fontWeight: 600 }}>{fmt(txn.amount)}</div>
       </ExpansionRow>
@@ -75,10 +75,10 @@ const TransactionRow: React.FC<TransactionRowProps> = ({ txn, source, category }
           </div>
         }
       >
-        <div className="txn-cat-row">
-          <CategoryName category={category} />
-          <span className={`cat-type-badge cat-type-badge__${txn.type}`}>
-            {t(`budget:bucketNames.${txn.type}`) ?? toCamelCase(txn.type)}
+        <div className="txn-eg-row">
+          <ExpenseGroupName expenseGroup={expGroup} />
+          <span className={`eg-type-badge eg-type-badge__${txn.type}`}>
+            {t(`taxonomy:categoryNames.${txn.type}`) ?? toCamelCase(txn.type)}
           </span>
         </div>
         <span className="note" style={{ display: isMobile ? 'none' : 'block' }}>

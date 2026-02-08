@@ -27,7 +27,7 @@
     z-index: 1;
     font-size: 16px;
 
-    .bucket-value {
+    .category-value {
       font-weight: 700;
 
       &__needs {
@@ -59,7 +59,7 @@
         @include themed(background-color, color-savings, $color-savings);
       }
 
-      .bucket-value {
+      .category-value {
         @include themed(color, color-text-inverse, $color-text-inverse);
       }
     }

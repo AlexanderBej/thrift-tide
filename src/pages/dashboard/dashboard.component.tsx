@@ -6,20 +6,19 @@ import { useFormatMoney } from '@shared/hooks';
 import { selectAuthUser } from '@store/auth-store';
 import {
   selectDashboardInsights,
-  selectBudgetMonth,
-  selectTopCategoriesOverall,
   selectSmartDashboardInsight,
   selectBudgetDoc,
+  selectTopExpenseGroupsOverall,
 } from '@store/budget-store';
-import { CategoryName } from '@components';
-import { formatMonth, resolveCategory } from '@shared/utils';
+import { ExpenseGroupName } from '@components';
+import { resolveExpenseGroup } from '@shared/utils';
 import { selectSettingsCurrency } from '@store/settings-store';
-import { BucketCards, BucketsProgressBar, SmartInsightCard, SmartInsightChip } from 'features';
+import { CategoryCards, CategoriesProgressBar, SmartInsightCard } from 'features';
 import { Insight } from '@api/models';
 import { InsightTone } from '@api/types';
+import { PeriodWidget } from '@widgets';
 
 import './dashboard.styles.scss';
-import { PeriodWidget } from '@widgets';
 
 const pickHeaderInsight = (insights: Insight[]) => {
   const findIndexByTone = (tone: InsightTone) => insights.findIndex((i) => i.tone === tone);
@@ -41,20 +40,19 @@ const pickHeaderInsight = (insights: Insight[]) => {
 };
 
 const Dashboard: React.FC = () => {
-  const { t } = useTranslation(['common', 'budget']);
+  const { t } = useTranslation(['common', 'budget', 'taxonomy']);
   const fmtMoney = useFormatMoney();
 
   const user = useSelector(selectAuthUser);
-  const month = useSelector(selectBudgetMonth);
   const currency = useSelector(selectSettingsCurrency);
   const insights = useSelector(selectDashboardInsights);
   const doc = useSelector(selectBudgetDoc);
-  const topCategories = useSelector(selectTopCategoriesOverall);
+  const topExpenseGroups = useSelector(selectTopExpenseGroupsOverall);
   const smartInsights = useSelector(selectSmartDashboardInsight) as Insight[];
 
   const { headerInsight } = pickHeaderInsight(smartInsights);
 
-  const buckets = [
+  const categories = [
     {
       key: 'needs',
       percent: doc?.percents.needs ?? 0,
@@ -93,7 +91,7 @@ const Dashboard: React.FC = () => {
       {isIncomeSet && (
         <>
           <h2 className="remaining-heading">
-            You have {fmtMoney(insights.totals.totalRemaining)} left
+            {t('budget:headerRemaining', { remaining: fmtMoney(insights.totals.totalRemaining) })}
           </h2>
           <div className="budget-stats-line">
             <span>
@@ -110,46 +108,46 @@ const Dashboard: React.FC = () => {
         <SmartInsightCard insight={headerInsight} showCta={true} />
       </section>
 
-      <section className="tt-section bucket-cards">
-        {buckets.map((bucket, index) => {
+      <section className="tt-section category-cards">
+        {categories.map((cat, index) => {
           return (
             <div
               key={index}
-              className={`bucket-card bucket-card__${bucket.key}`}
-              style={{ width: `${bucket.percent * 100}%` }}
+              className={`category-card category-card__${cat.key}`}
+              style={{ width: `${cat.percent * 100}%` }}
             >
-              <div className="bucket-title">
-                <span className="bucket-key">{bucket.key}</span>
-                <span className={`bucket-percent-${bucket.key}`}>
-                  {Math.round(bucket.percent * 100)}%
+              <div className="category-title">
+                <span className="category-key">{t(`taxonomy:categoryNames.${cat.key}`)}</span>
+                <span className={`category-percent-${cat.key}`}>
+                  {Math.round(cat.percent * 100)}%
                 </span>
               </div>
               <div style={{ height: 50 }} />
-              <div className="total">{bucket.total}</div>
+              <div className="total">{cat.total}</div>
             </div>
           );
         })}
 
         <div className="progress-bar">
-          <BucketsProgressBar />
+          <CategoriesProgressBar />
         </div>
       </section>
 
       {isIncomeSet && (
         <>
           <section className="tt-section">
-            <BucketCards />
+            <CategoryCards />
           </section>
 
           <section className="tt-section">
-            <h3 className="tt-section-header">{t('budget:topCategories') ?? 'Top Categories'}</h3>
-            <ul className="categories-list">
-              {topCategories.map((cat, index) => {
-                const fullCat = resolveCategory(cat.category);
+            <h3 className="tt-section-header">{t('budget:topExpenseGroups')}</h3>
+            <ul className="exp-groups-list">
+              {topExpenseGroups.map((eg, index) => {
+                const fullEG = resolveExpenseGroup(eg.expGroup);
                 return (
-                  <li className="top-cat-item" key={index}>
-                    <CategoryName category={fullCat} />
-                    <strong>{cat.total}</strong>
+                  <li className="top-exp-groups-item" key={index}>
+                    <ExpenseGroupName expenseGroup={fullEG} />
+                    <strong>{eg.total}</strong>
                   </li>
                 );
               })}

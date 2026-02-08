@@ -11,6 +11,7 @@ import {
 } from 'date-fns';
 import { DayPicker } from 'react-day-picker';
 import { ro, enUS } from 'date-fns/locale';
+import { useTranslation } from 'react-i18next';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 import { selectMonthTiming } from '@store/budget-store';
@@ -32,6 +33,8 @@ const monthStart = (d: Date) => startOfMonth(d);
 const monthEnd = (d: Date) => endOfMonth(d);
 
 const TxnDayPicker: React.FC<TxnDayPickerProps> = ({ value, onChange, setStep, lang = 'en' }) => {
+  const { t, i18n } = useTranslation('budget');
+
   const { periodStart, periodEnd } = useSelector(selectMonthTiming);
 
   // End is exclusive in your app: [start, end)
@@ -42,10 +45,9 @@ const TxnDayPicker: React.FC<TxnDayPickerProps> = ({ value, onChange, setStep, l
   const firstMonth = useMemo(() => monthStart(periodStart), [periodStart]);
   const lastMonth = useMemo(() => monthStart(maxDate), [maxDate]);
 
-  const locale = lang === 'ro' ? ro : enUS;
-
-  const inAllowedRange = (d: Date) =>
-    isWithinInterval(d, { start: startOfDay(periodStart), end: startOfDay(maxDate) });
+  const locale = useMemo(() => {
+    return i18n.language === 'ro' ? ro : enUS;
+  }, [i18n.language]);
 
   // Displayed month (controlled)
   const [displayMonth, setDisplayMonth] = useState<Date>(() => {
@@ -53,12 +55,6 @@ const TxnDayPicker: React.FC<TxnDayPickerProps> = ({ value, onChange, setStep, l
     const base = value ?? periodStart;
     return monthStart(base);
   });
-
-  const disabled = useMemo(
-    () => [{ before: periodStart }, { after: maxDate }],
-    [periodStart, maxDate],
-  );
-
   const canGoPrev = displayMonth > firstMonth;
   const canGoNext = displayMonth < lastMonth;
 
@@ -67,9 +63,9 @@ const TxnDayPicker: React.FC<TxnDayPickerProps> = ({ value, onChange, setStep, l
   return (
     <div className="txn-day-picker">
       <div className="step-back-btn-wrapper">
-        <button onClick={() => setStep('form')}>
+        <button className="step-back-btn" onClick={() => setStep('form')}>
           <TTIcon icon={FaChevronLeft} size={14} color={getCssVar('--color-secondary')} />
-          <span className="step-back-btn-label">Back to expense</span>
+          <span className="step-back-btn-label">{t('sheets.addSheet.expense.back')}</span>
         </button>
       </div>
       <div className="day-picker-nav">

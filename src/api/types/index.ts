@@ -1,5 +1,5 @@
-export * from './bucket.types';
-export * from './category-options.types';
+export * from './category.types';
+export * from './expense-group.types';
 export * from './insight.types';
 export * from './percent.types';
 export * from './settings.types';

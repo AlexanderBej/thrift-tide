@@ -1,0 +1,77 @@
+{
+  "shortNames": {
+    "currency": "Valuta",
+    "language": "Limba",
+    "appearance": "Aspect"
+  },
+  "budgetPref": "Planifică-ți bugetul",
+  "percents": {
+    "info": {
+      "title": "Lunile viitoare vor folosi setări diferite.",
+      "subtitle": "Din următoarea perioadă, împărțirea bugetului va fi"
+    },
+    "title": "Împărțirea bugetului",
+    "adjust": "Ajustează-ți nevoile, dorințele și economiile pentru a corespunde cu modul în care cheltuiești cu adevărat. Poți ajusta acest lucru oricând.",
+    "checkbox": {
+      "title": "Aplică din",
+      "labelNow": "Perioada asta",
+      "labelFuture": "Perioada viitoare"
+    },
+    "popover": "Dacă aplicați modificările începând cu această perioadă, alocările și valorile rămase se vor modifica.",
+    "button": "Actualizează procentajele"
+  },
+  "startDay": {
+    "info": {
+      "title": "Lunile viitoare vor folosi setări diferite.",
+      "subtitle": "Din următoarea perioadă, ziua de start a bugetului va fi"
+    },
+    "title": "Ziua de start a perioadei",
+    "subtitle": "Intervalul permis este de la 1 la 28, pentru a evita decalajele de sfârșit de lună.",
+    "button": "Actualizează ziua"
+  },
+  "currency": {
+    "title": "Alege valuta bugetului tău.",
+    "labelRo": "Leu Românesc (RON)",
+    "labelEu": "Euro European (EUR)",
+    "button": "Modifică valuta"
+  },
+  "language": {
+    "title": "Modifică limba aplicației",
+    "button": "Modifică limba"
+  },
+  "theme": {
+    "title": "Modifică tema de culori a aplicației",
+    "labelLight": "Luminos",
+    "labelDark": "Întunecat",
+    "button": "Modifică tema"
+  },
+  "toast": {
+    "load": {
+      "error": "Nu s-au putut încărca setările."
+    },
+    "completeOnboarding": {
+      "success": "Onboarding finalizat. Modificările au fost salvate!",
+      "error": "Nu s-a putut finaliza onboarding-ul."
+    },
+    "startDay": {
+      "success": "Ziua de început a fost schimbată cu succes!",
+      "error": "Actualizarea zilei de început a eșuat."
+    },
+    "language": {
+      "success": "Limba a fost schimbată cu succes!",
+      "error": "Actualizarea limbii a eșuat."
+    },
+    "theme": {
+      "success": "Tema a fost schimbată cu succes!",
+      "error": "Schimbarea temei a eșuat."
+    },
+    "percents": {
+      "success": "Procentele implicite au fost actualizate cu succes!",
+      "error": "Actualizarea procentelor implicite a eșuat."
+    },
+    "currency": {
+      "success": "Moneda a fost actualizată cu succes!",
+      "error": "Actualizarea monedei a eșuat."
+    }
+  }
+}

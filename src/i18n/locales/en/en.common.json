@@ -2,119 +2,50 @@
   "hi": "Hi",
   "pages": {
     "dashboard": "Dashboard",
-    "buckets": "Buckets",
-    "bucket": "Bucket",
+    "categories": "Categories",
+    "category": "Category",
     "transactions": "Transactions",
     "insights": "Insights",
     "history": "History",
-    "settings": "Settings",
-    "profile": "Profile",
-    "budget": "Budget",
-    "trends": "Trends",
-    "app": "Language & Theme"
+    "profile": "Profile"
   },
   "pageContent": {
-    "buckets": {
-      "header": "Select a bucket"
+    "categories": {
+      "header": "Select a category"
     },
-    "bucket": {
+    "category": {
       "noTrans": "No transactions for"
     },
     "insights": {
-      "runOutForecast": "Run-out forecast",
-      "kpi": "KPIs",
-      "spentByBucket": "Spent by bucket",
-      "trends": "Trends",
-      "legend": "Legend"
+      "categoryHealth": "Categories Healts",
+      "spending": "What's driving your spending"
     },
-    "history": {
-      "allocVsSpent": "Allocated vs Spent (per period)",
-      "latestDist": "Latest Distribution"
-    },
-    "settings": {
-      "shortNames": {
-        "currency": "Currency",
-        "language": "Language",
-        "appearance": "Appearance"
-      },
-      "profile": "Change your appearance",
-      "displayName": "Display name",
-      "budgetPref": "Plan your budget",
-      "percents": {
-        "title": "Budget split",
-        "adjust": "Adjust your needs, wants, and savings to match how you really spend. You can adjust this anytime.",
-        "checkbox": {
-          "title": "Apply starting",
-          "labelNow": "This period",
-          "labelFuture": "Next period"
-        },
-        "popover": "If you apply the changes starting this period, your allocations and remaining values will change."
-      },
-      "startDay": {
-        "title": "Period start day",
-        "info": "Allowed range is from the 1st to the 28th, in order to avoid end-of-month gaps."
-      },
-      "currency": {
-        "title": "Choose your budget currency",
-        "labelRo": "Romanian Leu (RON)",
-        "labelEu": "European Euro (EUR)"
-      },
-      "language": "Change the system language",
-      "theme": {
-        "title": "Change the system theme",
-        "labelLight": "Light",
-        "labelDark": "Dark"
-      },
-      "appPref": "App Preferences"
+    "profile": {
+      "quick": "Quick Actions",
+      "eachMonth": "of each month",
+      "reset": "Reset current period",
+      "logout": "Logout"
     }
   },
-  "nav": {
-    "home": "Home",
-    "open": "Open",
-    "close": "Close",
-    "back": "Back",
-    "next": "Next"
-  },
   "actions": {
-    "add": "Add",
-    "edit": "Edit",
-    "delete": "Delete",
-    "save": "Save",
-    "cancel": "Cancel",
     "continue": "Continue",
-    "confirm": "Confirm",
-    "apply": "Apply",
-    "reset": "Reset",
     "next": "Next",
     "skip": "Skip",
-    "back": "Back"
+    "back": "Back",
+    "reset": "Reset",
+    "dismiss": "Dismiss",
+    "add": "Add",
+    "goToCategory": "Go to {catName} category"
   },
   "search": {
-    "placeholder": "Search…",
-    "clear": "Clear search"
-  },
-  "state": {
-    "loading": "Loading…",
-    "empty": "Nothing here yet",
-    "error": "Something went wrong",
-    "retry": "Retry"
+    "placeholder": "Search…"
   },
   "dates": {
-    "periodLabel": "{{start, date}} → {{end, date}}",
-    "fromTo": "From {{from, date}} to {{to, date}}",
-    "asOf": "as of {{date, date}}",
     "yesterday": "Yesterday",
     "today": "Today"
   },
   "confirmations": {
-    "modalTitle": "Confirm",
-    "areYouSure": "Are you sure?",
-    "displayName": "Are you sure you want to change your display name?",
-    "percentages": "Are you sure you want to change the percentages?",
-    "language": "Are you sure you want to change the language?",
-    "startDay": "Are you sure you want to change the period start day?",
-    "currency": "Are you sure you want to change the budget currency?",
-    "unsavedChanges": "You have unsaved changes. Discard them?"
+    "modalTitle": "Confirm"
   },
   "validation": {
     "amount": {
@@ -129,51 +60,12 @@
       "invalid": "Enter a valid date",
       "notFuture": "Date cannot be in the future"
     },
-    "category": {
-      "required": "Category is required",
-      "invalid": "Choose a valid category"
-    },
-    "note": {
-      "underLimit": "Note must be under {{limit}} characters"
+    "expGroup": {
+      "required": "Expense Group is required",
+      "invalid": "Choose a valid expense group"
     }
   },
-  "toast": {
-    "saved": "Saved",
-    "deleted": "Deleted",
-    "updated": "Updated"
-  },
-  "onboarding": {
-    "step1": {
-      "text1": "Welcome to <bold>Thrift Tide</bold>, your friendly budget assistant. This app helps you manage your monthly income using the <bold>50/30/20</bold> budgeting system — a simple method that divides your income into 50% for Needs, 30% for Wants, and 20% for Savings.",
-      "text2": " Before we begin, let’s set up a few simple preferences. Click <bold>Next</bold> to learn how to make the most out of your new dashboard. Or if you’d prefer to jump right in, just click <bold>Skip</bold> and start exploring at your own pace."
-    },
-    "step2": {
-      "title": "Region settings",
-      "text1": "Please select the language you want the app to use. This will change all the buttons, labels, and messages to the language you feel most comfortable with. You can always change this later in <bold>Settings</bold>.",
-      "text2": "Also select the currency you are using for your income",
-      "text3": "Once you’ve chosen your language and currency, click <bold>Next</bold>."
-    },
-    "step3": {
-      "title": "Choose How You Split Your Income",
-      "text1": "Every month, your income is divided into three main parts:",
-      "li1": "<bold>Needs</bold> (for essentials like food, rent, or bills),",
-      "li2": "<bold>Wants</bold> (for nice-to-have things and fun activities),",
-      "li3": "and <bold>Savings</bold> (for your goals or emergencies).",
-      "text2": "Adjust the sliders or numbers below to choose how much (%) you’d like to allocate to each category. Make sure they add up to <bold>100%</bold>.",
-      "text3": " When you’re done, click <bold>Next</bold>."
-    },
-    "step4": {
-      "title": "Pick When Your Month Starts",
-      "text1": "Everyone’s pay schedule is different!",
-      "text2": "Choose which day your 'budget month' should start on — for example, the <bold>1st</bold> or <bold>the day you usually receive your salary.</bold>",
-      "text3": "The app will calculate spending and summaries starting from that day each month.",
-      "text4": "Click <bold>Next</bold> when you’re ready."
-    },
-    "step5": {
-      "title": "You’re Ready to Go!",
-      "text1": "That’s it — setup is complete 🎊",
-      "text2": "Your preferences are saved, and you can now start using the app. You can always return to <bold>Settings</bold> to change your language, currency, percentages, or start day later.",
-      "text3": "Press <bold>Continue</bold> to open your dashboard and start tracking your budget."
-    }
+  "errors": {
+    "generic": "Something went wrong. Please try again."
   }
 }

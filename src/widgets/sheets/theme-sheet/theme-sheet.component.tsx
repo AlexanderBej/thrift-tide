@@ -30,8 +30,8 @@ const ThemeSheet: React.FC<ThemeSheetProps> = ({ open, onOpenChange }) => {
   const [selectedTheme, setSelectedTheme] = useState<Theme | null>(theme);
 
   const themeOptions: { icon: IconType; label: string; value: Theme }[] = [
-    { label: t('pageContent.settings.theme.labelLight'), value: 'light', icon: FaSun },
-    { label: t('pageContent.settings.theme.labelDark'), value: 'dark', icon: FaMoon },
+    { label: t('settings:theme.labelLight'), value: 'light', icon: FaSun },
+    { label: t('settings:theme.labelDark'), value: 'dark', icon: FaMoon },
   ];
 
   const handleSubmit = () => {
@@ -43,13 +43,15 @@ const ThemeSheet: React.FC<ThemeSheetProps> = ({ open, onOpenChange }) => {
       });
   };
 
+  const btnLabel = t('settings:theme.button');
+
   return (
     <BaseSheet
       open={open}
       onOpenChange={onOpenChange}
-      title={t('pageContent.settings.theme.title')}
+      title={t('settings:theme.title')}
       btnDisabled={selectedTheme === theme}
-      btnLabel="Change theme"
+      btnLabel={btnLabel}
       onButtonClick={handleSubmit}
     >
       <div className="theme-selectors">
