@@ -1,9 +1,5 @@
 @use '../../styles/tokens.scss' as *;
 
 .buckets-page {
-  @include dashboard-card($radius: $radius-lg, $pad: 50px $spacing-6);
-
-  @include mediaDown(md) {
-    padding: $spacing-5;
-  }
+  // @include dashboard-card($radius: $radius-lg, $pad: $spacing-4);
 }

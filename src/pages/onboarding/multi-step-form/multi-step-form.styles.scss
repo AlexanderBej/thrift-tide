@@ -2,21 +2,15 @@
 @use '../../../styles/tokens.scss' as *;
 
 .multi-step-container {
-  width: 800px;
-  height: 90%;
+  width: 95%;
+  height: 95%;
   @include themed(background-color, color-bg-card, $color-bg-card);
   border-radius: $radius-lg;
   box-shadow: $shadow-md;
-  padding: $spacing-5 $spacing-6;
+  padding: $spacing-4;
   display: flex;
   justify-content: center;
   flex-direction: column;
-
-  @include mediaDown(md) {
-    width: 95%;
-    height: 95%;
-    padding: $spacing-4;
-  }
 
   .step-container {
     margin: $spacing-5 auto;

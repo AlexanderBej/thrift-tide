@@ -6,5 +6,5 @@ export * from './insights';
 export * from './layout';
 export * from './login';
 export * from './onboarding';
-export * from './settings-page';
+export * from './profile';
 export * from './transactions';

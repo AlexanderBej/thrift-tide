@@ -1,0 +1,36 @@
+@use '../../../styles/tokens.scss' as *;
+
+.theme-selectors {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+  align-items: center;
+
+  .theme-block {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    align-items: center;
+    padding: $spacing-3 $spacing-4;
+    width: 235px;
+    @include themed(background, color-neutral, $color-neutral);
+    border-radius: 999px;
+
+    &.active {
+      background: rgba($color-primary, 0.3);
+      transition: background $transition-normal;
+    }
+
+    .theme-details {
+      display: flex;
+      gap: $spacing-3;
+      align-items: center;
+
+      .theme-icon-wrapper {
+        padding: 8px;
+        border-radius: 12px;
+        display: flex;
+      }
+    }
+  }
+}

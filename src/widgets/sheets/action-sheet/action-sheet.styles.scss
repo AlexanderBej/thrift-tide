@@ -1,0 +1,44 @@
+@use '../../../styles/tokens.scss' as *;
+
+.expense-sheet .sheet-content,
+.income-sheet .sheet-content {
+  padding-top: $spacing-4;
+}
+
+.action-sheet-viewport {
+  overflow: hidden;
+  width: 100%;
+  transition: height 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: height;
+
+  .sheet-slider {
+    display: flex;
+    width: 100%;
+    align-items: flex-start;
+
+    transition: transform 240ms cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+
+    .sheet-panel {
+      flex: 0 0 100%;
+      width: 100%;
+      min-width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
+      height: auto;
+      align-self: flex-start;
+    }
+
+    &.step-choose {
+      transform: translate3d(0%, 0, 0);
+    }
+
+    &.step-income {
+      transform: translate3d(-100%, 0, 0);
+    }
+
+    &.step-expense {
+      transform: translate3d(-200%, 0, 0);
+    }
+  }
+}

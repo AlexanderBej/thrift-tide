@@ -29,5 +29,3 @@ export const BUCKET_ICONS = {
   wants: GiWantedReward,
   savings: MdDataSaverOn,
 };
-
-export const getTxnColor = (type: Bucket) => BUCKET_COLORS[type];

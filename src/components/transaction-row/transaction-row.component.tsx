@@ -35,7 +35,7 @@ const TransactionRow: React.FC<TransactionRowProps> = ({ txn, source, category }
 
     const locale = LOCALE_MAP[i18n.language] ?? enUS;
 
-    const fmt = makeFormatter(isMobile, locale);
+    const fmt = makeFormatter(locale);
     return fmt.format(dateObj);
   };
 
@@ -48,7 +48,7 @@ const TransactionRow: React.FC<TransactionRowProps> = ({ txn, source, category }
   if (source === 'category') {
     return (
       <ExpansionRow
-        buttonClassName="transaction-line"
+        buttonClassName="transaction-row"
         canToggle={isMobile ? true : false}
         expandedContent={
           <div style={{ opacity: 0.7, fontSize: 14, marginLeft: 62 }}>
@@ -66,7 +66,7 @@ const TransactionRow: React.FC<TransactionRowProps> = ({ txn, source, category }
   } else
     return (
       <ExpansionRow
-        buttonClassName="txn-line"
+        buttonClassName="txn-row"
         canToggle={isMobile ? true : false}
         expandedContent={
           <div style={{ opacity: 0.7, fontSize: 14 }}>

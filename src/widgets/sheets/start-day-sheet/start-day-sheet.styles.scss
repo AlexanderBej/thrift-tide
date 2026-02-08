@@ -1,0 +1,56 @@
+@use '../../../styles/tokens.scss' as *;
+
+.start-day-sheet {
+  .sheet-info-block {
+    margin-bottom: $spacing-4;
+  }
+
+  .dow {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-bottom: 10px;
+
+    &__cell {
+      text-align: center;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      font-size: 0.9rem;
+    }
+  }
+
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+
+    .calendar-blank {
+      aspect-ratio: 1;
+    }
+
+    .calendar-day {
+      aspect-ratio: 1; // perfect circles/squares
+      border-radius: 14px; // matches your “playful” rounded style
+      border: 1px solid;
+      background: $color-neutral-light;
+      @include themed(background, color-neutral-light, $color-neutral-light);
+      @include themed(border-color, color-neutral, $color-neutral);
+
+      font-weight: 600;
+      transition:
+        transform 120ms ease,
+        background-color 160ms ease,
+        border-color 160ms ease;
+
+      &__selected {
+        @include themed(background, color-primary, $color-primary);
+        @include themed(border-color, color-primary, $color-primary);
+        color: white;
+      }
+
+      &__today {
+        @include themed(border-color, color-secondary, $color-secondary);
+      }
+    }
+  }
+}

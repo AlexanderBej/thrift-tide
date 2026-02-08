@@ -1,0 +1,20 @@
+@use '../../../styles/tokens.scss' as *;
+
+.sv-viewport {
+  width: 100%;
+
+  .sv-slider {
+    display: flex;
+    width: 100%;
+    align-items: flex-start;
+
+    .sv-panel {
+      flex: 0 0 100%;
+      width: 100%;
+      min-width: 100%;
+      box-sizing: border-box;
+      align-self: flex-start;
+      overflow: visible;
+    }
+  }
+}

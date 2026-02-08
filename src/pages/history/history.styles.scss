@@ -1,14 +1,89 @@
 @use '../../styles/tokens.scss' as *;
 
 .history-page {
-  display: grid;
-  gap: $spacing-6;
+  .history-doc {
+    width: 100%;
+    text-align: left;
+    padding: $spacing-2;
+    font-size: 16px;
 
-  @include mediaDown(md) {
-    gap: $spacing-4;
+    .history-doc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .doc-date {
+        font-weight: 700;
+        font-size: 18px;
+      }
+
+      .history-badge-wrapper {
+        padding: $spacing-2 $spacing-3;
+        border-radius: $radius-lg;
+        display: flex;
+        gap: $spacing-1;
+        align-items: center;
+        width: fit-content;
+        font-size: 14px;
+        color: $color-text-secondary;
+
+        &.danger {
+          background-color: rgba($color: $color-error, $alpha: 0.2);
+        }
+
+        &.info {
+          background-color: rgba($color: $cat-1, $alpha: 0.2);
+        }
+
+        &.success {
+          background-color: rgba($color: $color-success, $alpha: 0.2);
+        }
+
+        &.warn {
+          background-color: rgba($color: $color-warning, $alpha: 0.2);
+        }
+
+        &.muted {
+          background-color: rgba($color: $color-primary-dark, $alpha: 0.2);
+        }
+      }
+    }
+
+    .spent-line {
+      margin-top: $spacing-3;
+      display: block;
+    }
+
+    .buckets-progress-bar {
+      margin-top: $spacing-2;
+    }
+
+    .remaining-value {
+      font-size: 14px;
+      margin-top: $spacing-2;
+      display: block;
+    }
   }
 
-  .history-page-section {
-    @include dashboard-card($radius: $radius-lg, $pad: $spacing-5 $spacing-6);
+  .legends {
+    display: flex;
+    justify-content: space-between;
+
+    .legend-container {
+      display: inline-flex;
+      align-items: center;
+      gap: $spacing-1;
+      font-size: 14px;
+
+      .bucket-key {
+        text-transform: capitalize;
+      }
+
+      .bullet {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+      }
+    }
   }
 }

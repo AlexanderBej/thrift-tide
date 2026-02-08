@@ -1,0 +1,9 @@
+@use '../../../styles/tokens.scss' as *;
+
+.panel {
+  margin-top: $spacing-3;
+
+  &.large {
+    margin-top: $spacing-5;
+  }
+}

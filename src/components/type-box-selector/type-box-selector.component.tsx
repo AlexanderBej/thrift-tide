@@ -6,7 +6,6 @@ import { IconType } from 'react-icons';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 
-import { TransactionFormData } from '../add-transaction-modal/add-transaction-modal.component';
 import { Bucket } from '@api/types';
 import { getCssVar } from '@shared/utils';
 import { SelectOption, TTIcon } from '@shared/ui';
@@ -14,11 +13,11 @@ import { SelectOption, TTIcon } from '@shared/ui';
 import './type-box-selector.styles.scss';
 
 interface TypeBoxSelectorProps {
-  formData: TransactionFormData;
+  bucket: Bucket;
   handleTypeChange: (e: Bucket) => void;
 }
 
-const TypeBoxSelector: React.FC<TypeBoxSelectorProps> = ({ formData, handleTypeChange }) => {
+const TypeBoxSelector: React.FC<TypeBoxSelectorProps> = ({ bucket, handleTypeChange }) => {
   const { t } = useTranslation('budget');
 
   const TYPE_OPTIONS: SelectOption[] = [
@@ -27,49 +26,38 @@ const TypeBoxSelector: React.FC<TypeBoxSelectorProps> = ({ formData, handleTypeC
     { value: 'savings', label: t('bucketNames.savings') ?? 'Savings', icon: MdDataSaverOn },
   ];
 
-  const getTypeBoxClass = (value: Bucket) => {
-    return clsx('type-box', {
-      'type-box__needs': value === 'needs' && value === formData.type,
-      'type-box__wants': value === 'wants' && value === formData.type,
-      'type-box__savings': value === 'savings' && value === formData.type,
-    });
-  };
-
   return (
-    <>
-      <span className="type-selector-label">{t('modals.type') ?? 'Type'}</span>
-      <div className="type-box-selector">
-        {TYPE_OPTIONS.map((opt, index) => {
-          return (
-            <div
-              key={index}
-              className={getTypeBoxClass(opt.value as Bucket)}
-              onClick={() => handleTypeChange(opt.value as Bucket)}
+    <div className="type-box-selector">
+      {TYPE_OPTIONS.map((opt, index) => {
+        return (
+          <button
+            type="button"
+            key={index}
+            className={clsx('type-box', opt.value, {
+              selected: opt.value === bucket,
+            })}
+            onClick={() => handleTypeChange(opt.value as Bucket)}
+          >
+            <TTIcon
+              icon={opt.icon as IconType}
+              size={24}
+              color={
+                bucket === opt.value
+                  ? getCssVar('--color-text-inverse')
+                  : getCssVar(`--${opt.value}`)
+              }
+            />
+            <span
+              className={clsx('bucket-value', `bucket-value__${opt.value}`, {
+                selected: bucket === opt.value,
+              })}
             >
-              <TTIcon
-                icon={opt.icon as IconType}
-                size={18}
-                color={
-                  formData.type === opt.value
-                    ? getCssVar('--color-text-inverse')
-                    : getCssVar('--color-text-primary')
-                }
-              />
-              <span
-                style={{
-                  color:
-                    formData.type === opt.value
-                      ? getCssVar('--color-text-inverse')
-                      : getCssVar('--color-text-primary'),
-                }}
-              >
-                {opt.label}
-              </span>
-            </div>
-          );
-        })}
-      </div>
-    </>
+              {opt.label}
+            </span>
+          </button>
+        );
+      })}
+    </div>
   );
 };
 

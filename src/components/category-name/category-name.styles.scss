@@ -7,23 +7,24 @@
 
   .category-icon-wrapper {
     @include flex();
-    width: 35px;
-    height: 35px;
+    width: 28px;
+    height: 28px;
     @include themed(background-color, color-neutral, $color-neutral);
     border-radius: $radius-sm;
     box-shadow: $shadow-sm;
-
-    @include mediaDown(md) {
-      width: 28px;
-      height: 28px;
-    }
   }
 
-  .category-label {
-    font-weight: bold;
+  .category-label-wrapper {
+    display: flex;
+    flex-direction: column;
 
-    @include mediaDown(md) {
+    .category-label {
+      font-weight: bold;
       font-size: 14px;
+    }
+
+    .note {
+      font-size: 11px;
     }
   }
 }

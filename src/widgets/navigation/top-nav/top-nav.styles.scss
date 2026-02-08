@@ -1,0 +1,30 @@
+@use '../../../styles/tokens' as *;
+
+.app-header {
+  height: 44px;
+  min-height: 44px;
+  width: 100%;
+
+  .header-content {
+    height: 100%;
+    display: flex;
+    position: relative;
+    align-items: center;
+    padding: 0 $spacing-4;
+
+    .back-btn {
+      @include dashboard-card($radius: $radius-md, $pad: 0, $bgCol: #f4f5f7);
+      width: 35px;
+      height: 35px;
+    }
+
+    .page-title {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 18px;
+      font-weight: 800;
+    }
+  }
+}

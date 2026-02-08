@@ -1,0 +1,84 @@
+{
+    "insights": {
+        "bucketNames": {
+            "all": "Toate",
+            "needs": "Nevoi",
+            "wants": "Dorințe",
+            "savings": "Economii"
+        },
+        "smart": {
+            "title": {
+                "headsUp": "Atenție",
+                "tip": "Sfat",
+                "nice": "Super",
+                "freshStart": "Început nou"
+            },
+            "message": {
+                "canSpendPerDay": "Poți cheltui {amountPerDay}/zi și rămâi pe drumul bun",
+                "keepUnderPerDay": "Ca să rămâi pe drumul bun, încearcă să nu depășești {amountPerDay}/zi",
+                "onlyPerDayLeft": "Ai grijă — mai ai doar {amountPerDay}/zi ca să rămâi pe buget",
+                "spendingSlower": "Ritm bun — cheltuiești mai încet decât planul",
+                "closeToPlan": "Ești aproape de plan — urmărește cheltuielile la Dorințe",
+                "spendingFaster": "Atenție — cheltuiești mai repede decât planul",
+                "projectUnder": "Dacă menții ritmul, termini luna sub buget",
+                "projectAround": "La ritmul acesta, termini cam la nivelul bugetului",
+                "projectOver": "La ritmul acesta, s-ar putea să depășești bugetul cu {delta}",
+                "bucketRunOutDays": "{bucketName} se poate termina în ~{days} zile",
+                "bucketTightPerDay": "{bucketName} devine strâns — mai ai {amountPerDay}/zi",
+                "bucketHealthy": "{bucketName} arată bine — ai suficient spațiu rămas",
+                "noSpendEarly": "Lună nouă, început proaspăt. Adaugă prima cheltuială când ești gata.",
+                "noIncome": "Lipsește o piesă de puzzle 🧩. Setează-ți venitul pentru a începe.",
+                "noSpendLater": "Nu ai cheltuieli înregistrate încă — urmărești cheltuielile luna asta?"
+            },
+            "subtext": {
+                "basedOnRemaining": "Pe baza bugetului rămas",
+                "basedOnPace": "Pe baza ritmului curent",
+                "burnVsPace": "Ai cheltuit {burnPct}% din buget; a trecut {pacePct}% din lună"
+            },
+            "cta": {
+                "seeBreakdown": "Vezi detalii",
+                "seeInsights": "Vezi insights",
+                "addExpense": "Adaugă cheltuială",
+                "reviewBucket": "Verifică {bucketName}"
+            }
+        },
+        "bucket": {
+            "title": {
+                "headsUp": "Atenție",
+                "tip": "Sfat",
+                "nice": "Super",
+                "info": "Info"
+            },
+            "message": {
+                "noBudget": "Nu ai setat încă un buget pentru {bucketName}",
+                "earlyMonth": "{bucketName} se stabilizează după câteva zile de urmărire",
+                "runOutInDays": "{bucketName} se poate termina în ~{days} zile",
+                "runOutOnDate": "{bucketName} se poate termina în jur de {date}",
+                "overPace": "La {bucketName} cheltuiești mai repede decât planul",
+                "nearPace": "{bucketName} e aproape de plan — urmărește-l puțin",
+                "underPace": "{bucketName} e sub plan — ritm bun",
+                "perDayOk": "Poți cheltui {amountPerDay}/zi la {bucketName} și rămâi pe buget",
+                "perDayTight": "Ca să rămâi pe buget la {bucketName}, încearcă să nu depășești {amountPerDay}/zi",
+                "perDayVeryTight": "Ai grijă — mai ai doar {amountPerDay}/zi pentru {bucketName}"
+            },
+            "subtext": {
+                "burnVsPace": "Ai cheltuit {burnPct}% din {bucketName}; a trecut {pacePct}% din lună",
+                "basedOnRemaining": "Pe baza bugetului rămas la {bucketName}"
+            },
+            "cta": {
+                "reviewBucket": "Verifică {bucketName}",
+                "addExpenseToBucket": "Adaugă cheltuială la {bucketName}"
+            },
+            "chip": {
+                "noBudget": "Buget nesetat",
+                "earlyMonth": "Prea devreme",
+                "runOutInDays": "Doar {days} zile rămase",
+                "overPace": "Cheltui prea mult",
+                "nearPace": "Poți cheltui mai puțin",
+                "underPace": "Ritm bun",
+                "perDayLeft": "Ai {amountPerDay}/zi",
+                "onTrack": "Super ritm"
+            }
+        }
+    }
+}

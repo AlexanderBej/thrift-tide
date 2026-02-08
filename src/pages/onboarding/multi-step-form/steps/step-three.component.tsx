@@ -7,7 +7,6 @@ import { PercentTriple } from '@api/types';
 import { getCssVar } from '@shared/utils';
 import { Button } from '@shared/ui';
 import { selectSettingsDefaultPercents } from '@store/settings-store';
-import { PercentsSelectors } from '@components';
 
 const StepThree: React.FC<FormPercentsProp> = ({ formData, onPercentsChange }) => {
   const percents = useSelector(selectSettingsDefaultPercents);
@@ -61,13 +60,13 @@ const StepThree: React.FC<FormPercentsProp> = ({ formData, onPercentsChange }) =
         <Trans i18nKey="onboarding.step3.text2" components={{ bold: <strong /> }} />
       </p>
       <div className="percents-selectors-wrapper">
-        <PercentsSelectors
+        {/* <PercentsSelectors
           percents={formData.percents}
           showDonut={false}
           onPercentsChange={(bucket, value) =>
             onPercentsChange(bucket as keyof PercentTriple, value)
           }
-        />
+        /> TODO */}
         <div className="reset-row">
           <Button
             buttonType="secondary"

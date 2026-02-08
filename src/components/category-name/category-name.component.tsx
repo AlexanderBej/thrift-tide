@@ -8,9 +8,10 @@ import './category-name.styles.scss';
 
 interface CategoryNameProps {
   category: CategoryOption;
+  note?: string;
 }
 
-const CategoryName: React.FC<CategoryNameProps> = ({ category }) => {
+const CategoryName: React.FC<CategoryNameProps> = ({ category, note }) => {
   const { t } = useTranslation('budget');
 
   return (
@@ -18,7 +19,10 @@ const CategoryName: React.FC<CategoryNameProps> = ({ category }) => {
       <div className="category-icon-wrapper" style={{ backgroundColor: category.color }}>
         <TTIcon icon={category.icon} color="white" size={18} />
       </div>
-      <span className="category-label">{t(category.i18nLabel) ?? category.label}</span>
+      <div className="category-label-wrapper">
+        <span className="category-label">{t(category.i18nLabel) ?? category.label}</span>
+        {note && <span className="note">{note}</span>}
+      </div>
     </div>
   );
 };

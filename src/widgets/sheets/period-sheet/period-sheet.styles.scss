@@ -1,0 +1,79 @@
+@use '../../../styles/tokens.scss' as *;
+
+.tt-picker {
+  position: relative;
+  border-radius: 18px;
+  background: var(--color-bg-card);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.tt-picker__row {
+  height: 54px;
+  display: grid;
+  place-items: center;
+  gap: 4px;
+  opacity: 0.55;
+  transform: scale(0.97);
+  transition:
+    transform 160ms ease,
+    opacity 160ms ease;
+}
+
+.tt-picker__row.is-selected {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.tt-picker__title {
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tt-picker__sub {
+  font-size: 12px;
+  color: rgba(31, 41, 51, 0.6);
+}
+
+.tt-picker__badge {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(255, 107, 107, 0.12);
+  color: var(--color-primary);
+}
+
+.tt-picker__center {
+  pointer-events: none;
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 54px;
+  border-radius: 14px;
+  background: rgba(255, 107, 107, 0.08);
+  border: 1px solid rgba(255, 107, 107, 0.22);
+}
+
+.tt-picker__fade {
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 42%;
+  z-index: 2;
+}
+
+.tt-picker__fade--top {
+  top: 0;
+  background: linear-gradient(to bottom, var(--color-bg-card), rgba(255, 255, 255, 0));
+}
+
+.tt-picker__fade--bottom {
+  bottom: 0;
+  background: linear-gradient(to top, var(--color-bg-card), rgba(255, 255, 255, 0));
+}

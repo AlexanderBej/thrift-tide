@@ -7,57 +7,62 @@ import { Badge } from '@api/models';
 import { Bucket } from '@api/types';
 
 const OVERPACE = 0.1;
-const HIGH_OVERPACE = 0.15;
+// const HIGH_OVERPACE = 0.15;
 const NEAR = 0.05;
 
 /** Top-level dashboard badge set (max 4), highlighting overspend/near/under-pace patterns. */
-export const selectBadges = createSelector(
-  [selectTotals, selectBurnVsPace, selectMonthTiming],
-  (tot, bvp): Badge[] => {
-    const badges: Badge[] = [];
-    const { burn, pace } = bvp;
-    if (pace == null || tot.totalAllocated <= 0) return badges;
+// export const selectBadges = createSelector(
+//   [selectTotals, selectBurnVsPace, selectMonthTiming],
+//   (tot, bvp): Badge[] => {
+//     const badges: Badge[] = [];
+//     const { burn, pace } = bvp;
+//     if (pace == null || tot.totalAllocated <= 0) return badges;
 
-    if (tot.alloc.wants > 0) {
-      const bw = burn.wants ?? 0;
-      if (tot.spent.wants >= tot.alloc.wants || bw > pace + OVERPACE) {
-        badges.push({
-          id: 'wants-over',
-          text: 'Wants over budget',
-          kind: 'danger',
-          scope: 'wants',
-        });
-      }
-    }
+//     if (tot.alloc.wants > 0) {
+//       const bw = burn.wants ?? 0;
+//       if (tot.spent.wants >= tot.alloc.wants || bw > pace + OVERPACE) {
+//         badges.push({
+//           id: 'wants-over',
+//           text: 'Wants over budget',
+//           kind: 'danger',
+//           scope: 'wants',
+//         });
+//       }
+//     }
 
-    if (tot.alloc.needs > 0) {
-      const remainingFrac = tot.remaining.needs / tot.alloc.needs;
-      const bn = burn.needs ?? 0;
-      if (remainingFrac <= 0.1 || Math.abs(bn - 1) <= NEAR) {
-        badges.push({ id: 'needs-near', text: 'Needs near budget', kind: 'warn', scope: 'needs' });
-      }
-    }
+//     if (tot.alloc.needs > 0) {
+//       const remainingFrac = tot.remaining.needs / tot.alloc.needs;
+//       const bn = burn.needs ?? 0;
+//       if (remainingFrac <= 0.1 || Math.abs(bn - 1) <= NEAR) {
+//         badges.push({ id: 'needs-near', text: 'Needs near budget', kind: 'warn', scope: 'needs' });
+//       }
+//     }
 
-    if ((burn.total ?? 0) > pace + HIGH_OVERPACE) {
-      badges.push({ id: 'high-burn', text: 'High burn rate', kind: 'danger', scope: 'total' });
-    }
+//     if ((burn.total ?? 0) > pace + HIGH_OVERPACE) {
+//       badges.push({ id: 'high-burn', text: 'High burn rate', kind: 'danger', scope: 'total' });
+//     }
 
-    if (tot.alloc.savings > 0 && burn.savings != null && burn.savings < pace - OVERPACE) {
-      badges.push({
-        id: 'save-behind',
-        text: 'Savings behind plan',
-        kind: 'info',
-        scope: 'savings',
-      });
-    }
+//     if (tot.alloc.savings > 0 && burn.savings != null && burn.savings < pace - OVERPACE) {
+//       badges.push({
+//         id: 'save-behind',
+//         text: 'Savings behind plan',
+//         kind: 'info',
+//         scope: 'savings',
+//       });
+//     }
 
-    if (burn.total != null && burn.total < pace - OVERPACE) {
-      badges.push({ id: 'under-pace', text: 'Under pace (good)', kind: 'success', scope: 'total' });
-    }
+//     if (burn.total != null && burn.total < pace - OVERPACE) {
+//       badges.push({
+//         id: 'under-pace',
+//         text: "You're spending slower than planner 🎉",
+//         kind: 'success',
+//         scope: 'total',
+//       });
+//     }
 
-    return badges.slice(0, 4);
-  },
-);
+//     return badges.slice(0, 4);
+//   },
+// );
 
 /** Bucket-specific badge set for the category page header. */
 export const makeSelectBucketBadges = (bucket: Bucket) =>
@@ -76,7 +81,9 @@ export const makeSelectBucketBadges = (bucket: Bucket) =>
     } else if (Math.abs((b ?? 0) - 1) <= NEAR || rem / alloc <= 0.1) {
       list.push({ id: `${bucket}-near`, text: 'Near budget', kind: 'warn', scope: bucket });
     } else if (b != null && b < pace - OVERPACE) {
-      list.push({ id: `${bucket}-under`, text: 'Under pace', kind: 'success', scope: bucket });
+      if (bucket === 'savings')
+        list.push({ id: `${bucket}-under`, text: 'Behind plan', kind: 'warn', scope: bucket });
+      else list.push({ id: `${bucket}-under`, text: 'Under pace', kind: 'success', scope: bucket });
     }
     return list;
   });

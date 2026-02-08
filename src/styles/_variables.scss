@@ -17,13 +17,40 @@ $anti-flash-300: #ededed; // text inverse
 $platinum-white: #f4f6f6; // generic light
 $light-silver: #d5dbdb; // generic medium
 
+////////////
+/// ////////
+/// ////////
+// Background
+$bg-main: #f8faf9;
+$bg-elevated: #ffffff;
+
+// Primary
+$mint: #2ec4b6;
+
+// Secondary / Accent
+$coral: #ff6b6b;
+
+// Bucket colors
+$needs: #69bfd4;
+$wants: #9790e8;
+$savings: #f7bb7b;
+
+// Text
+$text-primary: #1f2933;
+$text-secondary: #6b7280;
+
+////////////
+/// ////////
+/// ///////
+
 // --------- REUSABLE VARIABLES (initial for light mode) -------
 
 // Primary palette
-$color-primary: $emerald-500 !default;
+$color-primary: $mint !default;
 $color-primary-dark: color.scale($color-primary, $lightness: -25%);
+$color-primary-light: rgba($color-primary, 0.3);
 
-$color-secondary: $ruby-600 !default;
+$color-secondary: $coral !default;
 $color-secondary-dark: color.scale($color-secondary, $lightness: -25%);
 
 $color-accent: $amber-500 !default;
@@ -42,12 +69,12 @@ $color-error: #e74c3c;
 $color-error-light: color.scale($color-error, $lightness: 50%);
 
 // Bucket colors
-$color-needs: $color-primary;
-$color-needs-light: color.scale($color-primary, $lightness: 75%);
-$color-wants: $color-secondary;
-$color-wants-light: color.scale($color-secondary, $lightness: 75%);
-$color-savings: $color-accent;
-$color-savings-light: color.scale($color-accent, $lightness: 75%);
+$color-needs: $needs;
+$color-needs-light: color.scale($needs, $lightness: 75%);
+$color-wants: $wants;
+$color-wants-light: color.scale($wants, $lightness: 75%);
+$color-savings: $savings;
+$color-savings-light: color.scale($savings, $lightness: 75%);
 
 // Text
 $color-text-primary: $gunmetal !default;
@@ -55,8 +82,8 @@ $color-text-secondary: $payne-grey !default;
 $color-text-inverse: $anti-flash-300 !default;
 
 // Backgrounds
-$color-bg-main: $anti-flash-500 !default;
-$color-bg-card: $pure-white !default;
+$color-bg-main: $bg-main !default;
+$color-bg-card: $bg-elevated !default;
 
 // ---------- TYPOGRAPHY ----------
 
@@ -118,3 +145,14 @@ $breakpoint-large: 1440px;
 $transition-fast: 0.2s ease-in-out;
 $transition-normal: 0.3s ease-in-out;
 $transition-slow: 0.5s ease-in-out;
+
+$cat-1: #4e79a7;
+$cat-2: #f28e2b;
+$cat-3: #6c6cb4;
+$cat-4: #76b7b2;
+$cat-5: #59a14f;
+$cat-6: #edc948;
+$cat-7: #b07aa1;
+$cat-8: #ff9da7;
+$cat-9: #9c755f;
+$cat-10: #e15759;

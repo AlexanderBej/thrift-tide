@@ -1,7 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { clamp } from '@shared/utils';
-import { setPercentsThunk, updateBudgetStartDay } from '../budget-store/budget.slice';
+import {
+  setPercentsThunk,
+  updateBudgetStartDay,
+  updateMonthStartDayThunk,
+} from '../budget-store/budget.slice';
 import { DEFAULT_START_DAY, OnboardingData } from '@api/models';
 import {
   readUserProfile,
@@ -24,6 +28,7 @@ import {
   DEFAULT_CURRENCY,
   DEFAULT_THEME,
 } from '@api/types';
+import i18n from 'i18n/i18n';
 
 type SettingsState = {
   startDay: number; // 1..28
@@ -85,17 +90,22 @@ export const completeOnboardingThunk = createAppAsyncThunk<
 
 export const saveStartDayThunk = createAppAsyncThunk<
   { startDay: number },
-  { uid: string; startDay: number }
->('settings/saveStartDay', async ({ uid, startDay }, { dispatch, rejectWithValue }) => {
-  try {
-    await upsertUserStartDay(uid, clamp(startDay));
+  { uid: string; startDay: number; startThisMonth: boolean }
+>(
+  'settings/saveStartDay',
+  async ({ uid, startDay, startThisMonth }, { dispatch, rejectWithValue }) => {
+    try {
+      await upsertUserStartDay(uid, clamp(startDay));
 
-    dispatch(updateBudgetStartDay(startDay));
-    return { startDay };
-  } catch (error) {
-    return rejectWithValue(error);
-  }
-});
+      if (startThisMonth) {
+        dispatch(updateMonthStartDayThunk({ uid, startDay }));
+      }
+      return { startDay };
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
 
 export const saveLanguageThunk = createAppAsyncThunk<
   { language: Language },
@@ -104,6 +114,7 @@ export const saveLanguageThunk = createAppAsyncThunk<
   try {
     await upsertAppLanguage(uid, language);
     dispatch(setLanguage(language));
+    i18n.changeLanguage(language);
     return { language };
   } catch (error) {
     return rejectWithValue(error);
@@ -124,15 +135,23 @@ export const setAppThemeThunk = createAppAsyncThunk<
 
 export const updateDefaultPercentsThunk = createAppAsyncThunk<
   { percents: PercentTriple },
-  { uid: string; percents: PercentTriple }
->('settings/updateDefaultPercents', async ({ uid, percents }, { rejectWithValue }) => {
-  try {
-    await upsertDefaultPercents(uid, percents);
-    return { percents };
-  } catch (error) {
-    return rejectWithValue(error);
-  }
-});
+  { uid: string; percents: PercentTriple; startThisMonth: boolean }
+>(
+  'settings/updateDefaultPercents',
+  async ({ uid, percents, startThisMonth }, { dispatch, rejectWithValue }) => {
+    try {
+      await upsertDefaultPercents(uid, percents);
+
+      if (startThisMonth) {
+        await dispatch(setPercentsThunk({ uid, percents })).unwrap();
+      }
+
+      return { percents };
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
 
 export const updateCurrencyThunk = createAppAsyncThunk<
   { currency: Currency },
@@ -220,6 +239,7 @@ const settingsSlice = createSlice({
     });
     b.addCase(saveLanguageThunk.fulfilled, (s, { payload }) => {
       s.language = payload.language;
+      localStorage.setItem('i18nextLng', payload.language);
       s.status = 'ready';
     });
     b.addCase(saveLanguageThunk.rejected, (s, a) => {

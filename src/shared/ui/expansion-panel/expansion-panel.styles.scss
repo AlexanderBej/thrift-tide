@@ -1,0 +1,34 @@
+@use '../../../styles/tokens.scss' as *;
+
+/* Panel container */
+.exp-panel {
+  border-radius: $radius-md;
+  background: $color-bg-card;
+  border: 1px solid $color-neutral;
+  box-shadow: $shadow-md;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  overflow: clip;
+
+  /* Header row */
+  .exp-panel-header {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    padding: $spacing-3;
+    width: 100%;
+  }
+
+  /* Content area with smooth expand */
+  .exp-panel-content {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height $transition-normal;
+
+    .exp-panel-contentInner {
+      padding: $spacing-3;
+      opacity: 0.96;
+    }
+  }
+}

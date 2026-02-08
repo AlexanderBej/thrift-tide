@@ -1,61 +1,74 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 
-import { BUCKET_COLORS } from '@api/types';
-import { useWindowWidth } from '@shared/hooks';
 import { useFormatMoney } from '@shared/hooks';
-import { Button, DoubleDonutChart, DoubleDonutItem } from '@shared/ui';
 import { selectAuthUser } from '@store/auth-store';
 import {
-  selectBudgetDoc,
-  selectSpentByBucket,
   selectDashboardInsights,
-  selectBadges,
+  selectBudgetMonth,
+  selectTopCategoriesOverall,
+  selectSmartDashboardInsight,
+  selectBudgetDoc,
 } from '@store/budget-store';
-import { AddIncome, BadgePills, DashboardCards, DashboardInsights } from '@components';
+import { CategoryName } from '@components';
+import { formatMonth, resolveCategory } from '@shared/utils';
+import { selectSettingsCurrency } from '@store/settings-store';
+import { BucketCards, BucketsProgressBar, SmartInsightCard, SmartInsightChip } from 'features';
+import { Insight } from '@api/models';
+import { InsightTone } from '@api/types';
 
 import './dashboard.styles.scss';
+import { PeriodWidget } from '@widgets';
+
+const pickHeaderInsight = (insights: Insight[]) => {
+  const findIndexByTone = (tone: InsightTone) => insights.findIndex((i) => i.tone === tone);
+
+  const mutedIdx = findIndexByTone('muted');
+  const successIdx = findIndexByTone('success');
+
+  let headerIndex = -1;
+
+  if (mutedIdx !== -1) headerIndex = mutedIdx;
+  else if (successIdx !== -1) headerIndex = successIdx;
+  else headerIndex = insights.length ? 0 : -1;
+
+  const headerInsight = headerIndex !== -1 ? insights[headerIndex] : insights[0];
+
+  const listInsights = insights.filter((_, idx) => idx !== headerIndex).slice(0, 3);
+
+  return { headerInsight, listInsights };
+};
 
 const Dashboard: React.FC = () => {
-  const navigate = useNavigate();
   const { t } = useTranslation(['common', 'budget']);
-  const fmt = useFormatMoney();
+  const fmtMoney = useFormatMoney();
 
   const user = useSelector(selectAuthUser);
-  const budgetDoc = useSelector(selectBudgetDoc);
-  const spentByBucket = useSelector(selectSpentByBucket);
+  const month = useSelector(selectBudgetMonth);
+  const currency = useSelector(selectSettingsCurrency);
   const insights = useSelector(selectDashboardInsights);
-  const badges = useSelector(selectBadges);
+  const doc = useSelector(selectBudgetDoc);
+  const topCategories = useSelector(selectTopCategoriesOverall);
+  const smartInsights = useSelector(selectSmartDashboardInsight) as Insight[];
 
-  const width = useWindowWidth();
-  const isMobile = width < 480;
+  const { headerInsight } = pickHeaderInsight(smartInsights);
 
-  const items: DoubleDonutItem[] = [
+  const buckets = [
     {
-      id: 'Needs',
-      label: 'Needs',
-      allocated: budgetDoc?.allocations.needs ?? 0,
-      color: 'var(--needs-light)',
-      used: spentByBucket.needs,
-      strongColor: 'var(--needs)',
+      key: 'needs',
+      percent: doc?.percents.needs ?? 0,
+      total: insights.totals.alloc.needs,
     },
     {
-      id: 'Wants',
-      label: 'Wants',
-      allocated: budgetDoc?.allocations.wants ?? 0,
-      color: 'var(--wants-light)',
-      used: spentByBucket.wants,
-      strongColor: 'var(--wants)',
+      key: 'wants',
+      percent: doc?.percents.wants ?? 0,
+      total: insights.totals.alloc.wants,
     },
     {
-      id: 'Savings',
-      label: 'Savings',
-      allocated: budgetDoc?.allocations.savings ?? 0,
-      color: 'var(--savings-light)',
-      used: spentByBucket.savings,
-      strongColor: 'var(--savings)',
+      key: 'savings',
+      percent: doc?.percents.savings ?? 0,
+      total: insights.totals.alloc.savings,
     },
   ];
 
@@ -65,85 +78,85 @@ const Dashboard: React.FC = () => {
     return names[0];
   };
 
+  const isIncomeSet = !!doc?.income;
+
   return (
     <div className="dashboard-page">
-      <section className="dashboard-intro-section">
-        <div className="dashboard-intro-wrapper">
-          <h1 className="dashboard-intro-header">
-            {t('hi') ?? 'Hi'}, {getFirstName(user?.displayName ?? '')} 👋
-          </h1>
-          <div className="total-income-container">
-            <span className="total-income-label">{t('budget:income') ?? 'Income'}</span>
-            <h2 className="total-income-value">{fmt(budgetDoc?.income)}</h2>
-          </div>
-          <div className="total-income-container">
-            <span className="total-income-label">{t('budget:totalSpent') ?? 'Total spent'}</span>
-            <h2 className="total-income-value">{fmt(insights.totals.totalSpent)}</h2>
-          </div>
-          <div className="total-income-container">
-            <span className="total-income-label">
-              {t('budget:totalRemaining') ?? 'Total remaining'}
-            </span>
-            <h2 className="total-income-value">{fmt(insights.totals.totalRemaining)}</h2>
-          </div>
-        </div>
-        <div className="add-income-wrapper">
-          <AddIncome />
-        </div>
-      </section>
-      <section className="dashboard-pie-section">
-        <div className="dashboard-donut">
-          <DoubleDonutChart data={items} height={isMobile ? 150 : 260} />
-        </div>
-        <div className="dashboard-cat-percentages">
-          {/* <AddIncome /> */}
-          <div className="cat-percentage-line">
-            <span className="dashboard-category" style={{ color: BUCKET_COLORS.needs }}>
-              {(budgetDoc?.percents.needs ?? 0) * 100}% {t('budget:bucketNames.needs') ?? 'Needs'}
-            </span>
-            <span className="dashboard-category">{fmt(budgetDoc?.allocations.needs)}</span>
-          </div>
-
-          <div className="cat-percentage-line">
-            <span className="dashboard-category" style={{ color: BUCKET_COLORS.wants }}>
-              {(budgetDoc?.percents.wants ?? 0) * 100}% {t('budget:bucketNames.wants') ?? 'Wants'}
-            </span>
-            <span className="dashboard-category">{fmt(budgetDoc?.allocations.wants)}</span>
-          </div>
-
-          <div className="cat-percentage-line">
-            <span className="dashboard-category" style={{ color: BUCKET_COLORS.savings }}>
-              {(budgetDoc?.percents.savings ?? 0) * 100}%{' '}
-              {t('budget:bucketNames.savings') ?? 'Savings'}
-            </span>
-            <span className="dashboard-category">{fmt(budgetDoc?.allocations.savings)}</span>
-          </div>
-
-          <Button
-            buttonType="neutral"
-            customContainerClass="edit-percentage-btn"
-            onClick={() => navigate('/settings')}
-          >
+      <div className="dashboard-header">
+        <PeriodWidget />
+        <span>&bull;</span>
+        <span>{currency}</span>
+      </div>
+      <h1 className="hi-header">
+        {t('hi') ?? 'Hi'}, {getFirstName(user?.displayName ?? '')} 👋
+      </h1>
+      {isIncomeSet && (
+        <>
+          <h2 className="remaining-heading">
+            You have {fmtMoney(insights.totals.totalRemaining)} left
+          </h2>
+          <div className="budget-stats-line">
             <span>
-              {t('actions.edit') ?? 'Edit'} {t('pageContent.percentages') ?? 'percentages'}
+              {t('budget:budget') ?? 'Budget'}: {insights.totals.totalAllocated}
             </span>
-          </Button>
-        </div>
-      </section>
-      <section className="dashboard-cards-section">
-        <div className="dashboard-card-badges">
-          <BadgePills badges={badges} />
-        </div>
+            <span>
+              {t('budget:spent') ?? 'Spent'}: {insights.totals.totalSpent}
+            </span>
+          </div>
+        </>
+      )}
 
-        <DashboardCards />
+      <section className="smart-insight-section">
+        <SmartInsightCard insight={headerInsight} showCta={true} />
       </section>
-      <section className="kpi-cards-section">
-        <h2 className="card-header">{t('pages.insights') ?? 'Insights'}</h2>
-        <DashboardInsights showInsights="kpi" />
+
+      <section className="tt-section bucket-cards">
+        {buckets.map((bucket, index) => {
+          return (
+            <div
+              key={index}
+              className={`bucket-card bucket-card__${bucket.key}`}
+              style={{ width: `${bucket.percent * 100}%` }}
+            >
+              <div className="bucket-title">
+                <span className="bucket-key">{bucket.key}</span>
+                <span className={`bucket-percent-${bucket.key}`}>
+                  {Math.round(bucket.percent * 100)}%
+                </span>
+              </div>
+              <div style={{ height: 50 }} />
+              <div className="total">{bucket.total}</div>
+            </div>
+          );
+        })}
+
+        <div className="progress-bar">
+          <BucketsProgressBar />
+        </div>
       </section>
-      <section className="distribution-section">
-        <DashboardInsights showInsights="distribution" />
-      </section>
+
+      {isIncomeSet && (
+        <>
+          <section className="tt-section">
+            <BucketCards />
+          </section>
+
+          <section className="tt-section">
+            <h3 className="tt-section-header">{t('budget:topCategories') ?? 'Top Categories'}</h3>
+            <ul className="categories-list">
+              {topCategories.map((cat, index) => {
+                const fullCat = resolveCategory(cat.category);
+                return (
+                  <li className="top-cat-item" key={index}>
+                    <CategoryName category={fullCat} />
+                    <strong>{cat.total}</strong>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        </>
+      )}
     </div>
   );
 };

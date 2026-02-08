@@ -39,6 +39,7 @@ const Button: React.FC<ButtonProps> = ({
       'thrift-tide-btn__small': isSmall,
     },
   );
+
   return (
     <button className={btnClass} disabled={disabled} onClick={onClick} type={htmlType}>
       {isLoading ? <LocalSpinner isSmall={isSmall} /> : children}

@@ -1,23 +1,21 @@
 {
   "income": "Income",
   "spent": "Spent",
+  "contributed": "Contributed",
   "remaining": "Remaining",
   "allocated": "Allocated",
-
   "totalSpent": "Total spent",
   "totalRemaining": "Total remaining",
   "totalBudget": "Total Budget",
-
+  "budget": "Budget",
   "topCategories": "Top categories",
   "runOutDate": "Estimated run-out: {{date, date}}",
-
   "kpi": {
     "avgDailySpend": "Avg daily spend",
     "projected": "Projected Total",
     "burnVsPace": "Burn vs. Pace",
     "remainingPerDay": "Remaining / day"
   },
-
   "badges": {
     "overBudget": "Over budget",
     "nearBudget": "Near Budget",
@@ -26,32 +24,26 @@
     "highBurn": "High Burn Rate",
     "good": "good"
   },
-
   "daysToZero": "days to 0",
   "daysToZero_one": "{{count}} day to zero",
   "daysToZero_other": "{{count}} days to zero",
-
   "buckets": "Buckets",
   "bucket": "Bucket",
-
+  "category": "Category",
+  "date": "Date",
   "bucketNames": {
     "all": "All",
     "needs": "Needs",
     "wants": "Wants",
     "savings": "Savings"
   },
-
   "noTransactions": "No transactions yet.",
-
   "pace": "Pace (Total)",
-
   "modals": {
     "addTransaction": "Add Transaction",
     "addIncome": "Add Income",
     "type": "Type",
     "amount": "Amount",
-    "date": "Date",
-    "category": "Category",
     "note": "Note (optional)",
     "applyTo": "Apply to",
     "currentPeriod": "Current period",
@@ -59,12 +51,46 @@
     "keepModalOpen": "Keep modal open after submit",
     "switchPeriod": "Switch to next period after saving"
   },
-
-  "sortOptions": {
-    "byDate": "Sort by date",
-    "byAmount": "Sort by amount"
+  "sheets": {
+    "addSheet": {
+      "choose": {
+        "title": "Let’s add something",
+        "subtitle": "An expense or new income?",
+        "options": {
+          "expense": {
+            "title": "Add expense",
+            "subtitle": "Track a purchase or bill"
+          },
+          "income": {
+            "title": "Add income",
+            "subtitle": "Salary, bonus, refund"
+          }
+        }
+      },
+      "expense": {
+        "title": "Add Transaction",
+        "subtitle": "What is your expense?"
+      },
+      "income": {
+        "title": "Add Income",
+        "subtitle": "Add money to your budget",
+        "input": "How much did you receive?",
+        "afterSave": "After saving",
+        "stay": "Stay here",
+        "switch": "Switch to next period",
+        "popover": "Choose whether to add the income to the current period or the next one"
+      }
+    },
+    "common": {
+      "applyTo": "Apply to",
+      "thisMonth": "This period",
+      "nextMonth": "Next period"
+    }
   },
-
+  "sortOptions": {
+    "byDate": "Sort: date",
+    "byAmount": "Sort: amount"
+  },
   "categories": {
     "needs": {
       "rent": "Rent / Mortgage",
@@ -94,14 +120,16 @@
       "debt_payments": "Debt Payments"
     }
   },
-
   "toast": {
     "budget": {
       "init": {
         "success": "Budget initialized successfully!",
         "error": "Could not initialize budget."
       },
-      "setIncome": { "success": "Income set successfully!", "error": "Could not set income." },
+      "setIncome": {
+        "success": "Income set successfully!",
+        "error": "Could not set income."
+      },
       "percents": {
         "success": "Percents updated successfully!",
         "error": "Failed to update percents."
@@ -114,7 +142,9 @@
         "deleted": "Transaction deleted successfully!",
         "deleteFailed": "Failed to delete transaction."
       },
-      "changeMonth": { "error": "Failed to change period." },
+      "changeMonth": {
+        "error": "Failed to change period."
+      },
       "amount": {
         "ltMax": "Amount must be less than {{max}}"
       }

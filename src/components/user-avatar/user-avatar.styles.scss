@@ -1,0 +1,38 @@
+@use '../../styles/tokens.scss' as *;
+
+.user-avatar {
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+
+  .cover-img {
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    @include themed(background-color, color-primary, $color-primary);
+  }
+
+  .initials-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 800;
+  }
+
+  &.large {
+    height: 150px;
+    width: 150px;
+
+    .initials-box {
+      font-size: 24px;
+    }
+  }
+
+  &.medium {
+    height: 60px;
+    width: 60px;
+  }
+}

@@ -1,150 +1,100 @@
 @use '../../styles/tokens.scss' as *;
 
 .bucket-page {
-  padding: $spacing-5;
-
-  @include mediaDown(md) {
-    padding: 0;
+  .bucket-page-header,
+  .top-categories-section,
+  .bucket-chart-section,
+  .bucket-insights-section,
+  .bucket-transactions-section {
+    @include dashboard-card($radius: $radius-lg, $pad: $spacing-4);
   }
 
   .bucket-page-header {
-    margin: $spacing-4;
-    display: inline-flex;
-    width: 100%;
-    align-items: center;
-    gap: $spacing-3;
+    &__needs {
+      background-color: rgba($color-needs, 0.3);
+    }
 
-    .bucket-icon-wrapper {
+    &__wants {
+      background-color: rgba($color-wants, 0.3);
+    }
+
+    &__savings {
+      background-color: rgba($color-savings, 0.3);
+    }
+
+    .bucket-name-line {
+      margin: 0 $spacing-4 $spacing-5 $spacing-4;
       display: flex;
-      width: 35px;
-      height: 35px;
-      background: aliceblue;
       align-items: center;
-      justify-content: center;
-      border-radius: $radius-sm;
+      justify-content: space-between;
+
+      .bucket-icon-wrapper {
+        display: flex;
+        width: 35px;
+        height: 35px;
+        background: aliceblue;
+        align-items: center;
+        justify-content: center;
+        border-radius: $radius-sm;
+      }
+
+      .allocated-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+
+        .allocated-label {
+          font-size: 14px;
+        }
+      }
+    }
+
+    .values-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-top: $spacing-2;
     }
   }
 
-  .bucket-page-grid {
-    @include grid(
-      $templateColumns: repeat(2, 1fr),
-      $templateRows: repeat(4, auto),
-      $columnGap: $spacing-6,
-      $rowGap: $spacing-6
-    );
+  .cat-summary-badges {
+    margin-top: $spacing-4;
+  }
 
-    @include mediaDown(xl) {
-      column-gap: $spacing-5;
-      row-gap: $spacing-5;
-    }
+  .top-categories-list {
+    display: grid;
+    gap: 8px;
 
-    @include mediaDown(md) {
-      @include grid(
-        $templateColumns: 1fr,
-        $templateRows: repeat(5, auto),
-        $columnGap: $spacing-4,
-        $rowGap: $spacing-4
-      );
-    }
+    .categories-item {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid rgb(238, 238, 238);
+      padding: 8px 0px;
 
-    .bucket-summary-section,
-    .top-categories-section,
-    .bucket-chart-section,
-    .bucket-insights-section,
-    .bucket-transactions-section {
-      @include dashboard-card($radius: $radius-lg, $pad: $spacing-5 $spacing-6);
-
-      @include mediaDown(md) {
-        padding: $spacing-4;
+      &:last-child {
+        border-bottom: unset;
       }
     }
+  }
 
-    .bucket-summary-section {
-      grid-area: 1 / 1 / 2 / 3;
+  .bucket-transaction {
+    margin-bottom: $spacing-3;
+    border-bottom: 1px solid rgba($color-neutral, 0.7);
+    padding-bottom: $spacing-3;
 
-      &__needs {
-        background-color: rgba($color-needs, 0.3);
-      }
-
-      &__wants {
-        background-color: rgba($color-wants, 0.3);
-      }
-
-      &__savings {
-        background-color: rgba($color-savings, 0.3);
-      }
-
-      @include mediaDown(md) {
-        grid-area: 1 / 1 / 2 / 2;
-      }
-
-      .bucket-summary-line {
-        width: 100%;
-        @include grid($templateColumns: repeat(3, 1fr), $columnGap: 20px);
-
-        .bucket-middle {
-          text-align: center;
-        }
-
-        .bucket-last {
-          text-align: end;
-        }
-      }
-
-      .cat-summary-badges {
-        margin-top: $spacing-4;
-      }
+    &:last-child {
+      margin: unset;
+      border: unset;
+      padding: unset;
     }
 
-    .top-categories-section {
-      grid-area: 2 / 1 / 3 / 2;
-
-      @include mediaDown(md) {
-        grid-area: 2 / 1 / 3 / 2;
-      }
-
-      .top-categories-list {
-        display: grid;
-        gap: 8px;
-
-        .categories-item {
-          display: flex;
-          justify-content: space-between;
-          border-bottom: 1px solid rgb(238, 238, 238);
-          padding: 8px 0px;
-
-          &:last-child {
-            border-bottom: unset;
-          }
-        }
-      }
-    }
-
-    .bucket-chart-section {
-      grid-area: 2 / 2 / 3 / 3;
+    .see-txns-link {
       display: flex;
       align-items: center;
-      justify-content: center;
-
-      @include mediaDown(md) {
-        grid-area: 3 / 1 / 4 / 2;
-      }
-    }
-
-    .bucket-insights-section {
-      grid-area: 3 / 1 / 4 / 3;
-
-      @include mediaDown(md) {
-        grid-area: 4 / 1 / 5 / 2;
-      }
-    }
-
-    .bucket-transactions-section {
-      grid-area: 4 / 1 / 5 / 3;
-
-      @include mediaDown(md) {
-        grid-area: 5 / 1 / 6 / 2;
-      }
+      gap: $spacing-3;
+      width: fit-content;
+      font-size: 14px;
+      color: $color-primary;
     }
   }
 }

@@ -1,11 +1,5 @@
 {
-  "app": "Budget Balance",
   "hi": "Salut",
-  "language": {
-    "en": "English",
-    "ro": "Română"
-  },
-
   "pages": {
     "dashboard": "Panou",
     "buckets": "Categorii",
@@ -16,11 +10,10 @@
     "settings": "Setări",
     "profile": "Profil",
     "budget": "Buget",
+    "trends": "Trenduri",
     "app": "Limbă & Temă"
   },
-
   "pageContent": {
-    "percentages": "Procentajele",
     "buckets": {
       "header": "Selectează o categorie"
     },
@@ -39,27 +32,42 @@
       "latestDist": "Cea Mai Recentă Distribuție"
     },
     "settings": {
+      "shortNames": {
+        "currency": "Valuta",
+        "language": "Limba",
+        "appearance": "Aspect"
+      },
       "profile": "Schimbă-ți aspectul",
       "displayName": "Numele afișat",
-      "budgetPref": "Preferințe legate de buget",
+      "budgetPref": "Planifică-ți bugetul",
       "percents": {
-        "adjust": "Ajustează împărțirea 50/30/20",
-        "checkbox": "Aplică începând cu luna asta",
-        "popover": "Bifând această opțiune, noile procente se vor aplica începând cu această lună, afectând și bugetul dumneavoastră actual."
+        "title": "Împărțirea bugetului",
+        "adjust": "Ajustează-ți nevoile, dorințele și economiile pentru a corespunde cu modul în care cheltuiești cu adevărat. Poți ajusta acest lucru oricând.",
+        "checkbox": {
+          "title": "Aplică începând cu",
+          "labelNow": "Perioada asta",
+          "labelFuture": "Perioada viitoare"
+        },
+        "popover": "Dacă aplicați modificările începând cu această perioadă, alocările și valorile rămase se vor modifica."
       },
       "startDay": {
         "title": "Ziua de start a perioadei",
-        "label1": "Începe perioada în ziua de",
-        "label2": "a lunii",
         "info": "Intervalul permis este de la 1 la 28, pentru a evita decalajele de sfârșit de lună."
       },
-      "currency": "Alege valuta bugetului tău.",
+      "currency": {
+        "title": "Alege valuta bugetului tău.",
+        "labelRo": "Leu Românesc (RON)",
+        "labelEu": "Euro European (EUR)"
+      },
       "language": "Modifică limba aplicației",
-      "theme": "Modifică tema de culori a aplicației",
+      "theme": {
+        "title": "Modifică tema de culori a aplicației",
+        "labelLight": "Luminos",
+        "labelDark": "Întunecat"
+      },
       "appPref": "Preferințe legate de aplicație"
     }
   },
-
   "nav": {
     "home": "Acasă",
     "open": "Deschide",
@@ -67,7 +75,6 @@
     "back": "Înapoi",
     "next": "Înainte"
   },
-
   "actions": {
     "add": "Adaugă",
     "edit": "Editează",
@@ -82,19 +89,16 @@
     "skip": "Sari Peste",
     "back": "Înapoi"
   },
-
   "search": {
     "placeholder": "Căutare…",
     "clear": "Șterge căutarea"
   },
-
   "state": {
     "loading": "Se încarcă…",
     "empty": "Încă nu există nimic aici",
     "error": "A apărut o eroare",
     "retry": "Reîncearcă"
   },
-
   "dates": {
     "periodLabel": "{{start, date}} → {{end, date}}",
     "fromTo": "De la {{from, date}} până la {{to, date}}",
@@ -102,7 +106,6 @@
     "yesterday": "Ieri",
     "today": "Azi"
   },
-
   "confirmations": {
     "modalTitle": "Confirmă",
     "areYouSure": "Ești sigur?",
@@ -113,7 +116,6 @@
     "currency": "Ești sigur că vrei să modifici valuta bugetului?",
     "unsavedChanges": "Ai modificări nesalvate. Le anulezi?"
   },
-
   "validation": {
     "amount": {
       "required": "Suma este obligatorie",
@@ -135,7 +137,6 @@
       "underLimit": "Nota trebuie să aibă sub {{limit}} caractere"
     }
   },
-
   "onboarding": {
     "step1": {
       "text1": "Bun venit la <bold>Thrift Tide</bold>, asistentul tău de buget prietenos. Această aplicație te ajută să îți gestionezi veniturile lunare folosind sistemul de bugetare <bold>50/30/20</bold> — o metodă simplă care împarte venitul în 50% pentru Nevoi, 30% pentru Dorințe și 20% pentru Economii.",

@@ -1,0 +1,25 @@
+@use '../../../styles/tokens' as *;
+
+.buckets-progress-bar {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+
+  .buckets-progress {
+    height: 100%;
+    // width: 100%;
+    border-top-right-radius: 999px;
+    border-bottom-right-radius: 999px;
+    animation: fadeIn 0.25s ease-in-out;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    min-width: 0;
+  }
+  to {
+    min-width: 100%;
+  }
+}

@@ -1,6 +1,6 @@
 @use '../../styles/tokens.scss' as *;
 
-.transaction-line {
+.transaction-row {
   @include grid($templateColumns: 200px 1fr 1fr 100px, $columnGap: 8px, $rowGap: 8px);
   padding: 8px 0px;
   align-items: center;

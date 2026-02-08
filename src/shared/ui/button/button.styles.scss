@@ -3,10 +3,11 @@
 
 .thrift-tide-btn {
   min-width: 150px;
-  border-radius: $radius-sm;
+  border-radius: 999px;
   transition: all $transition-normal;
   padding: 10px 20px;
   min-height: 50px;
+  font-weight: 600;
 
   &__rounded {
     width: 70px;

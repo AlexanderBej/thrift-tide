@@ -1,41 +1,81 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { enUS } from 'date-fns/locale';
+import clsx from 'clsx';
+import { FaChevronDown } from 'react-icons/fa';
 
 import { Bucket, BucketType } from '@api/types';
-import { TransactionRow } from '@components';
+import { ProgressBar } from '@components';
 import { useFormatMoney } from '@shared/hooks';
-import { FormInput, Select, SelectOption } from '@shared/ui';
-import { LOCALE_MAP, makeFormatter, resolveCategory } from '@shared/utils';
+import { Input, SelectOption, TTIcon } from '@shared/ui';
+import { getCssVar, LOCALE_MAP, makeFormatter, resolveCategory } from '@shared/utils';
 import {
   selectTxnsGroupedByDate,
   selectFilteredTotal,
-  selectBudgetTotal,
-  selectMonthTotalsByBucket,
   setTxnTypeFilter,
   TxnTypeFilter,
   setTxnSearch,
   setTxnSort,
   SortKey,
+  selectTotals,
 } from '@store/budget-store';
 import { AppDispatch } from '@store/store';
+import { SortSheet } from '@widgets';
 
 import './transactions.styles.scss';
+import { Txn } from '@api/models';
+import { TransactionLine } from 'features';
+
+function getScopedTotals(totals: any, filter: Bucket | 'all') {
+  const isBucket = filter !== 'all';
+
+  const allocated = isBucket ? totals.alloc[filter] : totals.totalAllocated;
+  const spent = isBucket ? totals.spent[filter] : totals.totalSpent;
+  const remaining = isBucket ? totals.remaining[filter] : totals.totalRemaining;
+
+  const budgetLabelValue = (() => {
+    if (!isBucket) return totals.totalIncome;
+    if (totals.income) return totals.income[filter];
+    return allocated; // fallback: treat allocated as the relevant "budget"
+  })();
+
+  const progress = allocated > 0 ? Math.min(1, spent / allocated) : 0;
+
+  const cssVarName =
+    filter === 'needs'
+      ? '--needs'
+      : filter === 'wants'
+        ? '--wants'
+        : filter === 'savings'
+          ? '--savings'
+          : '--color-primary';
+
+  return {
+    remaining,
+    allocated,
+    spent,
+    budgetLabelValue,
+    progress,
+    cssVarName,
+  };
+}
 
 const Transaction: React.FC = () => {
   const { t, i18n } = useTranslation(['common', 'budget']);
+  const fmtCurrency = useFormatMoney();
   const dispatch = useDispatch<AppDispatch>();
   const groups = useSelector(selectTxnsGroupedByDate);
   const totalSpent = useSelector(selectFilteredTotal);
-  const totalIncome = useSelector(selectBudgetTotal);
-  const perBucket = useSelector(selectMonthTotalsByBucket);
+  const totals = useSelector(selectTotals);
 
-  const fmt = useFormatMoney();
+  const [open, setOpen] = useState<boolean>(false);
+
+  // const fmt = useFormatMoney();
 
   const [filter, setFilter] = useState<Bucket | 'all'>('all');
   const [searchCriteria, setSearchCriteria] = useState<string>('');
-  const [sortCriteria, setSortCriteria] = useState<string>('date');
+  const [sortCriteria, setSortCriteria] = useState<SortKey>('date');
 
   const FILTER_OPTIONS: SelectOption[] = [
     { label: t('budget:bucketNames.all') ?? 'All', value: 'all' },
@@ -49,105 +89,118 @@ const Transaction: React.FC = () => {
     { label: t('budget:sortOptions.byAmount') ?? 'Sort by amount', value: 'amount' },
   ];
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
-    const { name, value } = e.target;
-    switch (name) {
-      case 'filter':
-        setFilter(value as Bucket | 'all');
-        dispatch(setTxnTypeFilter(value as TxnTypeFilter));
-        break;
-      case 'search':
-        setSearchCriteria(value);
-        dispatch(setTxnSearch(value));
-        break;
-      case 'sort':
-        setSortCriteria(value);
-        dispatch(setTxnSort({ key: value as SortKey, dir: 'desc' }));
-        break;
-      default:
-        break;
-    }
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setSearchCriteria(value);
+    dispatch(setTxnSearch(value));
+  };
+
+  const handleFilterChange = (filter: Bucket | 'all') => {
+    setFilter(filter as Bucket | 'all');
+    dispatch(setTxnTypeFilter(filter as TxnTypeFilter));
+  };
+
+  const handleSortChange = (sort: SortKey) => {
+    setSortCriteria(sort);
+    dispatch(setTxnSort({ key: sort as SortKey, dir: 'desc' }));
   };
 
   const getTranslatedFmtDate = (d: Date) => {
     const locale = LOCALE_MAP[i18n.language] ?? enUS;
 
-    const fmt = makeFormatter(false, locale);
+    const fmt = makeFormatter(locale, false, 'long');
     return fmt.format(d);
+  };
+
+  const scoped = useMemo(
+    () => getScopedTotals(totals, (filter ?? 'all') as Bucket | 'all'),
+    [totals, filter],
+  );
+
+  const onSortClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // release focus BEFORE Radix hides the app root
+    (e.currentTarget as HTMLButtonElement).blur();
+    setOpen(true);
+  };
+
+  const handleCriteriaChange = (open: boolean, sort: SortKey) => {
+    setOpen(open);
+    setSortCriteria(sort);
+    dispatch(setTxnSort({ key: sort as SortKey, dir: 'desc' }));
+  };
+
+  const getGroupTotal = (txns: Txn[]) => {
+    return txns.reduce((sum, txn) => sum + txn.amount, 0);
   };
 
   return (
     <div className="transactions-page">
-      <section className="txn-total-budget-section">
-        <h2 className="card-header">{t('budget:totalBudget') ?? 'Total Budget'}</h2>
-        <span className="total-value">{fmt(totalIncome)}</span>
+      <section className="txn-total-budget">
+        <h3 className="spent-header">{t('budget:spent') ?? 'Spent'}</h3>
+        <h2 className="spent-value">{fmtCurrency(totalSpent)}</h2>
+        <div className="txn-budget-row">
+          <span>
+            {t('budget:budget') ?? 'Budget'}: {scoped.allocated}
+          </span>
+          <span>
+            {t('budget:remaining') ?? 'Remaining'}: {scoped.remaining}
+          </span>
+        </div>
+        <ProgressBar progress={scoped.progress} color={getCssVar(scoped.cssVarName)} />
       </section>
-      <section className="txn-page-spent">
-        <h2 className="card-header">{t('budget:spent') ?? 'Spent'}</h2>
 
-        <div className="spent-container-row">
-          <div className="spent-container">
-            <span className="spent-label">Total</span>
-            <span className="spent-value">{fmt(totalSpent)}</span>
-          </div>
-          <div className="spent-container">
-            <span className="spent-label">{t('budget:bucketNames.needs') ?? 'Needs'}</span>
-            <span className="spent-value">{fmt(perBucket.needs)}</span>
-          </div>
-          <div className="spent-container">
-            <span className="spent-label">{t('budget:bucketNames.wants') ?? 'Wants'}</span>
-            <span className="spent-value">{fmt(perBucket.wants)}</span>
-          </div>
-          <div className="spent-container">
-            <span className="spent-label">{t('budget:bucketNames.savings') ?? 'Savings'}</span>
-            <span className="spent-value">{fmt(perBucket.savings)}</span>
-          </div>
+      <section className="tt-section">
+        <div className="filters-row">
+          {FILTER_OPTIONS.map((filt, index) => (
+            <button
+              onClick={() => handleFilterChange(filt.value as Bucket | 'all')}
+              key={index}
+              className={clsx('filter', { selected: filter === filt.value })}
+            >
+              <span>{filt.label}</span>
+            </button>
+          ))}
+        </div>
+        <div className="search-row">
+          <Input
+            type="search"
+            className="search-input"
+            name="search"
+            value={searchCriteria}
+            onChange={handleSearch}
+            placeholder={t('search.placeholder') ?? 'Search...'}
+          />
+
+          <button onClick={onSortClick} className="sort-btn">
+            <span>{SORT_OPTIONS.find((opt) => opt.value === sortCriteria)?.label}</span>
+            <TTIcon icon={FaChevronDown} color={getCssVar('--color-primary')} size={12} />
+          </button>
         </div>
       </section>
-      <section className="txn-filter-select-section">
-        <Select
-          customClassName="filter-selector"
-          name="filter"
-          value={filter}
-          onChange={handleChange}
-          options={FILTER_OPTIONS}
-        />
-      </section>
-      <section className="txn-filter-search-section">
-        <FormInput
-          inputType="search"
-          customClassName="search-input"
-          name="search"
-          value={searchCriteria}
-          onChange={handleChange}
-          prefix="search"
-          placeholder={t('search.placeholder') ?? 'Search...'}
-        />
-      </section>
-      <section className="txn-sort-section">
-        <Select
-          customClassName="sort-selector"
-          name="sort"
-          value={sortCriteria}
-          onChange={handleChange}
-          options={SORT_OPTIONS}
-        />
-      </section>
 
-      <section className="txn-list-section">
+      <section className="tt-section txn-list-section">
         {groups.map((group) => (
           <div className="txn-group" key={group.date}>
-            <h3 className="txn-group-date">{getTranslatedFmtDate(new Date(group.date))}</h3>
+            <div className="txn-date-row">
+              <h3 className="txn-group-date">{getTranslatedFmtDate(new Date(group.date))}</h3>
+              <span>{fmtCurrency(getGroupTotal(group.items))}</span>
+            </div>
             <ul className="txn-group-list">
               {group.items.map((tx) => {
                 const cat = resolveCategory(tx.category);
 
-                return <TransactionRow key={tx.id} source="transaction" txn={tx} category={cat} />;
+                return (
+                  <div key={tx.id} className="txn-line-wrapper">
+                    <TransactionLine txn={tx} category={cat} />
+                  </div>
+                );
               })}
             </ul>
           </div>
         ))}
       </section>
+
+      <SortSheet open={open} onOpenChange={handleCriteriaChange} sortCriteria={sortCriteria} />
     </div>
   );
 };

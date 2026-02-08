@@ -1,0 +1,27 @@
+@use '../../../styles/tokens' as *;
+@use 'sass:color';
+
+.smart-insight {
+  display: inline-flex;
+  padding: $spacing-2 $spacing-4;
+  gap: $spacing-2;
+  border-radius: 999px;
+  font-size: 14px;
+  background-color: rgba($color-primary, 0.1);
+
+  &__success {
+    background-color: rgba($color-success, 0.1);
+  }
+
+  &__warn {
+    background-color: rgba($color-warning, 0.1);
+  }
+
+  &__info {
+    background-color: rgba($color-secondary, 0.1);
+  }
+
+  .insight-cta {
+    display: flex;
+  }
+}

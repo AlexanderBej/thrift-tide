@@ -1,0 +1,49 @@
+@use '../../../styles/tokens' as *;
+
+.main-line {
+  @include grid($templateColumns: 1fr 70px, $columnGap: 8px, $rowGap: 8px);
+  align-items: center;
+  width: 100%;
+
+  .txn-cat-row {
+    display: inline-flex;
+    align-items: center;
+    width: 270px;
+
+    .date-box {
+      width: 35px;
+      margin-right: 12px;
+      text-align: center;
+    }
+
+    .cat-type-badge {
+      margin-left: auto;
+      padding: 5px 10px;
+      font-size: 11px;
+      border-radius: $radius-sm;
+      height: $spacing-6;
+      width: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &__needs {
+        background-color: rgba($color-needs, 0.3);
+      }
+
+      &__wants {
+        background-color: rgba($color-wants, 0.3);
+      }
+
+      &__savings {
+        background-color: rgba($color-savings, 0.3);
+      }
+    }
+  }
+
+  .amount {
+    text-align: right;
+    font-weight: 700;
+    font-size: 14px;
+  }
+}

@@ -1,6 +1,10 @@
 import { createSelector } from '@reduxjs/toolkit';
+import { addDays, eachDayOfInterval, format } from 'date-fns';
+
 import { Bucket } from '@api/types';
 import { selectBudgetTxns } from './budget.selectors.base';
+import { selectTxnsInPeriod } from './budget.selectors';
+import { selectMonthTiming } from './budget-period.selectors';
 
 /** Helper: YYYY-MM-DD in UTC (stable across DST) */
 function toYMDUTC(d: Date): string {
@@ -19,6 +23,31 @@ type DailyBucketTotals = {
   wants: number;
   savings: number;
 };
+
+type NivoPoint = { x: string | number; y: number };
+type NivoSerie = { id: string; data: NivoPoint[] };
+
+export const makeSelectBucketDailySeriesNivo = (bucket: Bucket) =>
+  createSelector([selectTxnsInPeriod, selectMonthTiming], (txns, t) => {
+    const lastInclusive = addDays(t.periodEnd, -1);
+    const days = eachDayOfInterval({ start: t.periodStart, end: lastInclusive });
+
+    // Sum per day for this bucket
+    const byDay: Record<string, number> = {};
+    for (const x of txns) {
+      if (x.type !== bucket) continue;
+      const key = format(new Date(x.date), 'yyyy-MM-dd');
+      byDay[key] = (byDay[key] ?? 0) + Math.max(0, x.amount);
+    }
+
+    const data = days.map((d) => {
+      const key = format(d, 'yyyy-MM-dd');
+      const dayLabel = format(d, 'd'); // show 1..31 on axis
+      return { x: dayLabel, y: byDay[key] ?? 0 };
+    });
+
+    return [{ id: 'Daily', data }];
+  });
 
 /**
  * Builds a Map<YYYY-MM-DD, DailyBucketTotals>
@@ -51,20 +80,20 @@ type DailyBucketTotals = {
 //   },
 // );
 
-/** Total spent on a specific day (all buckets). */
-export const makeSelectSpentOnDay = (date: Date | string) =>
-  createSelector([selectDailySpendMap], (m) => m.get(keyFromInput(date))?.total ?? 0);
+// /** Total spent on a specific day (all buckets). */
+// export const makeSelectSpentOnDay = (date: Date | string) =>
+//   createSelector([selectDailySpendMap], (m) => m.get(keyFromInput(date))?.total ?? 0);
 
-/** Total spent on a specific day for a given bucket. */
-export const makeSelectSpentOnDayBucket = (date: Date | string, bucket: Bucket) =>
-  createSelector([selectDailySpendMap], (m) => m.get(keyFromInput(date))?.[bucket] ?? 0);
+// /** Total spent on a specific day for a given bucket. */
+// export const makeSelectSpentOnDayBucket = (date: Date | string, bucket: Bucket) =>
+//   createSelector([selectDailySpendMap], (m) => m.get(keyFromInput(date))?.[bucket] ?? 0);
 
-/** Optional: get the whole per-bucket breakdown for that day. */
-export const makeSelectDayBreakdown = (date: Date | string) =>
-  createSelector(
-    [selectDailySpendMap],
-    (m) => m.get(keyFromInput(date)) ?? { total: 0, needs: 0, wants: 0, savings: 0 },
-  );
+// /** Optional: get the whole per-bucket breakdown for that day. */
+// export const makeSelectDayBreakdown = (date: Date | string) =>
+//   createSelector(
+//     [selectDailySpendMap],
+//     (m) => m.get(keyFromInput(date)) ?? { total: 0, needs: 0, wants: 0, savings: 0 },
+//   );
 
 /** Map<"YYYY-MM-DD", { total, needs, wants, savings }> */
 export const selectDailySpendMap = createSelector(

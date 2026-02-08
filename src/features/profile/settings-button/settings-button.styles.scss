@@ -1,0 +1,32 @@
+@use '../../../styles/tokens' as *;
+
+.settings-button {
+  width: 100%;
+  border-bottom: 1px solid rgba($color-neutral, 0.7);
+  margin-bottom: $spacing-3;
+  padding-bottom: $spacing-3;
+
+  display: flex;
+  justify-content: space-between;
+
+  &:last-child {
+    border: unset;
+    margin: unset;
+    padding: unset;
+  }
+
+  .settings-label {
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .settings-row-end {
+    display: flex;
+    gap: $spacing-3;
+    opacity: 0.5;
+
+    .settings-value {
+      text-transform: capitalize;
+    }
+  }
+}

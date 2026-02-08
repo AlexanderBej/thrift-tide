@@ -1,11 +1,5 @@
 {
-  "app": "Budget Balance",
   "hi": "Hi",
-  "language": {
-    "en": "English",
-    "ro": "Română"
-  },
-
   "pages": {
     "dashboard": "Dashboard",
     "buckets": "Buckets",
@@ -16,11 +10,10 @@
     "settings": "Settings",
     "profile": "Profile",
     "budget": "Budget",
+    "trends": "Trends",
     "app": "Language & Theme"
   },
-
   "pageContent": {
-    "percentages": "Percentages",
     "buckets": {
       "header": "Select a bucket"
     },
@@ -39,27 +32,42 @@
       "latestDist": "Latest Distribution"
     },
     "settings": {
+      "shortNames": {
+        "currency": "Currency",
+        "language": "Language",
+        "appearance": "Appearance"
+      },
       "profile": "Change your appearance",
       "displayName": "Display name",
-      "budgetPref": "Budget Preferences",
+      "budgetPref": "Plan your budget",
       "percents": {
-        "adjust": "Adjust your 50/30/20 split",
-        "checkbox": "Apply starting this month",
-        "popover": "By checking this, the new percentages will apply from this month onwards, affecting your current budget as well."
+        "title": "Budget split",
+        "adjust": "Adjust your needs, wants, and savings to match how you really spend. You can adjust this anytime.",
+        "checkbox": {
+          "title": "Apply starting",
+          "labelNow": "This period",
+          "labelFuture": "Next period"
+        },
+        "popover": "If you apply the changes starting this period, your allocations and remaining values will change."
       },
       "startDay": {
         "title": "Period start day",
-        "label1": "Start the period on the",
-        "label2": "of the month",
         "info": "Allowed range is from the 1st to the 28th, in order to avoid end-of-month gaps."
       },
-      "currency": "Choose your budget currency",
+      "currency": {
+        "title": "Choose your budget currency",
+        "labelRo": "Romanian Leu (RON)",
+        "labelEu": "European Euro (EUR)"
+      },
       "language": "Change the system language",
-      "theme": "Change the system theme",
+      "theme": {
+        "title": "Change the system theme",
+        "labelLight": "Light",
+        "labelDark": "Dark"
+      },
       "appPref": "App Preferences"
     }
   },
-
   "nav": {
     "home": "Home",
     "open": "Open",
@@ -67,7 +75,6 @@
     "back": "Back",
     "next": "Next"
   },
-
   "actions": {
     "add": "Add",
     "edit": "Edit",
@@ -82,19 +89,16 @@
     "skip": "Skip",
     "back": "Back"
   },
-
   "search": {
     "placeholder": "Search…",
     "clear": "Clear search"
   },
-
   "state": {
     "loading": "Loading…",
     "empty": "Nothing here yet",
     "error": "Something went wrong",
     "retry": "Retry"
   },
-
   "dates": {
     "periodLabel": "{{start, date}} → {{end, date}}",
     "fromTo": "From {{from, date}} to {{to, date}}",
@@ -102,7 +106,6 @@
     "yesterday": "Yesterday",
     "today": "Today"
   },
-
   "confirmations": {
     "modalTitle": "Confirm",
     "areYouSure": "Are you sure?",
@@ -113,7 +116,6 @@
     "currency": "Are you sure you want to change the budget currency?",
     "unsavedChanges": "You have unsaved changes. Discard them?"
   },
-
   "validation": {
     "amount": {
       "required": "Amount is required",
@@ -135,13 +137,11 @@
       "underLimit": "Note must be under {{limit}} characters"
     }
   },
-
   "toast": {
     "saved": "Saved",
     "deleted": "Deleted",
     "updated": "Updated"
   },
-
   "onboarding": {
     "step1": {
       "text1": "Welcome to <bold>Thrift Tide</bold>, your friendly budget assistant. This app helps you manage your monthly income using the <bold>50/30/20</bold> budgeting system — a simple method that divides your income into 50% for Needs, 30% for Wants, and 20% for Savings.",

@@ -15,7 +15,7 @@ export const selectTxnsInPeriod = createSelector([selectBudgetTxns, selectMonthT
 );
 
 /** Sums spent per high-level bucket within the selected period. */
-export const selectSpentByBucket = createSelector([selectTxnsInPeriod], (txns) => {
+const selectSpentByBucket = createSelector([selectTxnsInPeriod], (txns) => {
   let needs = 0,
     wants = 0,
     savings = 0;
@@ -25,16 +25,6 @@ export const selectSpentByBucket = createSelector([selectTxnsInPeriod], (txns) =
     else if (t.type === 'savings') savings += t.amount;
   }
   return { needs, wants, savings };
-});
-
-/** Optional: map of "type:category" -> total, within the period. Useful for side widgets. */
-export const selectSpentByCategory = createSelector([selectTxnsInPeriod], (txns) => {
-  const map: Record<string, number> = {};
-  for (const t of txns) {
-    const key = `${t.type}:${t.category || 'Uncategorized'}`;
-    map[key] = (map[key] || 0) + t.amount;
-  }
-  return map;
 });
 
 export interface CategoryCard {
@@ -89,7 +79,7 @@ export const makeSelectCategoryView = (bucket: Bucket) =>
   });
 
 /** Filter/search/sort the in-period transactions according to UI state. */
-export const selectFilteredTxns = createSelector([selectTxnsInPeriod, selectTxnUi], (txns, ui) => {
+const selectFilteredTxns = createSelector([selectTxnsInPeriod, selectTxnUi], (txns, ui) => {
   const q = ui.search.trim().toLowerCase();
 
   const filtered = txns
@@ -131,28 +121,15 @@ export const selectFilteredTotal = createSelector([selectFilteredTxns], (txns) =
   txns.reduce((sum, t) => sum + t.amount, 0),
 );
 
-/** Header recap: per-bucket totals within the selected period. */
-export const selectMonthTotalsByBucket = createSelector([selectTxnsInPeriod], (txns) => {
-  let needs = 0,
-    wants = 0,
-    savings = 0;
-  for (const t of txns) {
-    if (t.type === 'needs') needs += t.amount;
-    else if (t.type === 'wants') wants += t.amount;
-    else if (t.type === 'savings') savings += t.amount;
-  }
-  return { needs, wants, savings };
-});
-
 /** Period-allocated amounts per bucket (pulled from MonthDoc). */
-export const selectAllocatedTriple = createSelector([selectBudgetDoc], (doc) => ({
+const selectAllocatedTriple = createSelector([selectBudgetDoc], (doc) => ({
   needs: doc?.allocations.needs ?? 0,
   wants: doc?.allocations.wants ?? 0,
   savings: doc?.allocations.savings ?? 0,
 }));
 
 /** Period-spent amounts per bucket (derived from in-period txns). */
-export const selectSpentTriple = createSelector([selectTxnsInPeriod], (txns) => {
+const selectSpentTriple = createSelector([selectTxnsInPeriod], (txns) => {
   const acc = { needs: 0, wants: 0, savings: 0 };
   for (const t of txns) {
     acc[t.type] += Math.max(0, t.amount);
@@ -177,17 +154,35 @@ export const selectTotals = createSelector(
 );
 
 export const selectTopCategoriesOverall = createSelector([selectTxnsInPeriod], (txns) => {
-  const totals: Record<string, number> = {};
+  const map = new Map<string, { total: number; byBucket: Record<Bucket, number> }>();
 
   for (const t of txns) {
-    const cat = t.category || 'Uncategorized';
-    totals[cat] = (totals[cat] ?? 0) + t.amount;
+    const category = t.category || 'Uncategorized';
+
+    if (!map.has(category)) {
+      map.set(category, {
+        total: 0,
+        byBucket: { needs: 0, wants: 0, savings: 0 },
+      });
+    }
+
+    const entry = map.get(category)!;
+    entry.total += t.amount;
+    entry.byBucket[t.type] += t.amount;
   }
 
-  // Turn into a sorted array
-  const sorted = Object.entries(totals)
-    .map(([category, total]) => ({ category, total }))
-    .sort((a, b) => b.total - a.total);
+  const pickBucket = (byBucket: Record<Bucket, number>): Bucket => {
+    const entries = Object.entries(byBucket) as Array<[Bucket, number]>;
+    // choose the bucket with the largest total for this category
+    return entries.reduce((best, cur) => (cur[1] > best[1] ? cur : best))[0];
+  };
 
-  return sorted.slice(0, 3); // top 3
+  return Array.from(map.entries())
+    .map(([category, { total, byBucket }]) => ({
+      category,
+      total,
+      bucket: pickBucket(byBucket),
+    }))
+    .sort((a, b) => b.total - a.total)
+    .slice(0, 5);
 });

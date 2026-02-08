@@ -1,4 +1,6 @@
+import { Bucket, InsightTone } from '@api/types';
 import { PercentTriple } from '../types/percent.types';
+import { Insight } from './insight';
 
 export interface MonthDoc {
   month: string;
@@ -25,3 +27,25 @@ export interface MonthDocSummary {
 }
 
 export const DEFAULT_START_DAY = 25;
+
+export interface BucketHealthSummary {
+  healthyCount: number;
+  attentionCount: number;
+  details: Array<{
+    bucket: Bucket;
+    tone: InsightTone;
+    insight: Insight;
+  }>;
+}
+
+export interface HistoryDocWithSummary {
+  id: string;
+  month: string;
+  percents: { needs: number; wants: number; savings: number };
+  summary: MonthDocSummary;
+}
+
+export interface HistoryBadge {
+  tone: InsightTone;
+  labelKey: string;
+}

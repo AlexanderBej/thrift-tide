@@ -1,0 +1,7 @@
+@use '../../../styles/tokens' as *;
+
+.settings-block {
+  .settings-container {
+    @include dashboard-card($radius: $radius-lg, $pad: $spacing-4, $bgCol: #f4f5f7);
+  }
+}

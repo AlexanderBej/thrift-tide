@@ -6,16 +6,20 @@ import './progress-bar.styles.scss';
 
 interface ProgressBarProps {
   progress: number;
+  color?: string;
 }
 
-const ProgressBar: React.FC<ProgressBarProps> = ({ progress }) => {
+const ProgressBar: React.FC<ProgressBarProps> = ({
+  progress,
+  color = getCssVar('--color-primary'),
+}) => {
   return (
     <div className="progress-bar">
       <div
         className="progress-bar-progress"
         style={{
           width: `${progress * 100}%`,
-          background: progress >= 1 ? getCssVar('--color-bg-main') : getCssVar('--color-primary'),
+          background: progress >= 1 ? getCssVar('--color-bg-main') : color,
         }}
       />
     </div>
