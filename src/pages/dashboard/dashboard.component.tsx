@@ -81,8 +81,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className="dashboard-page">
       <div className="dashboard-header">
-        <PeriodWidget />
-        <span>&bull;</span>
+        <PeriodWidget isDashboard />
         <span>{currency}</span>
       </div>
       <h1 className="hi-header">

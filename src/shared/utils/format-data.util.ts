@@ -76,8 +76,9 @@ export function formatMonth(yyyyMm: string, lang?: Language) {
   return date.toLocaleString(lang === 'ro' ? 'ro-RO' : 'en-US', { month: 'long' });
 }
 
-export const formatStartDay = (day: number | undefined) => {
+export const formatStartDay = (day: number | undefined, lang?: Language) => {
   if (!day) return;
+  if (lang === 'ro') return day;
   switch (day) {
     case 1:
     case 21:

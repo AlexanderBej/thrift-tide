@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
 
 import { BaseSheet, InfoBlock } from '@shared/ui';
-import { AppDispatch } from '@api/types';
+import { AppDispatch, Language } from '@api/types';
 import { saveStartDayThunk, selectSettingsBudgetStartDay } from '@store/settings-store';
 import { selectAuthUser } from '@store/auth-store';
 import { ApplyEditor } from 'features';
@@ -98,7 +98,8 @@ const StartDaySheet: React.FC<StartDaySheetProps> = ({ open, onOpenChange }) => 
             <div>
               <span>{t('settings:startDay.info.title')}</span>
               <span>
-                {t('settings:startDay.info.subtitle')} <strong>{formatStartDay(startDay)}</strong>
+                {t('settings:startDay.info.subtitle')}{' '}
+                <strong>{formatStartDay(startDay, i18n.language as Language)}</strong>
               </span>
             </div>
           </InfoBlock>

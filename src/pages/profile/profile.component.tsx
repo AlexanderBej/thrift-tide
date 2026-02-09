@@ -165,7 +165,7 @@ const ProfilePage: React.FC = () => {
               <div className="settings-title-wrapper">
                 <h3>{t('settings:startDay.title')}</h3>
                 <span className="settings-subtitle">
-                  {formatStartDay(doc?.startDay) ?? formatStartDay(startDay)}{' '}
+                  {formatStartDay(doc?.startDay, language) ?? formatStartDay(startDay, language)}{' '}
                   {t('pageContent.profile.eachMonth')}
                 </span>
               </div>
