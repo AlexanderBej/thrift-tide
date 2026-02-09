@@ -22,6 +22,12 @@ export const toPathFromInsightTarget = (target: InsightTarget): string => {
     return `/categories/${category}`;
   }
 
+  // backward-compatible deep link: "categories:wants"
+  if (target.startsWith('categories:')) {
+    const category = target.split(':')[1];
+    return `/categories/${category}`;
+  }
+
   // fallback
   return '/';
 };

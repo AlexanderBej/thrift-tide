@@ -32,6 +32,16 @@
     .elapsed {
       background: var(--needs, #2ecc71);
       height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      .elapsed-text {
+        font-size: 12px;
+        font-weight: 800;
+        margin-right: $spacing-3;
+        color: $gunmetal;
+      }
     }
 
     .marker {

@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import { fmtToDEM, LOCALE_MAP, makeFormatter } from '@shared/utils';
 
 import './spending-timeline-bar.styles.scss';
+import { isAfter } from 'date-fns';
 
 interface SpendingTimelineBarProps {
   periodStart: Date;
@@ -20,7 +21,7 @@ const SpendingTimelineBar: React.FC<SpendingTimelineBarProps> = ({
   runOutDate,
   now = new Date(),
 }) => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation(['common', 'budget']);
 
   const total = +periodEnd - +periodStart;
   const elapsed = Math.max(0, Math.min(total, +now - +periodStart));
@@ -28,6 +29,8 @@ const SpendingTimelineBar: React.FC<SpendingTimelineBarProps> = ({
 
   const elapsedPct = (elapsed / total) * 100;
   const runoutPct = runout != null ? (runout / total) * 100 : null;
+
+  const isInFuture = isAfter(new Date(), periodEnd);
 
   const getTranslatedFmtDate = (d: Date) => {
     const locale = LOCALE_MAP[i18n.language] ?? enUS;
@@ -40,12 +43,22 @@ const SpendingTimelineBar: React.FC<SpendingTimelineBarProps> = ({
     return clsx('period', `period__${edge}`);
   };
 
+  console.log('start ', periodStart.toDateString());
+  console.log('periodEnd ', periodEnd.toDateString());
+  console.log('runOutDate ', runOutDate?.toDateString());
+  console.log('now ', now.toDateString());
+  console.log('elapsedPct ', elapsedPct);
+  console.log('runoutPct ', runoutPct);
+  console.log('isInFuture ', isInFuture);
+
   return (
     <div className="timeline-container">
       <div className="run-out-container">
         {runOutDate &&
           (fmtToDEM(runOutDate) === fmtToDEM(periodEnd) ? (
-            <span className="run-out run-out__over">Period over</span>
+            <span className="run-out run-out__over">
+              {t(isInFuture ? 'budget:periodOver' : 'budget:plentyLeft')}
+            </span>
           ) : (
             <span className="run-out" style={{ left: `${runoutPct}%` }}>
               {getTranslatedFmtDate(runOutDate)}
@@ -54,7 +67,9 @@ const SpendingTimelineBar: React.FC<SpendingTimelineBarProps> = ({
       </div>
       <div className="timeline-bar">
         <div className="track" />
-        <div className="elapsed" style={{ width: `${elapsedPct}%` }} />
+        <div className="elapsed" style={{ width: `${elapsedPct}%` }}>
+          <span className="elapsed-text">{t('dates.today')}</span>
+        </div>
         {runoutPct != null && (
           <div
             className="marker"

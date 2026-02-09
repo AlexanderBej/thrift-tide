@@ -67,7 +67,8 @@ export const makeSelectCategoryPanel = (cat: Category) =>
       const spent = tot.spent[cat];
       const remaining = Math.max(0, alloc - spent);
       const remainingPerDay = t.daysLeft > 0 ? remaining / t.daysLeft : null;
-      const daysToZero = avgDailyCat && avgDailyCat > 0 ? Math.ceil(remaining / avgDailyCat) : null;
+      const daysToZero =
+        remaining > 0 && avgDailyCat && avgDailyCat > 0 ? Math.ceil(remaining / avgDailyCat) : null;
 
       // Estimated run-out date (clamped to end of period)
       const runOutDate =

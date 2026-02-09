@@ -43,7 +43,8 @@
     }
 
     &__info {
-      background: rgba($color: $color-secondary, $alpha: 0.3);
+      background-color: color-mix(in srgb, var(--color-secondary), transparent 70%);
+
       border-color: $color-secondary;
     }
 

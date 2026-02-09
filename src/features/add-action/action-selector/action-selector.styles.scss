@@ -12,7 +12,8 @@
     gap: $spacing-3;
     padding: $spacing-3;
     border-radius: $radius-lg;
-    border: 1px solid rgba($color-neutral, 0.7);
+    border: 1px solid;
+    border-color: color-mix(in srgb, var(--color-neutral), transparent 30%);
 
     .action-icon {
       font-size: 28px;

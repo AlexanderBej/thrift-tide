@@ -13,6 +13,8 @@
   "spendPace": "Ritmul de cheltuieli (cheltuieli zilnice)",
   "monthPace": "Ritm lunar (data expirării)",
   "seeAllTxn": "Vezi toate tranzacțiile",
+  "periodOver": "Perioda e gata",
+  "plentyLeft": "Mai ai destul",
   "badges": {
     "overBudget": "Peste Buget",
     "nearBudget": "Aproape de Buget",

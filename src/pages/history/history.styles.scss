@@ -46,7 +46,7 @@
         }
 
         &.muted {
-          background-color: rgba($color: $color-primary-dark, $alpha: 0.2);
+          background-color: color-mix(in srgb, var(--color-primary-dark), transparent 80%);
         }
       }
     }

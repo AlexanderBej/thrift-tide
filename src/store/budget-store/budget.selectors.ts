@@ -1,17 +1,26 @@
 import { createSelector } from '@reduxjs/toolkit';
+import { format } from 'date-fns';
 
 import { Category } from '@api/types';
 import { Txn } from '@api/models';
 import { selectBudgetDoc, selectBudgetTxns, selectTxnUi } from './budget.selectors.base';
 import { selectMonthTiming } from './budget-period.selectors';
-import { toMillisSafe } from '@shared/utils';
+import { toYMDUTC } from '@shared/utils';
+
+const isYmd = (v: string) => /^\d{4}-\d{2}-\d{2}$/.test(v);
+const txnDayKey = (date: Txn['date']) => (isYmd(date) ? date : toYMDUTC(date));
 
 /** All transactions that fall inside the current [periodStart, periodEnd). */
 export const selectTxnsInPeriod = createSelector([selectBudgetTxns, selectMonthTiming], (txns, t) =>
-  txns.filter((x) => {
-    const d = new Date(x.date); // services should normalize to Date
-    return d >= t.periodStart && d < t.periodEnd;
-  }),
+  {
+    const startKey = format(t.periodStart, 'yyyy-MM-dd');
+    const endKey = format(t.periodEnd, 'yyyy-MM-dd'); // end is exclusive
+
+    return txns.filter((x) => {
+      const day = txnDayKey(x.date);
+      return day >= startKey && day < endKey;
+    });
+  },
 );
 
 /** Sums spent per high-level category within the selected period. */
@@ -96,8 +105,7 @@ const selectFilteredTxns = createSelector([selectTxnsInPeriod, selectTxnUi], (tx
 
   const dir = ui.sortDir === 'asc' ? 1 : -1;
   const sorted = [...filtered].sort((a, b) => {
-    if (ui.sortKey === 'date')
-      return dir * (toMillisSafe(a.date as any) - toMillisSafe(b.date as any)); // Date numeric compare
+    if (ui.sortKey === 'date') return dir * txnDayKey(a.date).localeCompare(txnDayKey(b.date));
     return dir * (a.amount - b.amount);
   });
 
@@ -110,7 +118,7 @@ export const selectTxnsGroupedByDate = createSelector([selectFilteredTxns], (txn
   const categories = new Map<string, Txn[]>();
 
   for (const t of txns) {
-    const day = t.date;
+    const day = txnDayKey(t.date);
     if (!categories.has(day)) categories.set(day, []);
     categories.get(day)!.push(t);
   }
@@ -162,6 +170,7 @@ export const selectTopExpenseGroupsOverall = createSelector([selectTxnsInPeriod]
 
   for (const t of txns) {
     const expGroup = t.expenseGroup || 'Uncategorized';
+    const spend = Math.max(0, t.amount);
 
     if (!map.has(expGroup)) {
       map.set(expGroup, {
@@ -171,8 +180,8 @@ export const selectTopExpenseGroupsOverall = createSelector([selectTxnsInPeriod]
     }
 
     const entry = map.get(expGroup)!;
-    entry.total += t.amount;
-    entry.byCategory[t.type] += t.amount;
+    entry.total += spend;
+    entry.byCategory[t.type] += spend;
   }
 
   const pickCategory = (byCategory: Record<Category, number>): Category => {

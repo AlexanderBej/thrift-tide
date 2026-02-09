@@ -48,8 +48,8 @@
           justify-content: center;
           background: linear-gradient(
             90deg,
-            rgba($color-primary, 0.1) 0%,
-            rgba($color-primary, 0.3) 100%
+            color-mix(in srgb, var(--color-primary), transparent 90%) 0%,
+            color-mix(in srgb, var(--color-primary), transparent 70%) 100%
           );
         }
 
@@ -87,41 +87,6 @@
       }
     }
   }
-  // .general-settings-row {
-  //   width: 100%;
-  //   border-bottom: 1px solid rgba($color-neutral, 0.7);
-  //   margin-bottom: $spacing-3;
-  //   padding-bottom: $spacing-3;
-
-  //   display: flex;
-  //   justify-content: space-between;
-
-  //   &:last-child {
-  //     border: unset;
-  //     margin: unset;
-  //     padding: unset;
-  //   }
-
-  //   .settings-label {
-  //     font-size: 14px;
-  //     font-weight: 700;
-
-  //     &.error-label {
-  //       color: $color-error;
-  //     }
-  //   }
-
-  //   .settings-row-end {
-  //     display: flex;
-  //     gap: $spacing-3;
-  //     opacity: 0.5;
-
-  //     .theme-value {
-  //       text-transform: capitalize;
-  //     }
-  //   }
-  // }
-  // }
 
   .logout-btn {
     width: 150px;

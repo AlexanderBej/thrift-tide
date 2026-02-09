@@ -7,7 +7,7 @@
   gap: $spacing-2;
   border-radius: 999px;
   font-size: 14px;
-  background-color: rgba($color-primary, 0.1);
+  background-color: color-mix(in srgb, var(--color-primary), transparent 90%);
 
   &__success {
     background-color: rgba($color-success, 0.1);
@@ -18,7 +18,7 @@
   }
 
   &__info {
-    background-color: rgba($color-secondary, 0.1);
+    background-color: rgba($eg-1, 0.1);
   }
 
   .insight-cta {

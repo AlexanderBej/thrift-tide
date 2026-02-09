@@ -13,6 +13,8 @@
   "spendPace": "Spending pace (daily spend)",
   "monthPace": "Month pace (run out date)",
   "seeAllTxn": "See all transactions",
+  "periodOver": "Period over",
+  "plentyLeft": "Plenty Left",
   "badges": {
     "overBudget": "Over budget",
     "nearBudget": "Near Budget",

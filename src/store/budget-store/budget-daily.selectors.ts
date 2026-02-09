@@ -2,18 +2,16 @@ import { createSelector } from '@reduxjs/toolkit';
 import { addDays, eachDayOfInterval, format } from 'date-fns';
 
 import { Category } from '@api/types';
+import { toYMDUTC } from '@shared/utils';
 import { selectBudgetTxns } from './budget.selectors.base';
 import { selectTxnsInPeriod } from './budget.selectors';
 import { selectMonthTiming } from './budget-period.selectors';
 
-/** Helper: YYYY-MM-DD in UTC (stable across DST) */
-function toYMDUTC(d: Date): string {
-  return new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())).toISOString().slice(0, 10); // "YYYY-MM-DD"
-}
+const isYmd = (v: string) => /^\d{4}-\d{2}-\d{2}$/.test(v);
 
 /** Accepts Date or string-like input */
 function keyFromInput(date: Date | string): string {
-  if (typeof date === 'string') return toYMDUTC(new Date(date));
+  if (typeof date === 'string' && isYmd(date)) return date;
   return toYMDUTC(date);
 }
 
@@ -33,7 +31,7 @@ export const makeSelectCategoryDailySeriesNivo = (cat: Category) =>
     const byDay: Record<string, number> = {};
     for (const x of txns) {
       if (x.type !== cat) continue;
-      const key = format(new Date(x.date), 'yyyy-MM-dd');
+      const key = keyFromInput(x.date);
       byDay[key] = (byDay[key] ?? 0) + Math.max(0, x.amount);
     }
 
@@ -54,7 +52,7 @@ export const selectDailySpendMap = createSelector(
     for (const tx of txns) {
       // Adjust field names if needed: tx.date, tx.amount, tx.type: Category
       const key = keyFromInput(tx.date as any);
-      const amt = Math.abs(Number(tx.amount) || 0);
+      const amt = Math.max(0, Number(tx.amount) || 0);
 
       // If you store incomes/transfers among txns, skip them here
       // if (tx.kind !== 'expense') continue;

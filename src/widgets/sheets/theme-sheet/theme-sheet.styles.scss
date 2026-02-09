@@ -18,7 +18,8 @@
     border-radius: 999px;
 
     &.active {
-      background: rgba($color-primary, 0.3);
+      background: color-mix(in srgb, var(--color-primary), transparent 70%);
+
       transition: background $transition-normal;
       @include themed(color, color-text-primary, $color-text-primary);
     }

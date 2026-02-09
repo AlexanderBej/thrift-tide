@@ -1,7 +1,8 @@
 @use '../../../styles/tokens' as *;
 
 .apply-row {
-  border-top: 1px solid rgba($color-neutral, 0.7);
+  border-top: 1px solid;
+  border-color: color-mix(in srgb, var(--color-neutral), transparent 30%);
   padding-top: $spacing-4;
   margin-top: $spacing-4;
 

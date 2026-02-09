@@ -7,7 +7,7 @@
 body {
   font-family: "Open Sans", sans-serif;
   color: #e6eef0;
-  background-color: #0f1416;
+  background-color: #21252b;
 }
 
 button {
@@ -63,8 +63,8 @@ h5 {
   --color-primary-light: rgba(47, 127, 135, 0.3);
   --color-secondary: #b84444;
   --color-secondary-dark: #8a3333;
-  --color-bg-main: #0f1416;
-  --color-bg-card: #151b1e;
+  --color-bg-main: #21252b;
+  --color-bg-card: #1e2126;
   --color-text-primary: #e6eef0;
   --color-text-secondary: #9ca6b5;
   --color-text-inverse: #1c2833;

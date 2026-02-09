@@ -43,8 +43,8 @@
         border-bottom-left-radius: 10px;
         background: linear-gradient(
           90deg,
-          rgba($color-needs, 0.2) 0%,
-          rgba($color-needs, 0.4) 100%
+          color-mix(in srgb, var(--needs), transparent 80%) 0%,
+          color-mix(in srgb, var(--needs), transparent 60%) 100%
         );
 
         .category-percent-needs {
@@ -56,8 +56,8 @@
       &__wants {
         background: linear-gradient(
           90deg,
-          rgba($color-wants, 0.2) 0%,
-          rgba($color-wants, 0.4) 100%
+          color-mix(in srgb, var(--wants), transparent 80%) 0%,
+          color-mix(in srgb, var(--wants), transparent 60%) 100%
         );
 
         .category-percent-wants {
@@ -71,8 +71,8 @@
         border-bottom-right-radius: 10px;
         background: linear-gradient(
           90deg,
-          rgba($color-savings, 0.2) 0%,
-          rgba($color-savings, 0.4) 100%
+          color-mix(in srgb, var(--savings), transparent 80%) 0%,
+          color-mix(in srgb, var(--savings), transparent 60%) 100%
         );
 
         .category-percent-savings {

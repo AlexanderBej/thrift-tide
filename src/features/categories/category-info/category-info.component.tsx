@@ -56,7 +56,10 @@ const CategoryInfo: React.FC = () => {
             <CategoryName category={c.key} />
             <div className="title-row-end">
               <span>
-                {Math.max(0, Math.min(100, Math.round((c.remaining / c.allocated) * 100)))}%{' '}
+                {c.allocated > 0
+                  ? Math.max(0, Math.min(100, Math.round((c.remaining / c.allocated) * 100)))
+                  : 0}
+                %{' '}
                 {t('left')}
               </span>
               <NavLink to={'/categories/' + c.key} className="category-link">

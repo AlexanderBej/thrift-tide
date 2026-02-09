@@ -1,7 +1,9 @@
 @use '../../../styles/tokens.scss' as *;
 
 .faux-radios {
-  border-top: 1px solid rgba($color-neutral, 0.7);
+  border-top: 1px solid;
+  border-color: color-mix(in srgb, var(--color-neutral), transparent 0%);
+
   padding-top: $spacing-4;
   margin-top: $spacing-4;
 

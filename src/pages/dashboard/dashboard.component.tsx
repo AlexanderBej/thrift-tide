@@ -21,16 +21,11 @@ import { PeriodWidget } from '@widgets';
 import './dashboard.styles.scss';
 
 const pickHeaderInsight = (insights: Insight[]) => {
-  const findIndexByTone = (tone: InsightTone) => insights.findIndex((i) => i.tone === tone);
-
-  const mutedIdx = findIndexByTone('muted');
-  const successIdx = findIndexByTone('success');
-
-  let headerIndex = -1;
-
-  if (mutedIdx !== -1) headerIndex = mutedIdx;
-  else if (successIdx !== -1) headerIndex = successIdx;
-  else headerIndex = insights.length ? 0 : -1;
+  const tonePriority: InsightTone[] = ['danger', 'warn', 'info', 'success', 'muted'];
+  const headerIndex = tonePriority.reduce((idx, tone) => {
+    if (idx !== -1) return idx;
+    return insights.findIndex((i) => i.tone === tone);
+  }, -1);
 
   const headerInsight = headerIndex !== -1 ? insights[headerIndex] : insights[0];
 

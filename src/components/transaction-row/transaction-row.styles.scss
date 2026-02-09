@@ -48,15 +48,15 @@
     justify-content: center;
 
     &__needs {
-      background-color: rgba($color-needs, 0.3);
+      background-color: color-mix(in srgb, var(--needs), transparent 70%);
     }
 
     &__wants {
-      background-color: rgba($color-wants, 0.3);
+      background-color: color-mix(in srgb, var(--wants), transparent 70%);
     }
 
     &__savings {
-      background-color: rgba($color-savings, 0.3);
+      background-color: color-mix(in srgb, var(--savings), transparent 70%);
     }
   }
 }

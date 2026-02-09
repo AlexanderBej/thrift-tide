@@ -14,15 +14,15 @@
 
   .category-page-header {
     &__needs {
-      background-color: rgba($color-needs, 0.3);
+      background-color: color-mix(in srgb, var(--needs), transparent 70%);
     }
 
     &__wants {
-      background-color: rgba($color-wants, 0.3);
+      background-color: color-mix(in srgb, var(--wants), transparent 70%);
     }
 
     &__savings {
-      background-color: rgba($color-savings, 0.3);
+      background-color: color-mix(in srgb, var(--savings), transparent 70%);
     }
 
     .category-name-line {
@@ -82,7 +82,8 @@
 
   .category-transaction {
     margin-bottom: $spacing-3;
-    border-bottom: 1px solid rgba($color-neutral, 0.7);
+    border-bottom: 1px solid;
+    border-color: color-mix(in srgb, var(--color-neutral), transparent 0%);
     padding-bottom: $spacing-3;
 
     &:last-child {

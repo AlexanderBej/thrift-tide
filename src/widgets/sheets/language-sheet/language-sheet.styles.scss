@@ -19,7 +19,8 @@
     transition: background $transition-normal;
 
     &.active {
-      background: rgba($color-primary, 0.3);
+      background: color-mix(in srgb, var(--color-primary), transparent 70%);
+
       @include themed(color, color-text-primary, $color-text-primary);
     }
 

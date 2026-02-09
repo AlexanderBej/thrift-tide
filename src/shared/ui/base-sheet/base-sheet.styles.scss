@@ -82,7 +82,8 @@
     display: flex;
     flex-direction: column;
     padding-top: $spacing-6;
-    border-top: 1px solid rgba($color-neutral, 0.7);
+    border-top: 1px solid;
+    border-color: color-mix(in srgb, var(--color-neutral), transparent 0%);
 
     .sheet-btn-wrapper {
       margin-top: auto;
@@ -90,7 +91,8 @@
       .sheet-btn-container {
         padding-top: $spacing-5;
         margin: $spacing-6 0 $spacing-3;
-        border-top: 1px solid rgba($color-neutral, 0.7);
+        border-top: 1px solid;
+        border-color: color-mix(in srgb, var(--color-neutral), transparent 0%);
 
         .sheet-btn {
           width: 80%;
