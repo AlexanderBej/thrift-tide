@@ -16,6 +16,7 @@ import { AppDispatch } from '@store/store';
 import { HistoryDocWithSummary } from '@api/models';
 import { formatMonth, getCssVar, historyStatusBadge, toneConverter } from '@shared/utils';
 import { useFormatMoney } from '@shared/hooks';
+import { Language } from '@api/types';
 
 import './history.styles.scss';
 
@@ -56,7 +57,7 @@ function buildSpentGradient(categories: CategoryData[]) {
 
 const History: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { t } = useTranslation(['common', 'budget']);
+  const { t, i18n } = useTranslation(['common', 'budget', 'insights']);
   const fmtMoney = useFormatMoney(true);
 
   const user = useSelector(selectAuthUser);
@@ -84,7 +85,7 @@ const History: React.FC = () => {
   const loadMore = () => user?.uuid && dispatch(loadHistoryPage({ uid: user.uuid, pageSize: 12 }));
 
   const getDate = (row: HistoryDocWithSummary) => {
-    const month = formatMonth(row.month);
+    const month = formatMonth(row.month, i18n.language as Language);
     const year = new Date(row.summary.computedAt).getFullYear();
     return `${month} ${year}`;
   };
@@ -181,7 +182,7 @@ const History: React.FC = () => {
   return (
     <div className="history-page">
       <InfoBlock>
-        <span>Track your past months to see how you are doing and what can be improved.</span>
+        <span>{t('pageContent.history.info')}</span>
       </InfoBlock>
       <div className="history-blocks">
         <Accordion type="single" defaultOpenId="needs" items={accordionItems} spaceLarge />

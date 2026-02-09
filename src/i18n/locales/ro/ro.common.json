@@ -11,7 +11,11 @@
   },
   "pageContent": {
     "categories": {
-      "header": "Selectează o categorie"
+      "info": "Urmărește starea categoriilor tale și ajustează alocările după cum e necesar.",
+      "oneHealthy": "categorie sănătatoasă",
+      "multiHealthy": "categorii sănătatoase",
+      "oneAttention": "categorie are nevoie de atenție",
+      "multiAttention": "categorii au nevoie de atenție"
     },
     "category": {
       "noTrans": "Nu există tranzacții pentru"
@@ -25,6 +29,9 @@
       "eachMonth": "a fiecărei luni",
       "reset": "Resetează perioada curentă",
       "logout": "Deconectează"
+    },
+    "history": {
+      "info": "Urmărește ultimele luni pentru a vedea cum te descurci și ce poți îmbunătăți."
     }
   },
   "actions": {

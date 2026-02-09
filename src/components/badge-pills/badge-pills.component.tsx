@@ -12,9 +12,9 @@ import { TTIcon } from '@shared/ui';
 
 import './badge-pills.styles.scss';
 
-interface TranslatedBadge extends Badge {
-  i18nText: string;
-}
+// interface TranslatedBadge extends Badge {
+//   i18nText: string;
+// }
 
 const BadgePills: React.FC<{
   badges: Badge[];
@@ -22,48 +22,52 @@ const BadgePills: React.FC<{
   onClickBadge?: (b: Badge) => void;
 }> = ({ badges, badgeType = 'chip', onClickBadge }) => {
   const { t } = useTranslation('budget');
-  const [translatedBadges, setTranslatedBadges] = useState<TranslatedBadge[]>([]);
+  // const [translatedBadges, setTranslatedBadges] = useState<TranslatedBadge[]>([]);
   const width = useWindowWidth();
   const isMobile = width < 480;
 
-  useEffect(() => {
-    const loc = badges.map((l) => {
-      switch (l.id) {
-        case 'wants-over':
-          return {
-            ...l,
-            i18nText: `${t('taxonomy:categoryNames.wants')} ${t('budget:badges.overBudget')}`,
-          } as TranslatedBadge;
-        case 'needs-near':
-          return {
-            ...l,
-            i18nText: `${t('taxonomy:categoryNames.needs')} ${t('budget:badges.nearBudget')}`,
-          } as TranslatedBadge;
-        case 'high-burn':
-          return {
-            ...l,
-            i18nText: `${t('budget:badges.highBurn')}`,
-          } as TranslatedBadge;
+  // useEffect(() => {
+  //   const loc = badges.map((l) => {
+  //     switch (l.id) {
+  //       case 'wants-over':
+  //         return {
+  //           ...l,
+  //           i18nText: `${t('taxonomy:categoryNames.wants')} ${t('budget:badges.overBudget')}`,
+  //         } as TranslatedBadge;
+  //       case 'needs-near':
+  //         return {
+  //           ...l,
+  //           i18nText: `${t('taxonomy:categoryNames.needs')} ${t('budget:badges.nearBudget')}`,
+  //         } as TranslatedBadge;
+  //       case 'high-burn':
+  //         return {
+  //           ...l,
+  //           i18nText: `${t('budget:badges.highBurn')}`,
+  //         } as TranslatedBadge;
 
-        case 'save-behind':
-          return {
-            ...l,
-            i18nText: `${t('taxonomy:categoryNames.savings')} ${t('budget:badges.behindPlan')}`,
-          } as TranslatedBadge;
+  //       case 'savings-behind':
+  //         return {
+  //           ...l,
+  //           i18nText: `${t('taxonomy:categoryNames.savings')} ${t('budget:badges.behindPlan')}`,
+  //         } as TranslatedBadge;
 
-        case 'under-pace':
-          return {
-            ...l,
-            i18nText: `${t('budget:badges.underPace')} (${t('budget:badges.good')})`,
-          } as TranslatedBadge;
+  //       case 'under-pace':
+  //         return {
+  //           ...l,
+  //           i18nText: `${t('budget:badges.underPace')} (${t('budget:badges.good')})`,
+  //         } as TranslatedBadge;
 
-        default:
-          return l as TranslatedBadge;
-      }
-    });
+  //       default:
+  //         return l as TranslatedBadge;
+  //     }
+  //   });
 
-    setTranslatedBadges(loc);
-  }, [badges, t]);
+  //   console.log('loc', loc);
+
+  //   setTranslatedBadges(loc);
+  // }, [badges, t]);
+
+  console.log('ere', badges);
 
   const getBadgeIcon = (kind: BadgeKind) => {
     switch (kind) {
@@ -82,7 +86,7 @@ const BadgePills: React.FC<{
 
   return (
     <div className="badge-row">
-      {translatedBadges.map((b) => (
+      {badges.map((b) => (
         <button
           key={b.id}
           className={`badge-pill badge-pill__${b.kind} badge-pill__${badgeType}`}
@@ -95,7 +99,7 @@ const BadgePills: React.FC<{
             className={`badge-pill-icon__${b.kind}`}
             size={badgeType === 'card' && !isMobile ? 24 : 14}
           />
-          {b.i18nText ?? b.text}
+          {t(b.i18nKey) ?? b.text}
         </button>
       ))}
     </div>

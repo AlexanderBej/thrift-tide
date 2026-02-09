@@ -72,5 +72,13 @@
     "near": "Near budget",
     "behind": "Behind plan",
     "under": "Under pace"
+  },
+  "historyBadges": {
+    "noSummary": "No Summary Present",
+    "noBudget": "No Budget Set",
+    "noSpending": "No Spending Yet",
+    "overspent": "Overspent",
+    "nearLimit": "Near Limit",
+    "healthy": "Healthy"
   }
 }

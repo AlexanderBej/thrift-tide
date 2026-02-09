@@ -54,7 +54,8 @@ const CategoryInfo: React.FC = () => {
             <CategoryName category={c.key} />
             <div className="title-row-end">
               <span>
-                {Math.max(0, Math.min(100, Math.round((c.remaining / c.allocated) * 100)))}% left
+                {Math.max(0, Math.min(100, Math.round((c.remaining / c.allocated) * 100)))}%{' '}
+                {t('left')}
               </span>
               <NavLink to={'/categories/' + c.key} className="category-link">
                 <TTIcon icon={FaChevronRight} size={16} color={getCssVar('--color-primary')} />
@@ -63,7 +64,7 @@ const CategoryInfo: React.FC = () => {
           </div>
 
           <h3 className="spent-header">
-            {c.title === 'Savings' ? 'You contributed' : 'You spent'}{' '}
+            {c.title === 'Savings' ? t('youContributed') : t('youSpent')}{' '}
             <span className="spent-value">{fmtCurrency(c.spent)}</span>
           </h3>
 

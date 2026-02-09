@@ -24,7 +24,7 @@ export const toneConverter = (tone: string): { color: string; icon: IconType } =
 };
 
 export function historyStatusBadge(summary?: MonthDocSummary): HistoryBadge {
-  if (!summary) return { tone: 'muted', labelKey: 'history.badges.noSummary' };
+  if (!summary) return { tone: 'muted', labelKey: 'insights:badges.noSummary' };
 
   const alloc =
     (summary.allocations?.needs ?? 0) +
@@ -33,20 +33,20 @@ export function historyStatusBadge(summary?: MonthDocSummary): HistoryBadge {
 
   const spent = summary.totalSpent ?? 0;
 
-  if (alloc <= 0) return { tone: 'muted', labelKey: 'history.badges.noBudget' };
+  if (alloc <= 0) return { tone: 'muted', labelKey: 'insights:historyBadges.noBudget' };
   if ((summary.totalTxns ?? 0) === 0 && spent === 0)
-    return { tone: 'info', labelKey: 'history.badges.noSpending' };
+    return { tone: 'info', labelKey: 'insights:historyBadges.noSpending' };
 
   const ratio = spent / alloc;
 
   if (ratio > 1.0) {
     return {
       tone: 'danger',
-      labelKey: 'history.badges.overspent',
+      labelKey: 'insights:historyBadges.overspent',
     };
   }
 
-  if (ratio >= 0.9) return { tone: 'warn', labelKey: 'history.badges.nearLimit' };
+  if (ratio >= 0.9) return { tone: 'warn', labelKey: 'insights:historyBadges.nearLimit' };
 
-  return { tone: 'success', labelKey: 'history.badges.healthy' };
+  return { tone: 'success', labelKey: 'insights:historyBadges.healthy' };
 }

@@ -140,7 +140,7 @@ const Dashboard: React.FC = () => {
           </section>
 
           <section className="tt-section">
-            <h3 className="tt-section-header">{t('budget:topExpenseGroups')}</h3>
+            <h3 className="tt-section-header">{t('budget:topExpGroups')}</h3>
             <ul className="exp-groups-list">
               {topExpenseGroups.map((eg, index) => {
                 const fullEG = resolveExpenseGroup(eg.expGroup);

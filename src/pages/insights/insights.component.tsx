@@ -18,7 +18,7 @@ import { HealthInsight, SmartInsightCard } from 'features';
 import './insights.styles.scss';
 
 const Insights: React.FC = () => {
-  const { t } = useTranslation('common');
+  const { t, i18n } = useTranslation(['common', 'taxonomy']);
   const fmt = useFormatMoney();
 
   const selectPanelNeeds = useMemo(() => makeSelectCategoryPanel(CategoryType.NEEDS), []);
@@ -40,6 +40,13 @@ const Insights: React.FC = () => {
           ? categoryPanelWants
           : categoryPanelSavings;
     return egTotal / categoryPanel.alloc;
+  };
+
+  const builtTranslatedPerc = (eg: { expGroup: string; category: Category; total: number }) => {
+    const word = i18n.language === 'ro' ? 'din' : 'of';
+    const percent = Number(getCategoryProgress(eg.category, eg.total) * 100).toFixed(0);
+
+    return `${percent}% ${word} ${t(`taxonomy:categoryNames.${eg.category}`)}`;
   };
 
   return (
@@ -76,10 +83,7 @@ const Insights: React.FC = () => {
                     progress={getCategoryProgress(eg.category, eg.total)}
                     color={fullEG.color}
                   />
-                  <span className="spender-percent">
-                    {Number(getCategoryProgress(eg.category, eg.total) * 100).toFixed(0)}% of{' '}
-                    {eg.category}
-                  </span>
+                  <span className="spender-percent">{builtTranslatedPerc(eg)}</span>
                 </div>
               </li>
             );

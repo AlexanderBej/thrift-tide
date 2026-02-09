@@ -1,6 +1,7 @@
 import React, { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
 import { FaChevronDown } from 'react-icons/fa';
 
 import { selectCategoryHealthSummary } from '@store/budget-store';
@@ -11,6 +12,7 @@ import { SmartInsightChip } from 'features/insights';
 import './category-health.styles.scss';
 
 const CategoriesHealth: React.FC = () => {
+  const { t } = useTranslation('common');
   const { attentionCount, details, healthyCount } = useSelector(selectCategoryHealthSummary);
 
   const [open, setOpen] = useState(false);
@@ -43,21 +45,33 @@ const CategoriesHealth: React.FC = () => {
     return () => ro.disconnect();
   }, [open]);
 
+  const healthyLine =
+    healthyCount &&
+    healthyCount > 0 &&
+    (healthyCount === 1
+      ? t('pageContent.categories.oneHealthy')
+      : t('pageContent.categories.multiHealthy'));
+
+  const attentionLine =
+    attentionCount &&
+    attentionCount > 0 &&
+    (attentionCount === 1
+      ? t('pageContent.categories.oneAttention')
+      : t('pageContent.categories.multiAttention'));
+
   return (
     <div className="categories-health">
       <div className="categories-health-line">
         {healthyCount > 0 && (
           <div className="health-info healthy-info">
             <div className="bullet" />
-            <span>{healthyCount} categories healthy</span>
+            <span>{`${healthyCount} ${healthyLine}`}</span>
           </div>
         )}
         {attentionCount > 0 && (
           <div className="health-info attention-info">
             <div className="bullet" />
-            <span>
-              {attentionCount} categories {attentionCount === 1 ? 'needs' : 'need'} attention
-            </span>
+            <span>{`${attentionCount} ${attentionLine}`}</span>
             <button
               id={buttonId}
               aria-controls={contentId}

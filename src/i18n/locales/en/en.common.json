@@ -11,7 +11,11 @@
   },
   "pageContent": {
     "categories": {
-      "header": "Select a category"
+      "info": "Track the health of your categories and adjust your allocations as needed.",
+      "oneHealthy": "category healthy",
+      "multiHealthy": "categories healthy",
+      "oneAttention": "category needs attention",
+      "multiAttention": "categories need attention"
     },
     "category": {
       "noTrans": "No transactions for"
@@ -25,6 +29,9 @@
       "eachMonth": "of each month",
       "reset": "Reset current period",
       "logout": "Logout"
+    },
+    "history": {
+      "info": "Track your past months to see how you are doing and what can be improved."
     }
   },
   "actions": {

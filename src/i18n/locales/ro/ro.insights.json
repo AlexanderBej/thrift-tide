@@ -66,5 +66,19 @@
       "perDayLeft": "Ai {amountPerDay}/zi",
       "onTrack": "Super ritm"
     }
+  },
+  "badges": {
+    "over": "Peste buget",
+    "near": "Aproape de buget",
+    "behind": "În urma planului",
+    "under": "Sub ritm"
+  },
+  "historyBadges": {
+    "noSummary": "Nu există rezumat",
+    "noBudget": "Nu este stabilit niciun buget",
+    "noSpending": "Încă nu ai cheltuieli",
+    "overspent": "Cheltuieli excesive",
+    "nearLimit": "Aproape de limită",
+    "healthy": "Sănătos"
   }
 }

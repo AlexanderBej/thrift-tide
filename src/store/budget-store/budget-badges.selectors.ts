@@ -22,13 +22,34 @@ export const makeSelectCategoryBadges = (cat: Category) =>
     const pace = bvp.pace ?? 0;
 
     if (spent >= alloc || (b != null && b > pace + OVERPACE)) {
-      list.push({ id: `${cat}-over`, text: 'Over budget', kind: 'danger', scope: cat });
+      list.push({
+        id: `${cat}-over`,
+        i18nKey: 'budget:badges.overBudget',
+        kind: 'danger',
+        scope: cat,
+      });
     } else if (Math.abs((b ?? 0) - 1) <= NEAR || rem / alloc <= 0.1) {
-      list.push({ id: `${cat}-near`, text: 'Near budget', kind: 'warn', scope: cat });
+      list.push({
+        id: `${cat}-near`,
+        i18nKey: 'budget:badges.nearBudget',
+        kind: 'warn',
+        scope: cat,
+      });
     } else if (b != null && b < pace - OVERPACE) {
       if (cat === 'savings')
-        list.push({ id: `${cat}-under`, text: 'Behind plan', kind: 'warn', scope: cat });
-      else list.push({ id: `${cat}-under`, text: 'Under pace', kind: 'success', scope: cat });
+        list.push({
+          id: `${cat}-under`,
+          i18nKey: 'budget:badges.behindPlan',
+          kind: 'warn',
+          scope: cat,
+        });
+      else
+        list.push({
+          id: `${cat}-under`,
+          i18nKey: 'budget:badges.underPace',
+          kind: 'success',
+          scope: cat,
+        });
     }
     return list;
   });

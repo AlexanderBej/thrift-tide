@@ -151,14 +151,14 @@ const CategoryPage: React.FC = () => {
       </section>
 
       <section className="tt-section">
-        <h3 className="tt-section-header">Spending pace (daily spend)</h3>
+        <h3 className="tt-section-header">{t('budget:spendPace')}</h3>
         <div className="category-chart-section">
           <CategoryPace category={type as Category} />
         </div>
       </section>
 
       <section className="tt-section">
-        <h3 className="tt-section-header">Month pace (run out date)</h3>
+        <h3 className="tt-section-header">{t('budget:monthPace')}</h3>
         <SpendingTimelineBar
           periodStart={periodStart}
           periodEnd={periodEnd}
@@ -186,7 +186,7 @@ const CategoryPage: React.FC = () => {
             })}
             <div className="category-transaction">
               <NavLink className="see-txns-link" to={'/transactions'}>
-                <span>See all transactions</span>
+                <span>{t('budget:seeAllTxn')}</span>
                 <TTIcon icon={FaChevronRight} size={14} color={getCssVar('--color-primary')} />
               </NavLink>
             </div>

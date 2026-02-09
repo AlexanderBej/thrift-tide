@@ -1,6 +1,8 @@
 {
   "income": "Venit",
   "spent": "Cheltuit",
+  "youSpent": "Ai cheltuit",
+  "youContributed": "Ai contribuit",
   "contributed": "Contribuit",
   "remaining": "Rămas",
   "left": "rămas",
@@ -8,11 +10,14 @@
   "allocated": "Alocat",
   "budget": "Buget",
   "topExpGroups": "Grupuri de cheltuieli principale",
+  "spendPace": "Ritmul de cheltuieli (cheltuieli zilnice)",
+  "monthPace": "Ritm lunar (data expirării)",
+  "seeAllTxn": "Vezi toate tranzacțiile",
   "badges": {
     "overBudget": "Peste Buget",
     "nearBudget": "Aproape de Buget",
     "underPace": "Sub Ritm",
-    "behindPlan": "în Urmă",
+    "behindPlan": "În Urmă",
     "highBurn": "Ritm Ridicat de Cheltuieli",
     "good": "de bine"
   },
