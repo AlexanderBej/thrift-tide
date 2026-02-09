@@ -6,14 +6,16 @@ import { useSelector } from 'react-redux';
 import { ensureUserProfile, signInWithGooglePopup } from '@api/services';
 import { Button, TTIcon } from '@shared/ui';
 import { selectAuthStatus } from '@store/auth-store';
-import { selectSettingOnboardingState } from '@store/settings-store';
+import { selectSettingOnboardingState, selectSettingsAppTheme } from '@store/settings-store';
 
 import './login.styles.scss';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
+
   const userStatus = useSelector(selectAuthStatus);
   const onboardingCompleted = useSelector(selectSettingOnboardingState);
+  const theme = useSelector(selectSettingsAppTheme);
 
   useEffect(() => {
     if (userStatus === 'authenticated') {
@@ -28,7 +30,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="login-contaier">
+    <div className={`login-container login-container__${theme}`}>
       <h2>Login</h2>
       <hr></hr>
       <div className="login-btn-container">

@@ -12,15 +12,17 @@ import { ProgressBar } from '@components';
 import { SmartInsightChip } from 'features/insights';
 import { Category, CategoryInsightCandidate } from '@api/types';
 import { useFormatMoney } from '@shared/hooks';
+import { selectSettingsAppTheme } from '@store/settings-store';
 
 import './category-info.styles.scss';
 
 const CategoryInfo: React.FC = () => {
-  const cards = useSelector(selectCards);
-  const { needs, wants, savings } = useSelector(selectCategoriesTopInsights);
-
   const { t } = useTranslation('budget');
   const fmtCurrency = useFormatMoney(true);
+
+  const cards = useSelector(selectCards);
+  const { needs, wants, savings } = useSelector(selectCategoriesTopInsights);
+  const theme = useSelector(selectSettingsAppTheme);
 
   if (!cards) return null;
 
@@ -49,7 +51,7 @@ const CategoryInfo: React.FC = () => {
   return (
     <div className="category-info">
       {cards.map((c, index) => (
-        <div key={index} className="category-info-block">
+        <div key={index} className={`category-info-block category-info-block__${theme}`}>
           <div className="category-title-row">
             <CategoryName category={c.key} />
             <div className="title-row-end">

@@ -14,7 +14,7 @@
     &__cell {
       text-align: center;
       font-weight: 600;
-      color: var(--color-text-secondary);
+      @include themed(color, color-text-secondary, $color-text-secondary);
       font-size: 0.9rem;
     }
   }
@@ -32,9 +32,9 @@
       aspect-ratio: 1; // perfect circles/squares
       border-radius: 14px; // matches your “playful” rounded style
       border: 1px solid;
-      background: $color-neutral-light;
       @include themed(background, color-neutral-light, $color-neutral-light);
       @include themed(border-color, color-neutral, $color-neutral);
+      @include themed(color, color-text-secondary, $color-text-secondary);
 
       font-weight: 600;
       transition:
@@ -45,7 +45,7 @@
       &__selected {
         @include themed(background, color-primary, $color-primary);
         @include themed(border-color, color-primary, $color-primary);
-        color: white;
+        @include themed(color, color-text-inverse, $color-text-inverse);
       }
 
       &__today {

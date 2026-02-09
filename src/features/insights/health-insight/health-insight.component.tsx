@@ -1,11 +1,13 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import clsx from 'clsx';
 
 import { makeSelectCategoryBadges, selectTotals } from '@store/budget-store';
 import { Category } from '@api/types';
 import { BadgePills, CategoryName, ProgressBar } from '@components';
 import { getCssVar } from '@shared/utils';
 import { CategoryInsightList } from '../category-insight';
+import { selectSettingsAppTheme } from '@store/settings-store';
 
 import './health-insight.styles.scss';
 
@@ -48,9 +50,10 @@ const HealthInsight: React.FC<CategoryHealthProps> = ({ category }) => {
   const badges = useSelector(makeSelectCategoryBadges(category as Category));
   const totals = useSelector(selectTotals);
   const scoped = useMemo(() => getScopedTotals(totals, category), [totals, category]);
+  const theme = useSelector(selectSettingsAppTheme);
 
   return (
-    <div className="category-health">
+    <div className={clsx(`category-health category-health__${theme}`)}>
       <div className="category-name-row">
         <CategoryName category={category} />
         <BadgePills badges={badges} />

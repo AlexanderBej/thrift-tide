@@ -6,8 +6,15 @@
   margin: 150px auto;
   height: 300px;
   @include themed(background-color, color-bg-card, $color-bg-card);
-  box-shadow: $shadow-md;
   border-radius: $radius-md;
+
+  &__light {
+    box-shadow: $shadow-md;
+  }
+
+  &__dark {
+    box-shadow: $dark-shadow-md;
+  }
 
   .login-btn-container {
     display: flex;

@@ -4,6 +4,10 @@
   .txn-total-budget {
     @include dashboard-card($radius: $radius-md, $pad: $spacing-4);
 
+    &__dark {
+      box-shadow: $dark-shadow-md;
+    }
+
     .spent-header {
       font-weight: 500;
     }
@@ -17,24 +21,34 @@
   }
 
   .filters-row {
-    background-color: $color-neutral-light;
+    @include themed(background-color, color-neutral-light, $color-neutral-light);
     border-radius: $radius-lg;
-    border: 1px solid $color-neutral;
+    border: 1px solid;
+    @include themed(border-color, color-neutral, $color-neutral);
     height: 45px;
     display: flex;
     justify-content: space-between;
 
     .filter {
+      @include themed(color, color-text-primary, $color-text-primary);
       border-radius: $radius-lg;
       padding: 0 $spacing-5;
 
       &.selected {
-        background-color: $color-bg-card;
-        box-shadow: $shadow-sm;
+        @include themed(background-color, color-bg-card, $color-bg-card);
+
+        &__light {
+          box-shadow: $shadow-sm;
+        }
+
+        &__dark {
+          box-shadow: $dark-shadow-sm;
+        }
 
         span {
           padding-bottom: $spacing-1;
-          border-bottom: 3px solid $color-primary;
+          border-bottom: 3px solid;
+          @include themed(border-color, color-primary, $color-primary);
         }
       }
     }
@@ -55,11 +69,19 @@
     .sort-btn {
       border-radius: $radius-lg;
       padding: 0 $spacing-4;
-      background-color: $color-bg-card;
-      box-shadow: $shadow-sm;
+      @include themed(background-color, color-bg-card, $color-bg-card);
+      @include themed(color, color-text-primary, $color-text-primary);
       display: flex;
       align-items: center;
       gap: 8px;
+
+      &__light {
+        box-shadow: $shadow-sm;
+      }
+
+      &__dark {
+        box-shadow: $dark-shadow-sm;
+      }
     }
   }
 }
@@ -84,6 +106,10 @@
 
   .txn-group-list {
     @include dashboard-card($radius: $radius-md, $pad: $spacing-4);
+
+    &__dark {
+      box-shadow: $dark-shadow-md;
+    }
 
     .txn-line-wrapper:not(:last-child) {
       padding-bottom: $spacing-3;

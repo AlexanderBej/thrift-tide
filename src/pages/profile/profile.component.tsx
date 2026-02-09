@@ -10,7 +10,7 @@ import { Donut, DonutItem, TTIcon } from '@shared/ui';
 import { selectAuthUser, userSignedOut } from '@store/auth-store';
 import { AppDispatch } from '@store/store';
 import { UserAvatar } from '@components';
-import { selectSettingsAll } from '@store/settings-store';
+import { selectSettingsAll, selectSettingsAppTheme } from '@store/settings-store';
 import { formatStartDay, getCssVar } from '@shared/utils';
 import { SettingsBlock, SettingsButton } from 'features';
 import {
@@ -94,7 +94,7 @@ const ProfilePage: React.FC = () => {
 
   return (
     <div className="profile-page">
-      <section className="user-container">
+      <section className={`user-container user-container__${theme}`}>
         <div className="user-info">
           <UserAvatar medium />
           <div className="user-details">
@@ -187,7 +187,7 @@ const ProfilePage: React.FC = () => {
       </SettingsBlock>
 
       <section className="tt-section">
-        <button onClick={handleLogout} className="logout-btn">
+        <button onClick={handleLogout} className={`logout-btn logout-btn__${theme}`}>
           <span>{t('pageContent.profile.logout')}</span>
         </button>
       </section>

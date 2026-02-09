@@ -23,8 +23,10 @@
       flex-direction: column;
       gap: 4px;
       align-items: flex-start;
+      @include themed(color, color-text-primary, $color-text-primary);
 
       .action-sub {
+        @include themed(color, color-text-secondary, $color-text-secondary);
         font-size: 14px;
       }
     }

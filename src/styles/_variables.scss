@@ -69,11 +69,11 @@ $color-error: #e74c3c;
 $color-error-light: color.scale($color-error, $lightness: 50%);
 
 // Bucket colors
-$color-needs: $needs;
+$color-needs: $needs !default;
 $color-needs-light: color.scale($needs, $lightness: 75%);
-$color-wants: $wants;
+$color-wants: $wants !default;
 $color-wants-light: color.scale($wants, $lightness: 75%);
-$color-savings: $savings;
+$color-savings: $savings !default;
 $color-savings-light: color.scale($savings, $lightness: 75%);
 
 // Text
@@ -128,8 +128,13 @@ $radius-lg: 20px;
 
 // Shadows
 $shadow-sm: 0 1px 3px color.scale($gunmetal, $lightness: 75%) !default;
+$dark-shadow-sm: 0 1px 3px color.scale($gunmetal, $lightness: 15%) !default;
+
 $shadow-md: 0 2px 8px color.scale($gunmetal, $lightness: 70%) !default;
+$dark-shadow-md: 0 2px 8px color.scale($gunmetal, $lightness: 10%) !default;
+
 $shadow-lg: 0 4px 16px color.scale($gunmetal, $lightness: 65%) !default;
+$dark-shadow-lg: 0 4px 16px color.scale($gunmetal, $lightness: 5%) !default;
 
 // ---------- LAYOUT GRID ----------
 

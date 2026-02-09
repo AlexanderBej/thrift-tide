@@ -52,5 +52,6 @@
     display: flex;
     gap: $spacing-2;
     margin-top: $spacing-3;
+    @include themed(color, color-text-secondary, $color-text-secondary);
   }
 }

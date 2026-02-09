@@ -22,10 +22,11 @@ import {
 } from '@store/budget-store';
 import { AppDispatch } from '@store/store';
 import { SortSheet } from '@widgets';
-
-import './transactions.styles.scss';
 import { Txn } from '@api/models';
 import { TransactionLine } from 'features';
+import { selectSettingsAppTheme } from '@store/settings-store';
+
+import './transactions.styles.scss';
 
 function getScopedTotals(totals: any, filter: Category | 'all') {
   const isCategory = filter !== 'all';
@@ -65,9 +66,11 @@ const Transaction: React.FC = () => {
   const { t, i18n } = useTranslation(['common', 'budget']);
   const fmtCurrency = useFormatMoney();
   const dispatch = useDispatch<AppDispatch>();
+
   const groups = useSelector(selectTxnsGroupedByDate);
   const totalSpent = useSelector(selectFilteredTotal);
   const totals = useSelector(selectTotals);
+  const theme = useSelector(selectSettingsAppTheme);
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -135,7 +138,7 @@ const Transaction: React.FC = () => {
 
   return (
     <div className="transactions-page">
-      <section className="txn-total-budget">
+      <section className={clsx(`txn-total-budget txn-total-budget__${theme}`)}>
         <h3 className="spent-header">{t('budget:spent') ?? 'Spent'}</h3>
         <h2 className="spent-value">{fmtCurrency(totalSpent)}</h2>
         <div className="txn-budget-row">
@@ -155,7 +158,11 @@ const Transaction: React.FC = () => {
             <button
               onClick={() => handleFilterChange(filt.value as Category | 'all')}
               key={index}
-              className={clsx('filter', { selected: filter === filt.value })}
+              className={clsx('filter', {
+                selected: filter === filt.value,
+                selected__light: filter === filt.value && theme === 'light',
+                selected__dark: filter === filt.value && theme === 'dark',
+              })}
             >
               <span>{filt.label}</span>
             </button>
@@ -171,7 +178,7 @@ const Transaction: React.FC = () => {
             placeholder={t('search.placeholder') ?? 'Search...'}
           />
 
-          <button onClick={onSortClick} className="sort-btn">
+          <button onClick={onSortClick} className={`sort-btn sort-btn__${theme}`}>
             <span>{SORT_OPTIONS.find((opt) => opt.value === sortCriteria)?.label}</span>
             <TTIcon icon={FaChevronDown} color={getCssVar('--color-primary')} size={12} />
           </button>
@@ -185,7 +192,7 @@ const Transaction: React.FC = () => {
               <h3 className="txn-group-date">{getTranslatedFmtDate(new Date(group.date))}</h3>
               <span>{fmtCurrency(getGroupTotal(group.items))}</span>
             </div>
-            <ul className="txn-group-list">
+            <ul className={clsx(`txn-group-list txn-group-list__${theme}`)}>
               {group.items.map((tx) => {
                 const ep = resolveExpenseGroup(tx.expenseGroup);
 

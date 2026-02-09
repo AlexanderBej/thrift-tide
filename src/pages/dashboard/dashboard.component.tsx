@@ -12,7 +12,7 @@ import {
 } from '@store/budget-store';
 import { ExpenseGroupName } from '@components';
 import { resolveExpenseGroup } from '@shared/utils';
-import { selectSettingsCurrency } from '@store/settings-store';
+import { selectSettingsAppTheme, selectSettingsCurrency } from '@store/settings-store';
 import { CategoryCards, CategoriesProgressBar, SmartInsightCard } from 'features';
 import { Insight } from '@api/models';
 import { InsightTone } from '@api/types';
@@ -49,6 +49,7 @@ const Dashboard: React.FC = () => {
   const doc = useSelector(selectBudgetDoc);
   const topExpenseGroups = useSelector(selectTopExpenseGroupsOverall);
   const smartInsights = useSelector(selectSmartDashboardInsight) as Insight[];
+  const theme = useSelector(selectSettingsAppTheme);
 
   const { headerInsight } = pickHeaderInsight(smartInsights);
 
@@ -140,7 +141,7 @@ const Dashboard: React.FC = () => {
 
           <section className="tt-section">
             <h3 className="tt-section-header">{t('budget:topExpGroups')}</h3>
-            <ul className="exp-groups-list">
+            <ul className={`exp-groups-list exp-groups-list__${theme}`}>
               {topExpenseGroups.map((eg, index) => {
                 const fullEG = resolveExpenseGroup(eg.expGroup);
                 return (

@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -16,6 +15,7 @@ import {
   selectSettingsStatus,
   selectOnboardingSettings,
   completeOnboardingThunk,
+  selectSettingsAppTheme,
 } from '@store/settings-store';
 import { AppDispatch } from '@store/store';
 import { DEFAULT_START_DAY, OnboardingData } from '@api/models';
@@ -48,6 +48,7 @@ const MultiStepForm: React.FC = () => {
   const user = useSelector(selectAuthUser);
   const status = useSelector(selectSettingsStatus);
   const { startDay, language, percents } = useSelector(selectOnboardingSettings);
+  const theme = useSelector(selectSettingsAppTheme);
 
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<MultiStepFormData>({
@@ -109,7 +110,7 @@ const MultiStepForm: React.FC = () => {
   };
 
   return (
-    <div className="multi-step-container">
+    <div className={`multi-step-container multi-step-container__${theme}`}>
       <MultiStepProgressBar step={step} totalSteps={5} />
       <div className="step-container">
         {step === 1 && (

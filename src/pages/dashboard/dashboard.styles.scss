@@ -41,31 +41,43 @@
       &__needs {
         border-top-left-radius: 10px;
         border-bottom-left-radius: 10px;
-        background: linear-gradient(90deg, rgba($needs, 0.2) 0%, rgba($needs, 0.4) 100%);
+        background: linear-gradient(
+          90deg,
+          rgba($color-needs, 0.2) 0%,
+          rgba($color-needs, 0.4) 100%
+        );
 
         .category-percent-needs {
           font-weight: bold;
-          color: color.scale($color: $needs, $lightness: -45%);
+          color: color.scale($color: $color-needs, $lightness: -45%);
         }
       }
 
       &__wants {
-        background: linear-gradient(90deg, rgba($wants, 0.2) 0%, rgba($wants, 0.4) 100%);
+        background: linear-gradient(
+          90deg,
+          rgba($color-wants, 0.2) 0%,
+          rgba($color-wants, 0.4) 100%
+        );
 
         .category-percent-wants {
           font-weight: bold;
-          color: color.scale($color: $wants, $lightness: -45%);
+          color: $color-wants;
         }
       }
 
       &__savings {
         border-top-right-radius: 10px;
         border-bottom-right-radius: 10px;
-        background: linear-gradient(90deg, rgba($savings, 0.2) 0%, rgba($savings, 0.4) 100%);
+        background: linear-gradient(
+          90deg,
+          rgba($color-savings, 0.2) 0%,
+          rgba($color-savings, 0.4) 100%
+        );
 
         .category-percent-savings {
           font-weight: bold;
-          color: color.scale($color: $savings, $lightness: -45%);
+          color: color.scale($color: $color-savings, $lightness: -45%);
         }
       }
 
@@ -94,6 +106,10 @@
     @include dashboard-card($radius: $radius-lg, $pad: $spacing-4);
     display: grid;
     gap: 8px;
+
+    &__dark {
+      box-shadow: $dark-shadow-md;
+    }
 
     .top-exp-groups-item {
       display: flex;

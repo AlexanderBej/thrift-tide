@@ -46,9 +46,7 @@ const TypeBoxSelector: React.FC<TypeBoxSelectorProps> = ({ category, handleTypeC
               icon={opt.icon as IconType}
               size={24}
               color={
-                category === opt.value
-                  ? getCssVar('--color-text-inverse')
-                  : getCssVar(`--${opt.value}`)
+                category === opt.value ? getCssVar('--anti-flash-300') : getCssVar(`--${opt.value}`)
               }
             />
             <span

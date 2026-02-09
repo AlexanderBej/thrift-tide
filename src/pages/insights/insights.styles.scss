@@ -13,6 +13,10 @@
     width: 100%;
     gap: $spacing-4;
 
+    &__dark {
+      box-shadow: $dark-shadow-md;
+    }
+
     .spender-row {
       display: flex;
       justify-content: space-between;

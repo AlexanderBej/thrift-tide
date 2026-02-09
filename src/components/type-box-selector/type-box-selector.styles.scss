@@ -60,7 +60,7 @@
       }
 
       .category-value {
-        @include themed(color, color-text-inverse, $color-text-inverse);
+        color: $anti-flash-300; // same on both themes
       }
     }
   }

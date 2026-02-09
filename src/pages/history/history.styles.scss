@@ -6,6 +6,7 @@
     text-align: left;
     padding: $spacing-2;
     font-size: 16px;
+    @include themed(color, color-text-primary, $color-text-primary);
 
     .history-doc-header {
       display: flex;

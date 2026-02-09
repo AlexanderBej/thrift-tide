@@ -6,8 +6,8 @@
 
 body {
   font-family: "Open Sans", sans-serif;
-  color: #ededed;
-  background-color: #1f282f;
+  color: #e6eef0;
+  background-color: #0f1416;
 }
 
 button {
@@ -58,14 +58,14 @@ h5 {
 }
 
 :root {
-  --color-primary: #5cf0a8;
-  --color-primary-dark: rgb(20.9831460674, 228.0168539326, 127.297752809);
-  --color-primary-light: rgba(92, 240, 168, 0.3);
-  --color-secondary: #79c8ff;
-  --color-secondary-dark: rgb(27, 161.4179104478, 255);
-  --color-bg-main: #1f282f;
-  --color-bg-card: #1e2126;
-  --color-text-primary: #ededed;
+  --color-primary: #2f7f87;
+  --color-primary-dark: rgb(35.25, 95.25, 101.25);
+  --color-primary-light: rgba(47, 127, 135, 0.3);
+  --color-secondary: #b84444;
+  --color-secondary-dark: #8a3333;
+  --color-bg-main: #0f1416;
+  --color-bg-card: #151b1e;
+  --color-text-primary: #e6eef0;
   --color-text-secondary: #9ca6b5;
   --color-text-inverse: #1c2833;
   --color-neutral-light: #21252b;
@@ -83,6 +83,7 @@ h5 {
   --warning-light: rgb(249, 205.5, 136.5);
   --error: #e74c3c;
   --error-light: rgb(243, 165.5, 157.5);
+  --anti-flash-300: #ededed;
   --eg-1: #508ac8;
   --eg-2: #f28e2b;
   --eg-3: #6c6cb4;

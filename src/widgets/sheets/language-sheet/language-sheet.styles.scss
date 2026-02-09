@@ -14,11 +14,13 @@
     padding: $spacing-3 $spacing-4;
     width: 235px;
     @include themed(background, color-neutral, $color-neutral);
+    @include themed(color, color-text-secondary, $color-text-secondary);
     border-radius: 999px;
+    transition: background $transition-normal;
 
     &.active {
       background: rgba($color-primary, 0.3);
-      transition: background $transition-normal;
+      @include themed(color, color-text-primary, $color-text-primary);
     }
 
     .language-details {

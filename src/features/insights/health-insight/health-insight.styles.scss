@@ -3,6 +3,10 @@
 .category-health {
   @include dashboard-card($radius: $radius-lg, $pad: $spacing-4, $bgCol: #f4f5f7);
 
+  &__dark {
+    box-shadow: $dark-shadow-md;
+  }
+
   .category-name-row {
     display: flex;
     justify-content: space-between;

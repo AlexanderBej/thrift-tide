@@ -71,8 +71,11 @@
       width: 28px;
       pointer-events: none;
 
-      // match your background (or themed variable)
-      background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+      background: linear-gradient(
+        to left,
+        #{'rgb(from var(--color-bg-card) r g b / 1)'},
+        #{'rgb(from var(--color-bg-card) r g b / 0)'}
+      );
     }
   }
 

@@ -6,11 +6,18 @@
   height: 95%;
   @include themed(background-color, color-bg-card, $color-bg-card);
   border-radius: $radius-lg;
-  box-shadow: $shadow-md;
   padding: $spacing-4;
   display: flex;
   justify-content: center;
   flex-direction: column;
+
+  &__light {
+    box-shadow: $shadow-md;
+  }
+
+  &__dark {
+    box-shadow: $dark-shadow-md;
+  }
 
   .step-container {
     margin: $spacing-5 auto;

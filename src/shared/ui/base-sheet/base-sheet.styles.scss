@@ -8,7 +8,7 @@
 
 .sheet-content-wrapper {
   z-index: 999;
-  background: $color-bg-card;
+  @include themed(background, color-bg-card, $color-bg-card);
   border-top-left-radius: 22px;
   border-top-right-radius: 22px;
 
@@ -58,7 +58,7 @@
         width: 44px;
         height: 5px;
         border-radius: 999px;
-        background: rgba(0, 0, 0, 0.2);
+        @include themed(background, color-text-secondary, $color-text-secondary);
         margin: $spacing-1 auto $spacing-3;
       }
     }
@@ -67,7 +67,7 @@
       justify-self: end;
       background: transparent;
       border: 0;
-      color: $color-text-secondary;
+      @include themed(color, color-text-secondary, $color-text-secondary);
       font-weight: 600;
     }
   }

@@ -2,7 +2,11 @@
 
 .profile-page {
   .user-container {
-    @include dashboard-card($radius: $radius-lg, $pad: $spacing-4, $bgCol: #f4f5f7);
+    @include dashboard-card($radius: $radius-lg, $pad: $spacing-4);
+
+    &__dark {
+      box-shadow: $dark-shadow-md;
+    }
 
     .user-info {
       display: flex;
@@ -38,6 +42,7 @@
         align-items: center;
         gap: $spacing-3;
         font-weight: 500;
+        @include themed(color, color-text-primary, $color-text-primary);
 
         &.categories {
           justify-content: center;
@@ -45,14 +50,6 @@
             90deg,
             rgba($color-primary, 0.1) 0%,
             rgba($color-primary, 0.3) 100%
-          );
-        }
-
-        &.trends {
-          background: linear-gradient(
-            90deg,
-            rgba($color-secondary, 0.1) 0%,
-            rgba($color-secondary, 0.3) 100%
           );
         }
 
@@ -133,5 +130,9 @@
     @include dashboard-card($radius: $radius-lg, $pad: $spacing-4, $bgCol: #f4f5f7);
     margin: auto;
     display: block;
+
+    &__dark {
+      box-shadow: $dark-shadow-md;
+    }
   }
 }

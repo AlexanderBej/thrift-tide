@@ -4,9 +4,12 @@
   .category-page-header,
   .top-egs-section,
   .category-chart-section,
-  .category-insights-section,
   .category-transactions-section {
     @include dashboard-card($radius: $radius-lg, $pad: $spacing-4);
+
+    &__dark {
+      box-shadow: $dark-shadow-md;
+    }
   }
 
   .category-page-header {

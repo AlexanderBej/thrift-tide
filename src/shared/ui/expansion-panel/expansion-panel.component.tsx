@@ -1,5 +1,8 @@
 import React, { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
+import { useSelector } from 'react-redux';
+
+import { selectSettingsAppTheme } from '@store/settings-store';
 
 import './expansion-panel.styles.scss';
 
@@ -26,6 +29,8 @@ const ExpansionPanel: React.FC<ExpansionPanelProps> = ({
   headerClassName,
   contentClassName,
 }) => {
+  const theme = useSelector(selectSettingsAppTheme);
+
   const isControlled = controlledOpen !== undefined;
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
   const open = isControlled ? controlledOpen : uncontrolledOpen;
@@ -66,7 +71,7 @@ const ExpansionPanel: React.FC<ExpansionPanelProps> = ({
 
   return (
     <div
-      className={clsx('exp-panel', className)}
+      className={clsx('exp-panel', className, `exp-panel__${theme}`)}
       data-open={open ? 'true' : 'false'}
       data-disabled={disabled ? 'true' : 'false'}
     >

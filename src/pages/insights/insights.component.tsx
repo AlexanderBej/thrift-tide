@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 
 import { Category, CategoryType } from '@api/types';
 import { resolveExpenseGroup } from '@shared/utils';
@@ -14,6 +15,7 @@ import {
 import { ExpenseGroupName, ProgressBar } from '@components';
 import { Insight } from '@api/models';
 import { HealthInsight, SmartInsightCard } from 'features';
+import { selectSettingsAppTheme } from '@store/settings-store';
 
 import './insights.styles.scss';
 
@@ -27,10 +29,9 @@ const Insights: React.FC = () => {
   const categoryPanelNeeds = useSelector(selectPanelNeeds);
   const categoryPanelWants = useSelector(selectPanelWants);
   const categoryPanelSavings = useSelector(selectPanelSavings);
-
   const topExpenseGroups = useSelector(selectTopExpenseGroupsOverall);
-
   const smartInsights = useSelector(selectSmartDashboardInsight) as Insight[];
+  const theme = useSelector(selectSettingsAppTheme);
 
   const getCategoryProgress = (cat: Category, egTotal: number) => {
     const categoryPanel =
@@ -68,7 +69,7 @@ const Insights: React.FC = () => {
 
       <section className="tt-section">
         <h3 className="tt-section-header">{t('pageContent.insights.spending')}</h3>
-        <ul className="top-spenders-list">
+        <ul className={clsx(`top-spenders-list top-spenders-list__${theme}`)}>
           {topExpenseGroups.map((eg, index) => {
             const fullEG = resolveExpenseGroup(eg.expGroup);
 

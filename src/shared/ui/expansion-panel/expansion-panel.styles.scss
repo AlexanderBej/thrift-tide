@@ -3,12 +3,20 @@
 /* Panel container */
 .exp-panel {
   border-radius: $radius-md;
-  background: $color-bg-card;
-  border: 1px solid $color-neutral;
-  box-shadow: $shadow-md;
+  @include themed(background, color-bg-card, $color-bg-card);
+  @include themed(border-color, color-neutral, $color-neutral);
+
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   overflow: clip;
+
+  &__light {
+    box-shadow: $shadow-md;
+  }
+
+  &__dark {
+    box-shadow: $dark-shadow-md;
+  }
 
   /* Header row */
   .exp-panel-header {

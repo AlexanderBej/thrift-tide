@@ -9,6 +9,8 @@
   display: flex;
   justify-content: space-between;
 
+  @include themed(color, color-text-primary, $color-text-primary);
+
   &:last-child {
     border: unset;
     margin: unset;

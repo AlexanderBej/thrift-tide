@@ -25,6 +25,7 @@ import {
 } from '@store/budget-store';
 import { ExpenseGroupName, ProgressBar } from '@components';
 import { CategoryPace, SmartInsightCard, SpendingTimelineBar, TransactionLine } from 'features';
+import { selectSettingsAppTheme } from '@store/settings-store';
 
 import './category.styles.scss';
 
@@ -42,6 +43,7 @@ const CategoryPage: React.FC = () => {
   const selectView = useMemo(() => makeSelectExpenseGroupView(type as Category), [type]);
   const view = useSelector(selectView);
   const topInsights = useSelector(selectCategoriesTopInsights);
+  const theme = useSelector(selectSettingsAppTheme);
 
   const [categoryData, setCategoryData] = useState<{
     title?: string;
@@ -93,7 +95,7 @@ const CategoryPage: React.FC = () => {
   return (
     <div className="category-page">
       <header
-        className={`category-page-header category-page-header__${categoryData.title?.toLowerCase()}`}
+        className={`category-page-header category-page-header__${categoryData.title?.toLowerCase()} category-page-header__${theme}`}
       >
         <div className="category-name-line">
           <div className="category-name">
@@ -132,11 +134,11 @@ const CategoryPage: React.FC = () => {
       <section className="tt-section">
         <h3 className="tt-section-header">{t('budget:topExpGroups')}</h3>
         {view.byExpGroup.length === 0 ? (
-          <div className="top-egs-section missing-items">
+          <div className={`top-egs-section missing-items top-egs-section__${theme}`}>
             {t('budget:noTransactions') ?? 'No transactions yet.'}
           </div>
         ) : (
-          <ul className="top-egs-section top-egs-list">
+          <ul className={`top-egs-section top-egs-list top-egs-section__${theme}`}>
             {view.byExpGroup.slice(0, 3).map((row) => {
               const expGroup = resolveExpenseGroup(row.expGroup);
               return (
@@ -152,7 +154,7 @@ const CategoryPage: React.FC = () => {
 
       <section className="tt-section">
         <h3 className="tt-section-header">{t('budget:spendPace')}</h3>
-        <div className="category-chart-section">
+        <div className={`category-chart-section category-chart-section__${theme}`}>
           <CategoryPace category={type as Category} />
         </div>
       </section>
@@ -170,11 +172,13 @@ const CategoryPage: React.FC = () => {
       <section className="tt-section">
         <h3 className="tt-section-header">{t('pages.transactions') ?? 'Transactions'}</h3>
         {view.items.length === 0 ? (
-          <div className="category-transactions-section missing-items">
+          <div
+            className={`category-transactions-section missing-items category-transactions-section__${theme}`}
+          >
             {t('pageContent.category.noTrans')} {categoryData.title?.toLowerCase()}.
           </div>
         ) : (
-          <div className="category-transactions-section">
+          <div className={`category-transactions-section category-transactions-section__${theme}`}>
             {view.items.slice(0, 5).map((t) => {
               const expGroup = resolveExpenseGroup(t.expenseGroup);
 
