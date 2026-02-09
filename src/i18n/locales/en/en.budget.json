@@ -85,11 +85,17 @@
       "applyTo": "Apply to",
       "thisMonth": "This period",
       "nextMonth": "Next period"
+    },
+    "sortSheet": {
+      "sortOption": {
+        "date": "Sort by date",
+        "amount": "Sort by amount"
+      },
+      "sortLabel": {
+        "date": "By date",
+        "amount": "By amount"
+      }
     }
-  },
-  "sortOptions": {
-    "byDate": "Sort: date",
-    "byAmount": "Sort: amount"
   },
   "expGroups": {
     "needs": {

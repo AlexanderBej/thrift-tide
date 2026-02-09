@@ -149,8 +149,6 @@ const PeriodSheet: React.FC<PeriodSheetProps> = ({
   const pickerHeight = itemHeight * visibleItems;
   const btnLabel = t('sheets.periodSheet.btnLabel');
 
-  console.log('items', items);
-
   return (
     <BaseSheet
       open={open}

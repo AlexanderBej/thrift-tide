@@ -88,8 +88,8 @@ const Transaction: React.FC = () => {
   ];
 
   const SORT_OPTIONS: SelectOption[] = [
-    { label: t('budget:sortOptions.byDate') ?? 'Sort by date', value: 'date' },
-    { label: t('budget:sortOptions.byAmount') ?? 'Sort by amount', value: 'amount' },
+    { label: t('budget:sheets.sortSheet.sortLabel.date') ?? 'Sort by date', value: 'date' },
+    { label: t('budget:sheets.sortSheet.sortLabel.amount') ?? 'Sort by amount', value: 'amount' },
   ];
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {

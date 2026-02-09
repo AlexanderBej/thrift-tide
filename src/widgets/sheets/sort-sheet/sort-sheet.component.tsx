@@ -2,8 +2,10 @@ import React from 'react';
 
 import { SortKey } from '@store/budget-store';
 import { BaseSheet } from '@shared/ui';
+import { useTranslation } from 'react-i18next';
 
 import './sort-sheet.styles.scss';
+import clsx from 'clsx';
 
 interface SortSheetProps {
   open: boolean;
@@ -12,13 +14,7 @@ interface SortSheetProps {
 }
 
 const SortSheet: React.FC<SortSheetProps> = ({ open, onOpenChange, sortCriteria }) => {
-  // const nav = useNavigate();
-
-  // const go = (path: string) => {
-  //   onOpenChange(false);
-  //   // slight delay feels nicer
-  //   setTimeout(() => nav(path), 120);
-  // };
+  const { t } = useTranslation('budget');
 
   const close = () => onOpenChange(false, sortCriteria);
 
@@ -26,26 +22,32 @@ const SortSheet: React.FC<SortSheetProps> = ({ open, onOpenChange, sortCriteria 
     onOpenChange(false, sort);
   };
 
+  const SORT_OPTIONS: { value: SortKey; label: string }[] = [
+    { value: 'date', label: t('sheets.sortSheet.sortOption.date') },
+    { value: 'amount', label: t('sheets.sortSheet.sortOption.amount') },
+  ];
+
   return (
     <BaseSheet
       open={open}
       onOpenChange={(isOpen) => (isOpen ? undefined : close())}
-      title="Sort"
-      description="Sort your transactions"
+      title="Sort transactions"
     >
-      <div className="sort-values">
-        <button
-          onClick={() => selectCriteria('date')}
-          className={sortCriteria === 'date' ? 'active' : ''}
-        >
-          By date
-        </button>
-        <button
-          onClick={() => selectCriteria('amount')}
-          className={sortCriteria === 'amount' ? 'active' : ''}
-        >
-          By amount
-        </button>
+      <div className="sort-sheet">
+        {SORT_OPTIONS.map((sort, index) => {
+          return (
+            <button
+              type="button"
+              key={index}
+              className={clsx('sort-bubble', {
+                selected: sort.value === sortCriteria,
+              })}
+              onClick={() => selectCriteria(sort.value)}
+            >
+              <span className="sort-value">{sort.label}</span>
+            </button>
+          );
+        })}
       </div>
     </BaseSheet>
   );

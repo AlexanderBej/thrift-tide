@@ -57,7 +57,6 @@ const AddExpense = forwardRef<StepHandle, { onCanSubmitChange?: (v: boolean) => 
       });
 
       setStep('form');
-      console.log('formdata', formData);
     };
 
     const handleTypeChange = (t: Category) => {
@@ -116,7 +115,6 @@ const AddExpense = forwardRef<StepHandle, { onCanSubmitChange?: (v: boolean) => 
           category: 'needs',
         });
       });
-      console.log('sumbit expense', payload);
 
       if (keepSheetOpen) return false;
       return true;

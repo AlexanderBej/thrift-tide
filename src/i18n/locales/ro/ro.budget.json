@@ -83,6 +83,16 @@
       "applyTo": "Aplică la",
       "thisMonth": "Perioada asta",
       "nextMonth": "Perioada viitoare"
+    },
+    "sortSheet": {
+      "sortOption": {
+        "date": "Sortează după dată",
+        "amount": "Sortează după sumă"
+      },
+      "sortLabel": {
+        "date": "După dată",
+        "amount": "După sumă"
+      }
     }
   },
   "sortOptions": {

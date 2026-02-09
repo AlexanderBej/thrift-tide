@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { GrValidate } from 'react-icons/gr';
 import { IoWarningOutline } from 'react-icons/io5';
 import { MdOutlineDangerous } from 'react-icons/md';
@@ -12,62 +12,14 @@ import { TTIcon } from '@shared/ui';
 
 import './badge-pills.styles.scss';
 
-// interface TranslatedBadge extends Badge {
-//   i18nText: string;
-// }
-
 const BadgePills: React.FC<{
   badges: Badge[];
   badgeType?: 'chip' | 'card';
   onClickBadge?: (b: Badge) => void;
 }> = ({ badges, badgeType = 'chip', onClickBadge }) => {
   const { t } = useTranslation('budget');
-  // const [translatedBadges, setTranslatedBadges] = useState<TranslatedBadge[]>([]);
   const width = useWindowWidth();
   const isMobile = width < 480;
-
-  // useEffect(() => {
-  //   const loc = badges.map((l) => {
-  //     switch (l.id) {
-  //       case 'wants-over':
-  //         return {
-  //           ...l,
-  //           i18nText: `${t('taxonomy:categoryNames.wants')} ${t('budget:badges.overBudget')}`,
-  //         } as TranslatedBadge;
-  //       case 'needs-near':
-  //         return {
-  //           ...l,
-  //           i18nText: `${t('taxonomy:categoryNames.needs')} ${t('budget:badges.nearBudget')}`,
-  //         } as TranslatedBadge;
-  //       case 'high-burn':
-  //         return {
-  //           ...l,
-  //           i18nText: `${t('budget:badges.highBurn')}`,
-  //         } as TranslatedBadge;
-
-  //       case 'savings-behind':
-  //         return {
-  //           ...l,
-  //           i18nText: `${t('taxonomy:categoryNames.savings')} ${t('budget:badges.behindPlan')}`,
-  //         } as TranslatedBadge;
-
-  //       case 'under-pace':
-  //         return {
-  //           ...l,
-  //           i18nText: `${t('budget:badges.underPace')} (${t('budget:badges.good')})`,
-  //         } as TranslatedBadge;
-
-  //       default:
-  //         return l as TranslatedBadge;
-  //     }
-  //   });
-
-  //   console.log('loc', loc);
-
-  //   setTranslatedBadges(loc);
-  // }, [badges, t]);
-
-  console.log('ere', badges);
 
   const getBadgeIcon = (kind: BadgeKind) => {
     switch (kind) {
