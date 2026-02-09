@@ -2,17 +2,6 @@
 @use 'sass:color';
 
 .dashboard-page {
-  .dashboard-header {
-    font-weight: 200;
-    display: inline-flex;
-    gap: $spacing-2;
-    align-items: center;
-
-    .budget-month {
-      font-size: 18px;
-    }
-  }
-
   .hi-header {
     font-size: 22px;
     margin-top: 20px;
@@ -105,20 +94,56 @@
   .exp-groups-list {
     @include dashboard-card($radius: $radius-lg, $pad: $spacing-4);
     display: grid;
-    gap: 8px;
+    gap: $spacing-2;
 
     &__dark {
       box-shadow: $dark-shadow-md;
     }
 
-    .top-exp-groups-item {
-      display: flex;
-      justify-content: space-between;
-      border-bottom: 1px solid rgb(238, 238, 238);
-      padding: 8px 0px;
+    .top-eg-item-header {
+      @include grid($templateColumns: 160px auto 100px, $columnGap: 8px);
+      width: 100%;
+      padding: $spacing-2 0px;
+      align-items: center;
+
+      .eg-category {
+        margin-left: auto;
+        padding: $spacing-1 $spacing-3;
+        font-size: 11px;
+        border-radius: $radius-lg;
+        height: 32px;
+        width: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-transform: capitalize;
+      }
+
+      .eg-total {
+        text-align: right;
+        font-size: 16px;
+        font-weight: 800;
+      }
+    }
+
+    .top-eg-item-content {
+      @include grid($templateColumns: 100px auto 50px, $columnGap: 8px);
+      border-bottom: 1px solid;
+      border-color: color-mix(in srgb, var(--color-neutral), transparent 0%);
+      align-items: end;
+      padding: $spacing-3 0;
+
+      .date {
+        font-size: 12px;
+      }
+
+      .amount {
+        text-align: end;
+        font-weight: 800;
+      }
 
       &:last-child {
-        border-bottom: unset;
+        border: unset;
       }
     }
   }

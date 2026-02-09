@@ -22,6 +22,7 @@ interface AccordionProps {
   disabledIds?: string[];
   className?: string;
   spaceLarge?: boolean;
+  noBackground?: boolean;
 }
 
 const Accordion: React.FC<AccordionProps> = ({
@@ -35,6 +36,7 @@ const Accordion: React.FC<AccordionProps> = ({
   disabledIds = [],
   className,
   spaceLarge = false,
+  noBackground = false,
 }) => {
   const isControlledSingle = controlledOpenId !== undefined;
   const isControlledMultiple = controlledOpenIds !== undefined;
@@ -76,14 +78,14 @@ const Accordion: React.FC<AccordionProps> = ({
 
   return (
     <div className={className}>
-      {items.map((it, index) => (
-        <div key={index} className={clsx('panel', { large: spaceLarge })}>
+      {items.map((it) => (
+        <div key={it.id} className={clsx('panel', { large: spaceLarge, border: noBackground })}>
           <ExpansionPanel
-            key={it.id}
             title={it.title}
             controlledOpen={getIsOpen(it.id)}
             onOpenChange={(next) => setOpen(it.id, next)}
             disabled={disabledSet.has(it.id)}
+            noBackground={noBackground}
           >
             {it.content}
           </ExpansionPanel>

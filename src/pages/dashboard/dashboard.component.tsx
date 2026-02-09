@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { enUS, ro } from 'date-fns/locale';
+import { format } from 'date-fns';
 
 import { useFormatMoney } from '@shared/hooks';
 import { selectAuthUser } from '@store/auth-store';
@@ -11,12 +13,12 @@ import {
   selectTopExpenseGroupsOverall,
 } from '@store/budget-store';
 import { ExpenseGroupName } from '@components';
-import { resolveExpenseGroup } from '@shared/utils';
-import { selectSettingsAppTheme, selectSettingsCurrency } from '@store/settings-store';
+import { getCssVar, resolveExpenseGroup } from '@shared/utils';
+import { selectSettingsAppTheme } from '@store/settings-store';
 import { CategoryCards, CategoriesProgressBar, SmartInsightCard } from 'features';
 import { Insight } from '@api/models';
 import { InsightTone } from '@api/types';
-import { PeriodWidget } from '@widgets';
+import { Accordion, ExpansionPanelItem } from '@shared/ui';
 
 import './dashboard.styles.scss';
 
@@ -35,11 +37,10 @@ const pickHeaderInsight = (insights: Insight[]) => {
 };
 
 const Dashboard: React.FC = () => {
-  const { t } = useTranslation(['common', 'budget', 'taxonomy']);
+  const { t, i18n } = useTranslation(['common', 'budget', 'taxonomy']);
   const fmtMoney = useFormatMoney();
 
   const user = useSelector(selectAuthUser);
-  const currency = useSelector(selectSettingsCurrency);
   const insights = useSelector(selectDashboardInsights);
   const doc = useSelector(selectBudgetDoc);
   const topExpenseGroups = useSelector(selectTopExpenseGroupsOverall);
@@ -66,6 +67,43 @@ const Dashboard: React.FC = () => {
     },
   ];
 
+  const locale = useMemo(() => {
+    return i18n.language === 'ro' ? ro : enUS;
+  }, [i18n.language]);
+
+  const accordionItems: ExpansionPanelItem[] = topExpenseGroups.map((expGroup) => {
+    const fullEG = resolveExpenseGroup(expGroup.expGroup);
+
+    return {
+      id: `${expGroup.category}-${expGroup.expGroup}`,
+      title: (
+        <>
+          <li className="top-eg-item-header">
+            <ExpenseGroupName expenseGroup={fullEG} />
+            <span
+              className="eg-category"
+              style={{ background: getCssVar(`--${expGroup.category}-light`) }}
+            >
+              {expGroup.category}
+            </span>
+            <span className="eg-total">{expGroup.total}</span>
+          </li>
+        </>
+      ),
+      content: (
+        <div className="top-eg-item-content-wrapper">
+          {expGroup.txns.map((txn, index) => (
+            <div className="top-eg-item-content" key={index}>
+              <span className="date">{format(txn.date, 'EE, do MMM', { locale })}</span>
+              <span className="note">{txn.note}</span>
+              <span className="amount">{txn.amount}</span>
+            </div>
+          ))}
+        </div>
+      ),
+    };
+  });
+
   const getFirstName = (name: string | null) => {
     if (!name) return '';
     const names = name.split(' ');
@@ -76,10 +114,6 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="dashboard-page">
-      <div className="dashboard-header">
-        <PeriodWidget isDashboard />
-        <span>{currency}</span>
-      </div>
       <h1 className="hi-header">
         {t('hi') ?? 'Hi'}, {getFirstName(user?.displayName ?? '')} 👋
       </h1>
@@ -137,7 +171,9 @@ const Dashboard: React.FC = () => {
           <section className="tt-section">
             <h3 className="tt-section-header">{t('budget:topExpGroups')}</h3>
             <ul className={`exp-groups-list exp-groups-list__${theme}`}>
-              {topExpenseGroups.map((eg, index) => {
+              <Accordion type="multiple" defaultOpenIds={[]} items={accordionItems} noBackground />
+
+              {/* {topExpenseGroups.map((eg, index) => {
                 const fullEG = resolveExpenseGroup(eg.expGroup);
                 return (
                   <li className="top-exp-groups-item" key={index}>
@@ -145,7 +181,7 @@ const Dashboard: React.FC = () => {
                     <strong>{eg.total}</strong>
                   </li>
                 );
-              })}
+              })} */}
             </ul>
           </section>
         </>

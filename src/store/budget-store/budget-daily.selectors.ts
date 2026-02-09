@@ -30,7 +30,7 @@ export const makeSelectCategoryDailySeriesNivo = (cat: Category) =>
     // Sum per day for this category
     const byDay: Record<string, number> = {};
     for (const x of txns) {
-      if (x.type !== cat) continue;
+      if (x.category !== cat) continue;
       const key = keyFromInput(x.date);
       byDay[key] = (byDay[key] ?? 0) + Math.max(0, x.amount);
     }
@@ -59,21 +59,11 @@ export const selectDailySpendMap = createSelector(
 
       const rec = map.get(key) ?? { total: 0, needs: 0, wants: 0, savings: 0 };
       rec.total += amt;
-      if (tx.type === 'needs' || tx.type === 'wants' || tx.type === 'savings') {
-        (rec as any)[tx.type] += amt;
+      if (tx.category === 'needs' || tx.category === 'wants' || tx.category === 'savings') {
+        (rec as any)[tx.category] += amt;
       }
       map.set(key, rec);
     }
     return map;
   },
-);
-
-export const selectDailySpendQuery = createSelector(
-  [selectDailySpendMap],
-  (map) =>
-    (date: Date | string, category?: Category): number => {
-      const rec = map.get(keyFromInput(date));
-      if (!rec) return 0;
-      return category ? rec[category] : rec.total;
-    },
 );

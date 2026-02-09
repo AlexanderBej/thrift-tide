@@ -4,7 +4,7 @@ export interface Txn {
   id?: string;
   date: string; // 'YYYY-MM-DD'
   amount: number;
-  type: Category;
+  category: Category;
   expenseGroup: string;
   note?: string;
 }

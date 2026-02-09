@@ -179,9 +179,9 @@ export function computeMonthSummary(doc: MonthDoc, txns: Txn[]) {
     wants = 0,
     savings = 0;
   for (const t of txns) {
-    if (t.type === 'needs') needs += t.amount;
-    else if (t.type === 'wants') wants += t.amount;
-    else if (t.type === 'savings') savings += t.amount;
+    if (t.category === 'needs') needs += t.amount;
+    else if (t.category === 'wants') wants += t.amount;
+    else if (t.category === 'savings') savings += t.amount;
   }
   const totalSpent = needs + wants + savings;
 

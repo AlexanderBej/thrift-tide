@@ -41,12 +41,12 @@ const TransactionLine: React.FC<TransactionLineProps> = ({
   return (
     <div className="txn-line">
       <div className="main-line">
-        <div className="txn-ep-row">
+        <div className="txn-eg-row">
           {showDate && <span className="date-box">{getFormattedDate(txn.date)}</span>}
           <ExpenseGroupName expenseGroup={expenseGroup} note={txn.note} />
           {!showDate && (
-            <span className={`ep-type-badge ep-type-badge__${txn.type}`}>
-              {t(`taxonomy:categoryNames.${txn.type}`) ?? txn.type}
+            <span className={`eg-type-badge eg-type-badge__${txn.category}`}>
+              {t(`taxonomy:categoryNames.${txn.category}`) ?? txn.category}
             </span>
           )}
         </div>

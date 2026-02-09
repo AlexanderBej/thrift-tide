@@ -6,4 +6,17 @@
   &.large {
     margin-top: $spacing-5;
   }
+
+  &:first-child {
+    margin-top: unset;
+  }
+
+  &.border {
+    border-bottom: 1px solid;
+    border-color: color-mix(in srgb, var(--color-neutral), transparent 0%);
+  }
+
+  &:last-child {
+    border: unset;
+  }
 }

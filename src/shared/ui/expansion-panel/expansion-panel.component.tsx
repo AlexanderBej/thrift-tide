@@ -16,6 +16,7 @@ interface ExpansionPanelProps {
   className?: string;
   headerClassName?: string;
   contentClassName?: string;
+  noBackground?: boolean;
 }
 
 const ExpansionPanel: React.FC<ExpansionPanelProps> = ({
@@ -28,6 +29,7 @@ const ExpansionPanel: React.FC<ExpansionPanelProps> = ({
   className,
   headerClassName,
   contentClassName,
+  noBackground = false,
 }) => {
   const theme = useSelector(selectSettingsAppTheme);
 
@@ -71,7 +73,7 @@ const ExpansionPanel: React.FC<ExpansionPanelProps> = ({
 
   return (
     <div
-      className={clsx('exp-panel', className, `exp-panel__${theme}`)}
+      className={clsx('exp-panel', className, `exp-panel__${theme}`, { 'no-bg': noBackground })}
       data-open={open ? 'true' : 'false'}
       data-disabled={disabled ? 'true' : 'false'}
     >

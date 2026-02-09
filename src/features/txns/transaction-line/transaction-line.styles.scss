@@ -5,7 +5,7 @@
   align-items: center;
   width: 100%;
 
-  .txn-ep-row {
+  .txn-eg-row {
     display: inline-flex;
     align-items: center;
     width: 270px;
@@ -17,16 +17,17 @@
       font-size: 12px;
     }
 
-    .ep-type-badge {
+    .eg-type-badge {
       margin-left: auto;
-      padding: 5px 10px;
+      padding: $spacing-1 $spacing-3;
       font-size: 11px;
-      border-radius: $radius-sm;
-      height: $spacing-6;
+      border-radius: $radius-lg;
+      height: 32px;
       width: 60px;
       display: flex;
       align-items: center;
       justify-content: center;
+      text-transform: capitalize;
 
       &__needs {
         background-color: color-mix(in srgb, var(--needs), transparent 70%);

@@ -577,21 +577,6 @@ export const selectCategoryInsights = createSelector(
   (needs, wants, savings) => ({ needs, wants, savings }),
 );
 
-export const makeSelectCategoryPrimaryInsight = (category: Category) =>
-  createSelector([makeSelectCategoryInsightList(category)], (list) => {
-    const sorted = [...list].sort((a, b) => scoreCategoryInsight(b) - scoreCategoryInsight(a));
-    return sorted[0];
-  });
-
-export const selectCategoryPrimaryInsights = createSelector(
-  [
-    makeSelectCategoryPrimaryInsight('needs'),
-    makeSelectCategoryPrimaryInsight('wants'),
-    makeSelectCategoryPrimaryInsight('savings'),
-  ],
-  (needs, wants, savings) => ({ needs, wants, savings }),
-);
-
 export const makeSelectCategoryTopInsights = (category: Category, limit = 3) =>
   createSelector([makeSelectCategoryInsightList(category)], (list) => {
     const sorted = [...list].sort((a, b) => scoreCategoryInsight(b) - scoreCategoryInsight(a));

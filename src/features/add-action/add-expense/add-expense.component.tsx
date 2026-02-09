@@ -101,7 +101,7 @@ const AddExpense = forwardRef<StepHandle, { onCanSubmitChange?: (v: boolean) => 
       const payload: Txn = {
         date: toYMD(formData.date), // normalize to YYYY-MM-DD
         amount: amountNum,
-        type: formData.category,
+        category: formData.category,
         expenseGroup: formData.expenseGroup,
         note: formData.note?.trim() || '',
       };

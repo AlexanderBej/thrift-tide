@@ -12,7 +12,6 @@ import { Input, SelectOption, TTIcon } from '@shared/ui';
 import { getCssVar, LOCALE_MAP, makeFormatter, resolveExpenseGroup } from '@shared/utils';
 import {
   selectTxnsGroupedByDate,
-  selectFilteredTotal,
   setTxnTypeFilter,
   TxnTypeFilter,
   setTxnSearch,
@@ -68,7 +67,6 @@ const Transaction: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const groups = useSelector(selectTxnsGroupedByDate);
-  const totalSpent = useSelector(selectFilteredTotal);
   const totals = useSelector(selectTotals);
   const theme = useSelector(selectSettingsAppTheme);
 
@@ -103,11 +101,6 @@ const Transaction: React.FC = () => {
     dispatch(setTxnTypeFilter(filter as TxnTypeFilter));
   };
 
-  const handleSortChange = (sort: SortKey) => {
-    setSortCriteria(sort);
-    dispatch(setTxnSort({ key: sort as SortKey, dir: 'desc' }));
-  };
-
   const getTranslatedFmtDate = (d: Date) => {
     const locale = LOCALE_MAP[i18n.language] ?? enUS;
 
@@ -140,7 +133,7 @@ const Transaction: React.FC = () => {
     <div className="transactions-page">
       <section className={clsx(`txn-total-budget txn-total-budget__${theme}`)}>
         <h3 className="spent-header">{t('budget:spent') ?? 'Spent'}</h3>
-        <h2 className="spent-value">{fmtCurrency(totalSpent)}</h2>
+        <h2 className="spent-value">{fmtCurrency(scoped.spent)}</h2>
         <div className="txn-budget-row">
           <span>
             {t('budget:budget') ?? 'Budget'}: {scoped.allocated}

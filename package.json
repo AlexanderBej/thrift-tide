@@ -44,6 +44,7 @@
     "start:cra": "craco start",
     "build": "npm run build:themes && craco build",
     "test": "craco test",
+    "migrate:txn-fields": "node scripts/migrate-txn-fields.cjs",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -73,6 +74,7 @@
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
+    "firebase-admin": "^13.6.1",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.6.2",
     "sass": "^1.93.3"

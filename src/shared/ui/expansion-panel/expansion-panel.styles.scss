@@ -39,4 +39,14 @@
       opacity: 0.96;
     }
   }
+
+  &.no-bg {
+    background: unset;
+    border: unset;
+    box-shadow: unset;
+
+    .exp-panel-header {
+      padding: 0;
+    }
+  }
 }

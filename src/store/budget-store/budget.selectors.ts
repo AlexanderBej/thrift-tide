@@ -11,8 +11,9 @@ const isYmd = (v: string) => /^\d{4}-\d{2}-\d{2}$/.test(v);
 const txnDayKey = (date: Txn['date']) => (isYmd(date) ? date : toYMDUTC(date));
 
 /** All transactions that fall inside the current [periodStart, periodEnd). */
-export const selectTxnsInPeriod = createSelector([selectBudgetTxns, selectMonthTiming], (txns, t) =>
-  {
+export const selectTxnsInPeriod = createSelector(
+  [selectBudgetTxns, selectMonthTiming],
+  (txns, t) => {
     const startKey = format(t.periodStart, 'yyyy-MM-dd');
     const endKey = format(t.periodEnd, 'yyyy-MM-dd'); // end is exclusive
 
@@ -29,9 +30,9 @@ const selectSpentByCategory = createSelector([selectTxnsInPeriod], (txns) => {
     wants = 0,
     savings = 0;
   for (const t of txns) {
-    if (t.type === 'needs') needs += t.amount;
-    else if (t.type === 'wants') wants += t.amount;
-    else if (t.type === 'savings') savings += t.amount;
+    if (t.category === 'needs') needs += t.amount;
+    else if (t.category === 'wants') wants += t.amount;
+    else if (t.category === 'savings') savings += t.amount;
   }
   return { needs, wants, savings };
 });
@@ -73,7 +74,7 @@ export const makeSelectExpenseGroupView = (cat: Category) =>
     if (!doc) return null;
 
     const allocated = doc.allocations[cat] ?? 0;
-    const filtered = txns.filter((t) => t.type === cat);
+    const filtered = txns.filter((t) => t.category === cat);
     const spent = filtered.reduce((sum, t) => sum + t.amount, 0);
     const remaining = Math.max(0, allocated - spent);
     const progress = allocated > 0 ? Math.min(1, spent / allocated) : 0;
@@ -95,7 +96,7 @@ const selectFilteredTxns = createSelector([selectTxnsInPeriod, selectTxnUi], (tx
   const q = ui.search.trim().toLowerCase();
 
   const filtered = txns
-    .filter((t) => (ui.type === 'all' ? true : t.type === ui.type))
+    .filter((t) => (ui.type === 'all' ? true : t.category === ui.type))
     .filter((t) =>
       q.length === 0
         ? true
@@ -144,7 +145,7 @@ const selectAllocatedTriple = createSelector([selectBudgetDoc], (doc) => ({
 const selectSpentTriple = createSelector([selectTxnsInPeriod], (txns) => {
   const acc = { needs: 0, wants: 0, savings: 0 };
   for (const t of txns) {
-    acc[t.type] += Math.max(0, t.amount);
+    acc[t.category] += Math.max(0, t.amount);
   }
   return acc;
 });
@@ -166,22 +167,36 @@ export const selectTotals = createSelector(
 );
 
 export const selectTopExpenseGroupsOverall = createSelector([selectTxnsInPeriod], (txns) => {
-  const map = new Map<string, { total: number; byCategory: Record<Category, number> }>();
+  const map = new Map<
+    string,
+    {
+      total: number;
+      byCategory: Record<Category, number>;
+      txns: Array<{ date: string; note: string; amount: number }>;
+    }
+  >();
 
   for (const t of txns) {
     const expGroup = t.expenseGroup || 'Uncategorized';
     const spend = Math.max(0, t.amount);
+    const day = txnDayKey(t.date);
 
     if (!map.has(expGroup)) {
       map.set(expGroup, {
         total: 0,
         byCategory: { needs: 0, wants: 0, savings: 0 },
+        txns: [],
       });
     }
 
     const entry = map.get(expGroup)!;
     entry.total += spend;
-    entry.byCategory[t.type] += spend;
+    entry.byCategory[t.category] += spend;
+    entry.txns.push({
+      date: day,
+      note: t.note ?? '',
+      amount: spend,
+    });
   }
 
   const pickCategory = (byCategory: Record<Category, number>): Category => {
@@ -191,10 +206,11 @@ export const selectTopExpenseGroupsOverall = createSelector([selectTxnsInPeriod]
   };
 
   return Array.from(map.entries())
-    .map(([expGroup, { total, byCategory }]) => ({
+    .map(([expGroup, { total, byCategory, txns }]) => ({
       expGroup,
       total,
       category: pickCategory(byCategory),
+      txns: txns.sort((a, b) => b.date.localeCompare(a.date) || b.amount - a.amount),
     }))
     .sort((a, b) => b.total - a.total)
     .slice(0, 5);

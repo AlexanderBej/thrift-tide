@@ -20,7 +20,6 @@ const TopNav: React.FC = () => {
   const title = routes.find((r) => r.path === location.pathname)?.title ?? '';
 
   const showBackBtn = location.pathname.includes('categories') || isHistory;
-  const showPeriodWidget = !isDashboard && !isHistory;
 
   return (
     <header className="app-header">
@@ -40,7 +39,7 @@ const TopNav: React.FC = () => {
         )}
       </div>
       <div className="app-header-container app-header-container__right">
-        {showPeriodWidget && <PeriodWidget />}
+        {!isHistory && <PeriodWidget />}
       </div>
     </header>
   );
