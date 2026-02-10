@@ -76,7 +76,9 @@ const CategoryInfo: React.FC = () => {
             <SmartInsightChip insight={getInsight(c.key)} showCta={false} />
           </div>
 
-          <ProgressBar progress={c.progress} color={getCatColor(c.key)} />
+          <div className="prog-bar-wrapper">
+            <ProgressBar progress={c.progress} color={getCatColor(c.key)} />
+          </div>
 
           <div className="category-details-container">
             <div className="category-details">

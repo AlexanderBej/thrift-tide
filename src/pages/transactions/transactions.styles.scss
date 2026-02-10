@@ -18,6 +18,14 @@
       width: 100%;
       justify-content: space-between;
     }
+
+    .txn-progress-bar-wrapper {
+      margin-top: $spacing-3;
+    }
+  }
+
+  .no-txns-block {
+    margin-top: $spacing-5;
   }
 
   .filters-row {

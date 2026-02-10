@@ -58,7 +58,9 @@ const HealthInsight: React.FC<CategoryHealthProps> = ({ category }) => {
         <CategoryName category={category} />
         <BadgePills badges={badges} />
       </div>
-      <ProgressBar progress={scoped.progress} color={getCssVar(scoped.cssVarName)} />
+      <div className="health-prog-bar-wrapper">
+        <ProgressBar progress={scoped.progress} color={getCssVar(scoped.cssVarName)} />
+      </div>
       <div className="category-insight-wrapper">
         <CategoryInsightList category={category} />
       </div>

@@ -27,7 +27,8 @@
   "categories": "Categorii",
   "category": "Categorie",
   "pace": "Ritm (Total)",
-  "noTransactions": "Nu ai încă nici o tranzacție.",
+  "noTransactions": "Nu ai adăugat încă nicio cheltuială",
+  "noBudget": "Încă nu ți-ai setat bugetul",
   "modals": {
     "addIncome": "Adaugă Venit",
     "amount": "Sumă",

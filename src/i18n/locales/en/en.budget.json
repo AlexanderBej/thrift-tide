@@ -28,7 +28,8 @@
   "category": "Category",
   "expGroup": "Expense Group",
   "date": "Date",
-  "noTransactions": "No transactions yet.",
+  "noTransactions": "You haven't added any expenses yet",
+  "noBudget": "You haven't set your budget yet",
   "pace": "Pace (Total)",
   "modals": {
     "addIncome": "Add Income",

@@ -8,7 +8,7 @@ import { FaChevronDown } from 'react-icons/fa';
 import { Category, CategoryType } from '@api/types';
 import { ProgressBar } from '@shared/components';
 import { useFormatMoney } from '@shared/hooks';
-import { Input, TTIcon } from '@shared/ui';
+import { InfoBlock, Input, TTIcon } from '@shared/ui';
 import { getCssVar, LOCALE_MAP, makeFormatter, resolveExpenseGroup } from '@shared/utils';
 import {
   selectTxnsGroupedByDate,
@@ -167,51 +167,67 @@ const Transaction: React.FC = () => {
   return (
     <div className="transactions-page">
       <section className={clsx(`txn-total-budget txn-total-budget__${theme}`)}>
-        <h3 className="spent-header">{t('budget:spent') ?? 'Spent'}</h3>
-        <h2 className="spent-value">{fmtCurrency(scoped.spent)}</h2>
-        <div className="txn-budget-row">
-          <span>
-            {t('budget:budget') ?? 'Budget'}: {scoped.allocated}
-          </span>
-          <span>
-            {t('budget:remaining') ?? 'Remaining'}: {scoped.remaining}
-          </span>
+        {scoped.allocated === 0 ? (
+          <InfoBlock>
+            <span>{t('budget:noBudget')}</span>
+          </InfoBlock>
+        ) : (
+          <>
+            <h3 className="spent-header">{t('budget:spent') ?? 'Spent'}</h3>
+            <h2 className="spent-value">{fmtCurrency(scoped.spent)}</h2>
+            <div className="txn-budget-row">
+              <span>
+                {t('budget:budget') ?? 'Budget'}: {scoped.allocated}
+              </span>
+              <span>
+                {t('budget:remaining') ?? 'Remaining'}: {scoped.remaining}
+              </span>
+            </div>
+          </>
+        )}
+        <div className="txn-progress-bar-wrapper">
+          <ProgressBar progress={scoped.progress} color={getCssVar(scoped.cssVarName)} />
         </div>
-        <ProgressBar progress={scoped.progress} color={getCssVar(scoped.cssVarName)} />
       </section>
 
-      <section className="tt-section">
-        <div className="filters-row">
-          {FILTER_OPTIONS.map((filt, index) => (
-            <button
-              onClick={() => handleFilterChange(filt.value as Category | 'all')}
-              key={index}
-              className={clsx('filter', {
-                selected: filter === filt.value,
-                selected__light: filter === filt.value && theme === 'light',
-                selected__dark: filter === filt.value && theme === 'dark',
-              })}
-            >
-              <span>{filt.label}</span>
+      {groups.length === 0 ? (
+        <InfoBlock className="no-txns-block">
+          <span>{t('budget:noTransactions')}</span>
+        </InfoBlock>
+      ) : (
+        <section className="tt-section">
+          <div className="filters-row">
+            {FILTER_OPTIONS.map((filt, index) => (
+              <button
+                onClick={() => handleFilterChange(filt.value as Category | 'all')}
+                key={index}
+                className={clsx('filter', {
+                  selected: filter === filt.value,
+                  selected__light: filter === filt.value && theme === 'light',
+                  selected__dark: filter === filt.value && theme === 'dark',
+                })}
+              >
+                <span>{filt.label}</span>
+              </button>
+            ))}
+          </div>
+          <div className="search-row">
+            <Input
+              type="search"
+              className="search-input"
+              name="search"
+              value={searchCriteria}
+              onChange={handleSearch}
+              placeholder={t('search.placeholder') ?? 'Search...'}
+            />
+
+            <button onClick={onSortClick} className={`sort-btn sort-btn__${theme}`}>
+              <span>{SORT_OPTIONS.find((opt) => opt.value === sortCriteria)?.label}</span>
+              <TTIcon icon={FaChevronDown} color={getCssVar('--color-primary')} size={12} />
             </button>
-          ))}
-        </div>
-        <div className="search-row">
-          <Input
-            type="search"
-            className="search-input"
-            name="search"
-            value={searchCriteria}
-            onChange={handleSearch}
-            placeholder={t('search.placeholder') ?? 'Search...'}
-          />
-
-          <button onClick={onSortClick} className={`sort-btn sort-btn__${theme}`}>
-            <span>{SORT_OPTIONS.find((opt) => opt.value === sortCriteria)?.label}</span>
-            <TTIcon icon={FaChevronDown} color={getCssVar('--color-primary')} size={12} />
-          </button>
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
 
       <section className="tt-section txn-list-section">
         {groups.map((group) => (

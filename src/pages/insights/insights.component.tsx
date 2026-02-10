@@ -67,30 +67,32 @@ const Insights: React.FC = () => {
         ))}
       </section>
 
-      <section className="tt-section">
-        <h3 className="tt-section-header">{t('pageContent.insights.spending')}</h3>
-        <ul className={clsx(`top-spenders-list top-spenders-list__${theme}`)}>
-          {topExpenseGroups.map((eg, index) => {
-            const fullEG = resolveExpenseGroup(eg.expGroup);
+      {topExpenseGroups && topExpenseGroups.length > 0 && (
+        <section className="tt-section">
+          <h3 className="tt-section-header">{t('pageContent.insights.spending')}</h3>
+          <ul className={clsx(`top-spenders-list top-spenders-list__${theme}`)}>
+            {topExpenseGroups.map((eg, index) => {
+              const fullEG = resolveExpenseGroup(eg.expGroup);
 
-            return (
-              <li className="top-spender" key={index}>
-                <div className="spender-row">
-                  <ExpenseGroupName expenseGroup={fullEG} />
-                  <strong>{fmt(eg.total)}</strong>
-                </div>
-                <div className="spender-bar">
-                  <ProgressBar
-                    progress={getCategoryProgress(eg.category, eg.total)}
-                    color={fullEG.color}
-                  />
-                  <span className="spender-percent">{builtTranslatedPerc(eg)}</span>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
+              return (
+                <li className="top-spender" key={index}>
+                  <div className="spender-row">
+                    <ExpenseGroupName expenseGroup={fullEG} />
+                    <strong>{fmt(eg.total)}</strong>
+                  </div>
+                  <div className="spender-bar">
+                    <ProgressBar
+                      progress={getCategoryProgress(eg.category, eg.total)}
+                      color={fullEG.color}
+                    />
+                    <span className="spender-percent">{builtTranslatedPerc(eg)}</span>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      )}
     </div>
   );
 };
