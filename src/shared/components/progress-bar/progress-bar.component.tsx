@@ -19,7 +19,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
         className="progress-bar-progress"
         style={{
           width: `${progress * 100}%`,
-          background: progress >= 1 ? getCssVar('--color-bg-main') : color,
+          background: progress >= 1 ? getCssVar('--error') : color,
         }}
       />
     </div>

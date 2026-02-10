@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch } from '@api/types';
-import { FauxRadios, Input } from '@shared/ui';
+import { FauxRadios, Input, RadioOption } from '@shared/ui';
 import { selectAuthUser } from '@store/auth-store';
 import {
   selectBudgetMonth,
@@ -30,7 +30,7 @@ const AddIncome = forwardRef<StepHandle, { onCanSubmitChange?: (v: boolean) => v
     const currency = useSelector(selectSettingsCurrency);
 
     const [amount, setAmount] = useState<string>(doc?.income.toString() ?? '100');
-    const [applyToNextMonth, setApplyToNextMonth] = useState(true);
+    const [applyTo, setApplyTo] = useState<'now' | 'next'>('next');
     const [switchAfter, setSwitchAfter] = useState<boolean>(true);
     const nextKey = nextMonthKey(monthKey, startDay);
 
@@ -52,7 +52,7 @@ const AddIncome = forwardRef<StepHandle, { onCanSubmitChange?: (v: boolean) => v
       if (!user?.uuid) return false;
       if (parsedAmount == null) return false;
 
-      const targetKey = applyToNextMonth ? nextKey : monthKey;
+      const targetKey = applyTo === 'next' ? nextKey : monthKey;
 
       await dispatch(
         setIncomeForPeriod({
@@ -76,6 +76,16 @@ const AddIncome = forwardRef<StepHandle, { onCanSubmitChange?: (v: boolean) => v
       },
     }));
 
+    const APPLY_OPTIONS: RadioOption[] = [
+      { value: 'now', label: t('sheets.common.thisMonth') },
+      { value: 'next', label: t('sheets.common.nextMonth') },
+    ];
+
+    const SWITCH_OPTIONS: RadioOption[] = [
+      { value: 'true', label: t('sheets.addSheet.income.switch') },
+      { value: 'false', label: t('sheets.addSheet.income.stay') },
+    ];
+
     return (
       <div className="income-form">
         <Input
@@ -89,20 +99,18 @@ const AddIncome = forwardRef<StepHandle, { onCanSubmitChange?: (v: boolean) => v
 
         <FauxRadios
           disabled={Number(amount) < 1}
-          value={applyToNextMonth}
-          setValue={setApplyToNextMonth}
+          value={applyTo}
+          setValue={(apply) => setApplyTo(apply as 'now' | 'next')}
           title={t('sheets.common.applyTo')}
-          trueLabel={t('sheets.common.nextMonth')}
-          falseLabel={t('sheets.common.thisMonth')}
+          valueList={APPLY_OPTIONS}
         />
 
         <FauxRadios
-          disabled={!applyToNextMonth || Number(amount) < 1}
-          value={switchAfter}
-          setValue={setSwitchAfter}
+          disabled={applyTo === 'now' || Number(amount) < 1}
+          value={switchAfter.toString()}
           title={t('sheets.addSheet.afterSave')}
-          trueLabel={t('sheets.addSheet.income.switch')}
-          falseLabel={t('sheets.addSheet.income.stay')}
+          valueList={SWITCH_OPTIONS}
+          setValue={(next) => setSwitchAfter(next === 'true' ? true : false)}
         />
       </div>
     );

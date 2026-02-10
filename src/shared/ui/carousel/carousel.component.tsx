@@ -6,15 +6,10 @@ import './carousel.styles.scss';
 
 interface EmblaCarouselProps {
   children: React.ReactNode;
-  loop?: boolean;
   showDots?: boolean;
 }
 
-const EmblaCarousel: React.FC<EmblaCarouselProps> = ({
-  children,
-  loop = false,
-  showDots = true,
-}) => {
+const EmblaCarousel: React.FC<EmblaCarouselProps> = ({ children, showDots = true }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -26,8 +21,6 @@ const EmblaCarousel: React.FC<EmblaCarouselProps> = ({
 
   const onSelect = React.useCallback((api: EmblaCarouselType) => {
     setSelectedIndex(api.selectedScrollSnap());
-    // setCanPrev(api.canScrollPrev());
-    // setCanNext(api.canScrollNext());
   }, []);
 
   useEffect(() => {
@@ -45,9 +38,6 @@ const EmblaCarousel: React.FC<EmblaCarouselProps> = ({
       emblaApi.off('reInit', onSelect);
     };
   }, [emblaApi, onInit, onSelect]);
-
-  const scrollPrev = () => emblaApi?.scrollPrev();
-  const scrollNext = () => emblaApi?.scrollNext();
 
   return (
     <div className="embla">

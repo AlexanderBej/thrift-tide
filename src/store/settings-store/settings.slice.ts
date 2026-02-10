@@ -1,11 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { clamp } from '@shared/utils';
-import {
-  setPercentsThunk,
-  updateBudgetStartDay,
-  updateMonthStartDayThunk,
-} from '../budget-store/budget.slice';
+import { setPercentsThunk, updateMonthStartDayThunk } from '../budget-store/budget.slice';
 import { DEFAULT_START_DAY, OnboardingData } from '@api/models';
 import {
   readUserProfile,

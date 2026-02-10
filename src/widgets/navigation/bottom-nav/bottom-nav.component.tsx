@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { FaPlus } from 'react-icons/fa';
 
 import { getCssVar } from '@shared/utils';
-import { TTIcon } from '@shared/ui';
+import { Pressable, TTIcon } from '@shared/ui';
 import { AddActionSheet } from '@widgets';
 import { UserAvatar } from '@shared/components';
 import { NAV_ITEMS, NavItem } from 'widgets/nav.config';
@@ -29,33 +29,37 @@ const BottomNav: React.FC = () => {
   const getNavItem = (item: NavItem | undefined) => {
     if (!item) return;
     return (
-      <NavLink className={`nav-link nav-link__${item.key}`} to={item.to}>
-        {({ isActive }) => (
-          <>
-            {item.key === 'profile' ? (
-              <UserAvatar />
-            ) : (
-              <TTIcon
-                icon={item.icon}
-                size={24}
-                color={isActive ? getCssVar('--color-primary') : getCssVar('--color-text-primary')}
-              />
-            )}
-            {item.key !== 'profile' && (
-              <span
-                className="nav-link-title"
-                style={{
-                  color: isActive
-                    ? getCssVar('--color-primary')
-                    : getCssVar('--color-text-primary'),
-                }}
-              >
-                {t(item.i18nLabel)}
-              </span>
-            )}
-          </>
-        )}
-      </NavLink>
+      <Pressable className="btnPrimary heet-btn" haptic="medium" ripple={true}>
+        <NavLink className={`nav-link nav-link__${item.key}`} to={item.to}>
+          {({ isActive }) => (
+            <>
+              {item.key === 'profile' ? (
+                <UserAvatar />
+              ) : (
+                <TTIcon
+                  icon={item.icon}
+                  size={24}
+                  color={
+                    isActive ? getCssVar('--color-primary') : getCssVar('--color-text-primary')
+                  }
+                />
+              )}
+              {item.key !== 'profile' && (
+                <span
+                  className="nav-link-title"
+                  style={{
+                    color: isActive
+                      ? getCssVar('--color-primary')
+                      : getCssVar('--color-text-primary'),
+                  }}
+                >
+                  {t(item.i18nLabel)}
+                </span>
+              )}
+            </>
+          )}
+        </NavLink>
+      </Pressable>
     );
   };
 

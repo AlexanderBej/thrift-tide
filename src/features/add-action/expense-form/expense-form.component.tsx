@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { format } from 'date-fns';
 
-import { FauxRadios, Input, TTIcon } from '@shared/ui';
+import { FauxRadios, Input, RadioOption, TTIcon } from '@shared/ui';
 import { EXPENSE_GROUP_OPTIONS, getCssVar } from '@shared/utils';
 import { TypeBoxSelector } from '@shared/components';
 import { TransactionFormData } from '../add-expense/add-expense.util';
@@ -23,8 +23,8 @@ interface DateMeta {
 interface ExpenseFormProps {
   formData: TransactionFormData;
   setFormData: React.Dispatch<React.SetStateAction<TransactionFormData>>;
-  keepSheetOpen: boolean;
-  setKeepSheetOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  sheetState: 'open' | 'closed';
+  setSheetState: React.Dispatch<React.SetStateAction<'open' | 'closed'>>;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleTypeChange: (t: Category) => void;
   setStep: React.Dispatch<React.SetStateAction<'form' | 'calendar'>>;
@@ -36,8 +36,8 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({
   handleChange,
   handleTypeChange,
   setFormData,
-  keepSheetOpen,
-  setKeepSheetOpen,
+  sheetState,
+  setSheetState,
   setStep,
   radiosDisabled,
 }) => {
@@ -74,6 +74,11 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({
           : null,
       open: true,
     },
+  ];
+
+  const SHEET_STATE_OPTIONS: RadioOption[] = [
+    { value: 'open', label: t('sheets.addSheet.expense.after.open') },
+    { value: 'closed', label: t('sheets.addSheet.expense.after.close') },
   ];
 
   const isSameDay = (a: Date | null, b: Date) => {
@@ -166,12 +171,11 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({
       />
 
       <FauxRadios
-        value={keepSheetOpen}
-        setValue={setKeepSheetOpen}
+        value={sheetState}
+        setValue={(state) => setSheetState(state as 'open' | 'closed')}
         disabled={radiosDisabled}
         title={t('sheets.addSheet.afterSave')}
-        falseLabel={t('sheets.addSheet.expense.after.close')}
-        trueLabel={t('sheets.addSheet.expense.after.open')}
+        valueList={SHEET_STATE_OPTIONS}
         popover={popover}
       />
     </div>

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
-import { MultiFormProp } from '../multi-step-form.component';
+import { MultiNonFormProp } from '../multi-step-form.component';
+import { StartDaySelector } from '@shared/components';
 
-const StepFour: React.FC<MultiFormProp> = ({ formData, onChange }) => {
+const StepFour: React.FC<MultiNonFormProp> = ({ formData, setFormData }) => {
   const { t } = useTranslation('common');
   const [error, setError] = useState<string>('');
 
@@ -28,7 +29,15 @@ const StepFour: React.FC<MultiFormProp> = ({ formData, onChange }) => {
         <Trans i18nKey="onboarding:step4.text3" components={{ bold: <strong /> }} />
       </p>
       <div className="start-day-wrapper">
-        {/* TODO <StartDayEditor startDay={formData.startDay} onSetStartDay={onChange} /> */}
+        <StartDaySelector
+          selectedDay={formData.startDay}
+          setSelectedDay={(day) =>
+            setFormData((prev) => {
+              return { ...prev, startDay: day as number };
+            })
+          }
+        />
+
         {error && <div className="error">{error}</div>}
       </div>
       <p className="step-p">

@@ -9,5 +9,6 @@ export * from './info-block';
 export * from './form-input';
 export * from './icon';
 export * from './info-popover';
+export * from './pressable';
 export * from './slider-viewport';
 export * from './spinners';

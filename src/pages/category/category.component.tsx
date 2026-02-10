@@ -5,13 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { IconType } from 'react-icons';
 import { FaChevronRight } from 'react-icons/fa';
 
-import {
-  Category,
-  CATEGORY_COLORS,
-  CATEGORY_ICONS,
-  CategoryInsightCandidate,
-  CategoryType,
-} from '@api/types';
+import { Category, CATEGORY_ICONS, CategoryInsightCandidate, CategoryType } from '@api/types';
 import { resolveExpenseGroup, getCssVar } from '@shared/utils';
 import { useFormatMoney } from '@shared/hooks';
 import { EmblaCarousel, TTIcon } from '@shared/ui';

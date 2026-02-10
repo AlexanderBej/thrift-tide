@@ -5,12 +5,16 @@ import { InfoPopover } from '../info-popover';
 
 import './faux-radios.styles.scss';
 
+export interface RadioOption {
+  value: string;
+  label: string;
+}
+
 interface FauxRadiosProps {
   disabled?: boolean;
-  value: boolean;
-  setValue: (value: boolean) => void;
-  trueLabel: string;
-  falseLabel: string;
+  value: string;
+  valueList: RadioOption[];
+  setValue: (value: string) => void;
   popover?: string;
   title: string;
 }
@@ -19,10 +23,9 @@ const FauxRadios: React.FC<FauxRadiosProps> = ({
   disabled = false,
   title,
   value,
-  trueLabel,
-  falseLabel,
+  valueList,
   setValue,
-  popover = null,
+  popover,
 }) => {
   return (
     <div className={clsx('faux-radios', { 'row-disabled': disabled })}>
@@ -36,26 +39,18 @@ const FauxRadios: React.FC<FauxRadiosProps> = ({
       </div>
 
       <div className="radios-options">
-        <button
-          type="button"
-          className={clsx('option-btn', {
-            selected: !value,
-            disabled: disabled,
-          })}
-          onClick={() => setValue(false)}
-        >
-          {falseLabel}
-        </button>
-        <button
-          type="button"
-          className={clsx('option-btn', {
-            selected: value,
-            disabled: disabled,
-          })}
-          onClick={() => setValue(true)}
-        >
-          {trueLabel}
-        </button>
+        {valueList.map((val, index) => (
+          <button
+            key={index}
+            className={clsx('option-btn', {
+              selected: val.value === value,
+              disabled: disabled,
+            })}
+            onClick={() => setValue(val.value)}
+          >
+            {val.label}
+          </button>
+        ))}
       </div>
     </div>
   );

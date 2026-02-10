@@ -2,11 +2,11 @@ import React from 'react';
 import { Drawer } from 'vaul';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
 
-import { Button } from '../button';
+import { Pressable } from '../pressable';
 
 import './base-sheet.styles.scss';
-import { useTranslation } from 'react-i18next';
 
 interface BaseSheetProps {
   open: boolean;
@@ -63,8 +63,6 @@ const BaseSheet: React.FC<BaseSheetProps> = ({
         <Drawer.Overlay className="sheet-overlay" />
 
         <Drawer.Content className={clsx('sheet-content-wrapper', className, `sheet-${variant}`)}>
-          {/* <div className="sheet-handle" /> */}
-
           <div className="sheet-header">
             {/* Spacer to keep handle centered */}
             <div className="header-spacer">
@@ -77,7 +75,6 @@ const BaseSheet: React.FC<BaseSheetProps> = ({
 
             {/* Handle centered */}
             <div className="handle-wrap">
-              {/* <div className="sheet-handle" /> */}
               <Drawer.Handle />
             </div>
 
@@ -104,14 +101,15 @@ const BaseSheet: React.FC<BaseSheetProps> = ({
             {btnLabel && (
               <div className="sheet-btn-wrapper">
                 <div className="sheet-btn-container">
-                  <Button
-                    customContainerClass="sheet-btn"
-                    buttonType="primary"
+                  <Pressable
+                    className="sheet-btn"
+                    haptic="medium"
+                    ripple={false}
                     onClick={onButtonClick}
                     disabled={btnDisabled}
                   >
-                    <span>{btnLabel}</span>
-                  </Button>
+                    {btnLabel}
+                  </Pressable>
                 </div>
               </div>
             )}

@@ -43,7 +43,7 @@ const AddExpense = forwardRef<StepHandle, AddExpenseProps>(function AddExpense(
 
   const [formData, setFormData] = useState<TransactionFormData>(defaultValues);
   const [errors, setErrors] = useState<FormErrors>({});
-  const [keepSheetOpen, setKeepSheetOpen] = useState(false);
+  const [sheetState, setSheetState] = useState<'open' | 'closed'>('closed');
 
   const [step, setStep] = useState<'form' | 'calendar'>('form');
 
@@ -140,7 +140,7 @@ const AddExpense = forwardRef<StepHandle, AddExpenseProps>(function AddExpense(
       });
     }
 
-    if (keepSheetOpen) return false;
+    if (sheetState === 'open') return false;
     return true;
   };
 
@@ -166,9 +166,9 @@ const AddExpense = forwardRef<StepHandle, AddExpenseProps>(function AddExpense(
             formData={formData}
             handleChange={handleChange}
             handleTypeChange={handleTypeChange}
-            keepSheetOpen={keepSheetOpen}
+            sheetState={sheetState}
             setFormData={setFormData}
-            setKeepSheetOpen={setKeepSheetOpen}
+            setSheetState={setSheetState}
             setStep={setStep}
             radiosDisabled={!!txnToEdit}
           />,

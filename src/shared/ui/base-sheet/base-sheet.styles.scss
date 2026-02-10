@@ -98,6 +98,17 @@
           width: 80%;
           margin: auto;
           display: block;
+
+          border-radius: 999px;
+          transition: all $transition-normal;
+          padding: 10px 20px;
+          min-height: 50px;
+          font-weight: 600;
+
+          @include themed(background-color, color-primary, $color-primary);
+          @include themed(color, color-text-inverse, $color-text-inverse);
+          border: 3px solid;
+          @include themed(border-color, color-primary, $color-primary);
         }
       }
     }

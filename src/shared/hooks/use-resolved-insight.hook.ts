@@ -1,11 +1,9 @@
 import { useTranslation } from 'react-i18next';
 
-import { useFormatMoney } from '@shared/hooks';
 import { Insight } from '@api/models/insight';
 
 export const useResolvedInsight = () => {
   const { t } = useTranslation(['insights', 'budget']);
-  // const fmt = useFormatMoney();
 
   const resolve = (insight: Insight) => {
     const rawVars = insight.vars ?? {};
