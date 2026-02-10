@@ -79,7 +79,7 @@ export async function createMonth(
 
   const fresh = await getDoc(ref);
   if (!fresh.exists()) throw new Error('Failed to read month after create');
-  return fresh.data() as MonthDoc;
+  return toMonthDoc(fresh.data());
 }
 
 // --- UPDATE (fails if missing). Only updates current doc fields. ---
@@ -147,7 +147,7 @@ export const transactionsQuery = (uid: string, month: string): Query =>
 export const onTransactionsSnapshot = (uid: string, month: string, cb: (txns: Txn[]) => void) => {
   const q = transactionsQuery(uid, month);
   return onSnapshot(q, (qs) => {
-    cb(qs.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<Txn, 'id'>) })));
+    cb(qs.docs.map((d) => normalizeTxnFromRead(d.id, d.data())));
   });
 };
 
@@ -243,6 +243,25 @@ function normalizeTxnForWrite(txn: Omit<Txn, 'id'>): Omit<Txn, 'id'> {
         ? (txn as any).date.toDate()
         : (txn as any).date,
     ),
+  };
+}
+
+function normalizeTxnFromRead(id: string, data: DocumentData): Txn {
+  const rawDate = data?.date;
+  const date =
+    typeof rawDate?.toDate === 'function'
+      ? toYMDUTC(rawDate.toDate())
+      : typeof rawDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(rawDate)
+        ? rawDate
+        : toYMDUTC(rawDate ?? new Date());
+
+  return {
+    id,
+    date,
+    amount: Number(data?.amount ?? 0),
+    category: data?.category,
+    expenseGroup: data?.expenseGroup,
+    note: data?.note,
   };
 }
 

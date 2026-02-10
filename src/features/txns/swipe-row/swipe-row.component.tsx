@@ -13,18 +13,21 @@ type SwipeRowProps = {
 
   onEdit?: () => void;
   onDelete?: () => void;
+  onSwipeStart?: () => void;
 };
 
 const SwipeRow = forwardRef<SwipeRowHandle, SwipeRowProps>(
-  ({ children, onEdit, onDelete }, ref) => {
+  ({ children, onEdit, onDelete, onSwipeStart }, ref) => {
     const x = useMotionValue(0);
 
     const actionsOpacity = useTransform(x, [-90, -20, 0], [1, 0.4, 0]);
 
     useImperativeHandle(ref, () => ({
-      close: () => animate(x, 0, { type: 'spring', stiffness: 420, damping: 32 }),
+      close: () => {
+        return animate(x, 0, { type: 'spring', stiffness: 420, damping: 32 });
+      },
       open: (px = 160) => animate(x, -px, { type: 'spring', stiffness: 420, damping: 32 }),
-    }));
+    }), [x]);
     return (
       <div className="swipe-row">
         {/* BACK LAYER (ACTIONS) */}
@@ -45,6 +48,7 @@ const SwipeRow = forwardRef<SwipeRowHandle, SwipeRowProps>(
           drag="x"
           dragConstraints={{ left: -160, right: 0 }}
           dragElastic={0.08}
+          onDragStart={onSwipeStart}
           style={{ x }}
         >
           {children}

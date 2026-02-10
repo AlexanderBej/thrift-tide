@@ -25,15 +25,22 @@ const THRESH = {
 export const selectSmartDashboardInsight: any = createSelector(
   [selectDashboardInsights, selectMonthTiming, selectTotals],
   (ins, timing, totals): Insight[] => {
-    const pacePct = toPctInt(ins.burnVsPace.pace);
-    const burnPct = toPctInt(ins.burnVsPace.burn.total);
-    const burn = ins.burnVsPace.burn.total;
+    const expenseSpent = totals.spent.needs + totals.spent.wants;
+    const expenseAlloc = totals.alloc.needs + totals.alloc.wants;
+    const expenseRemaining = Math.max(0, expenseAlloc - expenseSpent);
+    const expenseAvgDaily = timing.daysElapsed >= 3 ? expenseSpent / timing.daysElapsed : null;
+    const expenseProjectedTotal =
+      expenseAvgDaily == null ? null : expenseAvgDaily * Math.max(0, timing.totalDays);
+    const expenseRpd = timing.daysLeft > 0 ? expenseRemaining / timing.daysLeft : null;
+    const burn = expenseAlloc > 0 ? expenseSpent / expenseAlloc : null;
     const pace = ins.burnVsPace.pace;
+    const burnPct = toPctInt(burn);
+    const pacePct = toPctInt(pace);
 
     let insightList: Insight[] = [];
 
     // 0) If no budget set
-    if (!totals.totalAllocated || totals.totalAllocated <= 0) {
+    if (!expenseAlloc || expenseAlloc <= 0) {
       insightList.push({
         id: 'no_budget',
         tone: 'muted',
@@ -46,7 +53,7 @@ export const selectSmartDashboardInsight: any = createSelector(
 
     const isBurnFast = burn != null && pace != null && burn > pace + THRESH.burnDanger;
     const isBurnSlow = burn != null && pace != null && burn < pace - THRESH.burnSuccess;
-    const isNoSpend = totals.totalSpent === 0;
+    const isNoSpend = expenseSpent === 0;
 
     // 1) Strong warning: burn > pace
     if (isBurnFast) {
@@ -67,9 +74,9 @@ export const selectSmartDashboardInsight: any = createSelector(
 
     // 2) Projected total (mid/late month)
     // Use it if avg exists (your selector returns null early)
-    if (ins.projectedTotal != null && totals.totalAllocated > 0) {
-      const delta = ins.projectedTotal - totals.totalAllocated;
-      const deltaRatio = delta / totals.totalAllocated;
+    if (expenseProjectedTotal != null && expenseAlloc > 0) {
+      const delta = expenseProjectedTotal - expenseAlloc;
+      const deltaRatio = delta / expenseAlloc;
 
       if (deltaRatio > THRESH.projDanger) {
         insightList.push({
@@ -104,11 +111,11 @@ export const selectSmartDashboardInsight: any = createSelector(
     }
 
     // 3) Remaining per day (very actionable)
-    const rpd = ins.remainingPerDay?.total ?? null;
+    const rpd = expenseRpd;
     if (rpd != null) {
       // compare to avgDaily when available
-      if (ins.avgDaily != null) {
-        if (ins.avgDaily > rpd * THRESH.rpdDanger) {
+      if (expenseAvgDaily != null) {
+        if (expenseAvgDaily > rpd * THRESH.rpdDanger) {
           insightList.push({
             id: 'rpd_danger',
             tone: 'danger',
@@ -119,7 +126,7 @@ export const selectSmartDashboardInsight: any = createSelector(
             ctaLabel: 'smart.cta.seeInsights',
             ctaTarget: 'insights',
           });
-        } else if (ins.avgDaily > rpd * THRESH.rpdWarn) {
+        } else if (expenseAvgDaily > rpd * THRESH.rpdWarn) {
           insightList.push({
             id: 'rpd_warn',
             tone: 'warn',
@@ -226,6 +233,7 @@ const CATEGORY_THRESH = {
 
 export const makeSelectCategoryInsight = (cat: Category) =>
   createSelector([makeSelectCategoryPanel(cat), selectMonthTiming], (p, t): Insight => {
+    const isSavings = cat === 'savings';
     const nameKey = catNameKey(cat);
 
     // No budget
@@ -262,6 +270,7 @@ export const makeSelectCategoryInsight = (cat: Category) =>
 
     // Run-out warning (strongest)
     if (
+      !isSavings &&
       p.daysToZero != null &&
       p.daysToZero <= CATEGORY_THRESH.daysToZeroDanger &&
       p.daysToZero <= t.daysLeft
@@ -279,30 +288,71 @@ export const makeSelectCategoryInsight = (cat: Category) =>
 
     // Burn vs pace
     if (burn != null && pace != null) {
-      if (burn > pace + CATEGORY_THRESH.overPaceDanger) {
-        return {
-          id: `category_${cat}_overpace_danger`,
-          tone: 'danger',
-          title: 'category.title.headsUp',
-          message: 'category.message.overPace',
-          subtext: 'category.subtext.burnVsPace',
-          vars: { catNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
-          ctaLabel: 'category.cta.reviewCategory',
-          ctaTarget: `category:${cat}`,
-        };
-      }
+      if (isSavings) {
+        if (burn < pace - CATEGORY_THRESH.overPaceDanger) {
+          return {
+            id: `category_${cat}_behindpace_danger`,
+            tone: 'danger',
+            title: 'category.title.headsUp',
+            message: 'category.message.savingsBehind',
+            subtext: 'category.subtext.burnVsPace',
+            vars: { catNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
+            ctaLabel: 'category.cta.reviewCategory',
+            ctaTarget: `category:${cat}`,
+          };
+        }
 
-      if (burn > pace + CATEGORY_THRESH.overPaceWarn) {
-        return {
-          id: `category_${cat}_overpace_warn`,
-          tone: 'warn',
-          title: 'category.title.tip',
-          message: 'category.message.nearPace',
-          subtext: 'category.subtext.burnVsPace',
-          vars: { catNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
-          ctaLabel: 'category.cta.reviewCategory',
-          ctaTarget: `category:${cat}`,
-        };
+        if (burn < pace - CATEGORY_THRESH.overPaceWarn) {
+          return {
+            id: `category_${cat}_behindpace_warn`,
+            tone: 'warn',
+            title: 'category.title.tip',
+            message: 'category.message.savingsBehind',
+            subtext: 'category.subtext.burnVsPace',
+            vars: { catNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
+            ctaLabel: 'category.cta.reviewCategory',
+            ctaTarget: `category:${cat}`,
+          };
+        }
+
+        if (burn > pace + CATEGORY_THRESH.overPaceWarn) {
+          return {
+            id: `category_${cat}_aheadpace`,
+            tone: 'success',
+            title: 'category.title.nice',
+            message: 'category.message.savingsAhead',
+            subtext: 'category.subtext.burnVsPace',
+            vars: { catNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
+            ctaLabel: 'category.cta.reviewCategory',
+            ctaTarget: `category:${cat}`,
+          };
+        }
+      } else {
+        if (burn > pace + CATEGORY_THRESH.overPaceDanger) {
+          return {
+            id: `category_${cat}_overpace_danger`,
+            tone: 'danger',
+            title: 'category.title.headsUp',
+            message: 'category.message.overPace',
+            subtext: 'category.subtext.burnVsPace',
+            vars: { catNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
+            ctaLabel: 'category.cta.reviewCategory',
+            ctaTarget: `category:${cat}`,
+          };
+        }
+
+        if (burn > pace + CATEGORY_THRESH.overPaceWarn) {
+          return {
+            id: `category_${cat}_overpace_warn`,
+            tone: 'warn',
+            title: 'category.title.tip',
+            message: 'category.message.nearPace',
+            subtext: 'category.subtext.burnVsPace',
+            vars: { catNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
+            ctaLabel: 'category.cta.reviewCategory',
+            ctaTarget: `category:${cat}`,
+          };
+        }
       }
     }
 
@@ -311,34 +361,67 @@ export const makeSelectCategoryInsight = (cat: Category) =>
       const normalPerDay = p.alloc / t.totalDays;
       const ratio = normalPerDay > 0 ? p.remainingPerDay / normalPerDay : null;
 
-      if (ratio != null && ratio < CATEGORY_THRESH.rpdDanger) {
-        return {
-          id: `category_${cat}_rpd_danger`,
-          tone: 'danger',
-          title: 'category.title.headsUp',
-          message: 'category.message.perDayVeryTight',
-          subtext: 'category.subtext.basedOnRemaining',
-          vars: { catNameKey: nameKey, amountPerDay: p.remainingPerDay.toFixed(2) },
-          ctaLabel: 'category.cta.reviewCategory',
-          ctaTarget: `category:${cat}`,
-        };
-      }
+      if (isSavings) {
+        if (ratio != null && ratio > CATEGORY_THRESH.rpdDanger) {
+          return {
+            id: `category_${cat}_rpd_danger`,
+            tone: 'danger',
+            title: 'category.title.headsUp',
+            message: 'category.message.savingsPerDayVeryTight',
+            subtext: 'category.subtext.basedOnRemaining',
+            vars: { catNameKey: nameKey, amountPerDay: p.remainingPerDay.toFixed(2) },
+            ctaLabel: 'category.cta.reviewCategory',
+            ctaTarget: `category:${cat}`,
+          };
+        }
 
-      if (ratio != null && ratio < CATEGORY_THRESH.rpdWarn) {
-        return {
-          id: `category_${cat}_rpd_warn`,
-          tone: 'warn',
-          title: 'category.title.tip',
-          message: 'category.message.perDayTight',
-          subtext: 'category.subtext.basedOnRemaining',
-          vars: { catNameKey: nameKey, amountPerDay: p.remainingPerDay.toFixed(2) },
-          ctaLabel: 'category.cta.reviewCategory',
-          ctaTarget: `category:${cat}`,
-        };
+        if (ratio != null && ratio > CATEGORY_THRESH.rpdWarn) {
+          return {
+            id: `category_${cat}_rpd_warn`,
+            tone: 'warn',
+            title: 'category.title.tip',
+            message: 'category.message.savingsPerDayTight',
+            subtext: 'category.subtext.basedOnRemaining',
+            vars: { catNameKey: nameKey, amountPerDay: p.remainingPerDay.toFixed(2) },
+            ctaLabel: 'category.cta.reviewCategory',
+            ctaTarget: `category:${cat}`,
+          };
+        }
+      } else {
+        if (ratio != null && ratio < CATEGORY_THRESH.rpdDanger) {
+          return {
+            id: `category_${cat}_rpd_danger`,
+            tone: 'danger',
+            title: 'category.title.headsUp',
+            message: 'category.message.perDayVeryTight',
+            subtext: 'category.subtext.basedOnRemaining',
+            vars: { catNameKey: nameKey, amountPerDay: p.remainingPerDay.toFixed(2) },
+            ctaLabel: 'category.cta.reviewCategory',
+            ctaTarget: `category:${cat}`,
+          };
+        }
+
+        if (ratio != null && ratio < CATEGORY_THRESH.rpdWarn) {
+          return {
+            id: `category_${cat}_rpd_warn`,
+            tone: 'warn',
+            title: 'category.title.tip',
+            message: 'category.message.perDayTight',
+            subtext: 'category.subtext.basedOnRemaining',
+            vars: { catNameKey: nameKey, amountPerDay: p.remainingPerDay.toFixed(2) },
+            ctaLabel: 'category.cta.reviewCategory',
+            ctaTarget: `category:${cat}`,
+          };
+        }
       }
 
       // under pace positive
-      if (burn != null && pace != null && burn < pace - CATEGORY_THRESH.underPaceSuccess) {
+      if (
+        !isSavings &&
+        burn != null &&
+        pace != null &&
+        burn < pace - CATEGORY_THRESH.underPaceSuccess
+      ) {
         return {
           id: `category_${cat}_underpace`,
           tone: 'success',
@@ -356,7 +439,7 @@ export const makeSelectCategoryInsight = (cat: Category) =>
         id: `category_${cat}_perday_ok`,
         tone: 'success',
         title: 'category.title.nice',
-        message: 'category.message.perDayOk',
+        message: isSavings ? 'category.message.savingsPerDayOk' : 'category.message.perDayOk',
         subtext: 'category.subtext.basedOnRemaining',
         vars: { catNameKey: nameKey, amountPerDay: p.remainingPerDay.toFixed(2) },
         ctaLabel: 'category.cta.reviewCategory',
@@ -380,6 +463,7 @@ export const makeSelectCategoryInsightList = (category: Category) =>
   createSelector(
     [makeSelectCategoryPanel(category), selectMonthTiming],
     (p, t): CategoryInsightCandidate[] => {
+      const isSavings = category === 'savings';
       const nameKey = catNameKey(category);
       const out: CategoryInsightCandidate[] = [];
 
@@ -422,7 +506,7 @@ export const makeSelectCategoryInsightList = (category: Category) =>
       }
 
       // Candidate: run-out days (urgent)
-      if (p.daysToZero != null && p.daysToZero <= t.daysLeft) {
+      if (!isSavings && p.daysToZero != null && p.daysToZero <= t.daysLeft) {
         out.push({
           id: `category_${category}_runout_days`,
           tone: p.daysToZero <= CATEGORY_THRESH.daysToZeroDanger ? 'danger' : 'warn',
@@ -444,48 +528,93 @@ export const makeSelectCategoryInsightList = (category: Category) =>
       if (burn != null && pace != null) {
         const delta = burn - pace;
 
-        if (delta > CATEGORY_THRESH.overPaceDanger) {
-          out.push({
-            id: `category_${category}_overpace_danger`,
-            tone: 'danger',
-            title: 'category.title.headsUp',
-            message: 'category.message.overPace',
-            subtext: 'category.subtext.burnVsPace',
-            vars: { catNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
-            ctaLabel: 'category.cta.reviewCategory',
-            ctaTarget: `category:${category}`,
-            group: 'overpace',
-            chip: { key: 'category.chip.overPace' },
-            _scoreHint: { burn, pace },
-          });
-        } else if (delta > CATEGORY_THRESH.overPaceWarn) {
-          out.push({
-            id: `category_${category}_overpace_warn`,
-            tone: 'warn',
-            title: 'category.title.tip',
-            message: 'category.message.nearPace',
-            subtext: 'category.subtext.burnVsPace',
-            vars: { catNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
-            ctaLabel: 'category.cta.reviewCategory',
-            ctaTarget: `category:${category}`,
-            group: 'overpace',
-            chip: { key: 'category.chip.nearPace' },
-            _scoreHint: { burn, pace },
-          });
-        } else if (burn < pace - CATEGORY_THRESH.underPaceSuccess) {
-          out.push({
-            id: `category_${category}_underpace`,
-            tone: 'success',
-            title: 'category.title.nice',
-            message: 'category.message.underPace',
-            subtext: 'category.subtext.burnVsPace',
-            vars: { catNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
-            ctaLabel: 'category.cta.reviewCategory',
-            ctaTarget: `category:${category}`,
-            group: 'pace',
-            chip: { key: 'category.chip.underPace' },
-            _scoreHint: { burn, pace },
-          });
+        if (isSavings) {
+          if (delta < -CATEGORY_THRESH.overPaceDanger) {
+            out.push({
+              id: `category_${category}_behindpace_danger`,
+              tone: 'danger',
+              title: 'category.title.headsUp',
+              message: 'category.message.savingsBehind',
+              subtext: 'category.subtext.burnVsPace',
+              vars: { catNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
+              ctaLabel: 'category.cta.reviewCategory',
+              ctaTarget: `category:${category}`,
+              group: 'pace',
+              chip: { key: 'category.chip.savingsBehind' },
+              _scoreHint: { burn: pace, pace: burn },
+            });
+          } else if (delta < -CATEGORY_THRESH.overPaceWarn) {
+            out.push({
+              id: `category_${category}_behindpace_warn`,
+              tone: 'warn',
+              title: 'category.title.tip',
+              message: 'category.message.savingsBehind',
+              subtext: 'category.subtext.burnVsPace',
+              vars: { catNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
+              ctaLabel: 'category.cta.reviewCategory',
+              ctaTarget: `category:${category}`,
+              group: 'pace',
+              chip: { key: 'category.chip.savingsBehind' },
+              _scoreHint: { burn: pace, pace: burn },
+            });
+          } else if (delta > CATEGORY_THRESH.overPaceWarn) {
+            out.push({
+              id: `category_${category}_aheadpace`,
+              tone: 'success',
+              title: 'category.title.nice',
+              message: 'category.message.savingsAhead',
+              subtext: 'category.subtext.burnVsPace',
+              vars: { catNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
+              ctaLabel: 'category.cta.reviewCategory',
+              ctaTarget: `category:${category}`,
+              group: 'pace',
+              chip: { key: 'category.chip.savingsAhead' },
+            });
+          }
+        } else {
+          if (delta > CATEGORY_THRESH.overPaceDanger) {
+            out.push({
+              id: `category_${category}_overpace_danger`,
+              tone: 'danger',
+              title: 'category.title.headsUp',
+              message: 'category.message.overPace',
+              subtext: 'category.subtext.burnVsPace',
+              vars: { catNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
+              ctaLabel: 'category.cta.reviewCategory',
+              ctaTarget: `category:${category}`,
+              group: 'overpace',
+              chip: { key: 'category.chip.overPace' },
+              _scoreHint: { burn, pace },
+            });
+          } else if (delta > CATEGORY_THRESH.overPaceWarn) {
+            out.push({
+              id: `category_${category}_overpace_warn`,
+              tone: 'warn',
+              title: 'category.title.tip',
+              message: 'category.message.nearPace',
+              subtext: 'category.subtext.burnVsPace',
+              vars: { catNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
+              ctaLabel: 'category.cta.reviewCategory',
+              ctaTarget: `category:${category}`,
+              group: 'overpace',
+              chip: { key: 'category.chip.nearPace' },
+              _scoreHint: { burn, pace },
+            });
+          } else if (burn < pace - CATEGORY_THRESH.underPaceSuccess) {
+            out.push({
+              id: `category_${category}_underpace`,
+              tone: 'success',
+              title: 'category.title.nice',
+              message: 'category.message.underPace',
+              subtext: 'category.subtext.burnVsPace',
+              vars: { catNameKey: nameKey, burnPct: burnPct ?? 0, pacePct: pacePct ?? 0 },
+              ctaLabel: 'category.cta.reviewCategory',
+              ctaTarget: `category:${category}`,
+              group: 'pace',
+              chip: { key: 'category.chip.underPace' },
+              _scoreHint: { burn, pace },
+            });
+          }
         }
       }
 
@@ -494,7 +623,39 @@ export const makeSelectCategoryInsightList = (category: Category) =>
         const normalPerDay = p.alloc / t.totalDays;
         const ratio = normalPerDay > 0 ? p.remainingPerDay / normalPerDay : null;
 
-        if (ratio != null && ratio < CATEGORY_THRESH.rpdDanger) {
+        if (isSavings && ratio != null && ratio > CATEGORY_THRESH.rpdDanger) {
+          out.push({
+            id: `category_${category}_rpd_danger`,
+            tone: 'danger',
+            title: 'category.title.headsUp',
+            message: 'category.message.savingsPerDayVeryTight',
+            subtext: 'category.subtext.basedOnRemaining',
+            vars: { catNameKey: nameKey, amountPerDay: p.remainingPerDay.toFixed(2) },
+            ctaLabel: 'category.cta.reviewCategory',
+            ctaTarget: `category:${category}`,
+            group: 'rpd',
+            chip: {
+              key: 'category.chip.savingsPerDay',
+              vars: { amountPerDay: p.remainingPerDay.toFixed(0) },
+            },
+          });
+        } else if (isSavings && ratio != null && ratio > CATEGORY_THRESH.rpdWarn) {
+          out.push({
+            id: `category_${category}_rpd_warn`,
+            tone: 'warn',
+            title: 'category.title.tip',
+            message: 'category.message.savingsPerDayTight',
+            subtext: 'category.subtext.basedOnRemaining',
+            vars: { catNameKey: nameKey, amountPerDay: p.remainingPerDay.toFixed(2) },
+            ctaLabel: 'category.cta.reviewCategory',
+            ctaTarget: `category:${category}`,
+            group: 'rpd',
+            chip: {
+              key: 'category.chip.savingsPerDay',
+              vars: { amountPerDay: p.remainingPerDay.toFixed(0) },
+            },
+          });
+        } else if (!isSavings && ratio != null && ratio < CATEGORY_THRESH.rpdDanger) {
           out.push({
             id: `category_${category}_rpd_danger`,
             tone: 'danger',
@@ -511,7 +672,7 @@ export const makeSelectCategoryInsightList = (category: Category) =>
             },
             _scoreHint: { remainingPerDayRatio: ratio, burn, pace },
           });
-        } else if (ratio != null && ratio < CATEGORY_THRESH.rpdWarn) {
+        } else if (!isSavings && ratio != null && ratio < CATEGORY_THRESH.rpdWarn) {
           out.push({
             id: `category_${category}_rpd_warn`,
             tone: 'warn',
@@ -533,14 +694,14 @@ export const makeSelectCategoryInsightList = (category: Category) =>
             id: `category_${category}_perday_ok`,
             tone: 'success',
             title: 'category.title.nice',
-            message: 'category.message.perDayOk',
+            message: isSavings ? 'category.message.savingsPerDayOk' : 'category.message.perDayOk',
             subtext: 'category.subtext.basedOnRemaining',
             vars: { catNameKey: nameKey, amountPerDay: p.remainingPerDay.toFixed(2) },
             ctaLabel: 'category.cta.reviewCategory',
             ctaTarget: `category:${category}`,
             group: 'rpd',
             chip: {
-              key: 'category.chip.perDayLeft',
+              key: isSavings ? 'category.chip.savingsPerDay' : 'category.chip.perDayLeft',
               vars: { amountPerDay: p.remainingPerDay.toFixed(0) },
             },
             _scoreHint: { remainingPerDayRatio: ratio, burn, pace },

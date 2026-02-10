@@ -10,7 +10,7 @@
   "headerRemaining": "You have {remaining} left",
   "allocated": "Allocated",
   "budget": "Budget",
-  "topExpGroups": "Top expense groups",
+  "topExpGroups": "Top buckets",
   "spendPace": "Spending pace (daily spend)",
   "monthPace": "Month pace (run out date)",
   "seeAllTxn": "See all transactions",
@@ -21,12 +21,15 @@
     "nearBudget": "Near Budget",
     "underPace": "Under Pace",
     "behindPlan": "Behind Pland",
+    "savingsAhead": "Savings Ahead",
+    "savingsOnTrack": "Savings On Track",
     "highBurn": "High Burn Rate",
     "good": "good"
   },
   "categories": "Categories",
   "category": "Category",
-  "expGroup": "Expense Group",
+  "expGroup": "bucket",
+  "uncategorized": "Uncategorized",
   "date": "Date",
   "noTransactions": "You haven't added any expenses yet",
   "noBudget": "You haven't set your budget yet",
@@ -93,13 +96,16 @@
       "nextMonth": "Next period"
     },
     "sortSheet": {
+      "title": "Sort transactions",
       "sortOption": {
-        "date": "Sort by date",
-        "amount": "Sort by amount"
+        "date": "by date",
+        "amount": "by amount",
+        "expenseGroup": "by bucket"
       },
       "sortLabel": {
         "date": "By date",
-        "amount": "By amount"
+        "amount": "By amount",
+        "expenseGroup": "By bucket"
       }
     },
     "confirmSheet": {

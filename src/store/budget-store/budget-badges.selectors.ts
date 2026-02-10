@@ -9,7 +9,7 @@ import { Category } from '@api/types';
 const OVERPACE = 0.1;
 const NEAR = 0.05;
 
-/** Category-specific badge set for the expense group page header. */
+/** Category-specific badge set for the bucket page header. */
 export const makeSelectCategoryBadges = (cat: Category) =>
   createSelector([selectTotals, selectBurnVsPace, selectMonthTiming], (tot, bvp): Badge[] => {
     const list: Badge[] = [];
@@ -20,6 +20,32 @@ export const makeSelectCategoryBadges = (cat: Category) =>
     const rem = tot.remaining[cat];
     const b = bvp.burn[cat];
     const pace = bvp.pace ?? 0;
+
+    if (cat === 'savings') {
+      if (spent >= alloc || (b != null && b > pace + OVERPACE)) {
+        list.push({
+          id: `${cat}-ahead`,
+          i18nKey: 'budget:badges.savingsAhead',
+          kind: 'success',
+          scope: cat,
+        });
+      } else if (Math.abs((b ?? 0) - 1) <= NEAR || rem / alloc <= 0.1) {
+        list.push({
+          id: `${cat}-ontrack`,
+          i18nKey: 'budget:badges.savingsOnTrack',
+          kind: 'success',
+          scope: cat,
+        });
+      } else if (b != null && b < pace - OVERPACE) {
+        list.push({
+          id: `${cat}-behind`,
+          i18nKey: 'budget:badges.behindPlan',
+          kind: 'warn',
+          scope: cat,
+        });
+      }
+      return list;
+    }
 
     if (spent >= alloc || (b != null && b > pace + OVERPACE)) {
       list.push({
@@ -36,20 +62,12 @@ export const makeSelectCategoryBadges = (cat: Category) =>
         scope: cat,
       });
     } else if (b != null && b < pace - OVERPACE) {
-      if (cat === 'savings')
-        list.push({
-          id: `${cat}-under`,
-          i18nKey: 'budget:badges.behindPlan',
-          kind: 'warn',
-          scope: cat,
-        });
-      else
-        list.push({
-          id: `${cat}-under`,
-          i18nKey: 'budget:badges.underPace',
-          kind: 'success',
-          scope: cat,
-        });
+      list.push({
+        id: `${cat}-under`,
+        i18nKey: 'budget:badges.underPace',
+        kind: 'success',
+        scope: cat,
+      });
     }
     return list;
   });

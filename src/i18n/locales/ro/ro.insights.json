@@ -44,9 +44,14 @@
       "overPace": "La {catName} cheltuiești mai repede decât planul",
       "nearPace": "{catName} e aproape de plan — urmărește-l puțin",
       "underPace": "{catName} e sub plan — ritm bun",
+      "savingsAhead": "{catName} este peste plan — ritm excelent de economisire",
+      "savingsBehind": "{catName} este sub plan — un mic boost te aduce din nou pe traseu",
       "perDayOk": "Poți cheltui {amountPerDay}/zi la {catName} și rămâi pe buget",
       "perDayTight": "Ca să rămâi pe buget la {catName}, încearcă să nu depășești {amountPerDay}/zi",
       "perDayVeryTight": "Ai grijă — mai ai doar {amountPerDay}/zi pentru {catName}",
+      "savingsPerDayOk": "Economisește cam {amountPerDay}/zi la {catName} ca să atingi ținta",
+      "savingsPerDayTight": "Ca să atingi ținta la {catName}, încearcă cel puțin {amountPerDay}/zi",
+      "savingsPerDayVeryTight": "Mod recuperare: țintește cel puțin {amountPerDay}/zi pentru {catName}",
       "categoryHealthy": "{catName} arată bine — ai suficient spațiu rămas"
     },
     "subtext": {
@@ -63,7 +68,10 @@
       "overPace": "Cheltui prea mult",
       "nearPace": "Poți cheltui mai puțin",
       "underPace": "Ritm bun",
+      "savingsAhead": "Peste plan",
+      "savingsBehind": "Sub plan la economii",
       "perDayLeft": "Ai {amountPerDay}/zi",
+      "savingsPerDay": "Economisește {amountPerDay}/zi",
       "onTrack": "Super ritm"
     }
   },

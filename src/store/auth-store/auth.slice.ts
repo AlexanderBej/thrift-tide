@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { MinimalUser, UserProfile } from '@api/models';
+import { MinimalUser } from '@api/models';
 import { updateUserDisplayName } from '@api/services';
 import { createAppAsyncThunk } from '@api/types';
 
@@ -19,12 +19,12 @@ const initialState: AuthState = {
 };
 
 export const updateDisplayNameThunk = createAppAsyncThunk<
-  UserProfile | null,
+  { displayName: string },
   { uid: string; displayName: string }
 >('auth/updateDisplayName', async ({ uid, displayName }, { rejectWithValue }) => {
   try {
     const profile = await updateUserDisplayName(uid, displayName);
-    return profile;
+    return { displayName: profile?.displayName ?? displayName };
   } catch (error) {
     return rejectWithValue(error);
   }
@@ -56,7 +56,7 @@ const authSlice = createSlice({
       })
       .addCase(updateDisplayNameThunk.fulfilled, (s, { payload }) => {
         s.loading = false;
-        if (s.user) s.user.displayName = payload?.displayName ?? '';
+        if (s.user) s.user.displayName = payload.displayName;
       })
       .addCase(updateDisplayNameThunk.rejected, (s, a) => {
         s.loading = false;

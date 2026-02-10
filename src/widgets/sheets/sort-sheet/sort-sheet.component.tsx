@@ -25,6 +25,7 @@ const SortSheet: React.FC<SortSheetProps> = ({ open, onOpenChange, sortCriteria 
   const SORT_OPTIONS: { value: SortKey; label: string }[] = [
     { value: 'date', label: t('sheets.sortSheet.sortOption.date') },
     { value: 'amount', label: t('sheets.sortSheet.sortOption.amount') },
+    { value: 'expenseGroup', label: t('sheets.sortSheet.sortOption.expenseGroup') },
   ];
 
   return (

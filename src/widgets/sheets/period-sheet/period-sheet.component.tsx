@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
-import { format, Locale } from 'date-fns';
+import { format, Locale, addMonths } from 'date-fns';
 import { enUS, ro } from 'date-fns/locale';
 import { useDispatch, useSelector } from 'react-redux';
 import Picker from 'react-mobile-picker';
@@ -9,9 +9,9 @@ import { useTranslation } from 'react-i18next';
 import { BaseSheet } from '@shared/ui';
 import { AppDispatch, Language } from '@api/types';
 import { selectAuthUser } from '@store/auth-store';
-import { loadRecentMonths, selectHistoryRecents } from '@store/history-store';
+import { HistoryRow, loadRecentMonths, selectHistoryRecents } from '@store/history-store';
 import { changeMonthThunk, selectBudgetMonth } from '@store/budget-store';
-import { formatMonth } from '@shared/utils';
+import { formatMonth, monthKey } from '@shared/utils';
 
 import './period-sheet.styles.scss';
 
@@ -49,7 +49,7 @@ const PeriodSheet: React.FC<PeriodSheetProps> = ({
 
   const user = useSelector(selectAuthUser);
   const month = useSelector(selectBudgetMonth);
-  const recents = useSelector(selectHistoryRecents);
+  const recents: HistoryRow[] | null = useSelector(selectHistoryRecents);
 
   const lang = i18n.language.split('-')[0] as 'en' | 'ro';
 
@@ -113,7 +113,7 @@ const PeriodSheet: React.FC<PeriodSheetProps> = ({
   useEffect(() => {
     if (!open) return;
     if (!user?.uuid) return;
-    if (!recents) dispatch(loadRecentMonths({ uid: user.uuid }));
+    if (!recents || recents.length === 0) dispatch(loadRecentMonths({ uid: user.uuid }));
   }, [open, user?.uuid, recents, dispatch]);
 
   // 2) Whenever sheet opens OR items change, ensure current selection is valid
@@ -142,6 +142,13 @@ const PeriodSheet: React.FC<PeriodSheetProps> = ({
     if (closeOnConfirm) onOpenChange(false);
 
     if (selectedKey !== month) {
+      if (selectedKey === '__create_next__') {
+        const monthDate = new Date(month);
+        const nextMonthDate = addMonths(monthDate, 1);
+        const nextMonth = monthKey(nextMonthDate);
+        await dispatch(changeMonthThunk({ uid: user.uuid, month: nextMonth })).unwrap();
+        return;
+      }
       await dispatch(changeMonthThunk({ uid: user.uuid, month: selectedKey })).unwrap();
     }
   };
@@ -155,7 +162,7 @@ const PeriodSheet: React.FC<PeriodSheetProps> = ({
       onOpenChange={onOpenChange}
       title={t('sheets.periodSheet.title')}
       btnLabel={btnLabel}
-      btnDisabled={!items.length || !selectedKey}
+      btnDisabled={!items.length || !selectedKey || selectedKey === month}
       onButtonClick={handleConfirm}
     >
       <div className="tt-picker">

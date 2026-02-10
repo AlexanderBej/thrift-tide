@@ -69,8 +69,8 @@
       "notFuture": "Date cannot be in the future"
     },
     "expGroup": {
-      "required": "Expense Group is required",
-      "invalid": "Choose a valid expense group"
+      "required": "Bucket is required",
+      "invalid": "Choose a valid bucket"
     }
   },
   "errors": {

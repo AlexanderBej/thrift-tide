@@ -33,13 +33,15 @@ const AddExpense = forwardRef<StepHandle, AddExpenseProps>(function AddExpense(
 
   const user = useSelector(selectAuthUser);
 
-  const [formData, setFormData] = useState<TransactionFormData>({
+  const defaultValues = {
     expenseGroup: txnToEdit?.expenseGroup ?? 'rent',
     amount: txnToEdit?.amount.toString() ?? '100',
-    date: new Date(txnToEdit?.date ?? '') ?? new Date(),
+    date: txnToEdit?.date ? new Date(txnToEdit?.date) : new Date(),
     note: txnToEdit?.note ?? '',
     category: txnToEdit?.category ?? 'needs',
-  });
+  };
+
+  const [formData, setFormData] = useState<TransactionFormData>(defaultValues);
   const [errors, setErrors] = useState<FormErrors>({});
   const [keepSheetOpen, setKeepSheetOpen] = useState(false);
 

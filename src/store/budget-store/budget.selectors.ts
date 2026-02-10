@@ -95,7 +95,7 @@ export const makeSelectExpenseGroupView = (cat: Category) =>
 const selectFilteredTxns = createSelector([selectTxnsInPeriod, selectTxnUi], (txns, ui) => {
   const q = ui.search.trim().toLowerCase();
 
-  const filtered = txns
+  return txns
     .filter((t) => (ui.type === 'all' ? true : t.category === ui.type))
     .filter((t) =>
       q.length === 0
@@ -103,19 +103,50 @@ const selectFilteredTxns = createSelector([selectTxnsInPeriod, selectTxnUi], (tx
         : (t.note ?? '').toLowerCase().includes(q) ||
           (t.expenseGroup ?? '').toLowerCase().includes(q),
     );
-
-  const dir = ui.sortDir === 'asc' ? 1 : -1;
-  const sorted = [...filtered].sort((a, b) => {
-    if (ui.sortKey === 'date') return dir * txnDayKey(a.date).localeCompare(txnDayKey(b.date));
-    return dir * (a.amount - b.amount);
-  });
-
-  return sorted;
 });
 
-/** Group filtered list by calendar day string (YYYY-MM-DD), newest group first. */
-export const selectTxnsGroupedByDate = createSelector([selectFilteredTxns], (txns) => {
-  // const toYYYYMMDD = (d: Date) => d.toISOString().slice(0, 10);
+const selectSortedTxns = createSelector([selectFilteredTxns, selectTxnUi], (filtered, ui) => {
+  const dir = ui.sortDir === 'asc' ? 1 : -1;
+  return [...filtered].sort((a, b) => {
+    if (ui.sortKey === 'date') return dir * txnDayKey(a.date).localeCompare(txnDayKey(b.date));
+    if (ui.sortKey === 'amount') return dir * (a.amount - b.amount);
+    return dir * (a.amount - b.amount);
+  });
+});
+
+export interface TxnListGroup {
+  key: string;
+  label: string;
+  items: Txn[];
+  total: number;
+  kind: 'date' | 'expenseGroup';
+}
+
+/** Group filtered txns by date (default) or bucket (special mode). */
+export const selectTxnListGroups = createSelector([selectSortedTxns, selectTxnUi], (txns, ui) => {
+  if (ui.sortKey === 'expenseGroup') {
+    const groups = new Map<string, Txn[]>();
+
+    for (const t of txns) {
+      const expenseGroup = (t.expenseGroup ?? '').trim();
+      const groupKey = expenseGroup.length > 0 ? expenseGroup : '__uncategorized__';
+      if (!groups.has(groupKey)) groups.set(groupKey, []);
+      groups.get(groupKey)!.push(t);
+    }
+
+    return Array.from(groups.entries())
+      .map(([groupKey, items]) => ({
+        key: groupKey,
+        label: groupKey === '__uncategorized__' ? '' : groupKey,
+        items: [...items].sort(
+          (a, b) => txnDayKey(b.date).localeCompare(txnDayKey(a.date)) || b.amount - a.amount,
+        ),
+        total: items.reduce((sum, txn) => sum + txn.amount, 0),
+        kind: 'expenseGroup' as const,
+      }))
+      .sort((a, b) => b.total - a.total || a.label.localeCompare(b.label));
+  }
+
   const categories = new Map<string, Txn[]>();
 
   for (const t of txns) {
@@ -126,7 +157,13 @@ export const selectTxnsGroupedByDate = createSelector([selectFilteredTxns], (txn
 
   return Array.from(categories.entries())
     .sort((a, b) => b[0].localeCompare(a[0]))
-    .map(([date, items]) => ({ date, items }));
+    .map(([date, items]) => ({
+      key: date,
+      label: date,
+      items,
+      total: items.reduce((sum, txn) => sum + txn.amount, 0),
+      kind: 'date' as const,
+    }));
 });
 
 /** Sum of currently filtered transactions (e.g., for list header). */

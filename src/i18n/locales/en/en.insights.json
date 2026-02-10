@@ -44,9 +44,14 @@
       "overPace": "{catName} is spending faster than planned",
       "nearPace": "{catName} is close to plan — keep an eye on it",
       "underPace": "{catName} is under plan — nice pace",
+      "savingsAhead": "{catName} is ahead of plan — nice saving rhythm",
+      "savingsBehind": "{catName} is behind plan — a small top-up can get it back on track",
       "perDayOk": "You can spend {amountPerDay}/day in {catName} and stay on track",
       "perDayTight": "To stay on track in {catName}, keep it under {amountPerDay}/day",
       "perDayVeryTight": "Careful — only {amountPerDay}/day left for {catName}",
+      "savingsPerDayOk": "Save about {amountPerDay}/day in {catName} to hit your target",
+      "savingsPerDayTight": "To hit your {catName} goal, aim for at least {amountPerDay}/day",
+      "savingsPerDayVeryTight": "Catch-up mode: target at least {amountPerDay}/day for {catName}",
       "categoryHealthy": "{catName} looks healthy — plenty of room left"
     },
     "subtext": {
@@ -63,7 +68,10 @@
       "overPace": "Over pace",
       "nearPace": "Close to plan",
       "underPace": "Nice pace",
+      "savingsAhead": "Ahead of plan",
+      "savingsBehind": "Behind savings plan",
       "perDayLeft": "Can spend {amountPerDay}/day",
+      "savingsPerDay": "Save {amountPerDay}/day",
       "onTrack": "Healthy pace"
     }
   },

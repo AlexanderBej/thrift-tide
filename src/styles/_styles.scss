@@ -16,6 +16,15 @@ button {
   background: unset;
   border: unset;
   cursor: pointer;
+  transition: transform 0 2s ease-in;
+
+  &:active {
+    transform: translateY(1px) scale(0.97);
+  }
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
 }
 
 a,

@@ -18,12 +18,6 @@ export const CATEGORY_COLORS = {
   savings: getCssVar('--savings'), // gold
 };
 
-export const CATEGORY_LIGHT_COLORS = {
-  needs: getCssVar('--needs-light'), // green
-  wants: getCssVar('--wants-light'), // blue
-  savings: getCssVar('--savings-light'), // gold
-};
-
 export const CATEGORY_ICONS = {
   needs: TbHomeStar,
   wants: GiWantedReward,

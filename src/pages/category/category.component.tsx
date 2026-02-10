@@ -99,10 +99,7 @@ const CategoryPage: React.FC = () => {
       >
         <div className="category-name-line">
           <div className="category-name">
-            <div
-              className="category-icon-wrapper"
-              style={{ backgroundColor: CATEGORY_COLORS[type as CategoryType] }}
-            >
+            <div className="category-icon-wrapper" style={{ background: getCssVar(`--${type}`) }}>
               <TTIcon icon={categoryData.icon} color="#fff" />
             </div>
             <h2>{t(`taxonomy:categoryNames.${categoryData.title?.toLowerCase()}`)}</h2>

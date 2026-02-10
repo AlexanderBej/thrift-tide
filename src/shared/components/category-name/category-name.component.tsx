@@ -45,7 +45,7 @@ const CategoryName: React.FC<CategoryNameProps> = ({ category }) => {
   };
 
   return (
-    <div className="category-name">
+    <div className="category-name-cmp">
       <div className="category-icon-wrapper" style={{ background: getCatColor(category) }}>
         {category && <TTIcon icon={getCatIcon(category)} size={22} color="white" />}
       </div>

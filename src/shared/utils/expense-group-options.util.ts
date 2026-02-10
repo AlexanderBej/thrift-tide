@@ -201,7 +201,7 @@ Object.entries(EXPENSE_GROUP_OPTIONS).forEach(([type, list]) => {
 // --- API -------------------------------------------------------
 
 /**
- * Resolve any incoming expense group string to a display-ready object.
+ * Resolve any incoming bucket string to a display-ready object.
  * Matches by `value` first, then by `label` (both case-insensitive).
  * Falls back to a generic icon + original text for customs (e.g. "Amy's birthday").
  */
@@ -232,7 +232,7 @@ export function resolveExpenseGroup(input: string): ExpenseGroupOption {
     };
   }
 
-  // Fallback: custom expense group
+  // Fallback: custom bucket
   return {
     label: input, // show exactly what the user wrote
     value: input, // keep raw value

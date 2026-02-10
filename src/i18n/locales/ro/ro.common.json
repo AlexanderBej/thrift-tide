@@ -69,8 +69,8 @@
       "notFuture": "Data nu poate fi în viitor"
     },
     "expGroup": {
-      "required": "Grupul de cheltuieli este obligatoriu",
-      "invalid": "Alegeți un grup valid"
+      "required": "Găleata este obligatorie",
+      "invalid": "Alege o găleată validă"
     }
   },
   "errors": {

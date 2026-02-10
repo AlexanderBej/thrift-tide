@@ -43,14 +43,6 @@ const SpendingTimelineBar: React.FC<SpendingTimelineBarProps> = ({
     return clsx('period', `period__${edge}`);
   };
 
-  console.log('start ', periodStart.toDateString());
-  console.log('periodEnd ', periodEnd.toDateString());
-  console.log('runOutDate ', runOutDate?.toDateString());
-  console.log('now ', now.toDateString());
-  console.log('elapsedPct ', elapsedPct);
-  console.log('runoutPct ', runoutPct);
-  console.log('isInFuture ', isInFuture);
-
   return (
     <div className="timeline-container">
       <div className="run-out-container">

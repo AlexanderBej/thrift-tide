@@ -1,12 +1,11 @@
 @use '../../../styles/tokens.scss' as *;
 
-.category-name {
+.category-name-cmp {
   display: inline-flex;
   gap: $spacing-3;
   align-items: center;
 
   .category-icon-wrapper {
-    background-color: aquamarine;
     padding: 5px;
     border-radius: $radius-sm;
     height: 30px;

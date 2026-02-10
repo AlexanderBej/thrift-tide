@@ -28,7 +28,7 @@ import { createAppAsyncThunk, PercentTriple } from '@api/types';
 
 // type Status = 'idle' | 'loading' | 'ready' | 'error';
 export type TxnTypeFilter = 'all' | 'needs' | 'wants' | 'savings';
-export type SortKey = 'date' | 'amount';
+export type SortKey = 'date' | 'amount' | 'expenseGroup';
 type SortDir = 'asc' | 'desc';
 
 type LoadStatus = 'idle' | 'loading' | 'ready' | 'error';

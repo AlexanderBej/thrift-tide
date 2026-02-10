@@ -31,14 +31,20 @@
       align-items: center;
       justify-content: space-between;
 
+      .category-name {
+        display: flex;
+        gap: $spacing-3;
+        align-items: center;
+      }
+
       .category-icon-wrapper {
         display: flex;
         width: 35px;
         height: 35px;
-        background: aliceblue;
         align-items: center;
         justify-content: center;
         border-radius: $radius-sm;
+        background: transparent;
       }
 
       .allocated-container {

@@ -11,7 +11,7 @@ import { useFormatMoney } from '@shared/hooks';
 import { InfoBlock, Input, TTIcon } from '@shared/ui';
 import { getCssVar, LOCALE_MAP, makeFormatter, resolveExpenseGroup } from '@shared/utils';
 import {
-  selectTxnsGroupedByDate,
+  selectTxnListGroups,
   setTxnTypeFilter,
   TxnTypeFilter,
   setTxnSearch,
@@ -73,9 +73,9 @@ const Transaction: React.FC = () => {
   const fmtCurrency = useFormatMoney();
   const dispatch = useDispatch<AppDispatch>();
 
-  const rowRef = useRef<SwipeRowHandle>(null);
+  const rowRefs = useRef<Record<string, SwipeRowHandle | null>>({});
 
-  const groups = useSelector(selectTxnsGroupedByDate);
+  const groups = useSelector(selectTxnListGroups);
   const totals = useSelector(selectTotals);
   const theme = useSelector(selectSettingsAppTheme);
   const user = useSelector(selectAuthUser);
@@ -101,6 +101,10 @@ const Transaction: React.FC = () => {
   const SORT_OPTIONS: Option[] = [
     { label: t('budget:sheets.sortSheet.sortLabel.date') ?? 'Sort by date', value: 'date' },
     { label: t('budget:sheets.sortSheet.sortLabel.amount') ?? 'Sort by amount', value: 'amount' },
+    {
+      label: t('budget:sheets.sortSheet.sortLabel.expenseGroup'),
+      value: 'expenseGroup',
+    },
   ];
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -138,19 +142,23 @@ const Transaction: React.FC = () => {
     dispatch(setTxnSort({ key: sort as SortKey, dir: 'desc' }));
   };
 
-  const getGroupTotal = (txns: Txn[]) => {
-    return txns.reduce((sum, txn) => sum + txn.amount, 0);
+  const closeOtherRows = (activeTxnId: string) => {
+    Object.entries(rowRefs.current).forEach(([txnId, rowRef]) => {
+      if (txnId === activeTxnId) return;
+      rowRef?.close();
+    });
   };
 
   const openEditSheet = (tx: Txn) => {
     setTxnToEdit(tx);
     setEditOpen(true);
-    rowRef.current?.close();
+    if (tx.id) rowRefs.current[tx.id]?.close();
   };
 
   const openConfirmDelete = (tx: Txn) => {
     if (tx.id) setTxnToDelete(tx.id);
     setConfirmOpen(true);
+    if (tx.id) rowRefs.current[tx.id]?.close();
   };
 
   const handleDeleteTransaction = () => {
@@ -160,7 +168,6 @@ const Transaction: React.FC = () => {
       .then(() => {
         setConfirmOpen(false);
         setTxnToDelete(null);
-        rowRef.current?.close();
       });
   };
 
@@ -190,51 +197,55 @@ const Transaction: React.FC = () => {
         </div>
       </section>
 
-      {groups.length === 0 ? (
+      <section className="tt-section">
+        <div className="filters-row">
+          {FILTER_OPTIONS.map((filt, index) => (
+            <button
+              onClick={() => handleFilterChange(filt.value as Category | 'all')}
+              key={index}
+              className={clsx('filter', {
+                selected: filter === filt.value,
+                selected__light: filter === filt.value && theme === 'light',
+                selected__dark: filter === filt.value && theme === 'dark',
+              })}
+            >
+              <span>{filt.label}</span>
+            </button>
+          ))}
+        </div>
+        <div className="search-row">
+          <Input
+            type="search"
+            className="search-input"
+            name="search"
+            value={searchCriteria}
+            onChange={handleSearch}
+            placeholder={t('search.placeholder') ?? 'Search...'}
+          />
+
+          <button onClick={onSortClick} className={`sort-btn sort-btn__${theme}`}>
+            <span>{SORT_OPTIONS.find((opt) => opt.value === sortCriteria)?.label}</span>
+            <TTIcon icon={FaChevronDown} color={getCssVar('--color-primary')} size={12} />
+          </button>
+        </div>
+      </section>
+
+      {groups.length === 0 && (
         <InfoBlock className="no-txns-block">
           <span>{t('budget:noTransactions')}</span>
         </InfoBlock>
-      ) : (
-        <section className="tt-section">
-          <div className="filters-row">
-            {FILTER_OPTIONS.map((filt, index) => (
-              <button
-                onClick={() => handleFilterChange(filt.value as Category | 'all')}
-                key={index}
-                className={clsx('filter', {
-                  selected: filter === filt.value,
-                  selected__light: filter === filt.value && theme === 'light',
-                  selected__dark: filter === filt.value && theme === 'dark',
-                })}
-              >
-                <span>{filt.label}</span>
-              </button>
-            ))}
-          </div>
-          <div className="search-row">
-            <Input
-              type="search"
-              className="search-input"
-              name="search"
-              value={searchCriteria}
-              onChange={handleSearch}
-              placeholder={t('search.placeholder') ?? 'Search...'}
-            />
-
-            <button onClick={onSortClick} className={`sort-btn sort-btn__${theme}`}>
-              <span>{SORT_OPTIONS.find((opt) => opt.value === sortCriteria)?.label}</span>
-              <TTIcon icon={FaChevronDown} color={getCssVar('--color-primary')} size={12} />
-            </button>
-          </div>
-        </section>
       )}
 
       <section className="tt-section txn-list-section">
         {groups.map((group) => (
-          <div className="txn-group" key={group.date}>
+          <div className="txn-group" key={group.key}>
             <div className="txn-date-row">
-              <h3 className="txn-group-date">{getTranslatedFmtDate(new Date(group.date))}</h3>
-              <span>{fmtCurrency(getGroupTotal(group.items))}</span>
+              <h3 className="txn-group-date">
+                {group.kind === 'date'
+                  ? getTranslatedFmtDate(new Date(group.label))
+                  : group.label || (t('budget:uncategorized') ?? 'Uncategorized')}
+              </h3>
+              <span>{fmtCurrency(group.total)}</span>
             </div>
             <ul className={clsx(`txn-group-list txn-group-list__${theme}`)}>
               {group.items.map((tx) => {
@@ -243,10 +254,16 @@ const Transaction: React.FC = () => {
                 return (
                   <div key={tx.id} className="txn-line-wrapper">
                     <SwipeRow
-                      ref={rowRef}
+                      ref={(instance) => {
+                        if (!tx.id) return;
+                        rowRefs.current[tx.id] = instance;
+                      }}
                       key={tx.id}
                       onEdit={() => openEditSheet(tx)}
                       onDelete={() => openConfirmDelete(tx)}
+                      onSwipeStart={() => {
+                        if (tx.id) closeOtherRows(tx.id);
+                      }}
                     >
                       <TransactionLine txn={tx} expenseGroup={ep} />
                     </SwipeRow>
