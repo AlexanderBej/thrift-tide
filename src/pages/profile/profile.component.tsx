@@ -9,7 +9,7 @@ import { signOutUser } from '@api/services';
 import { Donut, DonutItem, TTIcon } from '@shared/ui';
 import { selectAuthUser, userSignedOut } from '@store/auth-store';
 import { AppDispatch } from '@store/store';
-import { UserAvatar } from '@components';
+import { UserAvatar } from '@shared/components';
 import { selectSettingsAll, selectSettingsAppTheme } from '@store/settings-store';
 import { formatStartDay, getCssVar } from '@shared/utils';
 import { SettingsBlock, SettingsButton } from 'features';

@@ -6,9 +6,9 @@ import { FaChevronRight } from 'react-icons/fa';
 
 import { Accordion, ExpansionPanelItem, TTIcon } from '@shared/ui';
 import { selectCards } from '@store/budget-store';
-import { CategoryName } from 'components/category-name';
+import { CategoryName } from '@shared/components/category-name';
 import { getCssVar } from '@shared/utils';
-import { ProgressBar } from '@components';
+import { ProgressBar } from '@shared/components';
 
 import './category-cards.styles.scss';
 

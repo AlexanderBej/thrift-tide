@@ -8,7 +8,7 @@ import clsx from 'clsx';
 
 import { Category } from '@api/types';
 import { getCssVar } from '@shared/utils';
-import { SelectOption, TTIcon } from '@shared/ui';
+import { TTIcon } from '@shared/ui';
 
 import './type-box-selector.styles.scss';
 
@@ -20,7 +20,7 @@ interface TypeBoxSelectorProps {
 const TypeBoxSelector: React.FC<TypeBoxSelectorProps> = ({ category, handleTypeChange }) => {
   const { t } = useTranslation('budget');
 
-  const TYPE_OPTIONS: SelectOption[] = [
+  const TYPE_OPTIONS: { value: Category; label: string; icon: IconType }[] = [
     { value: 'needs', label: t('taxonomy:categoryNames.needs') ?? 'Needs', icon: TbHomeStar },
     { value: 'wants', label: t('taxonomy:categoryNames.wants') ?? 'Wants', icon: GiWantedReward },
     {

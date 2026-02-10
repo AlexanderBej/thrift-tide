@@ -23,7 +23,7 @@ import {
   selectMonthTiming,
   selectCategoriesTopInsights,
 } from '@store/budget-store';
-import { ExpenseGroupName, ProgressBar } from '@components';
+import { ExpenseGroupName, ProgressBar } from '@shared/components';
 import { CategoryPace, SmartInsightCard, SpendingTimelineBar, TransactionLine } from 'features';
 import { selectSettingsAppTheme } from '@store/settings-store';
 

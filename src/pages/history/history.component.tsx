@@ -29,7 +29,7 @@ import { useFormatMoney } from '@shared/hooks';
 import { Language } from '@api/types';
 
 import './history.styles.scss';
-import { ProgressBar } from '@components';
+import { ProgressBar } from '@shared/components';
 import { SmartInsightCard } from 'features';
 
 interface CategoryData {

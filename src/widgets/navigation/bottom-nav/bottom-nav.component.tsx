@@ -6,7 +6,7 @@ import { FaPlus } from 'react-icons/fa';
 import { getCssVar } from '@shared/utils';
 import { TTIcon } from '@shared/ui';
 import { AddActionSheet } from '@widgets';
-import { UserAvatar } from '@components';
+import { UserAvatar } from '@shared/components';
 import { NAV_ITEMS, NavItem } from 'widgets/nav.config';
 
 import './bottom-nav.styles.scss';

@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useFormatMoney } from '@shared/hooks';
-import { ExpenseGroupName } from '@components';
+import { ExpenseGroupName } from '@shared/components';
 import { ExpenseGroupOption, Txn } from '@api/models';
 
 import './transaction-line.styles.scss';

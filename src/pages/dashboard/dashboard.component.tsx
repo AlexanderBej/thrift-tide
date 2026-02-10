@@ -12,7 +12,7 @@ import {
   selectBudgetDoc,
   selectTopExpenseGroupsOverall,
 } from '@store/budget-store';
-import { ExpenseGroupName } from '@components';
+import { ExpenseGroupName } from '@shared/components';
 import { getCssVar, resolveExpenseGroup } from '@shared/utils';
 import { selectSettingsAppTheme } from '@store/settings-store';
 import { CategoryCards, CategoriesProgressBar, SmartInsightCard } from 'features';

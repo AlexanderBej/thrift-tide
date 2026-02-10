@@ -7,7 +7,6 @@ import { CiSquareQuestion } from 'react-icons/ci';
 import { useTranslation } from 'react-i18next';
 
 import { Badge, BadgeKind } from '@api/models';
-import { useWindowWidth } from '@shared/hooks';
 import { TTIcon } from '@shared/ui';
 
 import './badge-pills.styles.scss';
@@ -18,8 +17,6 @@ const BadgePills: React.FC<{
   onClickBadge?: (b: Badge) => void;
 }> = ({ badges, badgeType = 'chip', onClickBadge }) => {
   const { t } = useTranslation('budget');
-  const width = useWindowWidth();
-  const isMobile = width < 480;
 
   const getBadgeIcon = (kind: BadgeKind) => {
     switch (kind) {
@@ -49,7 +46,7 @@ const BadgePills: React.FC<{
           <TTIcon
             icon={getBadgeIcon(b.kind)}
             className={`badge-pill-icon__${b.kind}`}
-            size={badgeType === 'card' && !isMobile ? 24 : 14}
+            size={badgeType === 'card' ? 24 : 14}
           />
           {t(b.i18nKey) ?? b.text}
         </button>

@@ -12,7 +12,7 @@ import {
   selectSmartDashboardInsight,
   selectTopExpenseGroupsOverall,
 } from '@store/budget-store';
-import { ExpenseGroupName, ProgressBar } from '@components';
+import { ExpenseGroupName, ProgressBar } from '@shared/components';
 import { Insight } from '@api/models';
 import { HealthInsight, SmartInsightCard } from 'features';
 import { selectSettingsAppTheme } from '@store/settings-store';

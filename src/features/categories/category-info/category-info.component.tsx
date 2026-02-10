@@ -6,9 +6,9 @@ import { FaChevronRight } from 'react-icons/fa';
 
 import { TTIcon } from '@shared/ui';
 import { selectCategoriesTopInsights, selectCards } from '@store/budget-store';
-import { CategoryName } from 'components/category-name';
+import { CategoryName } from '@shared/components/category-name';
 import { getCssVar } from '@shared/utils';
-import { ProgressBar } from '@components';
+import { ProgressBar } from '@shared/components';
 import { SmartInsightChip } from 'features/insights';
 import { Category, CategoryInsightCandidate } from '@api/types';
 import { useFormatMoney } from '@shared/hooks';
@@ -59,8 +59,7 @@ const CategoryInfo: React.FC = () => {
                 {c.allocated > 0
                   ? Math.max(0, Math.min(100, Math.round((c.remaining / c.allocated) * 100)))
                   : 0}
-                %{' '}
-                {t('left')}
+                % {t('left')}
               </span>
               <NavLink to={'/categories/' + c.key} className="category-link">
                 <TTIcon icon={FaChevronRight} size={16} color={getCssVar('--color-primary')} />

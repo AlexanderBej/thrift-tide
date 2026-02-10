@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 
 import { FauxRadios, Input, TTIcon } from '@shared/ui';
 import { EXPENSE_GROUP_OPTIONS, getCssVar } from '@shared/utils';
-import { TypeBoxSelector } from '@components';
+import { TypeBoxSelector } from '@shared/components';
 import { TransactionFormData } from '../add-expense/add-expense.util';
 import { selectSettingsCurrency } from '@store/settings-store';
 import { Category } from '@api/types';

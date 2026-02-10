@@ -6,9 +6,9 @@ import clsx from 'clsx';
 import { FaChevronDown } from 'react-icons/fa';
 
 import { Category, CategoryType } from '@api/types';
-import { ProgressBar } from '@components';
+import { ProgressBar } from '@shared/components';
 import { useFormatMoney } from '@shared/hooks';
-import { Input, SelectOption, TTIcon } from '@shared/ui';
+import { Input, TTIcon } from '@shared/ui';
 import { getCssVar, LOCALE_MAP, makeFormatter, resolveExpenseGroup } from '@shared/utils';
 import {
   selectTxnsGroupedByDate,
@@ -28,7 +28,11 @@ import { selectSettingsAppTheme } from '@store/settings-store';
 import { selectAuthUser } from '@store/auth-store';
 
 import './transactions.styles.scss';
-import toast from 'react-hot-toast';
+
+interface Option {
+  value: string;
+  label: string;
+}
 
 function getScopedTotals(totals: any, filter: Category | 'all') {
   const isCategory = filter !== 'all';
@@ -87,14 +91,14 @@ const Transaction: React.FC = () => {
   const [txnToDelete, setTxnToDelete] = useState<string | null>(null);
   const [txnToEdit, setTxnToEdit] = useState<Txn | null>(null);
 
-  const FILTER_OPTIONS: SelectOption[] = [
+  const FILTER_OPTIONS: Option[] = [
     { label: t('taxonomy:categoryNames.all') ?? 'All', value: 'all' },
     { label: t('taxonomy:categoryNames.needs') ?? 'Needs', value: CategoryType.NEEDS },
     { label: t('taxonomy:categoryNames.wants') ?? 'Wants', value: CategoryType.WANTS },
     { label: t('taxonomy:categoryNames.savings') ?? 'Savings', value: CategoryType.SAVINGS },
   ];
 
-  const SORT_OPTIONS: SelectOption[] = [
+  const SORT_OPTIONS: Option[] = [
     { label: t('budget:sheets.sortSheet.sortLabel.date') ?? 'Sort by date', value: 'date' },
     { label: t('budget:sheets.sortSheet.sortLabel.amount') ?? 'Sort by amount', value: 'amount' },
   ];
