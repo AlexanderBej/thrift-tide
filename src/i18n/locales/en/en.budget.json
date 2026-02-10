@@ -3,6 +3,7 @@
   "spent": "Spent",
   "youSpent": "You spent",
   "youContributed": "You contributed",
+  "spentInTxns": "Spent {spent} in {txns} transactions",
   "contributed": "Contributed",
   "remaining": "Remaining",
   "left": "left",

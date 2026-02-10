@@ -5,7 +5,6 @@
   background: #eee;
   @include themed(background, color-neutral, $color-neutral);
   border-radius: 999px;
-  margin-top: 12px;
   width: 100%;
 
   .progress-bar-progress {

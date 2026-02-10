@@ -2,6 +2,7 @@
   "income": "Venit",
   "spent": "Cheltuit",
   "youSpent": "Ai cheltuit",
+  "spentInTxns": "Ai cheltuit {spent} în {txns} de tranzacții",
   "youContributed": "Ai contribuit",
   "contributed": "Contribuit",
   "remaining": "Rămas",

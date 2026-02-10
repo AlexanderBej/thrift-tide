@@ -80,5 +80,18 @@
     "overspent": "Overspent",
     "nearLimit": "Near Limit",
     "healthy": "Healthy"
+  },
+  "historySmart": {
+    "message": {
+      "noSpending": "This month is suspiciously quiet. Either zen mode unlocked, or your expenses are hiding.",
+      "overspentOne": "One category went over budget. Give it a quick reality check next round.",
+      "overspentMany": "{count} categories went over budget. Your budget team might need a halftime talk.",
+      "under75One": "Nice control this month. Keep this rhythm and your savings can level up.",
+      "under75Many": "Several categories are under 75%. Double-check if all expenses made it into the app.",
+      "savingsLow": "Savings is under 75% of plan. Future-you politely requests a small power-up.",
+      "lowTxns": "Only {txns} transactions logged. The app misses you a little more than your bank does.",
+      "balancedMonth": "Clean month. Your categories stayed in a healthy lane from start to finish.",
+      "savingsWin": "Savings hit the target. Future-you is already celebrating this one."
+    }
   }
 }

@@ -80,5 +80,18 @@
     "overspent": "Cheltuieli excesive",
     "nearLimit": "Aproape de limită",
     "healthy": "Sănătos"
+  },
+  "historySmart": {
+    "message": {
+      "noSpending": "Luna asta e suspect de liniștită. Ori ești zen, ori cheltuielile se ascund.",
+      "overspentOne": "O categorie a depășit bugetul. Merită un mic control în perioada următoare.",
+      "overspentMany": "{count} categorii au depășit bugetul. Echipa bugetului cere un time-out.",
+      "under75One": "Foarte bun control luna asta. Dacă păstrezi ritmul, economiile pot crește frumos.",
+      "under75Many": "Mai multe categorii sunt sub 75%. Verifică dacă ai înregistrat toate cheltuielile.",
+      "savingsLow": "Economiile sunt sub 75% din plan. Varianta ta din viitor cere un mic boost.",
+      "lowTxns": "Doar {txns} tranzacții înregistrate. Aplicației îi e puțin dor de tine.",
+      "balancedMonth": "Lună curată. Categoriile au rămas pe un traseu sănătos până la final.",
+      "savingsWin": "Ai atins ținta la economii. Varianta ta din viitor deja sărbătorește."
+    }
   }
 }

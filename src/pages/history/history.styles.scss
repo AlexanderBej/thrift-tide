@@ -1,6 +1,10 @@
 @use '../../styles/tokens.scss' as *;
 
 .history-page {
+  .history-blocks {
+    margin-top: $spacing-6;
+  }
+
   .history-doc {
     width: 100%;
     text-align: left;
@@ -51,7 +55,7 @@
       }
     }
 
-    .spent-line {
+    .remaining-line {
       margin-top: $spacing-3;
       display: block;
     }
@@ -60,32 +64,42 @@
       margin-top: $spacing-2;
     }
 
-    .remaining-value {
+    .spent-value {
       font-size: 14px;
       margin-top: $spacing-2;
       display: block;
     }
   }
 
-  .legends {
+  .categories {
     display: flex;
-    justify-content: space-between;
+    width: 100%;
+    gap: $spacing-3;
 
-    .legend-container {
-      display: inline-flex;
-      align-items: center;
-      gap: $spacing-1;
-      font-size: 14px;
+    .cat-details {
+      flex: 1 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
 
-      .category-key {
-        text-transform: capitalize;
-      }
+      .cat-header-line {
+        display: flex;
+        justify-content: space-between;
 
-      .bullet {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
+        h4 {
+          text-transform: capitalize;
+        }
+
+        .cat-stats {
+          display: flex;
+          gap: $spacing-1;
+          font-size: 12px;
+        }
       }
     }
+  }
+
+  .history-insights {
+    margin-top: $spacing-3;
   }
 }
