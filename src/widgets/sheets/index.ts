@@ -1,5 +1,6 @@
 export * from './action-sheet';
 export * from './budget-split-sheet';
+export * from './confirm-sheet';
 export * from './currency-sheet';
 export * from './language-sheet';
 export * from './sort-sheet';

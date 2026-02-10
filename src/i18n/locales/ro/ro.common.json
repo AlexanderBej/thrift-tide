@@ -42,6 +42,7 @@
     "reset": "Resetează",
     "dismiss": "Închide",
     "add": "Adaugă",
+    "edit": "Editează",
     "goToCategory": "Mergi la categoria {catName}"
   },
   "search": {

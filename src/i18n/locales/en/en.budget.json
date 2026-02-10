@@ -52,8 +52,10 @@
         }
       },
       "expense": {
-        "title": "Add transaction",
-        "subtitle": "What is your expense?",
+        "titleAdd": "Add transaction",
+        "titleEdit": "Edit transaction",
+        "subtitleAdd": "What is your expense?",
+        "subtitleEdit": "What are you changing?",
         "dates": {
           "today": "Today",
           "yesterday": "Yesterday",
@@ -96,6 +98,13 @@
       "sortLabel": {
         "date": "By date",
         "amount": "By amount"
+      }
+    },
+    "confirmSheet": {
+      "delTxn": {
+        "button": "Delete transaction",
+        "title": "You're removing a transaction",
+        "text": "Are you sure? This action is irreversible"
       }
     }
   },

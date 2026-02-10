@@ -50,8 +50,10 @@
         }
       },
       "expense": {
-        "title": "Adaugă o Tranzacție",
-        "subtitle": "Care este cheltuiala ta?",
+        "titleAdd": "Adaugă o tranzacție",
+        "subtitleAdd": "Care este cheltuiala ta?",
+        "titleEdit": "Editează o tranzacție",
+        "subtitleEdit": "Ce modifici?",
         "dates": {
           "today": "Azi",
           "yesterday": "Ieri",
@@ -94,6 +96,13 @@
       "sortLabel": {
         "date": "După dată",
         "amount": "După sumă"
+      }
+    },
+    "confirmSheet": {
+      "delTxn": {
+        "button": "Șterge tranzacția",
+        "title": "Ștergi o tranzacție",
+        "text": "Ești sigur/ă? Acțiunea asta e ireversibilă"
       }
     }
   },

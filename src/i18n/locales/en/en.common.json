@@ -42,6 +42,7 @@
     "reset": "Reset",
     "dismiss": "Dismiss",
     "add": "Add",
+    "edit": "Edit",
     "goToCategory": "Go to {catName} category"
   },
   "search": {

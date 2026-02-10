@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { enUS } from 'date-fns/locale';
@@ -18,14 +18,17 @@ import {
   setTxnSort,
   SortKey,
   selectTotals,
+  deleteTxnThunk,
 } from '@store/budget-store';
 import { AppDispatch } from '@store/store';
-import { SortSheet } from '@widgets';
+import { AddActionSheet, ConfirmSheet, SortSheet } from '@widgets';
 import { Txn } from '@api/models';
-import { TransactionLine } from 'features';
+import { SwipeRow, SwipeRowHandle, TransactionLine } from 'features';
 import { selectSettingsAppTheme } from '@store/settings-store';
+import { selectAuthUser } from '@store/auth-store';
 
 import './transactions.styles.scss';
+import toast from 'react-hot-toast';
 
 function getScopedTotals(totals: any, filter: Category | 'all') {
   const isCategory = filter !== 'all';
@@ -66,17 +69,23 @@ const Transaction: React.FC = () => {
   const fmtCurrency = useFormatMoney();
   const dispatch = useDispatch<AppDispatch>();
 
+  const rowRef = useRef<SwipeRowHandle>(null);
+
   const groups = useSelector(selectTxnsGroupedByDate);
   const totals = useSelector(selectTotals);
   const theme = useSelector(selectSettingsAppTheme);
+  const user = useSelector(selectAuthUser);
 
-  const [open, setOpen] = useState<boolean>(false);
-
-  // const fmt = useFormatMoney();
+  const [sortOpen, setSortOpen] = useState<boolean>(false);
+  const [confirmOpen, setConfirmOpen] = useState<boolean>(false);
+  const [editOpen, setEditOpen] = useState<boolean>(false);
 
   const [filter, setFilter] = useState<Category | 'all'>('all');
   const [searchCriteria, setSearchCriteria] = useState<string>('');
   const [sortCriteria, setSortCriteria] = useState<SortKey>('date');
+
+  const [txnToDelete, setTxnToDelete] = useState<string | null>(null);
+  const [txnToEdit, setTxnToEdit] = useState<Txn | null>(null);
 
   const FILTER_OPTIONS: SelectOption[] = [
     { label: t('taxonomy:categoryNames.all') ?? 'All', value: 'all' },
@@ -116,17 +125,39 @@ const Transaction: React.FC = () => {
   const onSortClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     // release focus BEFORE Radix hides the app root
     (e.currentTarget as HTMLButtonElement).blur();
-    setOpen(true);
+    setSortOpen(true);
   };
 
   const handleCriteriaChange = (open: boolean, sort: SortKey) => {
-    setOpen(open);
+    setSortOpen(open);
     setSortCriteria(sort);
     dispatch(setTxnSort({ key: sort as SortKey, dir: 'desc' }));
   };
 
   const getGroupTotal = (txns: Txn[]) => {
     return txns.reduce((sum, txn) => sum + txn.amount, 0);
+  };
+
+  const openEditSheet = (tx: Txn) => {
+    setTxnToEdit(tx);
+    setEditOpen(true);
+    rowRef.current?.close();
+  };
+
+  const openConfirmDelete = (tx: Txn) => {
+    if (tx.id) setTxnToDelete(tx.id);
+    setConfirmOpen(true);
+  };
+
+  const handleDeleteTransaction = () => {
+    if (!user?.uuid || !txnToDelete) return;
+    dispatch(deleteTxnThunk({ uid: user?.uuid, id: txnToDelete }))
+      .unwrap()
+      .then(() => {
+        setConfirmOpen(false);
+        setTxnToDelete(null);
+        rowRef.current?.close();
+      });
   };
 
   return (
@@ -191,7 +222,14 @@ const Transaction: React.FC = () => {
 
                 return (
                   <div key={tx.id} className="txn-line-wrapper">
-                    <TransactionLine txn={tx} expenseGroup={ep} />
+                    <SwipeRow
+                      ref={rowRef}
+                      key={tx.id}
+                      onEdit={() => openEditSheet(tx)}
+                      onDelete={() => openConfirmDelete(tx)}
+                    >
+                      <TransactionLine txn={tx} expenseGroup={ep} />
+                    </SwipeRow>
                   </div>
                 );
               })}
@@ -200,7 +238,21 @@ const Transaction: React.FC = () => {
         ))}
       </section>
 
-      <SortSheet open={open} onOpenChange={handleCriteriaChange} sortCriteria={sortCriteria} />
+      <SortSheet open={sortOpen} onOpenChange={handleCriteriaChange} sortCriteria={sortCriteria} />
+      <ConfirmSheet
+        open={confirmOpen}
+        onOpenChange={setConfirmOpen}
+        btnLabel={t('budget:sheets.confirmSheet.delTxn.button')}
+        title={t('budget:sheets.confirmSheet.delTxn.title')}
+        text={t('budget:sheets.confirmSheet.delTxn.text')}
+        onConfirm={handleDeleteTransaction}
+      />
+      <AddActionSheet
+        open={editOpen}
+        onOpenChange={setEditOpen}
+        defaultStep="expense"
+        txnToEdit={txnToEdit as Txn}
+      />
     </div>
   );
 };

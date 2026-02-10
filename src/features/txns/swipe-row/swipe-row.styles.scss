@@ -1,0 +1,53 @@
+@use '../../../styles/tokens' as *;
+
+.swipe-row {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  @include themed(background, color-bg-card, $color-bg-card);
+
+  /* Actions go behind */
+  .swipe-row-actions {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: stretch;
+    pointer-events: none; // so only buttons handle clicks
+
+    .swipe-row-actionsInner {
+      display: flex;
+      gap: $spacing-1;
+      align-items: center;
+      padding-right: $spacing-2;
+      pointer-events: auto; // re-enable clicks on buttons
+    }
+  }
+
+  /* Content sits above actions */
+  .swipe-row-content {
+    position: relative;
+    z-index: 2;
+    @include themed(background, color-bg-card, $color-bg-card);
+  }
+
+  /* Buttons */
+  .swipe-btn {
+    height: 100%;
+    margin: 8px 0;
+    padding: 0 14px;
+    border-radius: 14px;
+    font-weight: 700;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+
+    &__edit {
+      background: color-mix(in srgb, var(--color-primary), transparent 60%);
+      @include themed(border-color, color-primary, $color-primary);
+    }
+
+    &__delete {
+      background: rgba($color-error, 0.4);
+      border-color: $color-error;
+    }
+  }
+}

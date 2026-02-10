@@ -7,7 +7,7 @@ import { HistoryDocWithSummary, MonthDocSummary } from '@api/models';
 export const selectHistoryRows = (s: RootState) => (s as any).history.rows as HistoryRow[];
 export const selectHistoryRecents = (s: RootState) => (s as any).history.recents as HistoryRow[];
 export const selectHistoryStatus = (s: RootState) => (s as any).history.status;
-export const selectHistoryHasMore = (s: RootState) => Boolean((s as any).history.nextCursor);
+export const selectHistoryHasMore = (s: RootState) => Boolean((s as any).history.rowsNextCursor);
 
 export const selectHistoryDocsWithPercentsAndSummary = createSelector(
   [(s: RootState) => s.history.rows],

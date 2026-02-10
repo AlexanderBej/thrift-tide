@@ -6,17 +6,20 @@ import { ActionSelector, AddExpense, AddIncome, StepHandle } from 'features';
 import { SheetStep } from '@api/types';
 
 import './action-sheet.styles.scss';
+import { Txn } from '@api/models';
 
 interface AddActionSheetProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   defaultStep?: SheetStep;
+  txnToEdit?: Txn;
 }
 
 const AddActionSheet: React.FC<AddActionSheetProps> = ({
   open,
   onOpenChange,
   defaultStep = 'choose',
+  txnToEdit,
 }) => {
   const { t } = useTranslation(['common', 'budget']);
 
@@ -49,14 +52,26 @@ const AddActionSheet: React.FC<AddActionSheetProps> = ({
     setCanSubmit(false);
   }, [step]);
 
-  const title = t(`budget:sheets.addSheet.${step}.title`);
-  const description = t(`budget:sheets.addSheet.${step}.subtitle`);
+  const title =
+    step === 'expense'
+      ? t(`budget:sheets.addSheet.expense.${!!txnToEdit ? 'titleEdit' : 'titleAdd'}`)
+      : t(`budget:sheets.addSheet.${step}.title`);
+  const description =
+    step === 'expense'
+      ? t(`budget:sheets.addSheet.expense.${!!txnToEdit ? 'subtitleEdit' : 'subtitleAdd'}`)
+      : t(`budget:sheets.addSheet.${step}.subtitle`);
   const backLabel = step !== 'choose' ? t('actions.back') : '';
 
   const isIncome = step === 'income';
   const isExpense = step === 'expense';
 
-  const btnLabel = isExpense || isIncome ? t('actions.add') : '';
+  const btnLabel = isIncome
+    ? t('actions.add')
+    : isExpense
+      ? !!txnToEdit
+        ? t('actions.edit')
+        : t('actions.add')
+      : '';
   const className = isExpense ? 'expense-sheet' : isIncome ? 'income-sheet' : 'action-sheet';
 
   return (
@@ -84,7 +99,7 @@ const AddActionSheet: React.FC<AddActionSheetProps> = ({
         {[
           <ActionSelector setStep={setStep} />,
           <AddIncome ref={incomeRef} onCanSubmitChange={setCanSubmit} />,
-          <AddExpense ref={expenseRef} onCanSubmitChange={setCanSubmit} />,
+          <AddExpense ref={expenseRef} onCanSubmitChange={setCanSubmit} txnToEdit={txnToEdit} />,
         ]}
       </SliderViewport>
     </BaseSheet>

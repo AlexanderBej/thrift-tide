@@ -28,6 +28,7 @@ interface ExpenseFormProps {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleTypeChange: (t: Category) => void;
   setStep: React.Dispatch<React.SetStateAction<'form' | 'calendar'>>;
+  radiosDisabled: boolean;
 }
 
 const ExpenseForm: React.FC<ExpenseFormProps> = ({
@@ -38,6 +39,7 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({
   keepSheetOpen,
   setKeepSheetOpen,
   setStep,
+  radiosDisabled,
 }) => {
   const { t } = useTranslation('budget');
 
@@ -166,6 +168,7 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({
       <FauxRadios
         value={keepSheetOpen}
         setValue={setKeepSheetOpen}
+        disabled={radiosDisabled}
         title={t('sheets.addSheet.afterSave')}
         falseLabel={t('sheets.addSheet.expense.after.close')}
         trueLabel={t('sheets.addSheet.expense.after.open')}

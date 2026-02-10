@@ -10,7 +10,7 @@ export type HistoryRow = MonthDoc & { id: string };
 type HistoryState = {
   rows: HistoryRow[];
   rowsNextCursor: string | null;
-  recents: any[] | null;
+  recents: HistoryRow[];
   recentsNextCursor: string | null;
 
   status: 'idle' | 'loading' | 'ready' | 'error';
@@ -21,9 +21,20 @@ const initialState: HistoryState = {
   rows: [],
   rowsNextCursor: null,
   status: 'idle',
-  recents: null,
+  recents: [],
   recentsNextCursor: null,
 };
+
+function appendUniqueRows(existing: HistoryRow[], incoming: HistoryRow[]): HistoryRow[] {
+  const seen = new Set(existing.map((row) => row.id));
+  const uniqueIncoming = incoming.filter((row) => {
+    if (seen.has(row.id)) return false;
+    seen.add(row.id);
+    return true;
+  });
+
+  return [...existing, ...uniqueIncoming];
+}
 
 export const loadHistoryPage = createAppAsyncThunk<
   { items: HistoryRow[]; rowsNextCursor: any | null },
@@ -72,6 +83,8 @@ const historySlice = createSlice({
     resetHistory(s) {
       s.rows = [];
       s.rowsNextCursor = null;
+      s.recents = [];
+      s.recentsNextCursor = null;
       s.status = 'idle';
       s.error = undefined;
     },
@@ -83,7 +96,7 @@ const historySlice = createSlice({
     });
     b.addCase(loadHistoryPage.fulfilled, (s, { payload }) => {
       s.status = 'ready';
-      s.rows = [...s.rows, ...payload.items];
+      s.rows = appendUniqueRows(s.rows, payload.items);
       s.rowsNextCursor = payload.rowsNextCursor;
     });
     b.addCase(loadHistoryPage.rejected, (s, a) => {
@@ -98,8 +111,8 @@ const historySlice = createSlice({
     });
     b.addCase(loadRecentMonths.fulfilled, (s, { payload }) => {
       s.status = 'ready';
-      s.recents = [...s.rows, ...payload.items];
-      s.rowsNextCursor = payload.recentsNextCursor;
+      s.recents = appendUniqueRows(s.recents, payload.items);
+      s.recentsNextCursor = payload.recentsNextCursor;
     });
     b.addCase(loadRecentMonths.rejected, (s, a) => {
       // prefer payload when using rejectWithValue
