@@ -17,6 +17,7 @@
 
   box-shadow: 0 -14px 40px rgba(0, 0, 0, 0.18);
   min-height: 250px;
+  max-height: 90%;
 
   position: fixed;
   left: 0;
@@ -84,6 +85,8 @@
     padding-top: $spacing-6;
     border-top: 1px solid;
     border-color: color-mix(in srgb, var(--color-neutral), transparent 0%);
+    overflow-y: auto;
+    overflow-x: hidden;
 
     .sheet-btn-wrapper {
       margin-top: auto;

@@ -74,6 +74,7 @@ const History: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { t, i18n } = useTranslation(['common', 'budget', 'insights']);
   const fmtMoney = useFormatMoney(true);
+  const fmtWOCurrency = useFormatMoney(false);
 
   const user = useSelector(selectAuthUser);
   const didInitRef = useRef(false);
@@ -204,11 +205,11 @@ const History: React.FC = () => {
                   <div className="cat-header-line">
                     <h4>{cat.key}</h4>
                     <div className="cat-stats">
-                      <strong>{cat.spentSum}</strong>
+                      <strong>{fmtWOCurrency(cat.spentSum)}</strong>
                       <span>
                         ({Math.round(cat.spentPerc * 100)}%) {i18n.language === 'ro' ? 'din' : 'of'}
                       </span>
-                      <strong>{cat.alloc}</strong>
+                      <strong>{fmtWOCurrency(cat.alloc)}</strong>
                     </div>
                   </div>
                   <ProgressBar color={cat.color} progress={cat.spentPerc} />

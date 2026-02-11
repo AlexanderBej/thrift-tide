@@ -71,6 +71,8 @@ function getScopedTotals(totals: any, filter: Category | 'all') {
 const Transaction: React.FC = () => {
   const { t, i18n } = useTranslation(['common', 'budget']);
   const fmtCurrency = useFormatMoney();
+  const fmtWOCurrency = useFormatMoney();
+
   const dispatch = useDispatch<AppDispatch>();
 
   const rowRefs = useRef<Record<string, SwipeRowHandle | null>>({});
@@ -184,10 +186,10 @@ const Transaction: React.FC = () => {
             <h2 className="spent-value">{fmtCurrency(scoped.spent)}</h2>
             <div className="txn-budget-row">
               <span>
-                {t('budget:budget') ?? 'Budget'}: {scoped.allocated}
+                {t('budget:budget') ?? 'Budget'}: {fmtWOCurrency(scoped.allocated)}
               </span>
               <span>
-                {t('budget:remaining') ?? 'Remaining'}: {scoped.remaining}
+                {t('budget:remaining') ?? 'Remaining'}: {fmtWOCurrency(scoped.remaining)}
               </span>
             </div>
           </>

@@ -1,5 +1,6 @@
 import React, { forwardRef, useImperativeHandle } from 'react';
 import { animate, motion, useMotionValue, useTransform } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 import './swipe-row.styles.scss';
 
@@ -18,26 +19,31 @@ type SwipeRowProps = {
 
 const SwipeRow = forwardRef<SwipeRowHandle, SwipeRowProps>(
   ({ children, onEdit, onDelete, onSwipeStart }, ref) => {
+    const { t } = useTranslation('common');
     const x = useMotionValue(0);
 
     const actionsOpacity = useTransform(x, [-90, -20, 0], [1, 0.4, 0]);
 
-    useImperativeHandle(ref, () => ({
-      close: () => {
-        return animate(x, 0, { type: 'spring', stiffness: 420, damping: 32 });
-      },
-      open: (px = 160) => animate(x, -px, { type: 'spring', stiffness: 420, damping: 32 }),
-    }), [x]);
+    useImperativeHandle(
+      ref,
+      () => ({
+        close: () => {
+          return animate(x, 0, { type: 'spring', stiffness: 420, damping: 32 });
+        },
+        open: (px = 160) => animate(x, -px, { type: 'spring', stiffness: 420, damping: 32 }),
+      }),
+      [x],
+    );
     return (
       <div className="swipe-row">
         {/* BACK LAYER (ACTIONS) */}
         <div className="swipe-row-actions">
           <motion.div className="swipe-row-actionsInner" style={{ opacity: actionsOpacity }}>
             <button className="swipe-btn swipe-btn__edit" onClick={onEdit} type="button">
-              Edit
+              {t('actions.edit')}
             </button>
             <button className="swipe-btn swipe-btn__delete" onClick={onDelete} type="button">
-              Delete
+              {t('actions.delete')}
             </button>
           </motion.div>
         </div>

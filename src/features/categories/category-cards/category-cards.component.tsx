@@ -9,12 +9,14 @@ import { selectCards } from '@store/budget-store';
 import { CategoryName } from '@shared/components/category-name';
 import { getCssVar } from '@shared/utils';
 import { ProgressBar } from '@shared/components';
+import { useFormatMoney } from '@shared/hooks';
 
 import './category-cards.styles.scss';
 
 const CategoryCards: React.FC = () => {
   const cards = useSelector(selectCards);
   const { t } = useTranslation(['common', 'budget', 'taxonomy']);
+  const fmtCurrency = useFormatMoney(false);
 
   if (!cards) return null;
 
@@ -39,7 +41,7 @@ const CategoryCards: React.FC = () => {
             <div className="card-details">
               <span>{t('budget:allocated') ?? 'Allocated'}</span>
               <span>
-                <strong>{c.allocated}</strong>
+                <strong>{fmtCurrency(c.allocated)}</strong>
               </span>
             </div>
 
@@ -50,14 +52,14 @@ const CategoryCards: React.FC = () => {
                 <span>{t('budget:spent') ?? 'Spent'}</span>
               )}
               <span>
-                <strong>{c.spent}</strong>
+                <strong>{fmtCurrency(c.spent)}</strong>
               </span>
             </div>
 
             <div className="card-details">
               <span>{t('budget:remaining') ?? 'Remaining'}</span>
               <span>
-                <strong>{c.remaining}</strong>
+                <strong>{fmtCurrency(c.remaining)}</strong>
               </span>
             </div>
           </div>

@@ -34,7 +34,7 @@
 
           @include themed(background-color, color-primary, $color-primary);
           @include themed(border-color, color-primary, $color-primary);
-          @include themed(color, color-text-inverse, $color-text-inverse);
+          color: $anti-flash-500;
         }
 
         .chip-label {

@@ -38,7 +38,8 @@ const pickHeaderInsight = (insights: Insight[]) => {
 
 const Dashboard: React.FC = () => {
   const { t, i18n } = useTranslation(['common', 'budget', 'taxonomy']);
-  const fmtMoney = useFormatMoney();
+  const fmtWCurrency = useFormatMoney(true);
+  const fmtWOCurrency = useFormatMoney(false);
 
   const user = useSelector(selectAuthUser);
   const insights = useSelector(selectDashboardInsights);
@@ -120,14 +121,16 @@ const Dashboard: React.FC = () => {
       {isIncomeSet && (
         <>
           <h2 className="remaining-heading">
-            {t('budget:headerRemaining', { remaining: fmtMoney(insights.totals.totalRemaining) })}
+            {t('budget:headerRemaining', {
+              remaining: fmtWCurrency(insights.totals.totalRemaining),
+            })}
           </h2>
           <div className="budget-stats-line">
             <span>
-              {t('budget:budget') ?? 'Budget'}: {insights.totals.totalAllocated}
+              {t('budget:budget') ?? 'Budget'}: {fmtWOCurrency(insights.totals.totalAllocated)}
             </span>
             <span>
-              {t('budget:spent') ?? 'Spent'}: {insights.totals.totalSpent}
+              {t('budget:spent') ?? 'Spent'}: {fmtWOCurrency(insights.totals.totalSpent)}
             </span>
           </div>
         </>
@@ -172,16 +175,6 @@ const Dashboard: React.FC = () => {
             <h3 className="tt-section-header">{t('budget:topExpGroups')}</h3>
             <ul className={`exp-groups-list exp-groups-list__${theme}`}>
               <Accordion type="multiple" defaultOpenIds={[]} items={accordionItems} noBackground />
-
-              {/* {topExpenseGroups.map((eg, index) => {
-                const fullEG = resolveExpenseGroup(eg.expGroup);
-                return (
-                  <li className="top-exp-groups-item" key={index}>
-                    <ExpenseGroupName expenseGroup={fullEG} />
-                    <strong>{eg.total}</strong>
-                  </li>
-                );
-              })} */}
             </ul>
           </section>
         </>

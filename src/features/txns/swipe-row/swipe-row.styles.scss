@@ -2,7 +2,6 @@
 
 .swipe-row {
   position: relative;
-  border-radius: 18px;
   overflow: hidden;
   @include themed(background, color-bg-card, $color-bg-card);
 

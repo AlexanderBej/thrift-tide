@@ -97,16 +97,13 @@
       border: 2px solid transparent;
       // background: #fff;
       width: -webkit-fill-available;
+      @include themed(color, color-text-secondary, $color-text-secondary);
 
       font-weight: 650;
       transition:
         transform 140ms ease,
         background-color 140ms ease,
         opacity 140ms ease;
-    }
-
-    .tt-dayBtn:hover {
-      transform: translateY(-1px);
     }
 
     .tt-today {
@@ -117,6 +114,7 @@
 
     .tt-selected {
       .tt-dayBtn {
+        @include themed(color, color-text-inverse, $color-text-inverse);
         background-color: $color-primary;
       }
     }

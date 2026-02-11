@@ -43,6 +43,7 @@
     "dismiss": "Închide",
     "add": "Adaugă",
     "edit": "Editează",
+    "delete": "Șterge",
     "goToCategory": "Mergi la categoria {catName}"
   },
   "search": {
@@ -69,8 +70,8 @@
       "notFuture": "Data nu poate fi în viitor"
     },
     "expGroup": {
-      "required": "Găleata este obligatorie",
-      "invalid": "Alege o găleată validă"
+      "required": "Grupul este obligatoriu",
+      "invalid": "Alege un grup valid"
     }
   },
   "errors": {

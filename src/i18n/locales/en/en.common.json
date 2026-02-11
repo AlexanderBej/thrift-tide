@@ -43,6 +43,7 @@
     "dismiss": "Dismiss",
     "add": "Add",
     "edit": "Edit",
+    "delete": "Delete",
     "goToCategory": "Go to {catName} category"
   },
   "search": {
@@ -70,7 +71,7 @@
     },
     "expGroup": {
       "required": "Bucket is required",
-      "invalid": "Choose a valid bucket"
+      "invalid": "Choose a valid group"
     }
   },
   "errors": {

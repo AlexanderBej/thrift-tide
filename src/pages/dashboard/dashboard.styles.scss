@@ -105,6 +105,7 @@
       width: 100%;
       padding: $spacing-2 0px;
       align-items: center;
+      @include themed(color, color-text-primary, $color-text-primary);
 
       .eg-category {
         margin-left: auto;
@@ -117,6 +118,7 @@
         align-items: center;
         justify-content: center;
         text-transform: capitalize;
+        @include themed(color, color-text-inverse, $color-text-inverse);
       }
 
       .eg-total {

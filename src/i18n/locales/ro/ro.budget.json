@@ -10,7 +10,7 @@
   "headerRemaining": "Mai ai {remaining}",
   "allocated": "Alocat",
   "budget": "Buget",
-  "topExpGroups": "Găleți principale",
+  "topExpGroups": "Grupuri principale",
   "spendPace": "Ritmul de cheltuieli (cheltuieli zilnice)",
   "monthPace": "Ritm lunar (data expirării)",
   "seeAllTxn": "Vezi toate tranzacțiile",
@@ -28,6 +28,7 @@
   },
   "categories": "Categorii",
   "category": "Categorie",
+  "expGroup": "Grup de cheltuieli",
   "pace": "Ritm (Total)",
   "noTransactions": "Nu ai adăugat încă nicio cheltuială",
   "noBudget": "Încă nu ți-ai setat bugetul",
@@ -97,12 +98,12 @@
       "sortOption": {
         "date": "după dată",
         "amount": "după sumă",
-        "expenseGroup": "după găleată"
+        "expenseGroup": "după grup"
       },
       "sortLabel": {
         "date": "După dată",
         "amount": "După sumă",
-        "expenseGroup": "După găleată"
+        "expenseGroup": "După grup"
       }
     },
     "confirmSheet": {
@@ -171,7 +172,6 @@
       "error": "Schimbarea perioadei a eșuat."
     }
   },
-  "expGroup": "Găleată",
   "uncategorized": "Necategorizat",
   "date": "Dată"
 }
