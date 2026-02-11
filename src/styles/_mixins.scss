@@ -25,7 +25,12 @@
   border-radius: $radius;
   padding: $pad;
   height: auto;
-  box-shadow: $shadow-sm;
+  border: 1px solid;
+  @include themed(border-color, color-neutral, $color-neutral);
+  box-shadow: $shadow-md;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  overflow: clip;
 }
 
 $breakpoints: (

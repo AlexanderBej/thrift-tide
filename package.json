@@ -6,6 +6,7 @@
     "@nivo/bar": "^0.99.0",
     "@nivo/line": "^0.99.0",
     "@nivo/pie": "^0.99.0",
+    "@radix-ui/react-visually-hidden": "^1.2.4",
     "@reduxjs/toolkit": "^2.9.2",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.0",
@@ -14,7 +15,9 @@
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
     "clsx": "^2.1.1",
+    "embla-carousel-react": "^8.6.0",
     "firebase": "^12.4.0",
+    "framer-motion": "^12.34.0",
     "i18next": "^22.5.1",
     "i18next-browser-languagedetector": "^8.2.0",
     "i18next-icu": "^2.4.1",
@@ -26,10 +29,13 @@
     "react-hot-toast": "^2.6.0",
     "react-i18next": "^12.3.1",
     "react-icons": "^5.5.0",
+    "react-mobile-picker": "^1.2.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.9.4",
     "react-scripts": "5.0.1",
+    "react-swipeable-list": "^1.10.0",
     "typescript": "^4.9.5",
+    "vaul": "^1.1.2",
     "web-vitals": "^2.1.4",
     "workbox-window": "^7.3.0"
   },
@@ -40,6 +46,7 @@
     "start:cra": "craco start",
     "build": "npm run build:themes && craco build",
     "test": "craco test",
+    "migrate:txn-fields": "node scripts/migrate-txn-fields.cjs",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -69,6 +76,7 @@
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
+    "firebase-admin": "^13.6.1",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.6.2",
     "sass": "^1.93.3"

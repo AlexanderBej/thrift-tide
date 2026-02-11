@@ -1,0 +1,7 @@
+@use '../../../styles/tokens.scss' as *;
+
+.start-day-sheet {
+  .sheet-info-block {
+    margin-bottom: $spacing-4;
+  }
+}

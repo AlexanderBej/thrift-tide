@@ -1,14 +1,105 @@
 @use '../../styles/tokens.scss' as *;
 
 .history-page {
-  display: grid;
-  gap: $spacing-6;
-
-  @include mediaDown(md) {
-    gap: $spacing-4;
+  .history-blocks {
+    margin-top: $spacing-6;
   }
 
-  .history-page-section {
-    @include dashboard-card($radius: $radius-lg, $pad: $spacing-5 $spacing-6);
+  .history-doc {
+    width: 100%;
+    text-align: left;
+    padding: $spacing-2;
+    font-size: 16px;
+    @include themed(color, color-text-primary, $color-text-primary);
+
+    .history-doc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .doc-date {
+        font-weight: 700;
+        font-size: 18px;
+        text-transform: capitalize;
+      }
+
+      .history-badge-wrapper {
+        padding: $spacing-2 $spacing-3;
+        border-radius: $radius-lg;
+        display: flex;
+        gap: $spacing-1;
+        align-items: center;
+        width: fit-content;
+        font-size: 14px;
+        color: $color-text-secondary;
+
+        &.danger {
+          background-color: rgba($color: $color-error, $alpha: 0.2);
+        }
+
+        &.info {
+          background-color: rgba($color: $eg-1, $alpha: 0.2);
+        }
+
+        &.success {
+          background-color: rgba($color: $color-success, $alpha: 0.2);
+        }
+
+        &.warn {
+          background-color: rgba($color: $color-warning, $alpha: 0.2);
+        }
+
+        &.muted {
+          background-color: color-mix(in srgb, var(--color-primary-dark), transparent 80%);
+        }
+      }
+    }
+
+    .remaining-line {
+      margin-top: $spacing-3;
+      display: block;
+    }
+
+    .categories-progress-bar {
+      margin-top: $spacing-2;
+    }
+
+    .spent-value {
+      font-size: 14px;
+      margin-top: $spacing-2;
+      display: block;
+    }
+  }
+
+  .categories {
+    display: flex;
+    width: 100%;
+    gap: $spacing-3;
+
+    .cat-details {
+      flex: 1 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .cat-header-line {
+        display: flex;
+        justify-content: space-between;
+
+        h4 {
+          text-transform: capitalize;
+        }
+
+        .cat-stats {
+          display: flex;
+          gap: $spacing-1;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+
+  .history-insights {
+    margin-top: $spacing-3;
   }
 }

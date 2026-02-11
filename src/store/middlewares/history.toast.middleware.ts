@@ -8,7 +8,7 @@ export const historyToastMiddleware: Middleware = () => (next) => (action) => {
   // errors
   if (isAnyOf(loadHistoryPage.rejected)(action)) {
     const map: Record<string, string> = {
-      [loadHistoryPage.rejected.type]: i18n.t('budget:toast.history.loadFailed'),
+      [loadHistoryPage.rejected.type]: i18n.t('history:toast.loadFailed'),
     };
     const msg = map[action.type];
     if (msg) toast.error(msg);

@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from '../store';
 import {
+  emptyMonthSummary,
   monthKey,
   monthKeyFromDate,
   periodBounds,
@@ -21,12 +22,13 @@ import {
   updateTransaction,
   deleteTransaction,
   computeMonthSummary,
+  deleteAllTransactionsForMonth,
 } from '@api/services';
 import { createAppAsyncThunk, PercentTriple } from '@api/types';
 
 // type Status = 'idle' | 'loading' | 'ready' | 'error';
 export type TxnTypeFilter = 'all' | 'needs' | 'wants' | 'savings';
-export type SortKey = 'date' | 'amount';
+export type SortKey = 'date' | 'amount' | 'expenseGroup';
 type SortDir = 'asc' | 'desc';
 
 type LoadStatus = 'idle' | 'loading' | 'ready' | 'error';
@@ -155,6 +157,20 @@ export const setPercentsThunk = createAppAsyncThunk<
   }
 });
 
+export const updateMonthStartDayThunk = createAppAsyncThunk<
+  MonthDoc,
+  { uid: string; startDay: number }
+>('budget/updateStartDay', async ({ uid, startDay }, { getState, rejectWithValue, dispatch }) => {
+  try {
+    const { month } = getState().budget;
+    const next = await updateMonth(uid, month, { startDay });
+    await dispatch(recomputeAndPersistSummary({ uid }));
+    return next;
+  } catch (error: any) {
+    return rejectWithValue(error.message ?? 'Failed to update start day for this period');
+  }
+});
+
 export const changeMonthThunk = createAppAsyncThunk<
   { doc: MonthDoc; month: string },
   { uid: string; month: string }
@@ -228,6 +244,36 @@ export const recomputeAndPersistSummary = createAppAsyncThunk<void, { uid: strin
     const txns = state.txns;
     const summary = computeMonthSummary(doc, txns);
     await persistMonthSummary(uid, state.month, summary);
+  },
+);
+
+export const resetCurrentPeriodThunk = createAppAsyncThunk<void, { uid: string }>(
+  'budget/resetCurrentPeriod',
+  async ({ uid }, { getState, dispatch, rejectWithValue }) => {
+    try {
+      const { month, doc } = getState().budget;
+      if (!doc) return;
+
+      // Stop listener to avoid lots of intermediate snapshot updates during deletion
+      stopTxnsListener();
+
+      // 1) Delete all txns in Firestore for this month
+      await deleteAllTransactionsForMonth(uid, month);
+
+      // 2) Immediately update local UI
+      dispatch(_setTxns([]));
+
+      // 3) Immediately clear cached summary in Firestore
+      // (prevents stale month summary if user navigates/history/list reads it)
+      await persistMonthSummary(uid, month, emptyMonthSummary(doc));
+
+      // 4) Restart listener for this month
+      startTxnsListener(onTransactionsSnapshot(uid, month, (txns) => dispatch(_setTxns(txns))));
+
+      return;
+    } catch (error: any) {
+      return rejectWithValue(error?.message ?? 'Failed to reset period');
+    }
   },
 );
 
@@ -320,6 +366,19 @@ const budgetSlice = createSlice({
         s.error = a.error.message;
       })
 
+      .addCase(updateMonthStartDayThunk.pending, (s) => {
+        s.error = undefined;
+        s.mutateStatus = 'loading';
+      })
+      .addCase(updateMonthStartDayThunk.fulfilled, (s, { payload }) => {
+        s.doc = payload;
+        s.mutateStatus = 'idle';
+      })
+      .addCase(updateMonthStartDayThunk.rejected, (s, a) => {
+        s.error = a.error.message;
+        s.mutateStatus = 'error';
+      })
+
       .addCase(setPercentsThunk.pending, (s) => {
         s.error = undefined;
         s.mutateStatus = 'loading';
@@ -340,8 +399,6 @@ const budgetSlice = createSlice({
       .addCase(changeMonthThunk.fulfilled, (s, { payload }) => {
         s.loadStatus = 'ready';
         s.doc = payload.doc;
-        console.log('get HEREEEE');
-
         s.month = payload.month;
       })
       .addCase(changeMonthThunk.rejected, (s, a) => {
@@ -371,6 +428,19 @@ const budgetSlice = createSlice({
         s.mutateStatus = 'idle';
       })
       .addCase(deleteTxnThunk.rejected, (s, a) => {
+        s.mutateStatus = 'error';
+        s.error = a.error.message;
+      })
+
+      // --- clear whole period
+      .addCase(resetCurrentPeriodThunk.pending, (s) => {
+        s.mutateStatus = 'loading';
+        s.error = undefined;
+      })
+      .addCase(resetCurrentPeriodThunk.fulfilled, (s) => {
+        s.mutateStatus = 'idle';
+      })
+      .addCase(resetCurrentPeriodThunk.rejected, (s, a) => {
         s.mutateStatus = 'error';
         s.error = a.error.message;
       });

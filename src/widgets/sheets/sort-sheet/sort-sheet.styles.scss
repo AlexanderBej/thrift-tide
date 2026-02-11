@@ -1,0 +1,45 @@
+@use '../../../styles/tokens.scss' as *;
+
+.sort-sheet {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid;
+  @include themed(background-color, color-neutral-light, $color-neutral-light);
+  @include themed(border-color, color-neutral, $color-neutral);
+  border-radius: 999px;
+  overflow: visible;
+
+  .sort-bubble {
+    display: inline-flex;
+    gap: 5px;
+    flex: 1;
+    border-radius: 999px;
+    @include themed(border-color, color-neutral, $color-neutral);
+    @include themed(color, color-text-secondary, $color-text-secondary);
+    align-items: center;
+    padding: $spacing-3;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1;
+    font-size: 16px;
+
+    .category-value {
+      font-weight: 700;
+    }
+
+    &.selected {
+      z-index: 2;
+      padding: calc(#{$spacing-3} + 2px) calc(#{$spacing-3} + 4px);
+      margin: -2px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      @include themed(background-color, color-secondary, $color-secondary);
+      color: $anti-flash-500;
+
+      .category-value {
+        color: $anti-flash-300; // same on both themes
+      }
+    }
+  }
+}

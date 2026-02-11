@@ -1,23 +1,38 @@
 @use './../../styles/tokens.scss' as *;
 
-.login-contaier {
-  width: 400px;
-  padding: 20px;
-  margin: 150px auto;
-  height: 300px;
-  @include themed(background-color, color-bg-card, $color-bg-card);
-  box-shadow: $shadow-md;
-  border-radius: $radius-md;
-
-  .login-btn-container {
+.login-page {
+  .logo-container {
+    margin-top: 100px;
     display: flex;
+    justify-content: center;
+  }
 
-    .login-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: $spacing-4;
-      margin: 80px auto;
+  .login-container {
+    width: 400px;
+    padding: 20px;
+    margin: 100px auto;
+    height: 300px;
+    @include themed(background-color, color-bg-card, $color-bg-card);
+    border-radius: $radius-md;
+
+    &__light {
+      box-shadow: $shadow-md;
+    }
+
+    &__dark {
+      box-shadow: $dark-shadow-md;
+    }
+
+    .login-btn-container {
+      display: flex;
+
+      .login-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: $spacing-4;
+        margin: 80px auto;
+      }
     }
   }
 }

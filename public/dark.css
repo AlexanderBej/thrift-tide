@@ -6,14 +6,22 @@
 
 body {
   font-family: "Open Sans", sans-serif;
-  color: #ededed;
-  background-color: #1f282f;
+  color: #e6eef0;
+  background-color: #21252b;
 }
 
 button {
   background: unset;
   border: unset;
   cursor: pointer;
+  transition: transform 0 2s ease-in;
+}
+button:active {
+  transform: translateY(1px) scale(0.97);
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
 }
 
 a,
@@ -58,40 +66,42 @@ h5 {
 }
 
 :root {
-  --color-primary: #5cf0a8;
-  --color-primary-dark: rgb(20.9831460674, 228.0168539326, 127.297752809);
-  --color-secondary: #79c8ff;
-  --color-secondary-dark: rgb(27, 161.4179104478, 255);
-  --color-bg-main: #1f282f;
+  --color-primary: #2f7f87;
+  --color-primary-dark: rgb(35.25, 95.25, 101.25);
+  --color-primary-light: rgba(47, 127, 135, 0.3);
+  --color-secondary: #b84444;
+  --color-secondary-dark: #8a3333;
+  --color-bg-main: #21252b;
   --color-bg-card: #1e2126;
-  --color-text-primary: #ededed;
+  --color-text-primary: #e6eef0;
   --color-text-secondary: #9ca6b5;
   --color-text-inverse: #1c2833;
   --color-neutral-light: #21252b;
   --color-neutral: #2a2b2e;
   --grid: #e6ebef;
-  --needs: #5cf0a8;
-  --needs-light: rgb(214.25, 251.25, 233.25);
-  --wants: #79c8ff;
-  --wants-light: rgb(221.5, 241.25, 255);
-  --savings: #ffd45b;
-  --savings-light: rgb(255, 244.25, 214);
+  --needs: #69bfd4;
+  --needs-light: rgb(217.5, 239, 244.25);
+  --wants: #9790e8;
+  --wants-light: rgb(229, 227.25, 249.25);
+  --savings: #f7bb7b;
+  --savings-light: #fdeede;
   --success: #27ae60;
   --success-light: rgb(133.6901408451, 227.8098591549, 173.4295774648);
   --warning: #f39c12;
   --warning-light: rgb(249, 205.5, 136.5);
   --error: #e74c3c;
   --error-light: rgb(243, 165.5, 157.5);
-  --cat-1: #4e79a7;
-  --cat-2: #f28e2b;
-  --cat-3: #e15759;
-  --cat-4: #76b7b2;
-  --cat-5: #59a14f;
-  --cat-6: #edc948;
-  --cat-7: #b07aa1;
-  --cat-8: #ff9da7;
-  --cat-9: #9c755f;
-  --cat-10: #bab0ac;
+  --anti-flash-300: #ededed;
+  --eg-1: #508ac8;
+  --eg-2: #f28e2b;
+  --eg-3: #6c6cb4;
+  --eg-4: #76b7b2;
+  --eg-5: #59a14f;
+  --eg-6: #edc948;
+  --eg-7: #b07aa1;
+  --eg-8: #ff9da7;
+  --eg-9: #9c755f;
+  --eg-10: #e15759;
 }
 
 .missing-items {
@@ -101,6 +111,20 @@ h5 {
 .error {
   font-size: 12px;
   color: #e74c3c;
+}
+
+.tt-section {
+  margin-top: 24px;
+}
+
+.tt-section-header {
+  margin: 0 8px 8px;
+}
+
+.tt-settings-header {
+  font-weight: 400;
+  text-transform: uppercase;
+  margin: 0 8px 8px;
 }
 
 /*# sourceMappingURL=dark.css.map */

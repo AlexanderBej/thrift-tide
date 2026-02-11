@@ -24,10 +24,10 @@ export const NAV_ITEMS: NavItem[] = [
     icon: RxDashboard,
   },
   {
-    key: 'buckets',
-    to: '/buckets',
-    label: 'Buckets',
-    i18nLabel: 'pages.buckets',
+    key: 'categories',
+    to: '/categories',
+    label: 'Categories',
+    i18nLabel: 'pages.categories',
     icon: MdOutlineCategory,
   },
   {
@@ -52,10 +52,10 @@ export const NAV_ITEMS: NavItem[] = [
     icon: FaHistory,
   },
   {
-    key: 'settings',
-    to: '/settings',
-    label: 'Settings',
-    i18nLabel: 'pages.settings',
+    key: 'profile',
+    to: '/profile',
+    label: 'Profile',
+    i18nLabel: 'pages.profile',
     icon: CiSettings,
   },
 ];

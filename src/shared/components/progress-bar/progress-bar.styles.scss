@@ -1,0 +1,15 @@
+@use '../../../styles/tokens' as *;
+
+.progress-bar {
+  height: 10px;
+  background: #eee;
+  @include themed(background, color-neutral, $color-neutral);
+  border-radius: 999px;
+  width: 100%;
+
+  .progress-bar-progress {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 200ms ease;
+  }
+}

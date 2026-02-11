@@ -1,0 +1,34 @@
+{
+  "step1": {
+    "text1": "Bun venit la <bold>Thrift Tide</bold>, asistentul tău de buget prietenos. Această aplicație te ajută să îți gestionezi veniturile lunare folosind sistemul de bugetare <bold>50/30/20</bold> — o metodă simplă care împarte venitul în 50% pentru Nevoi, 30% pentru Dorințe și 20% pentru Economii.",
+    "text2": "Înainte să începem, să configurăm câteva preferințe simple. Apasă <bold>Următorul</bold> pentru a învăța cum să folosești la maximum noul tău tablou de bord. Dacă preferi să începi direct, apasă <bold>Sari</bold> peste și explorează în propriul tău ritm."
+  },
+  "step2": {
+    "title": "Setări pentru regiune",
+    "text1": "Selectează limba pe care dorești să o folosească aplicația. Toate butoanele, etichetele și mesajele vor fi afișate în limba aleasă. Poți schimba limba oricând din <bold>Setări</bold>.",
+    "text2": "Selectează și moneda pe care o utilizezi pentru venitul tău.",
+    "text3": "După ce ai ales, apasă <bold>Următorul</bold>."
+  },
+  "step3": {
+    "title": "Alege Cum Îți Împarți Venitul",
+    "text1": "În fiecare lună, venitul tău este împărțit în trei părți principale:",
+    "li1": "<bold>Nevoi</bold> (pentru cheltuieli esențiale, cum ar fi mâncarea, chiria sau facturile),",
+    "li2": "<bold>Dorințe</bold> (pentru lucruri care îți fac plăcere)",
+    "li3": "și <bold>Economii</bold> (pentru obiective sau urgențe).",
+    "text2": "Ajustează barele sau valorile de mai jos pentru a stabili cât (%) dorești să aloci fiecărei categorii.",
+    "text3": " Când ai terminat, apasă <bold>Următorul</bold."
+  },
+  "step4": {
+    "title": "Alege Ziua de Început a Lunii",
+    "text1": "Fiecare persoană are un program de plată diferit!",
+    "text2": "Alege în ce zi ar trebui să înceapă „luna ta de buget” — de exemplu, în <bold>prima zi a lunii</bold> sau <bold>ziua în care primești salariul.</bold>",
+    "text3": "Aplicația va calcula cheltuielile și rezumatele începând din acea zi în fiecare lună.",
+    "text4": "Apasă <bold>Următorul</bold> când ești gata."
+  },
+  "step5": {
+    "title": "Totul este Gata!",
+    "text1": "Asta a fost tot — configurarea este completă 🎊",
+    "text2": "Preferințele tale au fost salvate și poți începe să folosești aplicația. Poți reveni oricând la <bold>Setări</bold> pentru a schimba limba, valuta, procentele sau ziua de început.",
+    "text3": "Apasă <bold>Continuă</bold> pentru a deschide tabloul de bord și a începe urmărirea bugetului."
+  }
+}

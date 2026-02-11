@@ -1,0 +1,124 @@
+@use '../../../styles/tokens' as *;
+
+.txn-day-picker {
+  .step-back-btn-wrapper {
+    margin-bottom: $spacing-5;
+    display: flex;
+
+    .step-back-btn {
+      display: flex;
+      gap: $spacing-1;
+      align-items: center;
+
+      .step-back-btn-label {
+        @include themed(color, color-text-secondary, $color-text-secondary);
+      }
+    }
+  }
+
+  .day-picker-nav {
+    display: flex;
+    gap: $spacing-6;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tt-calendar {
+    /* Whole calendar block */
+
+    .rdp-month_caption {
+      display: none;
+    }
+
+    .tt-grid {
+      padding: 10px;
+      border-radius: 18px;
+      width: 100%;
+      // background: rgba(0, 0, 0, 0.03);
+    }
+
+    /* Weekday header row */
+    .tt-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 8px; /* match your day spacing vibe */
+      margin-bottom: 8px;
+    }
+
+    .tt-weekday {
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(31, 41, 51, 0.55);
+      padding: 6px 0;
+      text-transform: uppercase;
+    }
+
+    /* Weeks layout (lets you add row gaps) */
+    .tt-weeks {
+      display: grid;
+      gap: 8px; // ✅ row spacing
+    }
+
+    /* A week row */
+    .tt-week {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      // gap: 8px; // ✅ column spacing
+    }
+
+    /* Each day “cell” */
+    .tt-day {
+      display: flex;
+      justify-content: center;
+      // border: 2px solid transparent;
+      // border-radius: $radius-md;
+      @include themed(background-color, color-primary-light, $color-primary-light);
+
+      &.tt-disabled {
+        background-color: transparent;
+      }
+    }
+
+    .tt-range-start {
+      border-top-left-radius: 999px;
+      border-bottom-left-radius: 999px;
+    }
+
+    .tt-range-end {
+      border-top-right-radius: 999px;
+      border-bottom-right-radius: 999px;
+    }
+
+    /* The clickable day */
+    .tt-dayBtn {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      border: 2px solid transparent;
+      // background: #fff;
+      width: -webkit-fill-available;
+
+      font-weight: 650;
+      transition:
+        transform 140ms ease,
+        background-color 140ms ease,
+        opacity 140ms ease;
+    }
+
+    .tt-dayBtn:hover {
+      transform: translateY(-1px);
+    }
+
+    .tt-today {
+      .tt-dayBtn {
+        border-color: $color-secondary;
+      }
+    }
+
+    .tt-selected {
+      .tt-dayBtn {
+        background-color: $color-primary;
+      }
+    }
+  }
+}

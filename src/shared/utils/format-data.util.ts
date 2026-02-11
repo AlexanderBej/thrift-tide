@@ -1,3 +1,4 @@
+import { Language } from '@api/types';
 import { format } from 'date-fns';
 
 // format currency for charts
@@ -47,7 +48,11 @@ export const LOCALE_MAP: Record<string, string> = {
   ro: 'ro-RO',
 };
 
-export function makeFormatter(isMobile: boolean, locale: string, withYear?: boolean) {
+export function makeFormatter(
+  locale: string,
+  withYear?: boolean,
+  weekDay: 'short' | 'long' = 'short',
+) {
   if (withYear) {
     return new Intl.DateTimeFormat(locale, {
       weekday: 'short',
@@ -58,8 +63,36 @@ export function makeFormatter(isMobile: boolean, locale: string, withYear?: bool
   }
 
   return new Intl.DateTimeFormat(locale, {
-    weekday: 'short',
-    month: isMobile ? 'short' : 'long',
+    weekday: weekDay,
+    month: 'short',
     day: 'numeric',
   });
 }
+
+export function formatMonth(yyyyMm: string, lang?: Language) {
+  const [year, month] = yyyyMm.split('-');
+  const date = new Date(Number(year), Number(month) - 1);
+
+  return date.toLocaleString(lang === 'ro' ? 'ro-RO' : 'en-US', { month: 'long' });
+}
+
+export const formatStartDay = (day: number | undefined, lang?: Language) => {
+  if (!day) return;
+  if (lang === 'ro') return day;
+  switch (day) {
+    case 1:
+    case 21:
+      return `${day}st`;
+
+    case 2:
+    case 22:
+      return `${day}nd`;
+
+    case 3:
+    case 23:
+      return `${day}rd`;
+
+    default:
+      return `${day}th`;
+  }
+};

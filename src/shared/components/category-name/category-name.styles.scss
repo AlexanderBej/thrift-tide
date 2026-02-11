@@ -1,0 +1,23 @@
+@use '../../../styles/tokens.scss' as *;
+
+.category-name-cmp {
+  display: inline-flex;
+  gap: $spacing-3;
+  align-items: center;
+
+  .category-icon-wrapper {
+    padding: 5px;
+    border-radius: $radius-sm;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include themed(color, color-bg-card, $color-bg-card);
+  }
+
+  .category-value {
+    opacity: 0.7;
+    font-size: 16px;
+  }
+}

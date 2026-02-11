@@ -18,21 +18,17 @@ export const settingsToastMiddleware: Middleware = () => (next) => (action) => {
     isAnyOf(
       completeOnboardingThunk.fulfilled,
       saveStartDayThunk.fulfilled,
-      saveLanguageThunk.fulfilled,
       setAppThemeThunk.fulfilled,
       updateDefaultPercentsThunk.fulfilled,
       updateCurrencyThunk.fulfilled,
     )(action)
   ) {
     const map: Record<string, string> = {
-      [completeOnboardingThunk.fulfilled.type]: i18n.t(
-        'budget:toast.settings.completeOnboarding.success',
-      ),
-      [saveStartDayThunk.fulfilled.type]: i18n.t('budget:toast.settings.startDay.success'),
-      [saveLanguageThunk.fulfilled.type]: i18n.t('budget:toast.settings.language.success'),
-      [setAppThemeThunk.fulfilled.type]: i18n.t('budget:toast.settings.theme.success'),
-      [updateDefaultPercentsThunk.fulfilled.type]: i18n.t('budget:toast.settings.percents.success'),
-      [updateCurrencyThunk.fulfilled.type]: i18n.t('budget:toast.settings.currency.success'),
+      [completeOnboardingThunk.fulfilled.type]: i18n.t('settings:toast.completeOnboarding.success'),
+      [saveStartDayThunk.fulfilled.type]: i18n.t('settings:toast.startDay.success'),
+      [setAppThemeThunk.fulfilled.type]: i18n.t('settings:toast.theme.success'),
+      [updateDefaultPercentsThunk.fulfilled.type]: i18n.t('settings:toast.percents.success'),
+      [updateCurrencyThunk.fulfilled.type]: i18n.t('settings:toast.currency.success'),
     };
     const msg = map[action.type];
     if (msg) toast.success(msg);
@@ -51,15 +47,13 @@ export const settingsToastMiddleware: Middleware = () => (next) => (action) => {
     )(action)
   ) {
     const map: Record<string, string> = {
-      [loadSettings.rejected.type]: i18n.t('budget:toast.settings.load.error'),
-      [completeOnboardingThunk.rejected.type]: i18n.t(
-        'budget:toast.settings.completeOnboarding.error',
-      ),
-      [saveStartDayThunk.rejected.type]: i18n.t('budget:toast.settings.startDay.error'),
-      [saveLanguageThunk.rejected.type]: i18n.t('budget:toast.settings.language.error'),
-      [setAppThemeThunk.rejected.type]: i18n.t('budget:toast.settings.theme.error'),
-      [updateDefaultPercentsThunk.rejected.type]: i18n.t('budget:toast.settings.percents.error'),
-      [updateCurrencyThunk.rejected.type]: i18n.t('budget:toast.settings.currency.error'),
+      [loadSettings.rejected.type]: i18n.t('settings:toast.load.error'),
+      [completeOnboardingThunk.rejected.type]: i18n.t('settings:toast.completeOnboarding.error'),
+      [saveStartDayThunk.rejected.type]: i18n.t('settings:toast.startDay.error'),
+      [saveLanguageThunk.rejected.type]: i18n.t('settings:toast.language.error'),
+      [setAppThemeThunk.rejected.type]: i18n.t('settings:toast.theme.error'),
+      [updateDefaultPercentsThunk.rejected.type]: i18n.t('settings:toast.percents.error'),
+      [updateCurrencyThunk.rejected.type]: i18n.t('settings:toast.currency.error'),
     };
     const msg = map[action.type];
     if (msg) toast.error(msg);

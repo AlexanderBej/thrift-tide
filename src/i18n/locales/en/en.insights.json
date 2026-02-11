@@ -1,0 +1,105 @@
+{
+  "smart": {
+    "title": {
+      "headsUp": "Heads up",
+      "tip": "Tip",
+      "nice": "Nice",
+      "freshStart": "Fresh start"
+    },
+    "message": {
+      "canSpendPerDay": "You can spend {amountPerDay}/day and stay on track",
+      "keepUnderPerDay": "To stay on track, keep it under {amountPerDay}/day",
+      "onlyPerDayLeft": "Careful — only {amountPerDay}/day left to stay on track",
+      "spendingSlower": "Nice pace — you’re spending slower than planned",
+      "closeToPlan": "You’re close to plan — keep an eye on Wants",
+      "spendingFaster": "Heads up — you’re spending faster than planned",
+      "projectUnder": "If you keep this pace, you’ll finish under budget",
+      "projectAround": "At this pace, you’ll finish around your budget",
+      "projectOver": "At this pace, you may go over budget by {delta}",
+      "noSpendEarly": "New month, fresh start. Add your first expense when you’re ready.",
+      "noIncome": "Missing puzzle piece 🧩. Set your income to get started.",
+      "noSpendLater": "No spending recorded yet — are you tracking expenses this month?"
+    },
+    "subtext": {
+      "basedOnRemaining": "Based on your remaining budget",
+      "burnVsPace": "Spent {burnPct}% of budget; {pacePct}% of month passed"
+    },
+    "cta": {
+      "seeBreakdown": "See breakdown",
+      "seeInsights": "See insights",
+      "addExpense": "Add expense"
+    }
+  },
+  "category": {
+    "title": {
+      "headsUp": "Heads up",
+      "tip": "Tip",
+      "nice": "Nice",
+      "info": "Info"
+    },
+    "message": {
+      "noBudget": "No budget set for {catName} yet",
+      "earlyMonth": "{catName} will stabilize after a few days of tracking",
+      "runOutInDays": "{catName} may run out in ~{days} days",
+      "overPace": "{catName} is spending faster than planned",
+      "nearPace": "{catName} is close to plan — keep an eye on it",
+      "underPace": "{catName} is under plan — nice pace",
+      "savingsAhead": "{catName} is ahead of plan — nice saving rhythm",
+      "savingsBehind": "{catName} is behind plan — a small top-up can get it back on track",
+      "perDayOk": "You can spend {amountPerDay}/day in {catName} and stay on track",
+      "perDayTight": "To stay on track in {catName}, keep it under {amountPerDay}/day",
+      "perDayVeryTight": "Careful — only {amountPerDay}/day left for {catName}",
+      "savingsPerDayOk": "Save about {amountPerDay}/day in {catName} to hit your target",
+      "savingsPerDayTight": "To hit your {catName} goal, aim for at least {amountPerDay}/day",
+      "savingsPerDayVeryTight": "Catch-up mode: target at least {amountPerDay}/day for {catName}",
+      "categoryHealthy": "{catName} looks healthy — plenty of room left"
+    },
+    "subtext": {
+      "burnVsPace": "Spent {burnPct}% of {catName}; {pacePct}% of month passed",
+      "basedOnRemaining": "Based on remaining {catName} budget"
+    },
+    "cta": {
+      "reviewCategory": "Review {catName}"
+    },
+    "chip": {
+      "noBudget": "No budget yet",
+      "earlyMonth": "Too little data",
+      "runOutInDays": "Only {days} left",
+      "overPace": "Over pace",
+      "nearPace": "Close to plan",
+      "underPace": "Nice pace",
+      "savingsAhead": "Ahead of plan",
+      "savingsBehind": "Behind savings plan",
+      "perDayLeft": "Can spend {amountPerDay}/day",
+      "savingsPerDay": "Save {amountPerDay}/day",
+      "onTrack": "Healthy pace"
+    }
+  },
+  "badges": {
+    "over": "Over budget",
+    "near": "Near budget",
+    "behind": "Behind plan",
+    "under": "Under pace"
+  },
+  "historyBadges": {
+    "noSummary": "No Summary Present",
+    "noBudget": "No Budget Set",
+    "noSpending": "No Spending Yet",
+    "overspent": "Overspent",
+    "nearLimit": "Near Limit",
+    "healthy": "Healthy"
+  },
+  "historySmart": {
+    "message": {
+      "noSpending": "This month is suspiciously quiet. Either zen mode unlocked, or your expenses are hiding.",
+      "overspentOne": "One category went over budget. Give it a quick reality check next round.",
+      "overspentMany": "{count} categories went over budget. Your budget team might need a halftime talk.",
+      "under75One": "Nice control this month. Keep this rhythm and your savings can level up.",
+      "under75Many": "Several categories are under 75%. Double-check if all expenses made it into the app.",
+      "savingsLow": "Savings is under 75% of plan. Future-you politely requests a small power-up.",
+      "lowTxns": "Only {txns} transactions logged. The app misses you a little more than your bank does.",
+      "balancedMonth": "Clean month. Your categories stayed in a healthy lane from start to finish.",
+      "savingsWin": "Savings hit the target. Future-you is already celebrating this one."
+    }
+  }
+}

@@ -10,20 +10,34 @@ $gunmetal: #1c2833; // text inverse
 $dark-gunmetal: #21252b; // generic light
 $jet: #2a2b2e; // generic medium
 
+$onyx: #0f1416;
+$carbon-black: #151b1e;
+$alice-blue: #e6eef0;
+$mint-700: #2f7f87;
+$coral-700: #b84444;
+
+$strong-cyan: #56bec9;
+$soft-periwinkle: #8e86ff;
+$sandy-brown: #ffae5c;
+
 @use './variables' with (
-  $color-primary: $emerald-300,
-  $color-secondary: $ruby-400,
+  $color-primary: $mint-700,
+  $color-secondary: $coral-700,
   $color-accent: $amber-300,
 
-  $color-bg-main: $rich-black,
+  $color-bg-main: $dark-gunmetal,
   $color-bg-card: $raisin-black,
 
-  $color-text-primary: $anti-flash-300,
+  $color-text-primary: $alice-blue,
   $color-text-secondary: $cadet-grey,
   $color-text-inverse: $gunmetal,
 
   $color-neutral-light: $dark-gunmetal,
-  $color-neutral: $jet
+  $color-neutral: $jet,
+
+  $color-needs: $strong-cyan,
+  $color-wants: $soft-periwinkle,
+  $color-savings: $sandy-brown
 );
 
 // Now build the rest with these values

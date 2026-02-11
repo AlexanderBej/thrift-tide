@@ -7,20 +7,16 @@ import { AppDispatch } from './store/store';
 import { useSystemTheme } from '@shared/hooks';
 import { initApp, ProtectedRoute } from '@shared/providers';
 import {
-  AppPreferencesPage,
-  BucketPage,
+  CategoryPage,
   History,
-  BucketsPage,
-  BudgetPage,
+  CategoriesPage,
   Dashboard,
   Insights,
   Layout,
   Login,
   Onboarding,
-  ProfilePage,
-  SettingsLayout,
-  SettingsShell,
   Transaction,
+  ProfilePage,
 } from '@pages';
 
 import './App.scss';
@@ -70,16 +66,11 @@ function App() {
         >
           <Route index element={<Dashboard />} />
           <Route path="transactions" element={<Transaction />} />
-          <Route path="buckets" element={<BucketsPage />} />
-          <Route path="buckets/:type" element={<BucketPage />} />
+          <Route path="categories" element={<CategoriesPage />} />
+          <Route path="categories/:type" element={<CategoryPage />} />
           <Route path="insights" element={<Insights />} />
           <Route path="history" element={<History />} />
-          <Route path="settings" element={<SettingsLayout />}>
-            <Route index element={<SettingsShell />} />
-            <Route path="profile" element={<ProfilePage />} />
-            <Route path="budget" element={<BudgetPage />} />
-            <Route path="app" element={<AppPreferencesPage />} />
-          </Route>
+          <Route path="profile" element={<ProfilePage />} />
         </Route>
       </Routes>
 

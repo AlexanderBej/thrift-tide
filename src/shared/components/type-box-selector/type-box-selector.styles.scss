@@ -1,0 +1,67 @@
+@use '../../../styles/tokens.scss' as *;
+@use 'sass:color';
+
+.type-box-selector {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid;
+  @include themed(background-color, color-neutral-light, $color-neutral-light);
+  @include themed(border-color, color-neutral, $color-neutral);
+  border-radius: 999px;
+  overflow: visible;
+  // margin: 10px 0 20px;
+
+  .type-box {
+    display: inline-flex;
+    gap: 5px;
+    flex: 1;
+    // height: 45px;
+    border-radius: 999px;
+    @include themed(border-color, color-neutral, $color-neutral);
+    align-items: center;
+    padding: $spacing-3;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1;
+    font-size: 16px;
+
+    .category-value {
+      font-weight: 700;
+
+      &__needs {
+        @include themed(color, color-needs, $color-needs);
+      }
+      &__wants {
+        @include themed(color, color-wants, $color-wants);
+      }
+      &__savings {
+        @include themed(color, color-savings, $color-savings);
+      }
+    }
+
+    &.selected {
+      z-index: 2;
+      padding: calc(#{$spacing-3} + 2px) calc(#{$spacing-3} + 4px);
+      margin: -2px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+
+      &.needs {
+        @include themed(background-color, color-needs, $color-needs);
+      }
+
+      &.wants {
+        @include themed(background-color, color-wants, $color-wants);
+      }
+
+      &.savings {
+        @include themed(background-color, color-savings, $color-savings);
+      }
+
+      .category-value {
+        color: $anti-flash-300; // same on both themes
+      }
+    }
+  }
+}

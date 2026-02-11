@@ -1,0 +1,57 @@
+@use '../../../styles/tokens' as *;
+@use 'sass:color';
+
+.smart-insight-card {
+  display: flex;
+  padding: $spacing-6 $spacing-4;
+  gap: $spacing-2;
+  border-radius: $radius-lg;
+  height: 100%;
+  width: 100%;
+  font-size: 14px;
+  background: rgba($color-primary, 0.1);
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--color-primary), transparent 90%) 0%,
+    color-mix(in srgb, var(--color-primary), transparent 70%) 100%
+  );
+
+  &__success {
+    background-color: rgba($color-success, 0.1);
+    background: linear-gradient(
+      90deg,
+      rgba($color-success, 0.1) 0%,
+      rgba($color-success, 0.3) 100%
+    );
+  }
+
+  &__warn {
+    background-color: rgba($color-warning, 0.1);
+    background: linear-gradient(
+      90deg,
+      rgba($color-warning, 0.1) 0%,
+      rgba($color-warning, 0.3) 100%
+    );
+  }
+
+  &__info {
+    background-color: rgba($eg-1, 0.1);
+    background: linear-gradient(90deg, rgba($eg-1, 0.1) 0%, rgba($eg-1, 0.3) 100%);
+  }
+
+  .insight-message {
+    // font-size: 18px;
+    font-weight: 500;
+  }
+
+  .insight-subtext {
+    font-size: 12px;
+  }
+
+  .insight-cta {
+    display: flex;
+    gap: $spacing-2;
+    margin-top: $spacing-3;
+    @include themed(color, color-text-secondary, $color-text-secondary);
+  }
+}

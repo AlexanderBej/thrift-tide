@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -10,16 +9,24 @@ import StepTwo from './steps/step-two.component';
 import StepThree from './steps/step-three.component';
 import StepFour from './steps/step-four.component';
 import StepFive from './steps/step-five.component';
-import { Button } from '@shared/ui';
+import { Pressable } from '@shared/ui';
 import { selectAuthUser } from '@store/auth-store';
 import {
-  selectSettingsStatus,
   selectOnboardingSettings,
   completeOnboardingThunk,
+  selectSettingsAppTheme,
 } from '@store/settings-store';
 import { AppDispatch } from '@store/store';
 import { DEFAULT_START_DAY, OnboardingData } from '@api/models';
-import { PercentTriple, Language, Currency, DEFAULT_PERCENTS, DEFAULT_LANGUAGE } from '@api/types';
+import {
+  PercentTriple,
+  Language,
+  Currency,
+  DEFAULT_PERCENTS,
+  DEFAULT_LANGUAGE,
+  Category,
+} from '@api/types';
+import { ReactComponent as Logo } from '../../../assets/logo.svg';
 
 import './multi-step-form.styles.scss';
 
@@ -35,9 +42,14 @@ export interface MultiFormProp {
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
 }
 
+export interface MultiNonFormProp {
+  formData: MultiStepFormData;
+  setFormData: React.Dispatch<React.SetStateAction<MultiStepFormData>>;
+}
+
 export interface FormPercentsProp {
   formData: MultiStepFormData;
-  onPercentsChange: (key: keyof PercentTriple, value: string | number) => void;
+  onPercentsChange: (key: Category, value: string | number) => void;
 }
 
 const MultiStepForm: React.FC = () => {
@@ -46,40 +58,19 @@ const MultiStepForm: React.FC = () => {
   const { t } = useTranslation('common');
 
   const user = useSelector(selectAuthUser);
-  const status = useSelector(selectSettingsStatus);
-  const { startDay, language, percents } = useSelector(selectOnboardingSettings);
+  const { startDay, language, percents, currency } = useSelector(selectOnboardingSettings);
+  const theme = useSelector(selectSettingsAppTheme);
 
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<MultiStepFormData>({
     percents: percents ?? DEFAULT_PERCENTS,
     startDay: startDay ?? DEFAULT_START_DAY,
     language: language ?? DEFAULT_LANGUAGE,
-    currency: 'EUR', // TODO
+    currency: currency,
   });
 
   const nextStep = () => setStep((prev) => prev + 1);
   const prevStep = () => setStep((prev) => prev - 1);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    const num = name === 'startDay' ? Number(value.padStart(2, '0')) : value;
-
-    setFormData((prev) => {
-      return { ...prev, [name]: num };
-    });
-  };
-
-  const handlePercentChange = (key: keyof PercentTriple, value: string | number) => {
-    const num = typeof value === 'string' ? parseFloat(value) || 0 : value;
-
-    setFormData((prev) => ({
-      ...prev,
-      percents: {
-        ...prev.percents,
-        [key]: num,
-      },
-    }));
-  };
 
   const getNextBtnDisabled = () => {
     if (
@@ -109,11 +100,13 @@ const MultiStepForm: React.FC = () => {
   };
 
   return (
-    <div className="multi-step-container">
+    <div className={`multi-step-container multi-step-container__${theme}`}>
       <MultiStepProgressBar step={step} totalSteps={5} />
       <div className="step-container">
         {step === 1 && (
           <>
+            <Logo height={100} />
+
             <h1 className="step-header">
               {t('hi')} {user?.displayName} 👋
             </h1>
@@ -124,31 +117,31 @@ const MultiStepForm: React.FC = () => {
         )}
         {step === 2 && (
           <>
-            <h1 className="step-header">{t('onboarding.step2.title')}</h1>
+            <h1 className="step-header">{t('onboarding:step2.title')}</h1>
             <div className="step-content">
-              <StepTwo formData={formData} onChange={handleChange} />
+              <StepTwo formData={formData} setFormData={setFormData} />
             </div>
           </>
         )}
         {step === 3 && (
           <>
-            <h1 className="step-header">{t('onboarding.step3.title')}</h1>
+            <h1 className="step-header">{t('onboarding:step3.title')}</h1>
             <div className="step-content">
-              <StepThree formData={formData} onPercentsChange={handlePercentChange} />
+              <StepThree formData={formData} setFormData={setFormData} />
             </div>
           </>
         )}
         {step === 4 && (
           <>
-            <h1 className="step-header">{t('onboarding.step4.title')}</h1>
+            <h1 className="step-header">{t('onboarding:step4.title')}</h1>
             <div className="step-content">
-              <StepFour formData={formData} onChange={handleChange} />
+              <StepFour formData={formData} setFormData={setFormData} />
             </div>
           </>
         )}
         {step === 5 && (
           <>
-            <h1 className="step-header">{t('onboarding.step5.title')}</h1>
+            <h1 className="step-header">{t('onboarding:step5.title')}</h1>
             <div className="step-content">
               <StepFive />
             </div>
@@ -157,48 +150,51 @@ const MultiStepForm: React.FC = () => {
       </div>
       <div className="step-action-buttons">
         {step < 5 && (
-          <Button
-            htmlType="button"
+          <Pressable
+            haptic="medium"
+            ripple={true}
             onClick={() => navigate('/')}
-            buttonType="neutral"
-            customContainerClass="skip-btn onboarding-btn"
+            className="skip-btn onboarding-btn"
+            variant="neutral"
           >
             <span>{t('actions.skip') ?? 'Skip'}</span>
-          </Button>
+          </Pressable>
         )}
 
         {step > 1 && step < 5 && (
-          <Button
-            htmlType="button"
+          <Pressable
+            haptic="medium"
+            ripple={true}
             onClick={prevStep}
-            buttonType="secondary"
-            customContainerClass="onboarding-btn"
+            className="onboarding-btn"
+            variant="secondary"
           >
             <span>{t('actions.back') ?? 'Back'}</span>
-          </Button>
+          </Pressable>
         )}
         {step !== 5 && (
-          <Button
-            htmlType="button"
+          <Pressable
+            haptic="medium"
+            ripple={true}
             onClick={handleNextClick}
-            buttonType="primary"
-            isLoading={status === 'loading'}
             disabled={getNextBtnDisabled()}
-            customContainerClass="onboarding-btn"
+            className="onboarding-btn"
+            variant="primary"
           >
             <span>{t('actions.next') ?? 'Next'}</span>
-          </Button>
+          </Pressable>
         )}
 
         {step === 5 && (
-          <Button
+          <Pressable
+            haptic="medium"
+            ripple={true}
+            variant="primary"
             onClick={() => navigate('/')}
-            htmlType="button"
-            buttonType="primary"
-            customContainerClass="onboarding-btn"
+            className="onboarding-btn"
           >
             <span>{t('actions.continue') ?? 'Continue'}</span>
-          </Button>
+          </Pressable>
         )}
       </div>
     </div>

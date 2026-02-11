@@ -1,0 +1,39 @@
+@use '../../../styles/tokens' as *;
+
+.action-selectors {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-5;
+  width: 100%;
+
+  .action-container {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    padding: $spacing-3;
+    border-radius: $radius-lg;
+    border: 1px solid;
+    border-color: color-mix(in srgb, var(--color-neutral), transparent 30%);
+
+    .action-icon {
+      font-size: 28px;
+    }
+
+    .action-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: flex-start;
+      @include themed(color, color-text-primary, $color-text-primary);
+
+      .action-sub {
+        @include themed(color, color-text-secondary, $color-text-secondary);
+        font-size: 14px;
+      }
+    }
+
+    .action-chevron {
+      margin-left: auto;
+    }
+  }
+}

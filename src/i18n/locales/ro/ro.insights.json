@@ -1,0 +1,105 @@
+{
+  "smart": {
+    "title": {
+      "headsUp": "Atenție",
+      "tip": "Sfat",
+      "nice": "Super",
+      "freshStart": "Început nou"
+    },
+    "message": {
+      "canSpendPerDay": "Poți cheltui {amountPerDay}/zi și rămâi pe drumul bun",
+      "keepUnderPerDay": "Ca să rămâi pe drumul bun, încearcă să nu depășești {amountPerDay}/zi",
+      "onlyPerDayLeft": "Ai grijă — mai ai doar {amountPerDay}/zi ca să rămâi pe buget",
+      "spendingSlower": "Ritm bun — cheltuiești mai încet decât planul",
+      "closeToPlan": "Ești aproape de plan — urmărește cheltuielile la Dorințe",
+      "spendingFaster": "Atenție — cheltuiești mai repede decât planul",
+      "projectUnder": "Dacă menții ritmul, termini luna sub buget",
+      "projectAround": "La ritmul acesta, termini cam la nivelul bugetului",
+      "projectOver": "La ritmul acesta, s-ar putea să depășești bugetul cu {delta}",
+      "noSpendEarly": "Lună nouă, început proaspăt. Adaugă prima cheltuială când ești gata.",
+      "noIncome": "Lipsește o piesă de puzzle 🧩. Setează-ți venitul pentru a începe.",
+      "noSpendLater": "Nu ai cheltuieli înregistrate încă — urmărești cheltuielile luna asta?"
+    },
+    "subtext": {
+      "basedOnRemaining": "Pe baza bugetului rămas",
+      "burnVsPace": "Ai cheltuit {burnPct}% din buget; a trecut {pacePct}% din lună"
+    },
+    "cta": {
+      "seeBreakdown": "Vezi detalii",
+      "seeInsights": "Vezi insights",
+      "addExpense": "Adaugă cheltuială"
+    }
+  },
+  "category": {
+    "title": {
+      "headsUp": "Atenție",
+      "tip": "Sfat",
+      "nice": "Super",
+      "info": "Info"
+    },
+    "message": {
+      "noBudget": "Nu ai setat încă un buget pentru {catName}",
+      "earlyMonth": "{catName} se stabilizează după câteva zile de urmărire",
+      "runOutInDays": "{catName} se poate termina în ~{days} zile",
+      "overPace": "La {catName} cheltuiești mai repede decât planul",
+      "nearPace": "{catName} e aproape de plan — urmărește-l puțin",
+      "underPace": "{catName} e sub plan — ritm bun",
+      "savingsAhead": "{catName} este peste plan — ritm excelent de economisire",
+      "savingsBehind": "{catName} este sub plan — un mic boost te aduce din nou pe traseu",
+      "perDayOk": "Poți cheltui {amountPerDay}/zi la {catName} și rămâi pe buget",
+      "perDayTight": "Ca să rămâi pe buget la {catName}, încearcă să nu depășești {amountPerDay}/zi",
+      "perDayVeryTight": "Ai grijă — mai ai doar {amountPerDay}/zi pentru {catName}",
+      "savingsPerDayOk": "Economisește cam {amountPerDay}/zi la {catName} ca să atingi ținta",
+      "savingsPerDayTight": "Ca să atingi ținta la {catName}, încearcă cel puțin {amountPerDay}/zi",
+      "savingsPerDayVeryTight": "Mod recuperare: țintește cel puțin {amountPerDay}/zi pentru {catName}",
+      "categoryHealthy": "{catName} arată bine — ai suficient spațiu rămas"
+    },
+    "subtext": {
+      "burnVsPace": "Ai cheltuit {burnPct}% din {catName}; a trecut {pacePct}% din lună",
+      "basedOnRemaining": "Pe baza bugetului rămas la {catName}"
+    },
+    "cta": {
+      "reviewCategory": "Verifică {catName}"
+    },
+    "chip": {
+      "noBudget": "Buget nesetat",
+      "earlyMonth": "Prea devreme",
+      "runOutInDays": "Doar {days} zile rămase",
+      "overPace": "Cheltui prea mult",
+      "nearPace": "Poți cheltui mai puțin",
+      "underPace": "Ritm bun",
+      "savingsAhead": "Peste plan",
+      "savingsBehind": "Sub plan la economii",
+      "perDayLeft": "Ai {amountPerDay}/zi",
+      "savingsPerDay": "Economisește {amountPerDay}/zi",
+      "onTrack": "Super ritm"
+    }
+  },
+  "badges": {
+    "over": "Peste buget",
+    "near": "Aproape de buget",
+    "behind": "În urma planului",
+    "under": "Sub ritm"
+  },
+  "historyBadges": {
+    "noSummary": "Nu există rezumat",
+    "noBudget": "Nu este stabilit niciun buget",
+    "noSpending": "Încă nu ai cheltuieli",
+    "overspent": "Cheltuieli excesive",
+    "nearLimit": "Aproape de limită",
+    "healthy": "Sănătos"
+  },
+  "historySmart": {
+    "message": {
+      "noSpending": "Luna asta e suspect de liniștită. Ori ești zen, ori cheltuielile se ascund.",
+      "overspentOne": "O categorie a depășit bugetul. Merită un mic control în perioada următoare.",
+      "overspentMany": "{count} categorii au depășit bugetul. Echipa bugetului cere un time-out.",
+      "under75One": "Foarte bun control luna asta. Dacă păstrezi ritmul, economiile pot crește frumos.",
+      "under75Many": "Mai multe categorii sunt sub 75%. Verifică dacă ai înregistrat toate cheltuielile.",
+      "savingsLow": "Economiile sunt sub 75% din plan. Varianta ta din viitor cere un mic boost.",
+      "lowTxns": "Doar {txns} tranzacții înregistrate. Aplicației îi e puțin dor de tine.",
+      "balancedMonth": "Lună curată. Categoriile au rămas pe un traseu sănătos până la final.",
+      "savingsWin": "Ai atins ținta la economii. Varianta ta din viitor deja sărbătorește."
+    }
+  }
+}

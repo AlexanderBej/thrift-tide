@@ -16,6 +16,7 @@ import {
   startAfter,
   updateDoc,
   where,
+  writeBatch,
 } from 'firebase/firestore';
 
 import { db } from './firebase.service';
@@ -78,14 +79,14 @@ export async function createMonth(
 
   const fresh = await getDoc(ref);
   if (!fresh.exists()) throw new Error('Failed to read month after create');
-  return fresh.data() as MonthDoc;
+  return toMonthDoc(fresh.data());
 }
 
 // --- UPDATE (fails if missing). Only updates current doc fields. ---
 export async function updateMonth(
   uid: string,
   month: string,
-  data: Partial<Pick<MonthDoc, 'income' | 'percents'>>,
+  data: Partial<Pick<MonthDoc, 'income' | 'percents' | 'startDay'>>,
 ): Promise<MonthDoc> {
   const ref = getMonthRef(uid, month);
   const prev = await readMonth(uid, month);
@@ -93,6 +94,16 @@ export async function updateMonth(
 
   const income = data.income ?? prev.income;
   const percents = data.percents ?? prev.percents;
+  const startDay = data.startDay ?? prev.startDay;
+
+  let periodStart = prev.periodStart;
+  let periodEnd = prev.periodEnd;
+
+  if (data.startDay) {
+    const { start, end } = periodBounds(representativeDateFromMonthKey(month, startDay), startDay);
+    periodStart = start.toISOString();
+    periodEnd = end.toISOString();
+  }
 
   await setDoc(
     ref,
@@ -100,6 +111,9 @@ export async function updateMonth(
       income,
       percents,
       allocations: makeAllocations(income, percents),
+      startDay,
+      periodStart,
+      periodEnd,
       updatedAt: serverTimestamp(),
     },
     { merge: true },
@@ -133,7 +147,7 @@ export const transactionsQuery = (uid: string, month: string): Query =>
 export const onTransactionsSnapshot = (uid: string, month: string, cb: (txns: Txn[]) => void) => {
   const q = transactionsQuery(uid, month);
   return onSnapshot(q, (qs) => {
-    cb(qs.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<Txn, 'id'>) })));
+    cb(qs.docs.map((d) => normalizeTxnFromRead(d.id, d.data())));
   });
 };
 
@@ -165,9 +179,9 @@ export function computeMonthSummary(doc: MonthDoc, txns: Txn[]) {
     wants = 0,
     savings = 0;
   for (const t of txns) {
-    if (t.type === 'needs') needs += t.amount;
-    else if (t.type === 'wants') wants += t.amount;
-    else if (t.type === 'savings') savings += t.amount;
+    if (t.category === 'needs') needs += t.amount;
+    else if (t.category === 'wants') wants += t.amount;
+    else if (t.category === 'savings') savings += t.amount;
   }
   const totalSpent = needs + wants + savings;
 
@@ -196,7 +210,7 @@ export async function listMonthsWithSummary(
     fromISO?: string;
     toISO?: string;
     pageSize?: number;
-    pageAfter?: DocumentData | null;
+    pageAfterPeriodStart?: string | null;
   } = {},
 ) {
   const col = collection(db, 'users', uid, 'months');
@@ -204,12 +218,19 @@ export async function listMonthsWithSummary(
 
   if (opts.fromISO) q = query(q, where('periodStart', '>=', opts.fromISO));
   if (opts.toISO) q = query(q, where('periodStart', '<', opts.toISO));
-  if (opts.pageAfter) q = query(q, startAfter(opts.pageAfter));
+  if (opts.pageAfterPeriodStart) q = query(q, startAfter(opts.pageAfterPeriodStart));
+
   q = query(q, limit(opts.pageSize ?? 12));
 
   const snap = await getDocs(q);
-  const items = snap.docs.map((d) => ({ id: d.id, ...(d.data() as MonthDoc), _cursor: d }));
-  return { items, nextCursor: snap.docs.length ? snap.docs[snap.docs.length - 1] : null };
+
+  const items = snap.docs.map((d) => ({ id: d.id, ...toMonthDoc(d.data()) }));
+
+  const lastPeriodStart = snap.docs.length
+    ? (snap.docs[snap.docs.length - 1].data() as any).periodStart
+    : null;
+
+  return { items, nextCursor: lastPeriodStart ?? null };
 }
 
 // Ensure any outgoing Txn has canonical date
@@ -223,4 +244,64 @@ function normalizeTxnForWrite(txn: Omit<Txn, 'id'>): Omit<Txn, 'id'> {
         : (txn as any).date,
     ),
   };
+}
+
+function normalizeTxnFromRead(id: string, data: DocumentData): Txn {
+  const rawDate = data?.date;
+  const date =
+    typeof rawDate?.toDate === 'function'
+      ? toYMDUTC(rawDate.toDate())
+      : typeof rawDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(rawDate)
+        ? rawDate
+        : toYMDUTC(rawDate ?? new Date());
+
+  return {
+    id,
+    date,
+    amount: Number(data?.amount ?? 0),
+    category: data?.category,
+    expenseGroup: data?.expenseGroup,
+    note: data?.note,
+  };
+}
+
+export async function deleteAllTransactionsForMonth(uid: string, month: string) {
+  const col = txnsColRef(uid, month);
+  let lastDoc: any = null;
+
+  while (true) {
+    const q = lastDoc
+      ? query(col, orderBy('__name__'), startAfter(lastDoc), limit(500))
+      : query(col, orderBy('__name__'), limit(500));
+
+    const snap = await getDocs(q);
+    if (snap.empty) break;
+
+    const batch = writeBatch(db);
+    for (const d of snap.docs) batch.delete(d.ref);
+
+    await batch.commit();
+    lastDoc = snap.docs[snap.docs.length - 1];
+  }
+}
+
+export async function listRecentMonths(
+  uid: string,
+  opts: { pageSize?: number; pageAfterPeriodStart?: string | null } = {},
+) {
+  const col = collection(db, 'users', uid, 'months');
+  let q = query(col, orderBy('periodStart', 'desc'));
+
+  if (opts.pageAfterPeriodStart) q = query(q, startAfter(opts.pageAfterPeriodStart));
+  q = query(q, limit(opts.pageSize ?? 24));
+
+  const snap = await getDocs(q);
+
+  const items = snap.docs.map((d) => ({ id: d.id, ...toMonthDoc(d.data()) }));
+
+  const lastPeriodStart = snap.docs.length
+    ? (snap.docs[snap.docs.length - 1].data() as any).periodStart
+    : null;
+
+  return { items, nextCursor: lastPeriodStart ?? null };
 }

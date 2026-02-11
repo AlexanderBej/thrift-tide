@@ -1,0 +1,78 @@
+@use '../../../styles/tokens.scss' as *;
+
+.badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-6;
+
+  @include mediaDown(md) {
+    gap: $spacing-2;
+  }
+
+  .badge-pill {
+    border: 1px solid transparent;
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    background: #f4f5f7;
+    @include themed(color, color-text-secondary, $color-text-secondary);
+    display: flex;
+    gap: $spacing-2;
+    align-items: center;
+
+    &__card {
+      @include dashboard-card($radius: $radius-lg, $pad: $spacing-5 $spacing-6, $bgCol: #f4f5f7);
+
+      font-size: 1rem;
+
+      @include mediaDown(md) {
+        padding: $spacing-3;
+        gap: $spacing-1;
+        font-size: 12px;
+      }
+    }
+
+    &__warn {
+      background: rgba($color: $color-warning, $alpha: 0.3);
+      border-color: $color-warning;
+    }
+
+    &__danger {
+      background: rgba($color: $color-error, $alpha: 0.3);
+      border-color: $color-error;
+    }
+
+    &__info {
+      background-color: color-mix(in srgb, var(--color-secondary), transparent 70%);
+
+      border-color: $color-secondary;
+    }
+
+    &__success {
+      background: rgba($color: $color-success, $alpha: 0.3);
+      border-color: $color-success;
+    }
+
+    .badge-pill-icon {
+      &__warn {
+        fill: #ff8800;
+        color: #ff8800 !important;
+      }
+
+      &__danger {
+        fill: #ff3d3d;
+        color: #ff3d3d !important;
+      }
+
+      &__info {
+        fill: #458dff;
+        color: #458dff !important;
+      }
+
+      &__success {
+        fill: #00c33a;
+        color: #00c33a !important;
+      }
+    }
+  }
+}

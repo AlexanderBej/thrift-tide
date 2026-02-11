@@ -1,165 +1,150 @@
 @use '../../styles/tokens.scss' as *;
+@use 'sass:color';
 
 .dashboard-page {
-  border-radius: $radius-lg;
-  @include grid(
-    $templateColumns: repeat(3, 1fr),
-    $templateRows: repeat(3, auto),
-    $columnGap: $spacing-6,
-    $rowGap: $spacing-6
-  );
-
-  @include mediaDown(xl) {
-    @include grid(
-      $templateColumns: repeat(3, 1fr),
-      $templateRows: repeat(4, auto),
-      $columnGap: $spacing-5,
-      $rowGap: $spacing-5
-    );
+  .hi-header {
+    font-size: 22px;
+    margin-top: 20px;
   }
 
-  @include mediaDown(md) {
-    @include grid(
-      $templateColumns: repeat(1, 1fr),
-      $templateRows: repeat(5, auto),
-      $columnGap: $spacing-4,
-      $rowGap: $spacing-4
-    );
+  .budget-stats-line {
+    display: flex;
+    justify-content: space-between;
+    margin-top: $spacing-2;
   }
 
-  .dashboard-intro-section,
-  .dashboard-pie-section,
-  .dashboard-cards-section,
-  .kpi-cards-section,
-  .distribution-section {
-    @include dashboard-card($radius: $radius-lg, $pad: $spacing-5 $spacing-6);
-    @include mediaDown(md) {
-      padding: $spacing-4;
-    }
+  .smart-insight-section {
+    margin-top: $spacing-3;
   }
 
-  .dashboard-intro-section {
-    grid-area: 1 / 1 / 2 / 2;
-
-    @include mediaDown(md) {
-      grid-area: 1 / 1 / 2 / 2;
-
-      background-color: unset;
-      padding: 0;
-      box-shadow: unset;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: $spacing-4;
-
-      .dashboard-intro-wrapper {
-        @include dashboard-card($radius: $radius-lg, $pad: $spacing-4);
-      }
-
-      .add-income-wrapper {
-        border-radius: $radius-lg;
-      }
-    }
-
-    .dashboard-intro-header {
-      @include mediaDown(md) {
-        font-size: 24px;
-      }
-    }
-
-    .total-income-container {
-      margin: 20px 0;
-
-      @include mediaDown(md) {
-        margin: 0;
-
-        .total-income-label {
-          font-size: 9px;
-        }
-
-        .total-income-value {
-          font-size: 18px;
-        }
-      }
-    }
-  }
-
-  .dashboard-pie-section {
-    grid-area: 1 / 2 / 2 / 4;
+  .category-cards {
     display: inline-flex;
-    align-items: center;
-    gap: 50px;
+    // margin-top: 20px;
     width: 100%;
+    align-items: center;
+    position: relative;
 
-    @include mediaDown(md) {
-      grid-area: 2 / 1 / 3 / 2;
-      gap: 20px;
-    }
+    .category-card {
+      padding: $spacing-3;
 
-    .dashboard-donut {
-      @include mediaDown(md) {
-        width: 130px;
+      &__needs {
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        background: linear-gradient(
+          90deg,
+          color-mix(in srgb, var(--needs), transparent 80%) 0%,
+          color-mix(in srgb, var(--needs), transparent 60%) 100%
+        );
+
+        .category-percent-needs {
+          font-weight: bold;
+          color: color.scale($color: $color-needs, $lightness: -45%);
+        }
       }
-    }
 
-    .dashboard-cat-percentages {
-      width: 250px;
+      &__wants {
+        background: linear-gradient(
+          90deg,
+          color-mix(in srgb, var(--wants), transparent 80%) 0%,
+          color-mix(in srgb, var(--wants), transparent 60%) 100%
+        );
 
-      @include mediaDown(md) {
-        flex: 1;
-        width: unset;
+        .category-percent-wants {
+          font-weight: bold;
+          color: $color-wants;
+        }
       }
 
-      .cat-percentage-line {
-        display: inline-flex;
-        width: 100%;
-        line-height: 3rem;
-        font-size: 18px;
-        font-weight: $font-weight-bold;
-        justify-content: space-between;
-        align-items: center;
+      &__savings {
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        background: linear-gradient(
+          90deg,
+          color-mix(in srgb, var(--savings), transparent 80%) 0%,
+          color-mix(in srgb, var(--savings), transparent 60%) 100%
+        );
 
-        @include mediaDown(md) {
-          font-size: 14px;
-          line-height: 2rem;
+        .category-percent-savings {
+          font-weight: bold;
+          color: color.scale($color: $color-savings, $lightness: -45%);
+        }
+      }
+
+      .category-title {
+        font-size: 12px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-1;
+
+        .category-key {
+          text-transform: capitalize;
         }
       }
     }
-  }
 
-  .dashboard-cards-section {
-    grid-area: 2 / 1 / 3 / 4;
-
-    @include mediaDown(md) {
-      grid-area: 3 / 1 / 4 / 2;
-    }
-
-    .dashboard-card-badges {
-      margin-bottom: $spacing-4;
+    .progress-bar {
+      position: absolute;
+      left: 10px;
+      width: calc(100% - 20px);
+      top: 65px;
     }
   }
 
-  .kpi-cards-section {
-    grid-area: 3 / 1 / 4 / 3;
+  .exp-groups-list {
+    @include dashboard-card($radius: $radius-lg, $pad: $spacing-4);
+    display: grid;
+    gap: $spacing-2;
 
-    @include mediaDown(xl) {
-      grid-area: 3 / 1 / 4 / 4;
+    &__dark {
+      box-shadow: $dark-shadow-md;
     }
 
-    @include mediaDown(md) {
-      grid-area: 4 / 1 / 5 / 2;
-      margin-bottom: $spacing-4;
+    .top-eg-item-header {
+      @include grid($templateColumns: 160px auto 100px, $columnGap: 8px);
+      width: 100%;
+      padding: $spacing-2 0px;
+      align-items: center;
+
+      .eg-category {
+        margin-left: auto;
+        padding: $spacing-1 $spacing-3;
+        font-size: 11px;
+        border-radius: $radius-lg;
+        height: 32px;
+        width: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-transform: capitalize;
+      }
+
+      .eg-total {
+        text-align: right;
+        font-size: 16px;
+        font-weight: 800;
+      }
     }
-  }
 
-  .distribution-section {
-    grid-area: 3 / 3 / 4 / 4;
+    .top-eg-item-content {
+      @include grid($templateColumns: 100px auto 50px, $columnGap: 8px);
+      border-bottom: 1px solid;
+      border-color: color-mix(in srgb, var(--color-neutral), transparent 0%);
+      align-items: end;
+      padding: $spacing-3 0;
 
-    @include mediaDown(xl) {
-      grid-area: 4 / 1 / 5 / 4;
-    }
+      .date {
+        font-size: 12px;
+      }
 
-    @include mediaDown(md) {
-      grid-area: 5 / 1 / 6 / 2;
+      .amount {
+        text-align: end;
+        font-weight: 800;
+      }
+
+      &:last-child {
+        border: unset;
+      }
     }
   }
 }

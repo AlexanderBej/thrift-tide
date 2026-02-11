@@ -1,0 +1,36 @@
+@use '../../../styles/tokens' as *;
+
+.settings-button {
+  width: 100%;
+  border-bottom: 1px solid;
+  border-color: color-mix(in srgb, var(--color-neutral), transparent 0%);
+
+  margin-bottom: $spacing-3;
+  padding-bottom: $spacing-3;
+
+  display: flex;
+  justify-content: space-between;
+
+  @include themed(color, color-text-primary, $color-text-primary);
+
+  &:last-child {
+    border: unset;
+    margin: unset;
+    padding: unset;
+  }
+
+  .settings-label {
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .settings-row-end {
+    display: flex;
+    gap: $spacing-3;
+    opacity: 0.5;
+
+    .settings-value {
+      text-transform: capitalize;
+    }
+  }
+}

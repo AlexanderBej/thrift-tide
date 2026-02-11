@@ -1,0 +1,25 @@
+@use '../../styles/tokens.scss' as *;
+
+.period-widget {
+  display: flex;
+  align-items: center;
+  gap: $spacing-1;
+  padding: $spacing-2 $spacing-4;
+  @include themed(background-color, color-primary-light, $color-primary-light);
+  border-radius: $radius-lg;
+  border: 1px solid;
+  @include themed(border-color, color-primary, $color-primary);
+
+  &.dashboard-widget {
+    background-color: transparent;
+    padding: 0;
+    border-color: transparent;
+  }
+
+  .period-month {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+    @include themed(color, color-text-secondary, $color-text-secondary);
+  }
+}

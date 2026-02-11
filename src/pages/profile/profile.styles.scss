@@ -1,0 +1,103 @@
+@use '../../styles/tokens.scss' as *;
+
+.profile-page {
+  .user-container {
+    @include dashboard-card($radius: $radius-lg, $pad: $spacing-4);
+
+    &__dark {
+      box-shadow: $dark-shadow-md;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: flex-start;
+      gap: $spacing-3;
+
+      .user-details {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-2;
+      }
+
+      .logout-btn {
+        min-width: unset;
+      }
+    }
+
+    .quick-actions {
+      margin-top: $spacing-5;
+    }
+
+    .quick-action-links {
+      @include grid($templateColumns: 50% 50%);
+      gap: $spacing-1;
+      width: 98%;
+      margin-top: $spacing-3;
+
+      .action-link {
+        height: 60px;
+        display: flex;
+        border-radius: $radius-md;
+        padding: $spacing-4;
+        align-items: center;
+        gap: $spacing-3;
+        font-weight: 500;
+        @include themed(color, color-text-primary, $color-text-primary);
+
+        &.categories {
+          justify-content: center;
+          background: linear-gradient(
+            90deg,
+            color-mix(in srgb, var(--color-primary), transparent 90%) 0%,
+            color-mix(in srgb, var(--color-primary), transparent 70%) 100%
+          );
+        }
+
+        &.history {
+          background: linear-gradient(90deg, rgba($eg-3, 0.1) 0%, rgba($eg-3, 0.3) 100%);
+        }
+      }
+    }
+  }
+
+  // .settings-container {
+  //   @include dashboard-card($radius: $radius-lg, $pad: $spacing-4, $bgCol: #f4f5f7);
+
+  .settings-label-wrapper {
+    display: flex;
+    gap: $spacing-2;
+    align-items: center;
+
+    .settings-title-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-1;
+      align-items: flex-start;
+
+      .settings-subtitle {
+        display: flex;
+        gap: $spacing-2;
+        font-weight: 300;
+        font-size: 12px;
+
+        .percent-legend {
+          display: flex;
+          gap: $spacing-1;
+        }
+      }
+    }
+  }
+
+  .logout-btn {
+    width: 150px;
+    color: $color-error;
+    font-weight: 800;
+    @include dashboard-card($radius: $radius-lg, $pad: $spacing-4, $bgCol: #f4f5f7);
+    margin: auto;
+    display: block;
+
+    &__dark {
+      box-shadow: $dark-shadow-md;
+    }
+  }
+}

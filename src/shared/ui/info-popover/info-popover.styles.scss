@@ -18,8 +18,15 @@
     font-size: 14px;
     border-radius: $radius-md;
     @include themed(background-color, color-bg-card, $color-bg-card);
-    box-shadow: $shadow-md;
     min-width: 250px;
+
+    &__light {
+      box-shadow: $shadow-md;
+    }
+
+    &__dark {
+      box-shadow: $dark-shadow-md;
+    }
 
     &__top {
       bottom: 100%;

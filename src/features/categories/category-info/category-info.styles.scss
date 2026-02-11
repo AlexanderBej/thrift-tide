@@ -1,0 +1,72 @@
+@use '../../../styles/tokens' as *;
+
+.category-info {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+
+  .category-info-block {
+    @include dashboard-card($radius: $radius-lg, $pad: $spacing-4, $bgCol: #f4f5f7);
+
+    &__dark {
+      box-shadow: $dark-shadow-md;
+    }
+
+    .category-title-row {
+      display: inline-flex;
+      margin-bottom: $spacing-1;
+      justify-content: space-between;
+      width: 100%;
+      align-items: center;
+
+      .title-row-end {
+        display: inline-flex;
+        gap: $spacing-3;
+        align-items: center;
+      }
+    }
+
+    .spent-header {
+      margin: $spacing-2 0 $spacing-3;
+
+      .spent-value {
+        @include themed(color, color-primary, $color-primary);
+      }
+    }
+
+    .smart-chip-wrapper {
+      margin-top: $spacing-2;
+    }
+
+    .prog-bar-wrapper {
+      margin-top: $spacing-3;
+    }
+
+    .category-details-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: $spacing-3;
+      flex-wrap: wrap;
+      gap: $spacing-3;
+
+      .category-details {
+        display: flex;
+        gap: $spacing-2;
+        font-size: 14px;
+        font-weight: 700;
+
+        .detail-name {
+          font-weight: 300;
+        }
+      }
+    }
+
+    .insight-chip-list {
+      margin-top: $spacing-3;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: $spacing-2;
+    }
+  }
+}

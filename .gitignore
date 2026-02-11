@@ -22,3 +22,12 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+# for migratin to txn changes
+# run: npm run migrate:txn-fields -- --uid <UID>
+# for dry run - check status
+# run: npm run migrate:txn-fields -- --uid <UID> --apply
+# for real change. Run dry run after to check migration
+/scripts
+/.config

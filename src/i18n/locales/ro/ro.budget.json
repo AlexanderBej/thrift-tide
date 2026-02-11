@@ -1,71 +1,123 @@
 {
   "income": "Venit",
   "spent": "Cheltuit",
+  "youSpent": "Ai cheltuit",
+  "spentInTxns": "Ai cheltuit {spent} în {txns} de tranzacții",
+  "youContributed": "Ai contribuit",
+  "contributed": "Contribuit",
   "remaining": "Rămas",
+  "left": "rămas",
+  "headerRemaining": "Mai ai {remaining}",
   "allocated": "Alocat",
-
-  "totalSpent": "Total cheltuit",
-  "totalRemaining": "Total rămas",
-  "totalBudget": "Total Buget",
-
-  "topCategories": "Categorii principale",
-  "runOutDate": "Data estimată de epuizare: {{date, date}}",
-
-  "kpi": {
-    "avgDailySpend": "Media zilnică",
-    "projected": "Total proiectat",
-    "burnVsPace": "Arderi vs. Ritm",
-    "remainingPerDay": "Rămas / zi"
-  },
-
+  "budget": "Buget",
+  "topExpGroups": "Găleți principale",
+  "spendPace": "Ritmul de cheltuieli (cheltuieli zilnice)",
+  "monthPace": "Ritm lunar (data expirării)",
+  "seeAllTxn": "Vezi toate tranzacțiile",
+  "periodOver": "Perioda e gata",
+  "plentyLeft": "Mai ai destul",
   "badges": {
     "overBudget": "Peste Buget",
     "nearBudget": "Aproape de Buget",
     "underPace": "Sub Ritm",
-    "behindPlan": "în Urmă",
+    "behindPlan": "În Urmă",
+    "savingsAhead": "Economii Peste Plan",
+    "savingsOnTrack": "Economii Pe Plan",
     "highBurn": "Ritm Ridicat de Cheltuieli",
     "good": "de bine"
   },
-
-  "daysToZero": "zile până la 0",
-  "daysToZero_one": "{{count}} zi până la zero",
-  "daysToZero_few": "{{count}} zile până la zero",
-  "daysToZero_other": "{{count}} de zile până la zero",
-
-  "buckets": "Categorii",
-  "bucket": "Categorie",
-
-  "bucketNames": {
-    "all": "Toate",
-    "needs": "Nevoi",
-    "wants": "Dorințe",
-    "savings": "Economii"
-  },
-
+  "categories": "Categorii",
+  "category": "Categorie",
   "pace": "Ritm (Total)",
-  "noTransactions": "Nu ai încă nici o tranzacție.",
-
+  "noTransactions": "Nu ai adăugat încă nicio cheltuială",
+  "noBudget": "Încă nu ți-ai setat bugetul",
   "modals": {
-    "addTransaction": "Adaugă o Tranzacție",
     "addIncome": "Adaugă Venit",
-    "type": "Tip",
     "amount": "Sumă",
-    "date": "Dată",
-    "category": "Categorie",
-    "note": "Notă (opțional)",
-    "applyTo": "Aplică la",
-    "currentPeriod": "Perioada actuală",
-    "nextPeriod": "Perioada următoare",
-    "keepModalOpen": "Păstrează modalul deschis după trimitere.",
-    "switchPeriod": "Mută la perioada următoare după salvare."
+    "note": "Notă (opțional)"
   },
-
+  "sheets": {
+    "addSheet": {
+      "afterSave": "După salvare",
+      "choose": {
+        "title": "Hai să adăugăm ceva",
+        "subtitle": "O cheltuială sau un venit nou?",
+        "options": {
+          "expense": {
+            "title": "Adaugă o tranzacție",
+            "subtitle": "Notează o achiziție sau o factură"
+          },
+          "income": {
+            "title": "Adaugă venit",
+            "subtitle": "Salariu, bonus, rambursare"
+          }
+        }
+      },
+      "expense": {
+        "titleAdd": "Adaugă o tranzacție",
+        "subtitleAdd": "Care este cheltuiala ta?",
+        "titleEdit": "Editează o tranzacție",
+        "subtitleEdit": "Ce modifici?",
+        "dates": {
+          "today": "Azi",
+          "yesterday": "Ieri",
+          "pick": "Alege o zi"
+        },
+        "after": {
+          "close": "Închide foaia",
+          "open": "Păstrează-o deschisă",
+          "popover": "Opțiunea e folosită în cazul în care vrei să adăugi mai multe tranzacții după asta."
+        },
+        "back": "Înapoi la tranzacție"
+      },
+      "income": {
+        "title": "Adaugă Venit",
+        "subtitle": "Adaugă bani la bugetul tău",
+        "input": "Cât ai primit?",
+        "stay": "Stai aici",
+        "switch": "Treci la următoarea perioadă"
+      }
+    },
+    "periodSheet": {
+      "title": "Selectează o perioadă",
+      "btnLabel": "Selectează perioada",
+      "current": "Curentă",
+      "create": {
+        "title": "Creează următoarea perioadă",
+        "sub": "Începe de la zero și urmărește-ți cheltuielile"
+      }
+    },
+    "common": {
+      "applyTo": "Aplică la",
+      "thisMonth": "Perioada asta",
+      "nextMonth": "Perioada viitoare"
+    },
+    "sortSheet": {
+      "title": "Sortează tranzacțiile",
+      "sortOption": {
+        "date": "după dată",
+        "amount": "după sumă",
+        "expenseGroup": "după găleată"
+      },
+      "sortLabel": {
+        "date": "După dată",
+        "amount": "După sumă",
+        "expenseGroup": "După găleată"
+      }
+    },
+    "confirmSheet": {
+      "delTxn": {
+        "button": "Șterge tranzacția",
+        "title": "Ștergi o tranzacție",
+        "text": "Ești sigur/ă? Acțiunea asta e ireversibilă"
+      }
+    }
+  },
   "sortOptions": {
-    "byDate": "Sortează după dată",
-    "byAmount": "Sortează după sumă"
+    "byDate": "Sortează: dată",
+    "byAmount": "Sortează: sumă"
   },
-
-  "categories": {
+  "expGroups": {
     "needs": {
       "rent": "Chirie / Ipotecă",
       "utilities": "Utilități",
@@ -94,67 +146,32 @@
       "debt_payments": "Plăți de datorii"
     }
   },
-
   "toast": {
-    "budget": {
-      "init": {
-        "success": "Bugetul a fost inițializat cu succes!",
-        "error": "Nu s-a putut inițializa bugetul."
-      },
-      "setIncome": {
-        "success": "Venitul a fost setat cu succes!",
-        "error": "Nu s-a putut seta venitul."
-      },
-      "percents": {
-        "success": "Procentele au fost actualizate cu succes!",
-        "error": "Actualizarea procentelor a eșuat."
-      },
-      "txn": {
-        "added": "Tranzacție adăugată.",
-        "addFailed": "Adăugarea tranzacției a eșuat.",
-        "updated": "Tranzacția a fost actualizată cu succes!",
-        "updateFailed": "Actualizarea tranzacției a eșuat.",
-        "deleted": "Tranzacția a fost ștearsă cu succes!",
-        "deleteFailed": "Ștergerea tranzacției a eșuat."
-      },
-      "changeMonth": { "error": "Schimbarea perioadei a eșuat." },
-      "amount": {
-        "ltMax": "Suma trebuie să fie mai mică decât {{max}}"
-      }
+    "init": {
+      "success": "Bugetul a fost inițializat cu succes!",
+      "error": "Nu s-a putut inițializa bugetul."
     },
-
-    "history": {
-      "loadFailed": "Nu s-au putut încărca datele paginii istoric!"
+    "setIncome": {
+      "success": "Venitul a fost setat cu succes!",
+      "error": "Nu s-a putut seta venitul."
     },
-
-    "settings": {
-      "load": {
-        "error": "Nu s-au putut încărca setările."
-      },
-      "completeOnboarding": {
-        "success": "Onboarding finalizat. Modificările au fost salvate!",
-        "error": "Nu s-a putut finaliza onboarding-ul."
-      },
-      "startDay": {
-        "success": "Ziua de început a fost schimbată cu succes!",
-        "error": "Actualizarea zilei de început a eșuat."
-      },
-      "language": {
-        "success": "Limba a fost schimbată cu succes!",
-        "error": "Actualizarea limbii a eșuat."
-      },
-      "theme": {
-        "success": "Tema a fost schimbată cu succes!",
-        "error": "Schimbarea temei a eșuat."
-      },
-      "percents": {
-        "success": "Procentele implicite au fost actualizate cu succes!",
-        "error": "Actualizarea procentelor implicite a eșuat."
-      },
-      "currency": {
-        "success": "Moneda a fost actualizată cu succes!",
-        "error": "Actualizarea monedei a eșuat."
-      }
+    "percents": {
+      "success": "Procentele au fost actualizate cu succes!",
+      "error": "Actualizarea procentelor a eșuat."
+    },
+    "txn": {
+      "added": "Tranzacție adăugată.",
+      "addFailed": "Adăugarea tranzacției a eșuat.",
+      "updated": "Tranzacția a fost actualizată cu succes!",
+      "updateFailed": "Actualizarea tranzacției a eșuat.",
+      "deleted": "Tranzacția a fost ștearsă cu succes!",
+      "deleteFailed": "Ștergerea tranzacției a eșuat."
+    },
+    "changeMonth": {
+      "error": "Schimbarea perioadei a eșuat."
     }
-  }
+  },
+  "expGroup": "Găleată",
+  "uncategorized": "Necategorizat",
+  "date": "Dată"
 }

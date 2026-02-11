@@ -1,0 +1,94 @@
+@use '../../../styles/tokens.scss' as *;
+
+.embla {
+  width: 100%;
+}
+
+.embla__viewport {
+  overflow: hidden;
+}
+
+.embla__container {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  padding: 2px 2px 10px;
+}
+
+.embla__slide {
+  flex: 0 0 86%; // iOS-ish peek
+  min-width: 0;
+}
+
+/* Controls row */
+.embla__controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 2px 0;
+}
+
+/* Prev/next buttons (optional) */
+.embla__buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.embla__button {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid rgba(60, 60, 67, 0.16);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 22px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.embla__button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.embla__button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* Dots */
+.embla__dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex: 1;
+}
+
+.embla__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  border: 0;
+  padding: 0;
+  background: rgba(60, 60, 67, 0.28);
+  cursor: pointer;
+  transition:
+    transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    background 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    width 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.embla__dot--active {
+  background: rgba(60, 60, 67, 0.62);
+  width: 16px; // iOS-ish “pill”
+}
+
+.embla__dot:active {
+  transform: scale(0.95);
+}

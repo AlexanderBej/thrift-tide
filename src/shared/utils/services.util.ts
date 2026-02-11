@@ -23,6 +23,18 @@ export const toMonthDoc = (data: any): MonthDoc => ({
   periodEnd: data.periodEnd,
   createdAt: toMillis(data.createdAt),
   updatedAt: toMillis(data.updatedAt),
+  summary: data.summary,
 });
 
 export const clamp = (n: number) => Math.min(28, Math.max(1, Math.floor(n)));
+
+export function emptyMonthSummary(doc: MonthDoc): MonthDoc['summary'] {
+  return {
+    spent: { needs: 0, wants: 0, savings: 0 },
+    totalSpent: 0,
+    totalTxns: 0,
+    income: doc.income,
+    allocations: doc.allocations,
+    computedAt: new Date().toISOString(),
+  };
+}

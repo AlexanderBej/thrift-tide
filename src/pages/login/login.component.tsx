@@ -6,14 +6,17 @@ import { useSelector } from 'react-redux';
 import { ensureUserProfile, signInWithGooglePopup } from '@api/services';
 import { Button, TTIcon } from '@shared/ui';
 import { selectAuthStatus } from '@store/auth-store';
-import { selectSettingOnboardingState } from '@store/settings-store';
+import { selectSettingOnboardingState, selectSettingsAppTheme } from '@store/settings-store';
+import { ReactComponent as Logo } from '../../assets/logo.svg';
 
 import './login.styles.scss';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
+
   const userStatus = useSelector(selectAuthStatus);
   const onboardingCompleted = useSelector(selectSettingOnboardingState);
+  const theme = useSelector(selectSettingsAppTheme);
 
   useEffect(() => {
     if (userStatus === 'authenticated') {
@@ -28,18 +31,24 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="login-contaier">
-      <h2>Login</h2>
-      <hr></hr>
-      <div className="login-btn-container">
-        <Button buttonType="primary" customContainerClass="login-btn" onClick={logGoogleUser}>
-          <>
-            <TTIcon icon={FcGoogle} size={28} />
-            <span>Login with Google</span>
-          </>
-        </Button>
+    <main className="login-page">
+      <div className="logo-container">
+        <Logo height={100} />
       </div>
-    </div>
+
+      <div className={`login-container login-container__${theme}`}>
+        <h2>Login</h2>
+        <hr />
+        <div className="login-btn-container">
+          <Button buttonType="primary" customContainerClass="login-btn" onClick={logGoogleUser}>
+            <>
+              <TTIcon icon={FcGoogle} size={28} />
+              <span>Login with Google</span>
+            </>
+          </Button>
+        </div>
+      </div>
+    </main>
   );
 };
 
