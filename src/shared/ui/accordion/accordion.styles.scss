@@ -13,7 +13,7 @@
 
   &.border {
     border-bottom: 1px solid;
-    border-color: color-mix(in srgb, var(--color-neutral), transparent 0%);
+    border-color: color-mix(in srgb, var(--color-border-subtle), transparent 0%);
   }
 
   &:last-child {

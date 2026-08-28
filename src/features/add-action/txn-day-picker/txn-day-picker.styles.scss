@@ -11,7 +11,7 @@
       align-items: center;
 
       .step-back-btn-label {
-        @include themed(color, color-text-secondary, $color-text-secondary);
+        color: var(--color-text-secondary);
       }
     }
   }
@@ -48,7 +48,7 @@
     .tt-weekday {
       font-size: 12px;
       font-weight: 700;
-      color: rgba(31, 41, 51, 0.55);
+      color: var(--color-text-muted);
       padding: 6px 0;
       text-transform: uppercase;
     }
@@ -72,7 +72,7 @@
       justify-content: center;
       // border: 2px solid transparent;
       // border-radius: $radius-md;
-      @include themed(background-color, color-primary-light, $color-primary-light);
+      background-color: var(--color-primary-soft);
 
       &.tt-disabled {
         background-color: transparent;
@@ -97,7 +97,7 @@
       border: 2px solid transparent;
       // background: #fff;
       width: -webkit-fill-available;
-      @include themed(color, color-text-secondary, $color-text-secondary);
+      color: var(--color-text-secondary);
 
       font-weight: 650;
       transition:
@@ -108,14 +108,14 @@
 
     .tt-today {
       .tt-dayBtn {
-        border-color: $color-secondary;
+        border-color: var(--color-coral);
       }
     }
 
     .tt-selected {
       .tt-dayBtn {
-        @include themed(color, color-text-inverse, $color-text-inverse);
-        background-color: $color-primary;
+        color: var(--color-text-inverse);
+        background-color: var(--color-primary);
       }
     }
   }

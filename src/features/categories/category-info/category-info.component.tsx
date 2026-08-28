@@ -7,7 +7,6 @@ import { FaChevronRight } from 'react-icons/fa';
 import { TTIcon } from '@shared/ui';
 import { selectCategoriesTopInsights, selectCards } from '@store/budget-store';
 import { CategoryName } from '@shared/components/category-name';
-import { getCssVar } from '@shared/utils';
 import { ProgressBar } from '@shared/components';
 import { SmartInsightChip } from 'features/insights';
 import { Category, CategoryInsightCandidate } from '@api/types';
@@ -29,13 +28,13 @@ const CategoryInfo: React.FC = () => {
   const getCatColor = (c: string): string => {
     switch (c) {
       case 'needs':
-        return 'var(--needs)';
+        return 'var(--color-category-needs)';
       case 'wants':
-        return 'var(--wants)';
+        return 'var(--color-category-wants)';
       case 'savings':
-        return 'var(--savings)';
+        return 'var(--color-category-savings)';
       default:
-        return 'var(--needs)';
+        return 'var(--color-category-needs)';
     }
   };
 
@@ -62,7 +61,7 @@ const CategoryInfo: React.FC = () => {
                 % {t('left')}
               </span>
               <NavLink to={'/categories/' + c.key} className="category-link">
-                <TTIcon icon={FaChevronRight} size={16} color={getCssVar('--color-primary')} />
+                <TTIcon icon={FaChevronRight} size={16} color="var(--color-primary)" />
               </NavLink>
             </div>
           </div>

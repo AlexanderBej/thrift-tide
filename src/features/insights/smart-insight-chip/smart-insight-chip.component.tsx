@@ -9,7 +9,7 @@ import { SiNeutralinojs } from 'react-icons/si';
 
 import { useResolvedInsight } from '@shared/hooks';
 import { Insight } from '@api/models';
-import { getCssVar, toPathFromInsightTarget } from '@shared/utils';
+import { toPathFromInsightTarget } from '@shared/utils';
 import { TTIcon } from '@shared/ui';
 
 import './smart-insight-chip.styles.scss';
@@ -52,15 +52,15 @@ const SmartInsightChip: React.FC<SmartInsightCardProps> = ({
   const toneToColor = (tone: InsightTone) => {
     switch (tone) {
       case 'danger':
-        return getCssVar('--error');
+        return 'var(--color-error)';
       case 'info':
-        return getCssVar('--color-secondary-dark');
+        return 'var(--color-coral)';
       case 'success':
-        return getCssVar('--success');
+        return 'var(--color-success)';
       case 'warn':
-        return getCssVar('--warning');
+        return 'var(--color-warning)';
       default:
-        return getCssVar('--color-primary-dark');
+        return 'var(--color-primary)';
     }
   };
 

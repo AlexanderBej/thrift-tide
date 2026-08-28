@@ -13,7 +13,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    @include themed(color, color-bg-card, $color-bg-card);
+    color: var(--color-bg-elevated);
   }
 
   .category-value {

@@ -7,8 +7,8 @@
   align-items: center;
   justify-content: space-between;
   border: 1px solid;
-  @include themed(background-color, color-neutral-light, $color-neutral-light);
-  @include themed(border-color, color-neutral, $color-neutral);
+  background-color: var(--color-bg-muted);
+  border-color: var(--color-border-subtle);
   border-radius: 999px;
   overflow: visible;
   // margin: 10px 0 20px;
@@ -19,7 +19,7 @@
     flex: 1;
     // height: 45px;
     border-radius: 999px;
-    @include themed(border-color, color-neutral, $color-neutral);
+    border-color: var(--color-border-subtle);
     align-items: center;
     padding: $spacing-3;
     justify-content: center;
@@ -31,13 +31,13 @@
       font-weight: 700;
 
       &__needs {
-        @include themed(color, color-needs, $color-needs);
+        color: var(--color-category-needs);
       }
       &__wants {
-        @include themed(color, color-wants, $color-wants);
+        color: var(--color-category-wants);
       }
       &__savings {
-        @include themed(color, color-savings, $color-savings);
+        color: var(--color-category-savings);
       }
     }
 
@@ -45,22 +45,22 @@
       z-index: 2;
       padding: calc(#{$spacing-3} + 2px) calc(#{$spacing-3} + 4px);
       margin: -2px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      box-shadow: var(--shadow-elevation-1);
 
       &.needs {
-        @include themed(background-color, color-needs, $color-needs);
+        background-color: var(--color-category-needs);
       }
 
       &.wants {
-        @include themed(background-color, color-wants, $color-wants);
+        background-color: var(--color-category-wants);
       }
 
       &.savings {
-        @include themed(background-color, color-savings, $color-savings);
+        background-color: var(--color-category-savings);
       }
 
       .category-value {
-        color: $anti-flash-300; // same on both themes
+        color: var(--color-text-inverse); // same on both themes
       }
     }
   }

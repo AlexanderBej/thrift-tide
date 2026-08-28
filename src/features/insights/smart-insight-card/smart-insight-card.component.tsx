@@ -4,7 +4,7 @@ import { FaChevronRight } from 'react-icons/fa';
 
 import { useResolvedInsight } from '@shared/hooks';
 import { Insight } from '@api/models';
-import { getCssVar, toPathFromInsightTarget } from '@shared/utils';
+import { toPathFromInsightTarget } from '@shared/utils';
 import { InsightTone } from '@api/types';
 import { AddActionSheet } from '@widgets';
 import { TTIcon } from '@shared/ui';
@@ -76,7 +76,7 @@ const SmartInsightCard: React.FC<SmartInsightCardProps> = ({ insight, showCta = 
               type="button"
             >
               <span>{text.ctaLabel}</span>
-              <TTIcon icon={FaChevronRight} size={12} color={getCssVar('--color-text-secondary')} />
+              <TTIcon icon={FaChevronRight} size={12} color="var(--color-primary)" />
             </button>
           )}
         </div>

@@ -7,7 +7,6 @@ import { BaseSheet, InfoBlock, TTIcon } from '@shared/ui';
 import { selectSettingsDefaultPercents, updateDefaultPercentsThunk } from '@store/settings-store';
 import { AppDispatch, Category, PercentTriple } from '@api/types';
 import { selectAuthUser } from '@store/auth-store';
-import { getCssVar } from '@shared/utils';
 import { ApplyEditor } from 'features';
 import { selectBudgetDoc } from '@store/budget-store';
 
@@ -182,7 +181,10 @@ const BudgetSplitSheet: React.FC<BudgetSplitSheetProps> = ({ open, onOpenChange 
             return (
               <div key={index} className="percent-input-line">
                 <div className="percent-label">
-                  <div className="bullet" style={{ backgroundColor: getCssVar(`--${key}`) }} />
+                  <div
+                    className="bullet"
+                    style={{ backgroundColor: `var(--color-category-${key})` }}
+                  />
                   <span className="percent-key">{t(`taxonomy:categoryNames.${key}`)}</span>
                 </div>
 

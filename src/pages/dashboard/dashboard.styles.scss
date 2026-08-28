@@ -1,6 +1,4 @@
 @use '../../styles/tokens.scss' as *;
-@use 'sass:color';
-
 .dashboard-page {
   .hi-header {
     font-size: 22px;
@@ -32,26 +30,26 @@
         border-bottom-left-radius: 10px;
         background: linear-gradient(
           90deg,
-          color-mix(in srgb, var(--needs), transparent 80%) 0%,
-          color-mix(in srgb, var(--needs), transparent 60%) 100%
+          color-mix(in srgb, var(--color-category-needs), transparent 80%) 0%,
+          color-mix(in srgb, var(--color-category-needs), transparent 60%) 100%
         );
 
         .category-percent-needs {
           font-weight: bold;
-          color: color.scale($color: $color-needs, $lightness: -45%);
+          color: var(--color-category-needs);
         }
       }
 
       &__wants {
         background: linear-gradient(
           90deg,
-          color-mix(in srgb, var(--wants), transparent 80%) 0%,
-          color-mix(in srgb, var(--wants), transparent 60%) 100%
+          color-mix(in srgb, var(--color-category-wants), transparent 80%) 0%,
+          color-mix(in srgb, var(--color-category-wants), transparent 60%) 100%
         );
 
         .category-percent-wants {
           font-weight: bold;
-          color: $color-wants;
+          color: var(--color-category-wants);
         }
       }
 
@@ -60,13 +58,13 @@
         border-bottom-right-radius: 10px;
         background: linear-gradient(
           90deg,
-          color-mix(in srgb, var(--savings), transparent 80%) 0%,
-          color-mix(in srgb, var(--savings), transparent 60%) 100%
+          color-mix(in srgb, var(--color-category-savings), transparent 80%) 0%,
+          color-mix(in srgb, var(--color-category-savings), transparent 60%) 100%
         );
 
         .category-percent-savings {
           font-weight: bold;
-          color: color.scale($color: $color-savings, $lightness: -45%);
+          color: var(--color-category-savings);
         }
       }
 
@@ -97,7 +95,7 @@
     gap: $spacing-2;
 
     &__dark {
-      box-shadow: $dark-shadow-md;
+      box-shadow: var(--shadow-elevation-2);
     }
 
     .top-eg-item-header {
@@ -105,7 +103,7 @@
       width: 100%;
       padding: $spacing-2 0px;
       align-items: center;
-      @include themed(color, color-text-primary, $color-text-primary);
+      color: var(--color-text-primary);
 
       .eg-category {
         margin-left: auto;
@@ -118,7 +116,7 @@
         align-items: center;
         justify-content: center;
         text-transform: capitalize;
-        @include themed(color, color-text-inverse, $color-text-inverse);
+        color: var(--color-text-inverse);
       }
 
       .eg-total {
@@ -131,7 +129,7 @@
     .top-eg-item-content {
       @include grid($templateColumns: 100px auto 50px, $columnGap: 8px);
       border-bottom: 1px solid;
-      border-color: color-mix(in srgb, var(--color-neutral), transparent 0%);
+      border-color: color-mix(in srgb, var(--color-border-subtle), transparent 0%);
       align-items: end;
       padding: $spacing-3 0;
 

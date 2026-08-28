@@ -6,7 +6,7 @@ import { IconType } from 'react-icons';
 import { FaChevronRight } from 'react-icons/fa';
 
 import { Category, CATEGORY_ICONS, CategoryInsightCandidate, CategoryType } from '@api/types';
-import { resolveExpenseGroup, getCssVar } from '@shared/utils';
+import { resolveExpenseGroup } from '@shared/utils';
 import { useFormatMoney } from '@shared/hooks';
 import { EmblaCarousel, TTIcon } from '@shared/ui';
 import {
@@ -93,8 +93,11 @@ const CategoryPage: React.FC = () => {
       >
         <div className="category-name-line">
           <div className="category-name">
-            <div className="category-icon-wrapper" style={{ background: getCssVar(`--${type}`) }}>
-              <TTIcon icon={categoryData.icon} color="#fff" />
+            <div
+              className="category-icon-wrapper"
+              style={{ background: `var(--color-category-${type})` }}
+            >
+              <TTIcon icon={categoryData.icon} color="var(--color-text-inverse)" />
             </div>
             <h2>{t(`taxonomy:categoryNames.${categoryData.title?.toLowerCase()}`)}</h2>
           </div>
@@ -103,7 +106,7 @@ const CategoryPage: React.FC = () => {
             <h3>{fmt(view.allocated)}</h3>
           </div>
         </div>
-        <ProgressBar progress={view.progress} color={getCssVar(`--${type}`)} />
+        <ProgressBar progress={view.progress} color={`var(--color-category-${type})`} />
         <div className="values-line">
           <div className="category-summary category-middle">
             {t('budget:spent') ?? 'Spent'}: <strong>{fmt(view.spent)}</strong>
@@ -182,7 +185,7 @@ const CategoryPage: React.FC = () => {
             <div className="category-transaction">
               <NavLink className="see-txns-link" to={'/transactions'}>
                 <span>{t('budget:seeAllTxn')}</span>
-                <TTIcon icon={FaChevronRight} size={14} color={getCssVar('--color-primary')} />
+                <TTIcon icon={FaChevronRight} size={14} color="var(--color-primary)" />
               </NavLink>
             </div>
           </div>

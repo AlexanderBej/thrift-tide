@@ -4,7 +4,6 @@ import { FaChevronRight } from 'react-icons/fa';
 
 import { SheetStep } from '@api/types';
 import { TTIcon } from '@shared/ui';
-import { getCssVar } from '@shared/utils';
 
 import './action-selector.styles.scss';
 
@@ -54,7 +53,7 @@ const ActionSelector: React.FC<ActionSelectorProps> = ({ setStep }) => {
             containerClass="action-chevron"
             icon={FaChevronRight}
             size={18}
-            color={getCssVar('--color-neutral')}
+            color="var(--color-primary)"
           />
         </button>
       ))}

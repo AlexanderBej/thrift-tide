@@ -9,7 +9,7 @@
       display: block;
       margin: 0 0 $spacing-1 $spacing-3;
       font-size: 12px;
-      @include themed(color, color-text-secondary, $color-text-secondary);
+      color: var(--color-text-secondary);
     }
 
     .expense-chips {
@@ -21,9 +21,9 @@
         padding: $spacing-3 $spacing-4;
         border: 1px solid;
         font-weight: 500;
-        @include themed(background-color, color-neutral-light, $color-neutral-light);
-        @include themed(border-color, color-neutral, $color-neutral);
-        @include themed(color, color-text-secondary, $color-text-secondary);
+        background-color: var(--color-bg-muted);
+        border-color: var(--color-border-subtle);
+        color: var(--color-text-secondary);
         border-radius: 999px;
         display: flex;
         gap: $spacing-1;
@@ -32,9 +32,9 @@
         &.active {
           font-weight: 700;
 
-          @include themed(background-color, color-primary, $color-primary);
-          @include themed(border-color, color-primary, $color-primary);
-          color: $anti-flash-500;
+          background-color: var(--color-primary);
+          border-color: var(--color-primary);
+          color: var(--color-text-inverse);
         }
 
         .chip-label {
@@ -73,8 +73,8 @@
 
       background: linear-gradient(
         to left,
-        #{'rgb(from var(--color-bg-card) r g b / 1)'},
-        #{'rgb(from var(--color-bg-card) r g b / 0)'}
+        #{'rgb(from var(--color-bg-elevated) r g b / 1)'},
+        #{'rgb(from var(--color-bg-elevated) r g b / 0)'}
       );
     }
   }

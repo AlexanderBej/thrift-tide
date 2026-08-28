@@ -5,7 +5,7 @@
     @include dashboard-card($radius: $radius-lg, $pad: $spacing-4);
 
     &__dark {
-      box-shadow: $dark-shadow-md;
+      box-shadow: var(--shadow-elevation-2);
     }
 
     .user-info {
@@ -42,7 +42,7 @@
         align-items: center;
         gap: $spacing-3;
         font-weight: 500;
-        @include themed(color, color-text-primary, $color-text-primary);
+        color: var(--color-text-primary);
 
         &.categories {
           justify-content: center;
@@ -54,14 +54,18 @@
         }
 
         &.history {
-          background: linear-gradient(90deg, rgba($eg-3, 0.1) 0%, rgba($eg-3, 0.3) 100%);
+          background: linear-gradient(
+            90deg,
+            color-mix(in srgb, var(--color-chart-eg-3), transparent 90%) 0%,
+            color-mix(in srgb, var(--color-chart-eg-3), transparent 70%) 100%
+          );
         }
       }
     }
   }
 
   // .settings-container {
-  //   @include dashboard-card($radius: $radius-lg, $pad: $spacing-4, $bgCol: #f4f5f7);
+  //   @include dashboard-card($radius: $radius-lg, $pad: $spacing-4, $bgCol: var(--color-bg-muted));
 
   .settings-label-wrapper {
     display: flex;
@@ -90,14 +94,14 @@
 
   .logout-btn {
     width: 150px;
-    color: $color-error;
+    color: var(--color-error);
     font-weight: 800;
-    @include dashboard-card($radius: $radius-lg, $pad: $spacing-4, $bgCol: #f4f5f7);
+    @include dashboard-card($radius: $radius-lg, $pad: $spacing-4, $bgCol: var(--color-bg-muted));
     margin: auto;
     display: block;
 
     &__dark {
-      box-shadow: $dark-shadow-md;
+      box-shadow: var(--shadow-elevation-2);
     }
   }
 }

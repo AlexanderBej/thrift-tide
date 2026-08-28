@@ -1,8 +1,10 @@
 import React from 'react';
 import { ResponsivePie } from '@nivo/pie';
+import { useSelector } from 'react-redux';
 
 import { nivoThemeBuilder } from './charts.theme';
 import { formatCurrency } from '@shared/utils';
+import { selectSettingsAppTheme } from '@store/settings-store';
 
 export type DonutItem = { id: string; label: string; value: number; color?: string };
 
@@ -23,6 +25,7 @@ const Donut: React.FC<DonutProps> = ({
   percentage,
   fontSize = 12,
 }) => {
+  useSelector(selectSettingsAppTheme);
   const nivoTheme = nivoThemeBuilder(fontSize);
 
   return (

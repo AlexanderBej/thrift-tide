@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 
 import { Category } from '@api/types';
-import { getCssVar } from '@shared/utils';
 import { TTIcon } from '@shared/ui';
 
 import './type-box-selector.styles.scss';
@@ -46,7 +45,9 @@ const TypeBoxSelector: React.FC<TypeBoxSelectorProps> = ({ category, handleTypeC
               icon={opt.icon as IconType}
               size={24}
               color={
-                category === opt.value ? getCssVar('--anti-flash-300') : getCssVar(`--${opt.value}`)
+                category === opt.value
+                  ? 'var(--color-text-inverse)'
+                  : `var(--color-category-${opt.value})`
               }
             />
             <span

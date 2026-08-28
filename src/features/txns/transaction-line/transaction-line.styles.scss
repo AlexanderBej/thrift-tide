@@ -30,15 +30,15 @@
       text-transform: capitalize;
 
       &__needs {
-        background-color: color-mix(in srgb, var(--needs), transparent 70%);
+        background-color: color-mix(in srgb, var(--color-category-needs), transparent 70%);
       }
 
       &__wants {
-        background-color: color-mix(in srgb, var(--wants), transparent 70%);
+        background-color: color-mix(in srgb, var(--color-category-wants), transparent 70%);
       }
 
       &__savings {
-        background-color: color-mix(in srgb, var(--savings), transparent 70%);
+        background-color: color-mix(in srgb, var(--color-category-savings), transparent 70%);
       }
     }
   }

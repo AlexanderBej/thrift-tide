@@ -17,15 +17,15 @@
     padding: $spacing-3 $spacing-4;
     font-size: 14px;
     border-radius: $radius-md;
-    @include themed(background-color, color-bg-card, $color-bg-card);
+    background-color: var(--color-bg-elevated);
     min-width: 250px;
 
     &__light {
-      box-shadow: $shadow-md;
+      box-shadow: var(--shadow-elevation-2);
     }
 
     &__dark {
-      box-shadow: $dark-shadow-md;
+      box-shadow: var(--shadow-elevation-2);
     }
 
     &__top {

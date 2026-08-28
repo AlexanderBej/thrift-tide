@@ -17,8 +17,6 @@ import { RiNetflixFill } from 'react-icons/ri';
 
 import { ExpenseGroupOption } from '@api/models';
 import { ExpenseGroupOptions, Category } from '@api/types';
-import { getCssVar } from './style-variable.util';
-
 export const EXPENSE_GROUP_OPTIONS: ExpenseGroupOptions = {
   needs: [
     {
@@ -26,49 +24,49 @@ export const EXPENSE_GROUP_OPTIONS: ExpenseGroupOptions = {
       i18nLabel: 'budget:expGroups.needs.rent',
       icon: TbHomeDollar,
       value: 'rent',
-      color: '#4e79a7',
+      color: 'var(--color-chart-eg-1)',
     },
     {
       label: 'Utilities',
       i18nLabel: 'budget:expGroups.needs.utilities',
       icon: FaRegLightbulb,
       value: 'utilities',
-      color: '#f28e2b',
+      color: 'var(--color-chart-eg-2)',
     },
     {
       label: 'Groceries',
       i18nLabel: 'budget:expGroups.needs.groceries',
       icon: GiShoppingCart,
       value: 'groceries',
-      color: '#e15759',
+      color: 'var(--color-chart-eg-3)',
     },
     {
       label: 'Transport',
       i18nLabel: 'budget:expGroups.needs.transport',
       icon: MdDirectionsCar,
       value: 'transport',
-      color: '#76b7b2',
+      color: 'var(--color-chart-eg-4)',
     },
     {
       label: 'Insurance',
       i18nLabel: 'budget:expGroups.needs.insurance',
       icon: IoShieldCheckmarkOutline,
       value: 'insurance',
-      color: '#59a14f',
+      color: 'var(--color-chart-eg-5)',
     },
     {
       label: 'Healthcare',
       i18nLabel: 'budget:expGroups.needs.healthcare',
       icon: MdLocalHospital,
       value: 'healthcare',
-      color: '#edc948',
+      color: 'var(--color-chart-eg-6)',
     },
     {
       label: 'Education',
       i18nLabel: 'budget:expGroups.needs.education',
       icon: PiBookOpenTextLight,
       value: 'education',
-      color: '#b07aa1',
+      color: 'var(--color-chart-eg-7)',
     },
   ],
   wants: [
@@ -77,49 +75,49 @@ export const EXPENSE_GROUP_OPTIONS: ExpenseGroupOptions = {
       i18nLabel: 'budget:expGroups.wants.dining',
       icon: MdRestaurant,
       value: 'dining',
-      color: '#4e79a7',
+      color: 'var(--color-chart-eg-1)',
     },
     {
       label: 'Entertainment',
       i18nLabel: 'budget:expGroups.wants.entertainments',
       icon: MdOutlineMovie,
       value: 'entertainments',
-      color: '#f28e2b',
+      color: 'var(--color-chart-eg-2)',
     },
     {
       label: 'Shopping',
       i18nLabel: 'budget:expGroups.wants.shopping',
       icon: FiShoppingBag,
       value: 'shopping',
-      color: '#e15759',
+      color: 'var(--color-chart-eg-3)',
     },
     {
       label: 'Travel',
       i18nLabel: 'budget:expGroups.wants.travel',
       icon: TbPlaneDeparture,
       value: 'travel',
-      color: '#76b7b2',
+      color: 'var(--color-chart-eg-4)',
     },
     {
       label: 'Subscriptions',
       i18nLabel: 'budget:expGroups.wants.subscriptions',
       icon: RiNetflixFill,
       value: 'subscriptions',
-      color: '#59a14f',
+      color: 'var(--color-chart-eg-5)',
     },
     {
       label: 'Hobbies',
       i18nLabel: 'budget:expGroups.wants.hobbies',
       icon: GiGuitar,
       value: 'hobbies',
-      color: '#edc948',
+      color: 'var(--color-chart-eg-6)',
     },
     {
       label: 'Beauty & Wellness',
       i18nLabel: 'budget:expGroups.wants.beauty',
       icon: GiLotusFlower,
       value: 'beauty',
-      color: '#b07aa1',
+      color: 'var(--color-chart-eg-7)',
     },
   ],
   savings: [
@@ -128,49 +126,49 @@ export const EXPENSE_GROUP_OPTIONS: ExpenseGroupOptions = {
       i18nLabel: 'budget:expGroups.savings.emergency',
       icon: MdSavings,
       value: 'emergency',
-      color: '#4e79a7',
+      color: 'var(--color-chart-eg-1)',
     },
     {
       label: 'Investments',
       i18nLabel: 'budget:expGroups.savings.investment',
       icon: MdTrendingUp,
       value: 'investment',
-      color: '#f28e2b',
+      color: 'var(--color-chart-eg-2)',
     },
     {
       label: 'Retirement',
       i18nLabel: 'budget:expGroups.savings.retirement',
       icon: GiStairsGoal,
       value: 'retirement',
-      color: '#e15759',
+      color: 'var(--color-chart-eg-3)',
     },
     {
       label: 'Big Purchase',
       i18nLabel: 'budget:expGroups.savings.big_purchase',
       icon: TbPigMoney,
       value: 'big_purchase',
-      color: '#76b7b2',
+      color: 'var(--color-chart-eg-4)',
     },
     {
       label: 'Vacation Fund',
       i18nLabel: 'budget:expGroups.savings.vacation',
       icon: PiTreePalm,
       value: 'vacation',
-      color: '#59a14f',
+      color: 'var(--color-chart-eg-5)',
     },
     {
       label: 'Education Fund',
       i18nLabel: 'budget:expGroups.savings.education_fund',
       icon: PiGraduationCapLight,
       value: 'education_fund',
-      color: '#edc948',
+      color: 'var(--color-chart-eg-6)',
     },
     {
       label: 'Debt Payments',
       i18nLabel: 'budget:expGroups.savings.debt_payments',
       icon: HiOutlineBanknotes,
       value: 'debt_payments',
-      color: '#b07aa1',
+      color: 'var(--color-chart-eg-7)',
     },
   ],
 };
@@ -180,7 +178,7 @@ export function getExpGroupColor(value: string): string {
     const match = group.find((ep) => ep.value === value);
     if (match) return match.color;
   }
-  return getCssVar('--eg-10');
+  return 'var(--color-chart-eg-10)';
 }
 export const getExpGroupsByType = (type: Category): ExpenseGroupOption[] =>
   EXPENSE_GROUP_OPTIONS[type];

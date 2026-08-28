@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import { format } from 'date-fns';
 
 import { FauxRadios, Input, RadioOption, TTIcon } from '@shared/ui';
-import { EXPENSE_GROUP_OPTIONS, getCssVar } from '@shared/utils';
+import { EXPENSE_GROUP_OPTIONS } from '@shared/utils';
 import { TypeBoxSelector } from '@shared/components';
 import { TransactionFormData } from '../add-expense/add-expense.util';
 import { selectSettingsCurrency } from '@store/settings-store';
@@ -153,7 +153,7 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({
             >
               <span>{date.label}</span>
               {date.open && (
-                <TTIcon icon={FaChevronRight} size={14} color={getCssVar('--color-secondary')} />
+                <TTIcon icon={FaChevronRight} size={14} color="var(--color-primary)" />
               )}
             </button>
           ))}

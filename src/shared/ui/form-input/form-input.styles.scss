@@ -1,5 +1,4 @@
 @use '../../../styles/tokens.scss' as *;
-@use 'sass:color';
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -22,7 +21,7 @@ input[type='number'] {
 
 .input-label {
   font-size: 12px;
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   margin-left: $spacing-3;
 }
 
@@ -41,9 +40,9 @@ input[type='number'] {
     width: 100%;
     padding: $spacing-4 $spacing-5;
     border: 1px solid;
-    @include themed(background-color, color-neutral-light, $color-neutral-light);
-    @include themed(border-color, color-neutral, $color-neutral);
-    @include themed(color, color-text-primary, $color-text-primary);
+    background-color: var(--color-bg-muted);
+    border-color: var(--color-border-subtle);
+    color: var(--color-text-primary);
     border-radius: $radius-lg;
     font-size: 1rem;
     transition:
@@ -52,29 +51,29 @@ input[type='number'] {
 
     &:focus {
       outline: none;
-      @include themed(border-color, color-primary, $color-primary);
-      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+      border-color: var(--color-primary);
+      box-shadow: var(--shadow-focus);
     }
 
     &.input-error {
-      @include themed(border-color, color-error, $color-error);
+      border-color: var(--color-error);
     }
 
     &.readOnly {
-      @include themed(border-color, color-bg-main, $color-bg-main);
+      border-color: var(--color-bg-main);
       background: transparent;
       pointer-events: none;
-      box-shadow: 0 0 0 2px rgba($color-bg-main, 0.15);
+      box-shadow: var(--shadow-focus);
 
       &:focus {
-        @include themed(border-color, color-bg-main, $color-bg-main);
-        box-shadow: 0 0 0 2px rgba($color-bg-main, 0.75);
+        border-color: var(--color-bg-main);
+        box-shadow: var(--shadow-focus-strong);
       }
     }
 
     &.disabled {
-      @include themed(color, color-text-secondary, $color-text-secondary);
-      background-color: color.scale($color-bg-main, $lightness: 3%);
+      color: var(--color-text-secondary);
+      background-color: var(--color-bg-hover);
       pointer-events: none;
     }
   }
@@ -92,6 +91,6 @@ input[type='number'] {
 }
 
 .input-error-message {
-  @include themed(color, color-error, $color-error);
+  color: var(--color-error);
   font-size: 0.75rem;
 }

@@ -34,13 +34,13 @@ const CategoryName: React.FC<CategoryNameProps> = ({ category }) => {
   const getCatColor = (c: string): string => {
     switch (c) {
       case 'needs':
-        return 'var(--needs)';
+        return 'var(--color-category-needs)';
       case 'wants':
-        return 'var(--wants)';
+        return 'var(--color-category-wants)';
       case 'savings':
-        return 'var(--savings)';
+        return 'var(--color-category-savings)';
       default:
-        return 'var(--needs)';
+        return 'var(--color-category-needs)';
     }
   };
 

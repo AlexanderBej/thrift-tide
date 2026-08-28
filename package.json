@@ -40,11 +40,9 @@
     "workbox-window": "^7.3.0"
   },
   "scripts": {
-    "build:themes": "sass src/styles/theme.light.scss public/light.css && sass src/styles/theme.dark.scss public/dark.css",
-    "watch:themes": "sass --watch src/styles/theme.light.scss:public/light.css src/styles/theme.dark.scss:public/dark.css",
-    "start": "npm-run-all -p watch:themes start:cra",
+    "start": "npm run start:cra",
     "start:cra": "craco start",
-    "build": "npm run build:themes && craco build",
+    "build": "craco build",
     "test": "craco test",
     "migrate:txn-fields": "node scripts/migrate-txn-fields.cjs",
     "eject": "react-scripts eject"

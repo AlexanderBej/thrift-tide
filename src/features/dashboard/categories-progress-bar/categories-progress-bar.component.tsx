@@ -2,8 +2,6 @@ import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { makeSelectCategoryPanel, selectBudgetDoc, selectTotals } from '@store/budget-store';
-import { getCssVar } from '@shared/utils';
-
 import './categories-progress-bar.styles.scss';
 
 interface CategoryData {
@@ -58,19 +56,19 @@ const CategoriesProgressBar: React.FC = () => {
       key: 'needs',
       weight: doc?.percents.needs ?? 0,
       spent: needsPanel.spent / needsPanel.alloc,
-      color: getCssVar('--needs'),
+      color: 'var(--color-category-needs)',
     },
     {
       key: 'wants',
       weight: doc?.percents.wants ?? 0,
       spent: wantsPanel.spent / wantsPanel.alloc,
-      color: getCssVar('--wants'),
+      color: 'var(--color-category-wants)',
     },
     {
       key: 'savings',
       weight: doc?.percents.savings ?? 0,
       spent: savingsPanel.spent / savingsPanel.alloc,
-      color: getCssVar('--savings'),
+      color: 'var(--color-category-savings)',
     },
   ];
 

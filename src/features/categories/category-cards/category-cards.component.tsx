@@ -7,7 +7,6 @@ import { FaChevronRight } from 'react-icons/fa';
 import { Accordion, ExpansionPanelItem, TTIcon } from '@shared/ui';
 import { selectCards } from '@store/budget-store';
 import { CategoryName } from '@shared/components/category-name';
-import { getCssVar } from '@shared/utils';
 import { ProgressBar } from '@shared/components';
 import { useFormatMoney } from '@shared/hooks';
 
@@ -32,7 +31,7 @@ const CategoryCards: React.FC = () => {
               {t('budget:left')}
             </span>
           </div>
-          <ProgressBar progress={c.progress} color={getCssVar(`--${c.key}`)} />
+          <ProgressBar progress={c.progress} color={`var(--color-category-${c.key})`} />
         </>
       ),
       content: (
@@ -68,7 +67,7 @@ const CategoryCards: React.FC = () => {
               <span>
                 {t('actions.goToCategory', { catName: t(`taxonomy:categoryNames.${c.key}`) })}
               </span>
-              <TTIcon icon={FaChevronRight} size={16} color={getCssVar('--color-primary')} />
+              <TTIcon icon={FaChevronRight} size={16} color="var(--color-primary)" />
             </NavLink>
           </div>
         </>

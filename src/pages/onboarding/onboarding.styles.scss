@@ -6,6 +6,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  @include themed(background, color-bg-main, $color-bg-main);
-  @include themed(color, color-text-primary, $color-text-primary);
+  background: var(--color-bg-main);
+  color: var(--color-text-primary);
 }

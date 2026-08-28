@@ -3,7 +3,7 @@
 .categories-progress-bar {
   height: 10px;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.08);
+  background: var(--color-bg-muted);
   overflow: hidden;
 
   .categories-progress {

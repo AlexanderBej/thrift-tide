@@ -8,21 +8,21 @@
     @include dashboard-card($radius: $radius-lg, $pad: $spacing-4);
 
     &__dark {
-      box-shadow: $dark-shadow-md;
+      box-shadow: var(--shadow-elevation-2);
     }
   }
 
   .category-page-header {
     &__needs {
-      background-color: color-mix(in srgb, var(--needs), transparent 70%);
+      background-color: color-mix(in srgb, var(--color-category-needs), transparent 70%);
     }
 
     &__wants {
-      background-color: color-mix(in srgb, var(--wants), transparent 70%);
+      background-color: color-mix(in srgb, var(--color-category-wants), transparent 70%);
     }
 
     &__savings {
-      background-color: color-mix(in srgb, var(--savings), transparent 70%);
+      background-color: color-mix(in srgb, var(--color-category-savings), transparent 70%);
     }
 
     .category-name-line {
@@ -77,7 +77,7 @@
     .egs-item {
       display: flex;
       justify-content: space-between;
-      border-bottom: 1px solid rgb(238, 238, 238);
+      border-bottom: 1px solid var(--color-border-subtle);
       padding: 8px 0px;
 
       &:last-child {
@@ -89,7 +89,7 @@
   .category-transaction {
     margin-bottom: $spacing-3;
     border-bottom: 1px solid;
-    border-color: color-mix(in srgb, var(--color-neutral), transparent 0%);
+    border-color: color-mix(in srgb, var(--color-border-subtle), transparent 0%);
     padding-bottom: $spacing-3;
 
     &:last-child {
@@ -104,7 +104,7 @@
       gap: $spacing-3;
       width: fit-content;
       font-size: 14px;
-      color: $color-primary;
+      color: var(--color-primary);
     }
   }
 }

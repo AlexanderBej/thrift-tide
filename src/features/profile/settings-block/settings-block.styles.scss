@@ -2,10 +2,10 @@
 
 .settings-block {
   .settings-container {
-    @include dashboard-card($radius: $radius-lg, $pad: $spacing-4, $bgCol: #f4f5f7);
+    @include dashboard-card($radius: $radius-lg, $pad: $spacing-4, $bgCol: var(--color-bg-muted));
 
     &__dark {
-      box-shadow: $dark-shadow-md;
+      box-shadow: var(--shadow-elevation-2);
     }
   }
 }

@@ -39,12 +39,12 @@
   width: 34px;
   height: 34px;
   border-radius: 999px;
-  border: 1px solid rgba(60, 60, 67, 0.16);
-  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--color-border-subtle);
+  background: var(--color-bg-elevated);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
-  color: rgba(0, 0, 0, 0.8);
+  box-shadow: var(--shadow-elevation-2);
+  color: var(--color-text-primary);
   font-size: 22px;
   line-height: 1;
   display: grid;
@@ -76,7 +76,7 @@
   border-radius: 999px;
   border: 0;
   padding: 0;
-  background: rgba(60, 60, 67, 0.28);
+  background: var(--color-border-strong);
   cursor: pointer;
   transition:
     transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
@@ -85,7 +85,7 @@
 }
 
 .embla__dot--active {
-  background: rgba(60, 60, 67, 0.62);
+  background: var(--color-primary);
   width: 16px; // iOS-ish “pill”
 }
 

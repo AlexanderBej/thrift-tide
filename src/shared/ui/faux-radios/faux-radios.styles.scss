@@ -2,7 +2,7 @@
 
 .faux-radios {
   border-top: 1px solid;
-  border-color: color-mix(in srgb, var(--color-neutral), transparent 0%);
+  border-color: color-mix(in srgb, var(--color-border-subtle), transparent 0%);
 
   padding-top: $spacing-4;
   margin-top: $spacing-4;
@@ -28,14 +28,14 @@
   .radios-options {
     display: flex;
     width: 100%;
-    @include themed(background-color, color-neutral-light, $color-neutral-light);
+    background-color: var(--color-bg-muted);
     border-radius: 999px;
     overflow: visible;
     border: 1px solid;
-    @include themed(border-color, color-neutral, $color-neutral);
+    border-color: var(--color-border-subtle);
 
     .option-btn {
-      @include themed(color, color-text-secondary, $color-text-secondary);
+      color: var(--color-text-secondary);
       padding: $spacing-3 $spacing-4;
       border-radius: 999px;
       width: 50%;
@@ -57,12 +57,12 @@
 
         // pull outside parent
         margin: -2px 0;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-        @include themed(background-color, color-secondary, $color-secondary);
-        @include themed(color, color-bg-card, $color-bg-card);
+        box-shadow: var(--shadow-elevation-1);
+        background-color: var(--color-coral);
+        color: var(--color-bg-elevated);
 
         &.disabled {
-          @include themed(background-color, color-text-secondary, $color-text-secondary);
+          background-color: var(--color-text-secondary);
         }
       }
     }

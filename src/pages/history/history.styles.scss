@@ -10,7 +10,7 @@
     text-align: left;
     padding: $spacing-2;
     font-size: 16px;
-    @include themed(color, color-text-primary, $color-text-primary);
+    color: var(--color-text-primary);
 
     .history-doc-header {
       display: flex;
@@ -31,26 +31,26 @@
         align-items: center;
         width: fit-content;
         font-size: 14px;
-        color: $color-text-secondary;
+        color: var(--color-text-secondary);
 
         &.danger {
-          background-color: rgba($color: $color-error, $alpha: 0.2);
+          background-color: var(--color-error-soft);
         }
 
         &.info {
-          background-color: rgba($color: $eg-1, $alpha: 0.2);
+          background-color: color-mix(in srgb, var(--color-chart-eg-1), transparent 80%);
         }
 
         &.success {
-          background-color: rgba($color: $color-success, $alpha: 0.2);
+          background-color: var(--color-success-soft);
         }
 
         &.warn {
-          background-color: rgba($color: $color-warning, $alpha: 0.2);
+          background-color: var(--color-warning-soft);
         }
 
         &.muted {
-          background-color: color-mix(in srgb, var(--color-primary-dark), transparent 80%);
+          background-color: var(--color-primary-soft);
         }
       }
     }

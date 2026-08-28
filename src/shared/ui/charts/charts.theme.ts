@@ -1,22 +1,20 @@
-import { getCssVar } from '@shared/utils';
-
 export const nivoThemeBuilder = (size: number) => {
   return {
-    textColor: getCssVar('--color-text-primary'),
+    textColor: 'var(--color-text-primary)',
     fontSize: size,
-    grid: { line: { stroke: getCssVar('--grid'), strokeWidth: 1 } },
+    grid: { line: { stroke: 'var(--color-chart-grid)', strokeWidth: 1 } },
     tooltip: {
       container: {
-        background: getCssVar('--color-bg-card'),
-        color: getCssVar('--color-text-primary'),
+        background: 'var(--color-bg-elevated)',
+        color: 'var(--color-text-primary)',
         borderRadius: 8,
-        boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
+        boxShadow: 'var(--shadow-elevation-3)',
         padding: 12,
       },
     },
     axis: {
-      ticks: { text: { fill: getCssVar('--color-text-secondary') } },
-      legend: { text: { fill: getCssVar('--color-text-secondary') } },
+      ticks: { text: { fill: 'var(--color-text-secondary)' } },
+      legend: { text: { fill: 'var(--color-text-secondary)' } },
     },
   } as const;
 };

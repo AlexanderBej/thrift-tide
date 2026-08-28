@@ -13,7 +13,7 @@ import {
   selectTopExpenseGroupsOverall,
 } from '@store/budget-store';
 import { ExpenseGroupName } from '@shared/components';
-import { getCssVar, resolveExpenseGroup } from '@shared/utils';
+import { resolveExpenseGroup } from '@shared/utils';
 import { selectSettingsAppTheme } from '@store/settings-store';
 import { CategoryCards, CategoriesProgressBar, SmartInsightCard } from 'features';
 import { Insight } from '@api/models';
@@ -83,7 +83,7 @@ const Dashboard: React.FC = () => {
             <ExpenseGroupName expenseGroup={fullEG} />
             <span
               className="eg-category"
-              style={{ background: getCssVar(`--${expGroup.category}-light`) }}
+              style={{ background: `var(--color-category-${expGroup.category}-soft)` }}
             >
               {expGroup.category}
             </span>

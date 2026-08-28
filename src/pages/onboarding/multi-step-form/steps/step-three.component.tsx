@@ -3,7 +3,6 @@ import { Trans, useTranslation } from 'react-i18next';
 import { FaMinus, FaPlus } from 'react-icons/fa';
 
 import { MultiNonFormProp } from '../multi-step-form.component';
-import { getCssVar } from '@shared/utils';
 import { TTIcon } from '@shared/ui';
 import { Category, PercentTriple } from '@api/types';
 
@@ -106,7 +105,10 @@ const StepThree: React.FC<MultiNonFormProp> = ({ formData, setFormData }) => {
             return (
               <div key={index} className="percent-input-line">
                 <div className="percent-label">
-                  <div className="bullet" style={{ backgroundColor: getCssVar(`--${key}`) }} />
+                  <div
+                    className="bullet"
+                    style={{ backgroundColor: `var(--color-category-${key})` }}
+                  />
                   <span className="percent-key">{t(`taxonomy:categoryNames.${key}`)}</span>
                 </div>
 

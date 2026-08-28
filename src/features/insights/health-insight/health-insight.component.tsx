@@ -5,7 +5,6 @@ import clsx from 'clsx';
 import { makeSelectCategoryBadges, selectTotals } from '@store/budget-store';
 import { Category } from '@api/types';
 import { BadgePills, CategoryName, ProgressBar } from '@shared/components';
-import { getCssVar } from '@shared/utils';
 import { CategoryInsightList } from '../category-insight';
 import { selectSettingsAppTheme } from '@store/settings-store';
 
@@ -25,11 +24,11 @@ function getScopedTotals(totals: any, category: Category) {
 
   const cssVarName =
     category === 'needs'
-      ? '--needs'
+      ? '--color-category-needs'
       : category === 'wants'
-        ? '--wants'
+        ? '--color-category-wants'
         : category === 'savings'
-          ? '--savings'
+          ? '--color-category-savings'
           : '--color-primary';
 
   return {
@@ -59,7 +58,7 @@ const HealthInsight: React.FC<CategoryHealthProps> = ({ category }) => {
         <BadgePills badges={badges} />
       </div>
       <div className="health-prog-bar-wrapper">
-        <ProgressBar progress={scoped.progress} color={getCssVar(scoped.cssVarName)} />
+        <ProgressBar progress={scoped.progress} color={`var(${scoped.cssVarName})`} />
       </div>
       <div className="category-insight-wrapper">
         <CategoryInsightList category={category} />

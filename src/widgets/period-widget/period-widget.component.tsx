@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { selectBudgetMonth } from '@store/budget-store';
-import { formatMonth, getCssVar } from '@shared/utils';
+import { formatMonth } from '@shared/utils';
 import { PeriodSheet } from 'widgets/sheets';
 
 import './period-widget.styles.scss';
@@ -24,7 +24,7 @@ const PeriodWidget: React.FC<{ isDashboard?: boolean }> = ({ isDashboard = false
         onClick={() => setOpen(true)}
       >
         <span className="period-month">{formatMonth(month, language)}</span>
-        <TTIcon icon={FaChevronDown} size={14} color={getCssVar('--color-primary')} />
+        <TTIcon icon={FaChevronDown} size={14} color="var(--color-primary)" />
       </button>
 
       <PeriodSheet open={open} onOpenChange={setOpen} />

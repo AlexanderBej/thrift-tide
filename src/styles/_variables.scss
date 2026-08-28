@@ -1,117 +1,32 @@
-@use 'sass:color';
 // ==============================
-// 🎨 Budget Balance Design Tokens
+// Thrift Tide Structural Tokens
 // ==============================
-
-// ---------- COLORS ----------
-
-// --------- GENERAL COLORS - LIGHT MODE -------
-$emerald-500: #2ecc71; // primary
-$ruby-600: #4ba3f2; // secondary
-$amber-500: #f4b63f; // accent
-$anti-flash-500: #e0e0e1; // background
-$pure-white: #ffffff; // cards
-$gunmetal: #1c2833; // text / shadows
-$payne-grey: #5f6a79; // text secondary
-$anti-flash-300: #ededed; // text inverse
-$platinum-white: #f4f6f6; // generic light
-$light-silver: #d5dbdb; // generic medium
-
-////////////
-/// ////////
-/// ////////
-// Background
-$bg-main: #f8faf9;
-$bg-elevated: #ffffff;
-
-// Primary
-$mint: #2ec4b6;
-
-// Secondary / Accent
-$coral: #fb9b6b;
-
-// Bucket colors
-$needs: #69bfd4;
-$wants: #9790e8;
-$savings: #f7bb7b;
-
-// Text
-$text-primary: #1f2933;
-$text-secondary: #6b7280;
-
-////////////
-/// ////////
-/// ///////
-
-// --------- REUSABLE VARIABLES (initial for light mode) -------
-
-// Primary palette
-$color-primary: $mint !default;
-$color-primary-dark: color.scale($color-primary, $lightness: -25%);
-$color-primary-light: rgba($color-primary, 0.3);
-
-$color-secondary: $coral !default;
-$color-secondary-dark: color.scale($color-secondary, $lightness: -25%);
-
-$color-accent: $amber-500 !default;
-$color-accent-dark: color.scale($color-accent, $lightness: -25%);
-
-// Neutrals
-$color-neutral-light: $platinum-white !default; // form backgrounds
-$color-neutral: $light-silver !default; // Borders, dividers
-
-// Accents
-$color-success: #27ae60;
-$color-success-light: color.scale($color-success, $lightness: 50%);
-$color-warning: #f39c12;
-$color-warning-light: color.scale($color-warning, $lightness: 50%);
-$color-error: #e74c3c;
-$color-error-light: color.scale($color-error, $lightness: 50%);
-
-// Bucket colors
-$color-needs: $needs !default;
-$color-needs-light: color.scale($needs, $lightness: 75%);
-$color-wants: $wants !default;
-$color-wants-light: color.scale($wants, $lightness: 75%);
-$color-savings: $savings !default;
-$color-savings-light: color.scale($savings, $lightness: 75%);
-
-// Text
-$color-text-primary: $gunmetal !default;
-$color-text-secondary: $payne-grey !default;
-$color-text-inverse: $anti-flash-300 !default;
-
-// Backgrounds
-$color-bg-main: $bg-main !default;
-$color-bg-card: $bg-elevated !default;
+//
+// Theme-dependent colors live in CSS custom properties in global.scss.
+// Keep this file limited to compile-time structural values.
 
 // ---------- TYPOGRAPHY ----------
 
-// Font families
 $font-heading: 'Lato', sans-serif;
 $font-body: 'Open Sans', sans-serif;
 $font-mono: 'Roboto Mono', monospace;
 
-// Font sizes (rem-based scale)
-$font-size-h1: 2rem; // ~32px
-$font-size-h2: 1.5rem; // ~24px
-$font-size-h3: 1.25rem; // ~20px
-$font-size-body: 1rem; // ~16px
-$font-size-small: 0.875rem; // ~14px
+$font-size-h1: 2rem;
+$font-size-h2: 1.5rem;
+$font-size-h3: 1.25rem;
+$font-size-body: 1rem;
+$font-size-small: 0.875rem;
 
-// Font weights
 $font-weight-regular: 400;
 $font-weight-medium: 500;
 $font-weight-semibold: 600;
 $font-weight-bold: 700;
 
-// Line heights
 $line-height-base: 1.5;
 $line-height-heading: 1.2;
 
 // ---------- SPACING & SIZING ----------
 
-// 4px baseline spacing system
 $spacing-1: 4px;
 $spacing-2: 8px;
 $spacing-3: 12px;
@@ -121,24 +36,14 @@ $spacing-6: 32px;
 $spacing-7: 48px;
 $spacing-8: 64px;
 
-// Border radius
+// ---------- BORDER RADIUS ----------
+
 $radius-sm: 6px;
 $radius-md: 12px;
 $radius-lg: 20px;
 
-// Shadows
-$shadow-sm: 0 1px 3px color.scale($gunmetal, $lightness: 75%) !default;
-$dark-shadow-sm: 0 1px 3px color.scale($gunmetal, $lightness: 15%) !default;
-
-$shadow-md: 0 2px 8px color.scale($gunmetal, $lightness: 70%) !default;
-$dark-shadow-md: 0 2px 8px color.scale($gunmetal, $lightness: 10%) !default;
-
-$shadow-lg: 0 4px 16px color.scale($gunmetal, $lightness: 65%) !default;
-$dark-shadow-lg: 0 4px 16px color.scale($gunmetal, $lightness: 5%) !default;
-
 // ---------- LAYOUT GRID ----------
 
-// Container and breakpoints
 $max-width-container: 960px;
 
 $breakpoint-mobile: 480px;
@@ -147,17 +52,7 @@ $breakpoint-desktop: 1024px;
 $breakpoint-large: 1440px;
 
 // ---------- TRANSITIONS ----------
+
 $transition-fast: 0.2s ease-in-out;
 $transition-normal: 0.3s ease-in-out;
 $transition-slow: 0.5s ease-in-out;
-
-$eg-1: #4e79a7;
-$eg-2: #f28e2b;
-$eg-3: #6c6cb4;
-$eg-4: #76b7b2;
-$eg-5: #59a14f;
-$eg-6: #edc948;
-$eg-7: #b07aa1;
-$eg-8: #ff9da7;
-$eg-9: #9c755f;
-$eg-10: #e15759;

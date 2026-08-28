@@ -24,7 +24,7 @@ import {
 } from '@store/history-store';
 import { AppDispatch } from '@store/store';
 import { HistoryDocWithSummary } from '@api/models';
-import { formatMonth, getCssVar, historyStatusBadge, toneConverter } from '@shared/utils';
+import { formatMonth, historyStatusBadge, toneConverter } from '@shared/utils';
 import { useFormatMoney } from '@shared/hooks';
 import { Language } from '@api/types';
 
@@ -117,8 +117,8 @@ const History: React.FC = () => {
         alloc: row.summary.allocations.needs,
         color:
           row.summary.spent.needs / row.summary.allocations.needs >= 1
-            ? getCssVar('--error')
-            : getCssVar('--needs'),
+            ? 'var(--color-error)'
+            : 'var(--color-category-needs)',
       },
       {
         key: 'wants',
@@ -128,8 +128,8 @@ const History: React.FC = () => {
         alloc: row.summary.allocations.wants,
         color:
           row.summary.spent.wants / row.summary.allocations.wants >= 1
-            ? getCssVar('--error')
-            : getCssVar('--wants'),
+            ? 'var(--color-error)'
+            : 'var(--color-category-wants)',
       },
       {
         key: 'savings',
@@ -139,8 +139,8 @@ const History: React.FC = () => {
         alloc: row.summary.allocations.savings,
         color:
           row.summary.spent.savings / row.summary.allocations.savings >= 1
-            ? getCssVar('--error')
-            : getCssVar('--savings'),
+            ? 'var(--color-error)'
+            : 'var(--color-category-savings)',
       },
     ];
   };

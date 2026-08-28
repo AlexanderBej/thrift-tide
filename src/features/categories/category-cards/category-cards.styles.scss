@@ -7,7 +7,7 @@
     justify-content: space-between;
     width: 100%;
     align-items: center;
-    @include themed(color, color-text-primary, $color-text-primary);
+    color: var(--color-text-primary);
 
     .card-title-end {
       display: inline-flex;
@@ -31,12 +31,12 @@
     margin-top: $spacing-2;
     padding-top: $spacing-2;
     border-top: 1px solid;
-    border-color: color-mix(in srgb, var(--color-neutral), transparent 0%);
+    border-color: color-mix(in srgb, var(--color-border-subtle), transparent 0%);
 
     .category-link {
       display: flex;
       gap: $spacing-4;
-      @include themed(color, color-primary, $color-primary);
+      color: var(--color-primary);
     }
   }
 }

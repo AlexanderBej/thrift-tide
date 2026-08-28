@@ -10,7 +10,7 @@
     &__cell {
       text-align: center;
       font-weight: 600;
-      @include themed(color, color-text-secondary, $color-text-secondary);
+      color: var(--color-text-secondary);
       font-size: 0.9rem;
     }
   }
@@ -28,9 +28,9 @@
       aspect-ratio: 1; // perfect circles/squares
       border-radius: 14px; // matches your “playful” rounded style
       border: 1px solid;
-      @include themed(background, color-neutral-light, $color-neutral-light);
-      @include themed(border-color, color-neutral, $color-neutral);
-      @include themed(color, color-text-secondary, $color-text-secondary);
+      background: var(--color-bg-muted);
+      border-color: var(--color-border-subtle);
+      color: var(--color-text-secondary);
 
       font-weight: 600;
       transition:
@@ -39,13 +39,13 @@
         border-color 160ms ease;
 
       &__selected {
-        @include themed(background, color-primary, $color-primary);
-        @include themed(border-color, color-primary, $color-primary);
-        @include themed(color, color-text-inverse, $color-text-inverse);
+        background: var(--color-primary);
+        border-color: var(--color-primary);
+        color: var(--color-text-inverse);
       }
 
       &__today {
-        @include themed(border-color, color-secondary, $color-secondary);
+        border-color: var(--color-coral);
       }
     }
   }

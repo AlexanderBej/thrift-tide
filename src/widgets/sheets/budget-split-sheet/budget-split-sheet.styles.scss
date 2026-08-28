@@ -7,7 +7,7 @@
 
   .bugget-split-bar {
     display: flex;
-    @include themed(color, color-bg-card, $color-bg-card);
+    color: var(--color-bg-elevated);
     font-size: 14px;
     font-weight: 800;
     gap: 2px;
@@ -20,17 +20,17 @@
       border-radius: $radius-sm;
 
       &__needs {
-        background-color: $color-needs;
+        background-color: var(--color-category-needs);
         border-top-left-radius: 999px;
         border-bottom-left-radius: 999px;
       }
 
       &__wants {
-        background-color: $color-wants;
+        background-color: var(--color-category-wants);
       }
 
       &__savings {
-        background-color: $color-savings;
+        background-color: var(--color-category-savings);
         border-top-right-radius: 999px;
         border-bottom-right-radius: 999px;
       }
@@ -72,11 +72,11 @@
         align-items: center;
         border: 1px solid;
         border-radius: 999px;
-        @include themed(border-color, color-primary, $color-primary);
+        border-color: var(--color-primary);
 
         .percent-btn {
           padding: 0 $spacing-3;
-          @include themed(background-color, color-primary, $color-primary);
+          background-color: var(--color-primary);
           height: 100%;
 
           &__minus {

@@ -3,19 +3,19 @@
 .sheet-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.25);
+  background: var(--color-overlay-scrim);
 }
 
 .sheet-content-wrapper {
   z-index: 999;
-  @include themed(background, color-bg-card, $color-bg-card);
+  background: var(--color-bg-elevated);
   border-top-left-radius: 22px;
   border-top-right-radius: 22px;
 
   padding: 12px 14px 16px;
   padding-bottom: calc(16px + env(safe-area-inset-bottom));
 
-  box-shadow: 0 -14px 40px rgba(0, 0, 0, 0.18);
+  box-shadow: var(--shadow-sheet);
   min-height: 250px;
   max-height: 90%;
 
@@ -59,7 +59,7 @@
         width: 44px;
         height: 5px;
         border-radius: 999px;
-        @include themed(background, color-text-secondary, $color-text-secondary);
+        background: var(--color-text-secondary);
         margin: $spacing-1 auto $spacing-3;
       }
     }
@@ -68,7 +68,7 @@
       justify-self: end;
       background: transparent;
       border: 0;
-      @include themed(color, color-text-secondary, $color-text-secondary);
+      color: var(--color-text-secondary);
       font-weight: 600;
     }
   }
@@ -84,7 +84,7 @@
     flex-direction: column;
     padding-top: $spacing-6;
     border-top: 1px solid;
-    border-color: color-mix(in srgb, var(--color-neutral), transparent 0%);
+    border-color: color-mix(in srgb, var(--color-border-subtle), transparent 0%);
     overflow-y: auto;
     overflow-x: hidden;
 
@@ -95,7 +95,7 @@
         padding-top: $spacing-5;
         margin: $spacing-6 0 $spacing-3;
         border-top: 1px solid;
-        border-color: color-mix(in srgb, var(--color-neutral), transparent 0%);
+        border-color: color-mix(in srgb, var(--color-border-subtle), transparent 0%);
 
         .sheet-btn {
           width: 80%;
@@ -108,10 +108,10 @@
           min-height: 50px;
           font-weight: 600;
 
-          @include themed(background-color, color-primary, $color-primary);
-          @include themed(color, color-text-inverse, $color-text-inverse);
+          background-color: var(--color-primary);
+          color: var(--color-text-inverse);
           border: 3px solid;
-          @include themed(border-color, color-primary, $color-primary);
+          border-color: var(--color-primary);
         }
       }
     }

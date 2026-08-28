@@ -12,15 +12,15 @@
     padding: 20px;
     margin: 100px auto;
     height: 300px;
-    @include themed(background-color, color-bg-card, $color-bg-card);
+    background-color: var(--color-bg-elevated);
     border-radius: $radius-md;
 
     &__light {
-      box-shadow: $shadow-md;
+      box-shadow: var(--shadow-elevation-2);
     }
 
     &__dark {
-      box-shadow: $dark-shadow-md;
+      box-shadow: var(--shadow-elevation-2);
     }
 
     .login-btn-container {

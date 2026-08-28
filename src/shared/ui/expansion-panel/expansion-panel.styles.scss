@@ -3,19 +3,19 @@
 /* Panel container */
 .exp-panel {
   border-radius: $radius-md;
-  @include themed(background, color-bg-card, $color-bg-card);
-  @include themed(border-color, color-neutral, $color-neutral);
+  background: var(--color-bg-elevated);
+  border-color: var(--color-border-subtle);
 
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   overflow: clip;
 
   &__light {
-    box-shadow: $shadow-md;
+    box-shadow: var(--shadow-elevation-2);
   }
 
   &__dark {
-    box-shadow: $dark-shadow-md;
+    box-shadow: var(--shadow-elevation-2);
   }
 
   /* Header row */

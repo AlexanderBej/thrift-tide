@@ -3,7 +3,7 @@
 .settings-button {
   width: 100%;
   border-bottom: 1px solid;
-  border-color: color-mix(in srgb, var(--color-neutral), transparent 0%);
+  border-color: color-mix(in srgb, var(--color-border-subtle), transparent 0%);
 
   margin-bottom: $spacing-3;
   padding-bottom: $spacing-3;
@@ -11,7 +11,7 @@
   display: flex;
   justify-content: space-between;
 
-  @include themed(color, color-text-primary, $color-text-primary);
+  color: var(--color-text-primary);
 
   &:last-child {
     border: unset;

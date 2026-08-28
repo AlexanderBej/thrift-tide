@@ -11,7 +11,7 @@ import { selectAuthUser, userSignedOut } from '@store/auth-store';
 import { AppDispatch } from '@store/store';
 import { UserAvatar } from '@shared/components';
 import { selectSettingsAll } from '@store/settings-store';
-import { formatStartDay, getCssVar } from '@shared/utils';
+import { formatStartDay } from '@shared/utils';
 import { SettingsBlock, SettingsButton } from 'features';
 import {
   BudgetSplitSheet,
@@ -88,7 +88,7 @@ const ProfilePage: React.FC = () => {
   const donutItems: DonutItem[] = ORDER.map((key) => ({
     id: key,
     label: key,
-    color: getCssVar(`--${key}`),
+    color: `var(--color-category-${key})`,
     value: settingsToShow.percents[key] * 100,
   }));
 
@@ -179,7 +179,7 @@ const ProfilePage: React.FC = () => {
           openSheet={() => openSheet('language')}
           title={
             <div className="settings-label-wrapper">
-              <TTIcon icon={BiReset} size={22} color={getCssVar('--error')} />
+              <TTIcon icon={BiReset} size={22} color="var(--color-error)" />
               <span className="settings-label error-label">{t('pageContent.profile.reset')}</span>
             </div>
           }

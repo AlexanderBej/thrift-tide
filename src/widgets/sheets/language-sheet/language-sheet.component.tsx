@@ -9,7 +9,6 @@ import { AppDispatch, Language } from '@api/types';
 
 import './language-sheet.styles.scss';
 import { selectAuthUser } from '@store/auth-store';
-import { getCssVar } from '@shared/utils';
 import { useTranslation } from 'react-i18next';
 
 interface LanguageSheetProps {
@@ -63,7 +62,7 @@ const LanguageSheet: React.FC<LanguageSheetProps> = ({ open, onOpenChange }) => 
               <span>{lang.label}</span>
             </div>
             {selectedLanguage === lang.value && (
-              <TTIcon icon={FaCheck} size={16} color={getCssVar('--color-primary')} />
+              <TTIcon icon={FaCheck} size={16} color="var(--color-primary)" />
             )}
           </button>
         ))}

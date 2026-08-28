@@ -6,7 +6,6 @@ import { FaCheck } from 'react-icons/fa';
 
 import { BaseSheet, TTIcon } from '@shared/ui';
 import { AppDispatch, Currency } from '@api/types';
-import { getCssVar } from '@shared/utils';
 import { selectAuthUser } from '@store/auth-store';
 import { selectSettingsCurrency, updateCurrencyThunk } from '@store/settings-store';
 
@@ -63,7 +62,7 @@ const CurrencySheet: React.FC<CurrencySheetProps> = ({ open, onOpenChange }) => 
               <span>{curr.label}</span>
             </div>
             {selectedCurrency === curr.value && (
-              <TTIcon icon={FaCheck} size={16} color={getCssVar('--color-primary')} />
+              <TTIcon icon={FaCheck} size={16} color="var(--color-primary)" />
             )}
           </button>
         ))}

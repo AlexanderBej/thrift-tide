@@ -9,7 +9,6 @@ import { FaMoon } from 'react-icons/fa';
 
 import { BaseSheet, TTIcon } from '@shared/ui';
 import { AppDispatch, Theme } from '@api/types';
-import { getCssVar } from '@shared/utils';
 import { selectAuthUser } from '@store/auth-store';
 import { selectSettingsAppTheme, setAppThemeThunk } from '@store/settings-store';
 
@@ -58,8 +57,8 @@ const ThemeSheet: React.FC<ThemeSheetProps> = ({ open, onOpenChange }) => {
         {themeOptions.map((t, index) => {
           const isActive = selectedTheme === t.value;
           const isLight = t.value === 'light';
-          const color = isLight ? '#e3d919' : '#fcfbe1';
-          const background = isLight ? '#fff' : '#262626';
+          const color = isLight ? 'var(--color-warning)' : 'var(--color-text-primary)';
+          const background = isLight ? 'var(--color-bg-elevated)' : 'var(--color-bg-muted)';
           return (
             <button
               key={index}
@@ -72,7 +71,7 @@ const ThemeSheet: React.FC<ThemeSheetProps> = ({ open, onOpenChange }) => {
                 </div>
                 <span>{t.label}</span>
               </div>
-              {isActive && <TTIcon icon={FaCheck} size={16} color={getCssVar('--color-primary')} />}
+              {isActive && <TTIcon icon={FaCheck} size={16} color="var(--color-primary)" />}
             </button>
           );
         })}

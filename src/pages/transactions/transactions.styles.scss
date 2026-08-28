@@ -5,7 +5,7 @@
     @include dashboard-card($radius: $radius-md, $pad: $spacing-4);
 
     &__dark {
-      box-shadow: $dark-shadow-md;
+      box-shadow: var(--shadow-elevation-2);
     }
 
     .spent-header {
@@ -29,34 +29,34 @@
   }
 
   .filters-row {
-    @include themed(background-color, color-neutral-light, $color-neutral-light);
+    background-color: var(--color-bg-muted);
     border-radius: $radius-lg;
     border: 1px solid;
-    @include themed(border-color, color-neutral, $color-neutral);
+    border-color: var(--color-border-subtle);
     height: 45px;
     display: flex;
     justify-content: space-between;
 
     .filter {
-      @include themed(color, color-text-primary, $color-text-primary);
+      color: var(--color-text-primary);
       border-radius: $radius-lg;
       padding: 0 $spacing-5;
 
       &.selected {
-        @include themed(background-color, color-bg-card, $color-bg-card);
+        background-color: var(--color-bg-elevated);
 
         &__light {
-          box-shadow: $shadow-sm;
+          box-shadow: var(--shadow-elevation-1);
         }
 
         &__dark {
-          box-shadow: $dark-shadow-sm;
+          box-shadow: var(--shadow-elevation-1);
         }
 
         span {
           padding-bottom: $spacing-1;
           border-bottom: 3px solid;
-          @include themed(border-color, color-primary, $color-primary);
+          border-color: var(--color-primary);
         }
       }
     }
@@ -77,18 +77,18 @@
     .sort-btn {
       border-radius: $radius-lg;
       padding: 0 $spacing-4;
-      @include themed(background-color, color-bg-card, $color-bg-card);
-      @include themed(color, color-text-primary, $color-text-primary);
+      background-color: var(--color-bg-elevated);
+      color: var(--color-text-primary);
       display: flex;
       align-items: center;
       gap: 8px;
 
       &__light {
-        box-shadow: $shadow-sm;
+        box-shadow: var(--shadow-elevation-1);
       }
 
       &__dark {
-        box-shadow: $dark-shadow-sm;
+        box-shadow: var(--shadow-elevation-1);
       }
     }
   }
@@ -120,14 +120,14 @@
     @include dashboard-card($radius: $radius-md, $pad: $spacing-4);
 
     &__dark {
-      box-shadow: $dark-shadow-md;
+      box-shadow: var(--shadow-elevation-2);
     }
 
     .txn-line-wrapper:not(:last-child) {
       padding-bottom: $spacing-3;
       margin-bottom: $spacing-3;
       border-bottom: 1px solid;
-      border-color: color-mix(in srgb, var(--color-neutral), transparent 0%);
+      border-color: color-mix(in srgb, var(--color-border-subtle), transparent 0%);
     }
   }
 }

@@ -5,21 +5,20 @@ import { LuPartyPopper } from 'react-icons/lu';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
 import { MdOutlineDangerous } from 'react-icons/md';
 
-import { getCssVar } from './style-variable.util';
 import { HistoryBadge, MonthDocSummary } from '@api/models';
 
 export const toneConverter = (tone: string): { color: string; icon: IconType } => {
   switch (tone) {
     case 'danger':
-      return { color: getCssVar('--error'), icon: MdOutlineDangerous };
+      return { color: 'var(--color-error)', icon: MdOutlineDangerous };
     case 'info':
-      return { color: getCssVar('--eg-1'), icon: IoIosInformationCircleOutline };
+      return { color: 'var(--color-chart-eg-1)', icon: IoIosInformationCircleOutline };
     case 'success':
-      return { color: getCssVar('--success'), icon: LuPartyPopper };
+      return { color: 'var(--color-success)', icon: LuPartyPopper };
     case 'warn':
-      return { color: getCssVar('--warning'), icon: IoWarning };
+      return { color: 'var(--color-warning)', icon: IoWarning };
     default:
-      return { color: getCssVar('--color-primary-dark'), icon: SiNeutralinojs };
+      return { color: 'var(--color-primary)', icon: SiNeutralinojs };
   }
 };
 

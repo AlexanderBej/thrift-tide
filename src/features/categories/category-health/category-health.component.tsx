@@ -6,7 +6,6 @@ import { FaChevronDown } from 'react-icons/fa';
 
 import { selectCategoryHealthSummary } from '@store/budget-store';
 import { TTIcon } from '@shared/ui';
-import { getCssVar } from '@shared/utils';
 import { SmartInsightChip } from 'features/insights';
 
 import './category-health.styles.scss';
@@ -82,7 +81,7 @@ const CategoriesHealth: React.FC = () => {
               <TTIcon
                 icon={FaChevronDown}
                 size={12}
-                color={getCssVar('--warning')}
+                color="var(--color-primary)"
                 className={clsx({ 'is-open': open })}
               />
             </button>

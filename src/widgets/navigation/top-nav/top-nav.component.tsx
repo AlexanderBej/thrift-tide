@@ -4,7 +4,7 @@ import { FaChevronLeft } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
 import { TTIcon } from '@shared/ui';
-import { getCssVar, routes } from '@shared/utils';
+import { routes } from '@shared/utils';
 import { ReactComponent as Logo } from '../../../assets/logo.svg';
 import { PeriodWidget } from 'widgets/period-widget';
 
@@ -26,7 +26,7 @@ const TopNav: React.FC = () => {
       <div className="app-header-container app-header-container__left">
         {showBackBtn && (
           <button className="back-btn" onClick={() => navigate(-1)}>
-            <TTIcon icon={FaChevronLeft} size={16} color={getCssVar('--color-primary')} />
+            <TTIcon icon={FaChevronLeft} size={16} color="var(--color-primary)" />
             <span className="back-btn-text">{t('actions.back')}</span>
           </button>
         )}

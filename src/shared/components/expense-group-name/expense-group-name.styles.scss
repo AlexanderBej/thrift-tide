@@ -9,15 +9,15 @@
     @include flex();
     width: 28px;
     height: 28px;
-    @include themed(background-color, color-neutral, $color-neutral);
+    background-color: var(--color-border-subtle);
     border-radius: $radius-sm;
 
     &__light {
-      box-shadow: $shadow-sm;
+      box-shadow: var(--shadow-elevation-1);
     }
 
     &__dark {
-      box-shadow: $dark-shadow-sm;
+      box-shadow: var(--shadow-elevation-1);
     }
   }
 

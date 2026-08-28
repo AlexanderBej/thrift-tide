@@ -3,7 +3,6 @@ import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FaPlus } from 'react-icons/fa';
 
-import { getCssVar } from '@shared/utils';
 import { Pressable, TTIcon } from '@shared/ui';
 import { AddActionSheet } from '@widgets';
 import { UserAvatar } from '@shared/components';
@@ -40,7 +39,7 @@ const BottomNav: React.FC = () => {
                   icon={item.icon}
                   size={24}
                   color={
-                    isActive ? getCssVar('--color-primary') : getCssVar('--color-text-primary')
+                    isActive ? 'var(--color-primary)' : 'var(--color-text-primary)'
                   }
                 />
               )}
@@ -49,8 +48,8 @@ const BottomNav: React.FC = () => {
                   className="nav-link-title"
                   style={{
                     color: isActive
-                      ? getCssVar('--color-primary')
-                      : getCssVar('--color-text-primary'),
+                      ? 'var(--color-primary)'
+                      : 'var(--color-text-primary)',
                   }}
                 >
                   {t(item.i18nLabel)}
@@ -72,7 +71,7 @@ const BottomNav: React.FC = () => {
         <div className="fab-space">
           <div className="fab-wrapper">
             <button onClick={onFabClick} className="fab">
-              <TTIcon icon={FaPlus} color={getCssVar('--color-bg-card')} size={18} />
+              <TTIcon icon={FaPlus} color="var(--color-bg-elevated)" size={18} />
             </button>
           </div>
         </div>

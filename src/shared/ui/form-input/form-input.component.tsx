@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import { IconType } from 'react-icons';
 
 import TTIcon from '../icon/icon.component';
-import { getCssVar } from '@shared/utils';
 
 import './form-input.styles.scss';
 
@@ -57,7 +56,7 @@ const Input: React.FC<InputProps> = ({
           <TTIcon
             className="input-prefix"
             icon={prefixIcon}
-            color={getCssVar('--text-secondary')}
+            color="var(--color-primary)"
             size={19}
           />
         )}
@@ -74,7 +73,7 @@ const Input: React.FC<InputProps> = ({
         />
         {suffixIcon && (
           <button type="button" onClick={handleSuffixClick} className="input-suffix">
-            <TTIcon icon={suffixIcon} color={getCssVar('--text-secondary')} size={18} />
+            <TTIcon icon={suffixIcon} color="var(--color-primary)" size={18} />
           </button>
         )}
         {currency && currency === 'RON' && <span className="input-suffix">RON</span>}

@@ -5,10 +5,10 @@
   align-items: center;
   gap: $spacing-1;
   padding: $spacing-2 $spacing-4;
-  @include themed(background-color, color-primary-light, $color-primary-light);
+  background-color: var(--color-primary-soft);
   border-radius: $radius-lg;
   border: 1px solid;
-  @include themed(border-color, color-primary, $color-primary);
+  border-color: var(--color-primary);
 
   &.dashboard-widget {
     background-color: transparent;
@@ -20,6 +20,6 @@
     font-size: 14px;
     font-weight: 600;
     text-transform: capitalize;
-    @include themed(color, color-text-secondary, $color-text-secondary);
+    color: var(--color-text-secondary);
   }
 }

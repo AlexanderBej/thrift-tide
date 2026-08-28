@@ -3,8 +3,8 @@
 .tt-picker {
   position: relative;
   border-radius: 18px;
-  background: var(--color-bg-card);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-subtle);
   overflow: hidden;
 }
 
@@ -35,7 +35,7 @@
 
 .tt-picker__sub {
   font-size: 12px;
-  @include themed(color, color-text-secondary, $color-text-secondary);
+  color: var(--color-text-secondary);
 }
 
 .tt-picker__badge {
@@ -43,7 +43,7 @@
   font-weight: 800;
   padding: 4px 8px;
   border-radius: 999px;
-  background: rgba(255, 107, 107, 0.12);
+  background: var(--color-coral-soft);
   color: var(--color-primary);
 }
 
@@ -56,8 +56,8 @@
   transform: translateY(-50%);
   height: 54px;
   border-radius: 14px;
-  background: rgba(255, 107, 107, 0.08);
-  border: 1px solid rgba(255, 107, 107, 0.22);
+  background: var(--color-primary-soft);
+  border: 1px solid var(--color-primary);
 }
 
 .tt-picker__fade {
@@ -71,10 +71,10 @@
 
 .tt-picker__fade--top {
   top: 0;
-  background: linear-gradient(to bottom, var(--color-bg-card), rgba(255, 255, 255, 0));
+  background: linear-gradient(to bottom, var(--color-bg-elevated), rgb(255 255 255 / 0));
 }
 
 .tt-picker__fade--bottom {
   bottom: 0;
-  background: linear-gradient(to top, var(--color-bg-card), rgba(255, 255, 255, 0));
+  background: linear-gradient(to top, var(--color-bg-elevated), rgb(255 255 255 / 0));
 }

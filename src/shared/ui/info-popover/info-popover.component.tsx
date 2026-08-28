@@ -4,7 +4,6 @@ import { CiCircleInfo } from 'react-icons/ci';
 import { useSelector } from 'react-redux';
 
 import TTIcon from '../icon/icon.component';
-import { getCssVar } from '@shared/utils';
 import { selectSettingsAppTheme } from '@store/settings-store';
 
 import './info-popover.styles.scss';
@@ -36,7 +35,7 @@ const InfoPopover: React.FC<PopoverProps> = ({ children, position = 'bottom', cl
   return (
     <div ref={ref} className={containerClass}>
       <button type="button" onClick={() => setOpen((v) => !v)} className="info-popover-toggler">
-        <TTIcon icon={CiCircleInfo} size={18} color={getCssVar('--color-text-primary')} />
+        <TTIcon icon={CiCircleInfo} size={18} color="var(--color-primary)" />
       </button>
       {open && (
         <div

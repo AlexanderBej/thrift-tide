@@ -13,7 +13,7 @@
     padding: $spacing-3;
     border-radius: $radius-lg;
     border: 1px solid;
-    border-color: color-mix(in srgb, var(--color-neutral), transparent 30%);
+    border-color: color-mix(in srgb, var(--color-border-subtle), transparent 30%);
 
     .action-icon {
       font-size: 28px;
@@ -24,10 +24,10 @@
       flex-direction: column;
       gap: 4px;
       align-items: flex-start;
-      @include themed(color, color-text-primary, $color-text-primary);
+      color: var(--color-text-primary);
 
       .action-sub {
-        @include themed(color, color-text-secondary, $color-text-secondary);
+        color: var(--color-text-secondary);
         font-size: 14px;
       }
     }

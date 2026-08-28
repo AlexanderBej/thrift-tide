@@ -1,67 +1,224 @@
-@forward 'variables';
-@forward 'mixins';
-@forward 'styles';
-
 @use 'variables' as *;
 
 :root {
-  --color-primary: #{$color-primary};
-  --color-primary-dark: #{$color-primary-dark};
-  --color-primary-light: #{$color-primary-light};
+  color-scheme: light;
 
-  --color-secondary: #{$color-secondary};
-  --color-secondary-dark: #{$color-secondary-dark};
+  --color-bg-main: #f5f8f7;
+  --color-bg-elevated: #ffffff;
+  --color-bg-muted: #edf3f1;
+  --color-bg-hover: #e6efec;
 
-  --color-bg-main: #{$color-bg-main};
-  --color-bg-card: #{$color-bg-card};
+  --color-text-primary: #17282d;
+  --color-text-secondary: #66777b;
+  --color-text-muted: #89979a;
+  --color-text-inverse: #ffffff;
 
-  --color-text-primary: #{$color-text-primary};
-  --color-text-secondary: #{$color-text-secondary};
-  --color-text-inverse: #{$color-text-inverse};
+  --color-border-subtle: #dde6e3;
+  --color-border-strong: #c7d4d0;
 
-  --color-neutral-light: #{$color-neutral-light};
-  --color-neutral: #{$color-neutral};
+  --color-primary: #258fb8;
+  --color-primary-hover: #197da5;
+  --color-primary-pressed: #146c90;
+  --color-primary-soft: #e0f2f8;
 
-  --grid: #e6ebef;
-  // --color-neutral-grey: #{$color-neutral-grey};
+  --color-mint: #25ad96;
+  --color-mint-soft: #def4ef;
+  --color-coral: #e97854;
+  --color-coral-soft: #fce9e1;
+  --color-deep-tide: #073c45;
+  --color-secondary: var(--color-coral);
+  --color-secondary-dark: #c9634d;
+  --color-secondary-soft: var(--color-coral-soft);
 
-  --needs: #{$needs};
-  --needs-light: #{$color-needs-light};
-  --wants: #{$wants};
-  --wants-light: #{$color-wants-light};
-  --savings: #{$savings};
-  --savings-light: #{$color-savings-light};
+  --color-success: #24956c;
+  --color-success-soft: #dff3ec;
+  --color-warning: #c98518;
+  --color-warning-soft: #fff0d4;
+  --color-error: #d94d4d;
+  --color-error-soft: #fde4e4;
 
-  --success: #{$color-success};
-  --success-light: #{$color-success-light};
+  --color-category-needs: #2f8daa;
+  --color-category-needs-soft: #dff0f5;
+  --color-category-wants: #6f63c6;
+  --color-category-wants-soft: #e9e5f8;
+  --color-category-savings: #b67a24;
+  --color-category-savings-soft: #f7ecd9;
 
-  --warning: #{$color-warning};
-  --warning-light: #{$color-warning-light};
+  --color-chart-eg-1: #2f8daa;
+  --color-chart-eg-2: #6f63c6;
+  --color-chart-eg-3: #b67a24;
+  --color-chart-eg-4: #2e9f7d;
+  --color-chart-eg-5: #c9634d;
+  --color-chart-eg-6: #b45b8f;
+  --color-chart-eg-7: #2a989b;
+  --color-chart-eg-8: #5067c2;
+  --color-chart-eg-9: #769341;
+  --color-chart-eg-10: #a76c32;
 
-  --error: #{$color-error};
-  --error-light: #{$color-error-light};
+  --color-chart-grid: #dde6e3;
+  --shadow-elevation-1: 0 1px 3px rgb(23 40 45 / 12%);
+  --shadow-elevation-2: 0 2px 8px rgb(23 40 45 / 14%);
+  --shadow-elevation-3: 0 4px 16px rgb(23 40 45 / 16%);
+  --shadow-sheet: 0 -14px 40px rgb(23 40 45 / 18%);
+  --shadow-focus: 0 0 0 2px rgb(37 143 184 / 18%);
+  --shadow-focus-strong: 0 0 0 2px rgb(37 143 184 / 35%);
 
-  --anti-flash-300: #{$anti-flash-300};
+  --color-overlay-scrim: rgb(0 0 0 / 25%);
+  --color-press-overlay: rgb(0 0 0 / 6%);
+  --color-ripple-light: rgb(255 255 255 / 90%);
+  --color-ripple-dark: rgb(0 0 0 / 90%);
 
-  --eg-1: #508ac8;
-  --eg-2: #f28e2b;
-  --eg-3: #6c6cb4;
-  --eg-4: #76b7b2;
-  --eg-5: #59a14f;
-  --eg-6: #edc948;
-  --eg-7: #b07aa1;
-  --eg-8: #ff9da7;
-  --eg-9: #9c755f;
-  --eg-10: #e15759;
+  --logo-primary: #073c45;
+  --logo-accent: #258fb8;
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-bg-main: #10181b;
+  --color-bg-elevated: #172226;
+  --color-bg-muted: #1c292d;
+  --color-bg-hover: #223237;
+
+  --color-text-primary: #eaf1f2;
+  --color-text-secondary: #98a8ac;
+  --color-text-muted: #718287;
+  --color-text-inverse: #10181b;
+
+  --color-border-subtle: #29383c;
+  --color-border-strong: #3a4b50;
+
+  --color-primary: #42acd3;
+  --color-primary-hover: #59b9da;
+  --color-primary-pressed: #318fb4;
+  --color-primary-soft: #18343e;
+
+  --color-mint: #4acdb5;
+  --color-mint-soft: #193630;
+  --color-coral: #f09570;
+  --color-coral-soft: #3b2923;
+  --color-secondary: var(--color-coral);
+  --color-secondary-dark: #e98a72;
+  --color-secondary-soft: var(--color-coral-soft);
+
+  --color-success: #57c995;
+  --color-success-soft: #19382c;
+  --color-warning: #f2bd63;
+  --color-warning-soft: #3a2d18;
+  --color-error: #f07777;
+  --color-error-soft: #3b2424;
+
+  --color-category-needs: #56b6d0;
+  --color-category-needs-soft: #18353d;
+  --color-category-wants: #9a8cf2;
+  --color-category-wants-soft: #282542;
+  --color-category-savings: #e7b76a;
+  --color-category-savings-soft: #3a2d1a;
+
+  --color-chart-eg-1: #56b6d0;
+  --color-chart-eg-2: #9a8cf2;
+  --color-chart-eg-3: #e7b76a;
+  --color-chart-eg-4: #5bc8a7;
+  --color-chart-eg-5: #e98a72;
+  --color-chart-eg-6: #d982b5;
+  --color-chart-eg-7: #5fc6c8;
+  --color-chart-eg-8: #738eea;
+  --color-chart-eg-9: #a7c56a;
+  --color-chart-eg-10: #d99a5a;
+
+  --color-chart-grid: #29383c;
+  --shadow-elevation-1: 0 1px 3px rgb(0 0 0 / 28%);
+  --shadow-elevation-2: 0 8px 24px rgb(0 0 0 / 30%);
+  --shadow-elevation-3: 0 18px 48px rgb(0 0 0 / 34%);
+  --shadow-sheet: 0 -14px 40px rgb(0 0 0 / 38%);
+  --shadow-focus: 0 0 0 2px rgb(66 172 211 / 22%);
+  --shadow-focus-strong: 0 0 0 2px rgb(66 172 211 / 40%);
+
+  --color-overlay-scrim: rgb(0 0 0 / 45%);
+  --color-press-overlay: rgb(255 255 255 / 8%);
+
+  --logo-primary: #eaf1f2;
+  --logo-accent: #42acd3;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $font-body;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-main);
+}
+
+button {
+  background: unset;
+  border: unset;
+  cursor: pointer;
+  transition: transform 0.2s ease-in;
+
+  &:active {
+    transform: translateY(1px) scale(0.97);
+  }
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a,
+Link {
+  text-decoration: none;
+  color: var(--color-primary);
+  transition: all 0.2s ease-in;
+  font-weight: 500;
+  position: relative;
+
+  &:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background: currentColor;
+    transition: width 0.3s ease;
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+}
+
+ul {
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: $font-heading;
 }
 
 .missing-items {
   opacity: 0.7;
 }
 
+.error,
+.error-text-red {
+  color: var(--color-error);
+}
+
 .error {
   font-size: 12px;
-  color: $color-error;
+}
+
+.error-text-red {
+  font-size: 11px;
 }
 
 .tt-section {

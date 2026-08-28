@@ -16,7 +16,6 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 import { selectMonthTiming } from '@store/budget-store';
 import { TTIcon } from '@shared/ui';
-import { getCssVar } from '@shared/utils';
 
 import 'react-day-picker/dist/style.css';
 import './txn-day-picker.styles.scss';
@@ -64,7 +63,7 @@ const TxnDayPicker: React.FC<TxnDayPickerProps> = ({ value, onChange, setStep, l
     <div className="txn-day-picker">
       <div className="step-back-btn-wrapper">
         <button className="step-back-btn" onClick={() => setStep('form')}>
-          <TTIcon icon={FaChevronLeft} size={14} color={getCssVar('--color-secondary')} />
+          <TTIcon icon={FaChevronLeft} size={14} color="var(--color-primary)" />
           <span className="step-back-btn-label">{t('sheets.addSheet.expense.back')}</span>
         </button>
       </div>
@@ -76,7 +75,7 @@ const TxnDayPicker: React.FC<TxnDayPickerProps> = ({ value, onChange, setStep, l
           aria-label="Previous month"
           style={{ opacity: canGoPrev ? 1 : 0.4, display: 'flex' }}
         >
-          <TTIcon icon={FaChevronLeft} size={18} color={getCssVar('--color-primary')} />
+          <TTIcon icon={FaChevronLeft} size={18} color="var(--color-primary)" />
         </button>
 
         <div style={{ fontWeight: 600 }}>{headerLabel}</div>
@@ -90,7 +89,7 @@ const TxnDayPicker: React.FC<TxnDayPickerProps> = ({ value, onChange, setStep, l
           aria-label="Next month"
           style={{ opacity: canGoNext ? 1 : 0.4 }}
         >
-          <TTIcon icon={FaChevronRight} size={18} color={getCssVar('--color-primary')} />
+          <TTIcon icon={FaChevronRight} size={18} color="var(--color-primary)" />
         </button>
       </div>
       <div className="tt-calendar" style={{ padding: 12 }}>

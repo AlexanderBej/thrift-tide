@@ -1,7 +1,8 @@
 import React from 'react';
 import { ResponsiveLine } from '@nivo/line';
+import { useSelector } from 'react-redux';
 
-import { getCssVar } from '@shared/utils';
+import { selectSettingsAppTheme } from '@store/settings-store';
 import { nivoThemeBuilder } from './charts.theme';
 
 type Props = {
@@ -10,7 +11,10 @@ type Props = {
 };
 
 const DailyDotsChart: React.FC<Props> = ({ data, height = 160 }) => {
-  const theme = React.useMemo(() => nivoThemeBuilder(12), []);
+  useSelector(selectSettingsAppTheme);
+  const theme = nivoThemeBuilder(12);
+  const lineColor = 'var(--color-category-needs)';
+  const pointColor = 'var(--color-bg-elevated)';
 
   // Reduce x-axis clutter: show every 5th day label
   const tickValues = React.useMemo(() => {
@@ -49,12 +53,12 @@ const DailyDotsChart: React.FC<Props> = ({ data, height = 160 }) => {
         }}
         enableArea={false}
         lineWidth={2}
-        colors={[getCssVar('--needs') || getCssVar('--color-secondary')]} // or pass in
+        colors={[lineColor]}
         enablePoints={true}
         pointSize={8}
         pointBorderWidth={2}
         pointBorderColor={{ from: 'serieColor' }}
-        pointColor={getCssVar('--color-bg-card')}
+        pointColor={pointColor}
         useMesh={true}
         tooltip={({ point }) => (
           <div style={{ display: 'grid', gap: 4 }}>

@@ -9,7 +9,7 @@ import { Category, CategoryType } from '@api/types';
 import { ProgressBar } from '@shared/components';
 import { useFormatMoney } from '@shared/hooks';
 import { InfoBlock, Input, TTIcon } from '@shared/ui';
-import { getCssVar, LOCALE_MAP, makeFormatter, resolveExpenseGroup } from '@shared/utils';
+import { LOCALE_MAP, makeFormatter, resolveExpenseGroup } from '@shared/utils';
 import {
   selectTxnListGroups,
   setTxnTypeFilter,
@@ -51,11 +51,11 @@ function getScopedTotals(totals: any, filter: Category | 'all') {
 
   const cssVarName =
     filter === 'needs'
-      ? '--needs'
+      ? '--color-category-needs'
       : filter === 'wants'
-        ? '--wants'
+        ? '--color-category-wants'
         : filter === 'savings'
-          ? '--savings'
+          ? '--color-category-savings'
           : '--color-primary';
 
   return {
@@ -195,7 +195,7 @@ const Transaction: React.FC = () => {
           </>
         )}
         <div className="txn-progress-bar-wrapper">
-          <ProgressBar progress={scoped.progress} color={getCssVar(scoped.cssVarName)} />
+          <ProgressBar progress={scoped.progress} color={`var(${scoped.cssVarName})`} />
         </div>
       </section>
 
@@ -227,7 +227,7 @@ const Transaction: React.FC = () => {
 
           <button onClick={onSortClick} className={`sort-btn sort-btn__${theme}`}>
             <span>{SORT_OPTIONS.find((opt) => opt.value === sortCriteria)?.label}</span>
-            <TTIcon icon={FaChevronDown} color={getCssVar('--color-primary')} size={12} />
+            <TTIcon icon={FaChevronDown} color="var(--color-primary)" size={12} />
           </button>
         </div>
       </section>

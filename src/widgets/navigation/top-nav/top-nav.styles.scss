@@ -21,7 +21,7 @@
         align-items: center;
 
         .back-btn-text {
-          @include themed(color, color-primary, $color-primary);
+          color: var(--color-primary);
           font-weight: 600;
           font-size: 16px;
         }
