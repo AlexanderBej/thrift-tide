@@ -1,13 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { RootState } from '../store';
+import type { RootState } from '../store';
+import { emptyMonthSummary, monthKey } from '@shared/utils/services.util';
 import {
-  emptyMonthSummary,
-  monthKey,
   monthKeyFromDate,
   periodBounds,
   representativeDateFromMonthKey,
-} from '@shared/utils';
+} from '@shared/utils/period.util';
 import { MonthDoc, Txn, DEFAULT_START_DAY } from '@api/models';
 import {
   createOrUpdateMonth,
@@ -30,8 +29,8 @@ import { createAppAsyncThunk, PercentTriple } from '@api/types';
 
 // type Status = 'idle' | 'loading' | 'ready' | 'error';
 export type TxnTypeFilter = 'all' | 'needs' | 'wants' | 'savings';
-export type SortKey = 'date' | 'amount' | 'expenseGroup';
-type SortDir = 'asc' | 'desc';
+export type TxnGroupBy = 'date' | 'expenseGroup';
+export type TxnSortKey = 'newest' | 'oldest' | 'amountDesc' | 'amountAsc';
 
 type LoadStatus = 'idle' | 'loading' | 'ready' | 'error';
 type MutateStatus = 'idle' | 'loading' | 'error';
@@ -39,8 +38,8 @@ type MutateStatus = 'idle' | 'loading' | 'error';
 interface TxnUiState {
   type: TxnTypeFilter;
   search: string;
-  sortKey: SortKey;
-  sortDir: SortDir;
+  groupBy: TxnGroupBy;
+  sortKey: TxnSortKey;
 }
 
 interface BudgetState {
@@ -61,7 +60,7 @@ const initialState: BudgetState = {
   txns: [],
   loadStatus: 'idle',
   mutateStatus: 'idle',
-  ui: { type: 'all', search: '', sortKey: 'date', sortDir: 'desc' },
+  ui: { type: 'all', search: '', groupBy: 'date', sortKey: 'newest' },
 };
 
 export const initBudget = createAppAsyncThunk<
@@ -363,12 +362,14 @@ const budgetSlice = createSlice({
     setTxnSearch(state, action: PayloadAction<string>) {
       state.ui.search = action.payload;
     },
-    setTxnSort(state, action: PayloadAction<{ key: SortKey; dir: SortDir }>) {
-      state.ui.sortKey = action.payload.key;
-      state.ui.sortDir = action.payload.dir;
+    setTxnGroupBy(state, action: PayloadAction<TxnGroupBy>) {
+      state.ui.groupBy = action.payload;
+    },
+    setTxnSort(state, action: PayloadAction<TxnSortKey>) {
+      state.ui.sortKey = action.payload;
     },
     resetTxnFilters(state) {
-      state.ui = { type: 'all', search: '', sortKey: 'date', sortDir: 'desc' };
+      state.ui = { type: 'all', search: '', groupBy: 'date', sortKey: 'newest' };
     },
   },
   extraReducers: (builder) => {
@@ -526,6 +527,7 @@ export const {
   cleanupListeners,
   setTxnTypeFilter,
   setTxnSearch,
+  setTxnGroupBy,
   setTxnSort,
   resetTxnFilters,
 } = budgetSlice.actions;

@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import { ExpenseGroupOption } from '@api/models';
 import { TTIcon } from '@shared/ui';
-import { selectSettingsAppTheme } from '@store/settings-store';
+import { selectSettingsAppTheme } from '@store/settings-store/settings.selectors';
 
 import './expense-group-icon.styles.scss';
 

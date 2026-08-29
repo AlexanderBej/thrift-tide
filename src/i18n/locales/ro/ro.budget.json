@@ -32,6 +32,128 @@
   "pace": "Ritm (Total)",
   "noTransactions": "Nu ai adăugat încă nicio cheltuială",
   "noBudget": "Încă nu ți-ai setat bugetul",
+  "transactions": {
+    "ledgerMeta": "cheltuit · {count, plural, one {# tranzacție} few {# tranzacții} other {# de tranzacții}}",
+    "visibleMeta": "{count, plural, one {# afișată} few {# afișate} other {# afișate}} din {total}",
+    "clearFilters": "Șterge",
+    "toolsLabel": "Caută tranzacții",
+    "listLabel": "Tranzacții",
+    "errorTitle": "Tranzacțiile nu s-au putut încărca",
+    "rowEditLabel": "Editează {descriptor}, {amount}",
+    "rowToggleLabel": "Gestionează {descriptor}, {amount}",
+    "noNote": "(fără notiță)",
+    "editAction": "Editează",
+    "deleteAction": "Șterge",
+    "editActionLabel": "Editează {descriptor}",
+    "deleteActionLabel": "Șterge {descriptor}",
+    "period": {
+      "current": "Perioada curentă",
+      "last-day": "Ultima zi",
+      "past": "Perioadă trecută",
+      "future": "Perioadă viitoare"
+    },
+    "empty": {
+      "defaultTitle": "Încă nu ai cheltuieli",
+      "defaultMessage": "Cheltuielile noi pentru perioada selectată vor apărea aici.",
+      "filteredTitle": "Niciun rezultat",
+      "filteredMessage": "Încearcă altă căutare sau șterge filtrul curent.",
+      "pastTitle": "Nicio cheltuială în perioada asta",
+      "pastMessage": "Perioada trecută selectată nu are tranzacții salvate.",
+      "futureTitle": "Nicio cheltuială viitoare",
+      "futureMessage": "Perioada selectată încă nu a început."
+    },
+    "organize": {
+      "title": "Organizează tranzacțiile",
+      "groupBy": "Grupează după",
+      "sortBy": "Sortează",
+      "helper": "Sortarea schimbă ordinea din fiecare grup.",
+      "group": {
+        "date": "Dată",
+        "expenseGroup": "Grup de cheltuieli"
+      },
+      "sort": {
+        "newest": "Cele mai noi",
+        "oldest": "Cele mai vechi",
+        "amountDesc": "Suma cea mai mare",
+        "amountAsc": "Suma cea mai mică"
+      }
+    }
+  },
+  "dashboard": {
+    "greeting": "Mă bucur să te văd, {name}",
+    "friend": "prietene",
+    "leftThisPeriod": "rămas în perioada asta",
+    "leftUnused": "rămas nefolosit",
+    "budgeted": "bugetat",
+    "overBudget": "peste buget",
+    "spentOf": "{spent} cheltuit din {budget}",
+    "setupKicker": "Setare buget",
+    "noIncomeTitle": "Setează venitul",
+    "noIncomeText": "Adaugă venitul pentru perioada asta ca Thrift Tide să calculeze bugetul, ritmul și suma rămasă.",
+    "budgetPulse": "Pulsul bugetului",
+    "recentActivity": "Activitate recentă",
+    "viewAllTransactions": "Vezi toate tranzacțiile",
+    "saved": "economisit",
+    "pulseAmount": {
+      "left": "{amount} rămas",
+      "over": "{amount} peste",
+      "toGoal": "{amount} până la obiectiv",
+      "goalReached": "{amount} economisit",
+      "aboveGoal": "{amount} peste obiectiv",
+      "saved": "{amount} economisit",
+      "remaining": "{amount} rămas"
+    },
+    "pulseState": {
+      "left": "rămas",
+      "over": "peste",
+      "toGoal": "până la obiectiv",
+      "goalReached": "obiectiv atins",
+      "aboveGoal": "peste obiectiv",
+      "saved": "economisit",
+      "remaining": "rămas"
+    },
+    "pulseAria": "{category}: {amount} {state}, {percent}% folosit.",
+    "status": {
+      "onTrack": "{days, plural, one {# zi rămasă · În ritm} few {# zile rămase · În ritm} other {# de zile rămase · În ritm}}",
+      "faster": "{days, plural, one {# zi rămasă · Mai rapid decât planul} few {# zile rămase · Mai rapid decât planul} other {# de zile rămase · Mai rapid decât planul}}",
+      "lastDay": "Ultima zi din perioada asta",
+      "ended": "Perioada s-a încheiat",
+      "future": "Perioadă viitoare"
+    },
+    "context": {
+      "periodEnded": {
+        "title": "Perioada asta s-a încheiat",
+        "message": "Vezi {periodRange}. Sumele de aici sunt o imagine finală a acelei perioade.",
+        "cta": "Mergi la perioada curentă",
+        "nextCta": "Pregătește perioada următoare"
+      },
+      "futurePeriod": {
+        "title": "Perioadă viitoare",
+        "message": "Perioada asta începe pe {startDate}. Până atunci, cheltuielile curente rămân în perioada activă.",
+        "cta": "Mergi la perioada curentă"
+      },
+      "noIncome": {
+        "title": "Bugetul începe cu venitul",
+        "message": "Adaugă venitul pentru perioada asta ca Dashboardul să arate ce mai ai, ce cere atenție și cum stau economiile.",
+        "cta": "Adaugă venit"
+      },
+      "lastDay": {
+        "title": "Ultima zi din perioada asta",
+        "message": "Azi este ultima zi validă pentru cheltuieli noi în perioada asta.",
+        "cta": "Pregătește perioada următoare"
+      },
+      "stale": {
+        "title": "Nimic adăugat din {lastTxnDate}",
+        "message": "Dacă au scăpat câteva cheltuieli, adaugă-le acum ca perioada să rămână corectă.",
+        "cta": "Adaugă cheltuieli"
+      },
+      "quiet": {
+        "title": "Bugetul tău e stabil",
+        "message": "Nu este nimic urgent acum. Insights are analiza detaliată când vrei să o vezi.",
+        "cta": "Vezi insights"
+      }
+    }
+  },
   "modals": {
     "addIncome": "Adaugă Venit",
     "amount": "Introdu suma",
@@ -142,16 +264,16 @@
       "nextMonth": "Perioada viitoare"
     },
     "sortSheet": {
-      "title": "Sortează tranzacțiile",
+      "title": "Organizează tranzacțiile",
       "sortOption": {
-        "date": "după dată",
-        "amount": "după sumă",
-        "expenseGroup": "după grup"
+        "date": "Cele mai noi",
+        "amount": "Suma cea mai mare",
+        "expenseGroup": "Grup de cheltuieli"
       },
       "sortLabel": {
-        "date": "După dată",
-        "amount": "După sumă",
-        "expenseGroup": "După grup"
+        "date": "Cele mai noi",
+        "amount": "Suma cea mai mare",
+        "expenseGroup": "Grup de cheltuieli"
       }
     },
     "confirmSheet": {

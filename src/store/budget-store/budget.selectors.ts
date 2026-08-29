@@ -5,10 +5,23 @@ import { Category } from '@api/types';
 import { Txn } from '@api/models';
 import { selectBudgetDoc, selectBudgetTxns, selectTxnUi } from './budget.selectors.base';
 import { selectMonthTiming } from './budget-period.selectors';
-import { toYMDUTC } from '@shared/utils';
+import { toYMDUTC } from '../../shared/utils/format-data.util';
+import type { TxnSortKey } from './budget.slice';
 
 const isYmd = (v: string) => /^\d{4}-\d{2}-\d{2}$/.test(v);
 const txnDayKey = (date: Txn['date']) => (isYmd(date) ? date : toYMDUTC(date));
+const txnSearchText = (txn: Txn) =>
+  [
+    txn.note,
+    txn.expenseGroup,
+    txn.category,
+    txnDayKey(txn.date),
+    String(txn.amount),
+    String(Math.abs(txn.amount)),
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
 
 /** All transactions that fall inside the current [periodStart, periodEnd). */
 export const selectTxnsInPeriod = createSelector(
@@ -91,28 +104,30 @@ export const makeSelectExpenseGroupView = (cat: Category) =>
     return { allocated, spent, remaining, progress, items: filtered, byExpGroup };
   });
 
-/** Filter/search/sort the in-period transactions according to UI state. */
-const selectFilteredTxns = createSelector([selectTxnsInPeriod, selectTxnUi], (txns, ui) => {
+/** Filter in-period transactions by selected high-level category. */
+const selectCategoryFilteredTxns = createSelector([selectTxnsInPeriod, selectTxnUi], (txns, ui) =>
+  txns.filter((t) => (ui.type === 'all' ? true : t.category === ui.type)),
+);
+
+/** Search the current selected-period/category result set by remembered ledger fields. */
+const selectFilteredTxns = createSelector([selectCategoryFilteredTxns, selectTxnUi], (txns, ui) => {
   const q = ui.search.trim().toLowerCase();
-
-  return txns
-    .filter((t) => (ui.type === 'all' ? true : t.category === ui.type))
-    .filter((t) =>
-      q.length === 0
-        ? true
-        : (t.note ?? '').toLowerCase().includes(q) ||
-          (t.expenseGroup ?? '').toLowerCase().includes(q),
-    );
+  return txns.filter((t) => (q.length === 0 ? true : txnSearchText(t).includes(q)));
 });
 
-const selectSortedTxns = createSelector([selectFilteredTxns, selectTxnUi], (filtered, ui) => {
-  const dir = ui.sortDir === 'asc' ? 1 : -1;
-  return [...filtered].sort((a, b) => {
-    if (ui.sortKey === 'date') return dir * txnDayKey(a.date).localeCompare(txnDayKey(b.date));
-    if (ui.sortKey === 'amount') return dir * (a.amount - b.amount);
-    return dir * (a.amount - b.amount);
+const sortTxns = (txns: Txn[], sortKey: TxnSortKey) =>
+  [...txns].sort((a, b) => {
+    if (sortKey === 'oldest') {
+      return txnDayKey(a.date).localeCompare(txnDayKey(b.date)) || a.amount - b.amount;
+    }
+    if (sortKey === 'amountDesc') {
+      return b.amount - a.amount || txnDayKey(b.date).localeCompare(txnDayKey(a.date));
+    }
+    if (sortKey === 'amountAsc') {
+      return a.amount - b.amount || txnDayKey(b.date).localeCompare(txnDayKey(a.date));
+    }
+    return txnDayKey(b.date).localeCompare(txnDayKey(a.date)) || b.amount - a.amount;
   });
-});
 
 export interface TxnListGroup {
   key: string;
@@ -122,9 +137,9 @@ export interface TxnListGroup {
   kind: 'date' | 'expenseGroup';
 }
 
-/** Group filtered txns by date (default) or bucket (special mode). */
-export const selectTxnListGroups = createSelector([selectSortedTxns, selectTxnUi], (txns, ui) => {
-  if (ui.sortKey === 'expenseGroup') {
+/** Group filtered txns by date (default) or expense group. */
+export const selectTxnListGroups = createSelector([selectFilteredTxns, selectTxnUi], (txns, ui) => {
+  if (ui.groupBy === 'expenseGroup') {
     const groups = new Map<string, Txn[]>();
 
     for (const t of txns) {
@@ -138,9 +153,7 @@ export const selectTxnListGroups = createSelector([selectSortedTxns, selectTxnUi
       .map(([groupKey, items]) => ({
         key: groupKey,
         label: groupKey === '__uncategorized__' ? '' : groupKey,
-        items: [...items].sort(
-          (a, b) => txnDayKey(b.date).localeCompare(txnDayKey(a.date)) || b.amount - a.amount,
-        ),
+        items: sortTxns(items, ui.sortKey),
         total: items.reduce((sum, txn) => sum + txn.amount, 0),
         kind: 'expenseGroup' as const,
       }))
@@ -156,11 +169,13 @@ export const selectTxnListGroups = createSelector([selectSortedTxns, selectTxnUi
   }
 
   return Array.from(categories.entries())
-    .sort((a, b) => b[0].localeCompare(a[0]))
+    .sort((a, b) =>
+      ui.sortKey === 'oldest' ? a[0].localeCompare(b[0]) : b[0].localeCompare(a[0]),
+    )
     .map(([date, items]) => ({
       key: date,
       label: date,
-      items,
+      items: sortTxns(items, ui.sortKey),
       total: items.reduce((sum, txn) => sum + txn.amount, 0),
       kind: 'date' as const,
     }));

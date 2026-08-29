@@ -2,11 +2,15 @@ import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FaChevronLeft } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
 import { TTIcon } from '@shared/ui';
 import { routes } from '@shared/utils';
-import { ReactComponent as Logo } from '../../../assets/logo.svg';
 import { PeriodWidget } from 'widgets/period-widget';
+import { selectSettingsAppTheme } from '@store/settings-store';
+
+import { ReactComponent as LogoLight } from '../../../assets/thrift_tide_logo-light.svg';
+import { ReactComponent as LogoDark } from '../../../assets/thrift_tide_logo-dark.svg';
 
 import './top-nav.styles.scss';
 
@@ -14,6 +18,8 @@ const TopNav: React.FC = () => {
   const { t } = useTranslation('common');
   const location = useLocation();
   const navigate = useNavigate();
+
+  const theme = useSelector(selectSettingsAppTheme);
 
   const isDashboard = location.pathname === '/';
   const isHistory = location.pathname === '/history';
@@ -32,10 +38,12 @@ const TopNav: React.FC = () => {
         )}
       </div>
       <div className="app-header-container center-container">
-        {isDashboard ? (
-          <Logo height={40} />
-        ) : (
+        {!isDashboard ? (
           <span className="page-title">{t(`pages.${title.toLowerCase()}`)}</span>
+        ) : theme === 'dark' ? (
+          <LogoDark height={40} />
+        ) : (
+          <LogoLight height={40} />
         )}
       </div>
       <div className="app-header-container app-header-container__right">

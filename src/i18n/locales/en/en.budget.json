@@ -33,6 +33,128 @@
   "date": "Date",
   "noTransactions": "You haven't added any expenses yet",
   "noBudget": "You haven't set your budget yet",
+  "transactions": {
+    "ledgerMeta": "spent · {count, plural, one {# transaction} other {# transactions}}",
+    "visibleMeta": "{count, plural, one {# shown} other {# shown}} of {total}",
+    "clearFilters": "Clear",
+    "toolsLabel": "Find transactions",
+    "listLabel": "Transactions",
+    "errorTitle": "Transactions could not load",
+    "rowEditLabel": "Edit {descriptor}, {amount}",
+    "rowToggleLabel": "Manage {descriptor}, {amount}",
+    "noNote": "(no note)",
+    "editAction": "Edit",
+    "deleteAction": "Delete",
+    "editActionLabel": "Edit {descriptor}",
+    "deleteActionLabel": "Delete {descriptor}",
+    "period": {
+      "current": "Current period",
+      "last-day": "Final day",
+      "past": "Past period",
+      "future": "Future period"
+    },
+    "empty": {
+      "defaultTitle": "No expenses yet",
+      "defaultMessage": "New expenses for this selected period will appear here.",
+      "filteredTitle": "No matches",
+      "filteredMessage": "Try a different search or clear the current filter.",
+      "pastTitle": "No expenses in this period",
+      "pastMessage": "This past period has no saved transactions.",
+      "futureTitle": "No future expenses",
+      "futureMessage": "This selected period has not started yet."
+    },
+    "organize": {
+      "title": "Organize transactions",
+      "groupBy": "Group by",
+      "sortBy": "Sort",
+      "helper": "Sorting changes the order inside each group.",
+      "group": {
+        "date": "Date",
+        "expenseGroup": "Expense group"
+      },
+      "sort": {
+        "newest": "Newest first",
+        "oldest": "Oldest first",
+        "amountDesc": "Highest amount",
+        "amountAsc": "Lowest amount"
+      }
+    }
+  },
+  "dashboard": {
+    "greeting": "Good to see you, {name}",
+    "friend": "there",
+    "leftThisPeriod": "left this period",
+    "leftUnused": "left unused",
+    "budgeted": "budgeted",
+    "overBudget": "over budget",
+    "spentOf": "{spent} spent of {budget}",
+    "setupKicker": "Budget setup",
+    "noIncomeTitle": "Set your income",
+    "noIncomeText": "Add income for this period so Thrift Tide can calculate your budget, pulse, and remaining money.",
+    "budgetPulse": "Budget Pulse",
+    "recentActivity": "Recent Activity",
+    "viewAllTransactions": "View all transactions",
+    "saved": "saved",
+    "pulseAmount": {
+      "left": "{amount} left",
+      "over": "{amount} over",
+      "toGoal": "{amount} to goal",
+      "goalReached": "{amount} saved",
+      "aboveGoal": "{amount} above goal",
+      "saved": "{amount} saved",
+      "remaining": "{amount} remaining"
+    },
+    "pulseState": {
+      "left": "left",
+      "over": "over",
+      "toGoal": "to goal",
+      "goalReached": "goal reached",
+      "aboveGoal": "above goal",
+      "saved": "saved",
+      "remaining": "remaining"
+    },
+    "pulseAria": "{category}: {amount} {state}, {percent}% used.",
+    "status": {
+      "onTrack": "{days, plural, one {# day left · On track} other {# days left · On track}}",
+      "faster": "{days, plural, one {# day left · Faster than planned} other {# days left · Faster than planned}}",
+      "lastDay": "Last day of this period",
+      "ended": "Period ended",
+      "future": "Future period"
+    },
+    "context": {
+      "periodEnded": {
+        "title": "This period has ended",
+        "message": "You're viewing {periodRange}. The amounts here are a closed snapshot of that period.",
+        "cta": "Go to current period",
+        "nextCta": "Prepare next period"
+      },
+      "futurePeriod": {
+        "title": "Upcoming period",
+        "message": "This period starts {startDate}. Until then, current-period spending lives in your active period.",
+        "cta": "Go to current period"
+      },
+      "noIncome": {
+        "title": "Budget starts with income",
+        "message": "Add income for this period so the Dashboard can show what is left, what needs attention, and where savings stand.",
+        "cta": "Add income"
+      },
+      "lastDay": {
+        "title": "Last day of this period",
+        "message": "Today is the final valid day for new expenses in this period.",
+        "cta": "Prepare next period"
+      },
+      "stale": {
+        "title": "Nothing logged since {lastTxnDate}",
+        "message": "If a few expenses slipped by, adding them now will keep the period honest.",
+        "cta": "Add expenses"
+      },
+      "quiet": {
+        "title": "Your budget is steady",
+        "message": "No urgent changes right now. Insights still has the deeper read when you want it.",
+        "cta": "See insights"
+      }
+    }
+  },
   "pace": "Pace (Total)",
   "modals": {
     "addIncome": "Add Income",
@@ -144,16 +266,16 @@
       "nextMonth": "Next period"
     },
     "sortSheet": {
-      "title": "Sort transactions",
+      "title": "Organize transactions",
       "sortOption": {
-        "date": "by date",
-        "amount": "by amount",
-        "expenseGroup": "by group"
+        "date": "Newest first",
+        "amount": "Highest amount",
+        "expenseGroup": "Expense group"
       },
       "sortLabel": {
-        "date": "By date",
-        "amount": "By amount",
-        "expenseGroup": "By group"
+        "date": "Newest first",
+        "amount": "Highest amount",
+        "expenseGroup": "Expense group"
       }
     },
     "confirmSheet": {
