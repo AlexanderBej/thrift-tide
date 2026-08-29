@@ -1,0 +1,139 @@
+@use '../../../styles/tokens.scss' as *;
+
+.v3-app-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  min-height: 100dvh;
+  place-items: center;
+  padding:
+    calc(#{$spacing-6} + env(safe-area-inset-top))
+    $spacing-5
+    calc(#{$spacing-6} + env(safe-area-inset-bottom));
+  background: var(--color-bg-main);
+  color: var(--color-text-primary);
+  opacity: 1;
+  transition: opacity 180ms ease;
+
+  &[data-leaving='true'] {
+    opacity: 0;
+  }
+}
+
+.v3-app-loader__content {
+  display: grid;
+  justify-items: center;
+  gap: $spacing-4;
+  width: min(100%, 320px);
+  text-align: center;
+
+  p {
+    max-width: 260px;
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.45;
+  }
+}
+
+.v3-app-loader__brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-3;
+  min-height: 66px;
+}
+
+.v3-app-loader__mark {
+  position: relative;
+  display: inline-grid;
+  width: 64px;
+  height: 50px;
+  flex: 0 0 64px;
+  place-items: center;
+}
+
+.v3-app-loader__logo {
+  position: absolute;
+  width: 64px;
+  height: auto;
+}
+
+.v3-app-loader__logo--dark {
+  display: none;
+}
+
+[data-theme='dark'] {
+  .v3-app-loader__logo--light {
+    display: none;
+  }
+
+  .v3-app-loader__logo--dark {
+    display: block;
+  }
+}
+
+.v3-app-loader__wordmark {
+  max-width: 150px;
+  overflow: hidden;
+  color: var(--logo-primary, var(--color-text-primary));
+  font-size: 26px;
+  font-weight: 625;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+  opacity: 1;
+  transform-origin: right center;
+  animation: v3-loader-wordmark-retract 520ms ease 440ms forwards;
+}
+
+.v3-app-loader__spinner {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  opacity: 0.74;
+
+  .local-spinner .lds-dual-ring {
+    width: 24px;
+    height: 24px;
+
+    &::after {
+      width: 22px;
+      height: 22px;
+      border-width: 3px;
+      border-color: var(--logo-accent, var(--color-primary)) transparent
+        var(--logo-accent, var(--color-primary)) transparent;
+    }
+  }
+}
+
+@keyframes v3-loader-wordmark-retract {
+  0% {
+    max-width: 150px;
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+
+  100% {
+    max-width: 0;
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v3-app-loader {
+    transition: none;
+  }
+
+  .v3-app-loader__wordmark {
+    animation: none;
+  }
+
+  .v3-app-loader__spinner .local-spinner .lds-dual-ring::after {
+    animation-duration: 1.8s;
+  }
+}

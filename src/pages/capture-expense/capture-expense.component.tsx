@@ -251,7 +251,6 @@ const CaptureExpense: React.FC = () => {
       goBack();
     } catch {
       setSubmitError(tt('budget:capture.errors.delete'));
-      setDeleteConfirmOpen(false);
     } finally {
       setSubmitting(false);
     }
@@ -485,8 +484,10 @@ const CaptureExpense: React.FC = () => {
         open={discardOpen}
         onOpenChange={setDiscardOpen}
         title={tt('budget:capture.discard.title')}
-        text={tt('budget:capture.discard.text')}
-        btnLabel={tt('budget:capture.discard.confirm')}
+        description={tt('budget:capture.discard.text')}
+        confirmLabel={tt('budget:capture.discard.confirm')}
+        cancelLabel={tt('budget:capture.discard.cancel')}
+        tone="discard"
         onConfirm={() => {
           endCaptureSession();
           goBack();
@@ -496,8 +497,11 @@ const CaptureExpense: React.FC = () => {
         open={deleteConfirmOpen}
         onOpenChange={setDeleteConfirmOpen}
         title={tt('budget:capture.delete.title')}
-        text={tt('budget:capture.delete.text')}
-        btnLabel={tt('budget:capture.delete.confirm')}
+        description={tt('budget:capture.delete.text')}
+        confirmLabel={tt('budget:capture.delete.confirm')}
+        cancelLabel={tt('common:actions.cancel')}
+        tone="destructive"
+        loading={submitting}
         onConfirm={handleDelete}
       />
     </main>

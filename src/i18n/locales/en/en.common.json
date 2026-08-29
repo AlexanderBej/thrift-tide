@@ -1,5 +1,8 @@
 {
   "hi": "Hi",
+  "appLoader": {
+    "message": "Good to see you again. Getting your budget ready…"
+  },
   "pages": {
     "dashboard": "Dashboard",
     "categories": "Categories",
@@ -40,6 +43,7 @@
     "skip": "Skip",
     "back": "Back",
     "reset": "Reset",
+    "cancel": "Cancel",
     "dismiss": "Dismiss",
     "add": "Add",
     "edit": "Edit",

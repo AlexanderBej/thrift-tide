@@ -253,6 +253,17 @@ Current implementation:
 - Row-level swipe edit/delete gestures remain removed from Transactions V3.
 - Transactions V3 date-group rows use note as primary text when present and expense-group name as secondary text; expense-group-grouped rows avoid repeating the group name and focus on note/date/amount.
 - Transactions V3 expense-group rows without a note show a localized muted no-note placeholder above the date rather than promoting the date or fabricating an expense-group label.
+- V3 destructive and discard confirmations use the shared bounded `ConfirmSheet` pattern.
+- V3 confirmations use specific action-oriented copy, restrained semantic danger styling, compact two-action hierarchy, and loading guards for async confirmation.
+- Capture and Transactions share the same V3 confirmation language for deleting expenses; Capture dirty-close uses the same shared pattern for discarding unsaved changes.
+- V3 app boot uses a single top-level branded loader owned by `App`, covering initial auth resolution through authenticated settings/budget boot.
+- The branded boot loader follows existing app boot state from `selectAppBootState`; it does not change auth, settings, budget, routing, or Firestore listener semantics.
+- `ProtectedRoute` owns access control only and does not render startup loading UI while auth is unresolved.
+- `Layout` owns the authenticated shell only and does not own app boot loader timers or presentation.
+- Startup should not hand off between a generic spinner and the branded loader; the minimum presentation timer starts from the first branded loader display.
+- When motion is enabled, the boot logo begins as mark plus wordmark and then uses a short CSS-only wordmark retraction so the mark recenters. Reduced-motion users do not receive the wordmark animation.
+- The boot loader uses friendly localized copy and a small secondary spinner.
+- A short anti-flash minimum presentation may be used for the branded boot loader, but app boot is not intentionally held for multiple seconds.
 
 Future Dashboard directions under discussion but not implemented:
 

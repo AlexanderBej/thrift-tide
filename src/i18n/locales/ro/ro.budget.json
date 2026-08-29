@@ -197,14 +197,15 @@
       "delete": "Nu s-a putut șterge această cheltuială."
     },
     "discard": {
-      "title": "Renunți la această cheltuială?",
+      "title": "Renunți la modificări",
       "text": "Modificările nesalvate se vor pierde.",
+      "cancel": "Continuă editarea",
       "confirm": "Renunță"
     },
     "delete": {
-      "title": "Ștergi această cheltuială?",
-      "text": "Cheltuiala va fi eliminată din perioadă.",
-      "confirm": "Șterge cheltuiala"
+      "title": "Șterge cheltuiala",
+      "text": "Această tranzacție va fi ștearsă definitiv.",
+      "confirm": "Șterge"
     }
   },
   "sheets": {
@@ -278,9 +279,9 @@
     },
     "confirmSheet": {
       "delTxn": {
-        "button": "Șterge tranzacția",
-        "title": "Ștergi o tranzacție",
-        "text": "Ești sigur/ă? Acțiunea asta e ireversibilă"
+        "button": "Șterge",
+        "title": "Șterge cheltuiala",
+        "text": "Această tranzacție va fi ștearsă definitiv."
       }
     }
   },

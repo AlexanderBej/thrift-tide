@@ -1,5 +1,64 @@
 @use '../../../styles/tokens.scss' as *;
 
+.confirm-sheet-shell {
+  .sheet-title {
+    margin: $spacing-1 $spacing-4 0;
+    color: var(--color-text-primary);
+    font-size: 20px;
+    font-weight: 625;
+    line-height: 1.15;
+    letter-spacing: 0;
+  }
+
+  .sheet-title + div,
+  .sheet-title + p {
+    margin: $spacing-2 $spacing-4 0;
+    color: var(--color-text-secondary);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  .sheet-content {
+    border-top: 0;
+    padding-top: $spacing-4;
+  }
+}
+
 .confirm-sheet {
-  padding: 0 $spacing-4;
+  display: grid;
+  gap: $spacing-4;
+  padding: 0 $spacing-4 $spacing-2;
+}
+
+.confirm-sheet__icon {
+  display: inline-flex;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: $radius-md;
+  background: var(--color-bg-hover);
+  color: var(--color-text-secondary);
+
+  .confirm-sheet[data-tone='destructive'] &,
+  .confirm-sheet[data-tone='discard'] & {
+    border-color: color-mix(in srgb, var(--color-error), transparent 72%);
+    background: color-mix(in srgb, var(--color-error-soft), transparent 26%);
+    color: var(--color-error);
+  }
+}
+
+.confirm-sheet__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-2;
+  padding-top: $spacing-1;
+}
+
+@media (max-width: 360px) {
+  .confirm-sheet__actions {
+    grid-template-columns: 1fr;
+  }
 }

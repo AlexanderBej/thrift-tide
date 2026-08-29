@@ -1,5 +1,8 @@
 {
   "hi": "Salut",
+  "appLoader": {
+    "message": "Mă bucur să te revăd. Îți pregătim bugetul…"
+  },
   "pages": {
     "dashboard": "Panou",
     "categories": "Categorii",
@@ -40,6 +43,7 @@
     "skip": "Sari Peste",
     "back": "Înapoi",
     "reset": "Resetează",
+    "cancel": "Anulează",
     "dismiss": "Închide",
     "add": "Adaugă",
     "edit": "Editează",

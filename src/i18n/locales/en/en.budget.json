@@ -199,14 +199,15 @@
       "delete": "Could not delete this expense."
     },
     "discard": {
-      "title": "Discard this expense?",
+      "title": "Discard changes",
       "text": "Your unsaved changes will be lost.",
+      "cancel": "Keep editing",
       "confirm": "Discard"
     },
     "delete": {
-      "title": "Delete this expense?",
-      "text": "This removes the expense from the period.",
-      "confirm": "Delete expense"
+      "title": "Delete expense",
+      "text": "This transaction will be permanently removed.",
+      "confirm": "Delete"
     }
   },
   "sheets": {
@@ -280,9 +281,9 @@
     },
     "confirmSheet": {
       "delTxn": {
-        "button": "Delete transaction",
-        "title": "You're removing a transaction",
-        "text": "Are you sure? This action is irreversible"
+        "button": "Delete",
+        "title": "Delete expense",
+        "text": "This transaction will be permanently removed."
       }
     }
   },

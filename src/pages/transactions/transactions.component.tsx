@@ -346,9 +346,11 @@ const Transaction: React.FC = () => {
       <ConfirmSheet
         open={confirmOpen}
         onOpenChange={handleConfirmOpenChange}
-        btnLabel={t('budget:sheets.confirmSheet.delTxn.button')}
-        title={t('budget:sheets.confirmSheet.delTxn.title')}
-        text={t('budget:sheets.confirmSheet.delTxn.text')}
+        title={t('budget:capture.delete.title')}
+        description={t('budget:capture.delete.text')}
+        confirmLabel={t('budget:capture.delete.confirm')}
+        cancelLabel={t('common:actions.cancel')}
+        tone="destructive"
         onConfirm={handleConfirmDelete}
       />
     </div>

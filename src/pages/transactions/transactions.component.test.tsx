@@ -105,19 +105,19 @@ jest.mock('@widgets', () => ({
   ConfirmSheet: ({
     open,
     title,
-    btnLabel,
+    confirmLabel,
     onConfirm,
   }: {
     open: boolean;
     title: string;
-    btnLabel: string;
+    confirmLabel: string;
     onConfirm: () => void;
   }) =>
     open ? (
       <section>
         <h2>{title}</h2>
         <button type="button" onClick={onConfirm}>
-          {btnLabel}
+          {confirmLabel}
         </button>
       </section>
     ) : null,
@@ -240,7 +240,7 @@ describe('Transactions', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Delete New shirt' }));
 
     expect(row).toHaveAttribute('aria-expanded', 'true');
-    expect(screen.getByRole('heading', { name: "You're removing a transaction" })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Delete expense' })).toBeInTheDocument();
   });
 
   it('confirmed Delete calls the selected-month deletion thunk and clears expansion', async () => {
@@ -249,7 +249,7 @@ describe('Transactions', () => {
     const row = screen.getByRole('button', { name: /manage new shirt/i });
     fireEvent.click(row);
     fireEvent.click(screen.getByRole('button', { name: 'Delete New shirt' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Delete transaction' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Delete' }));
 
     await waitFor(() => {
       expect(mockDeleteTxnFromMonthThunk).toHaveBeenCalledWith({
