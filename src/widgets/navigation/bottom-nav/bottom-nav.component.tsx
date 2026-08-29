@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React from 'react';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FaPlus } from 'react-icons/fa';
 
 import { Pressable, TTIcon } from '@shared/ui';
-import { AddActionSheet } from '@widgets';
 import { UserAvatar } from '@shared/components';
 import { NAV_ITEMS, NavItem } from 'widgets/nav.config';
 
@@ -12,7 +11,8 @@ import './bottom-nav.styles.scss';
 
 const BottomNav: React.FC = () => {
   const { t } = useTranslation('common');
-  const [open, setOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const dashboard = NAV_ITEMS.find((item) => item.key === 'dashboard');
   const txns = NAV_ITEMS.find((item) => item.key === 'txns');
@@ -20,9 +20,8 @@ const BottomNav: React.FC = () => {
   const profile = NAV_ITEMS.find((item) => item.key === 'profile');
 
   const onFabClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // release focus BEFORE Radix hides the app root
     (e.currentTarget as HTMLButtonElement).blur();
-    setOpen(true);
+    navigate('/transactions/new', { state: { from: location.pathname } });
   };
 
   const getNavItem = (item: NavItem | undefined) => {
@@ -38,18 +37,14 @@ const BottomNav: React.FC = () => {
                 <TTIcon
                   icon={item.icon}
                   size={24}
-                  color={
-                    isActive ? 'var(--color-primary)' : 'var(--color-text-primary)'
-                  }
+                  color={isActive ? 'var(--color-primary)' : 'var(--color-text-primary)'}
                 />
               )}
               {item.key !== 'profile' && (
                 <span
                   className="nav-link-title"
                   style={{
-                    color: isActive
-                      ? 'var(--color-primary)'
-                      : 'var(--color-text-primary)',
+                    color: isActive ? 'var(--color-primary)' : 'var(--color-text-primary)',
                   }}
                 >
                   {t(item.i18nLabel)}
@@ -75,10 +70,8 @@ const BottomNav: React.FC = () => {
             </button>
           </div>
         </div>
-
         {getNavItem(insights)}
         {getNavItem(profile)}
-        <AddActionSheet open={open} onOpenChange={setOpen} />
       </nav>
     </>
   );

@@ -1,0 +1,37 @@
+@use '../../../../styles/tokens.scss' as *;
+
+.expense-group-row {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-4;
+
+  .expense-group-icon-wrapper {
+    @include flex();
+    width: 28px;
+    height: 28px;
+    background-color: var(--color-border-subtle);
+    border-radius: $radius-sm;
+
+    &__light {
+      box-shadow: var(--shadow-elevation-1);
+    }
+
+    &__dark {
+      box-shadow: var(--shadow-elevation-1);
+    }
+  }
+
+  .expense-group-label-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    .expense-group-label {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .note {
+      font-size: 11px;
+    }
+  }
+}

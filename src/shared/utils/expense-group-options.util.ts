@@ -15,8 +15,8 @@ import { PiBookOpenTextLight, PiTreePalm, PiGraduationCapLight } from 'react-ico
 import { FiShoppingBag } from 'react-icons/fi';
 import { RiNetflixFill } from 'react-icons/ri';
 
-import { ExpenseGroupOption } from '@api/models';
-import { ExpenseGroupOptions, Category } from '@api/types';
+import { ExpenseGroupOption } from '../../api/models';
+import { ExpenseGroupOptions, Category } from '../../api/types';
 export const EXPENSE_GROUP_OPTIONS: ExpenseGroupOptions = {
   needs: [
     {
@@ -182,6 +182,51 @@ export function getExpGroupColor(value: string): string {
 }
 export const getExpGroupsByType = (type: Category): ExpenseGroupOption[] =>
   EXPENSE_GROUP_OPTIONS[type];
+
+export type ResolvedExpenseGroupOption = ExpenseGroupOption & { category: Category };
+
+export const getAllExpenseGroupOptions = (): ResolvedExpenseGroupOption[] =>
+  (Object.entries(EXPENSE_GROUP_OPTIONS) as Array<[Category, ExpenseGroupOption[]]>).flatMap(
+    ([category, options]) => options.map((option) => ({ ...option, category })),
+  );
+
+export function getExpenseGroupCategory(value: string): Category | null {
+  const key = norm(value);
+
+  for (const [category, options] of Object.entries(EXPENSE_GROUP_OPTIONS) as Array<
+    [Category, ExpenseGroupOption[]]
+  >) {
+    if (options.some((option) => norm(option.value) === key || norm(option.label) === key)) {
+      return category;
+    }
+  }
+
+  return null;
+}
+
+export function getRecentExpenseGroups<T extends { date: string; expenseGroup?: string }>(
+  txns: T[],
+  limit = 6,
+): ResolvedExpenseGroupOption[] {
+  const byValue = new Map(
+    getAllExpenseGroupOptions().map((option) => [norm(option.value), option]),
+  );
+  const seen = new Set<string>();
+
+  return [...txns]
+    .sort((a, b) => b.date.localeCompare(a.date))
+    .reduce<ResolvedExpenseGroupOption[]>((recent, txn) => {
+      if (recent.length >= limit) return recent;
+
+      const key = norm(txn.expenseGroup ?? '');
+      const option = byValue.get(key);
+      if (!option || seen.has(option.value)) return recent;
+
+      seen.add(option.value);
+      recent.push(option);
+      return recent;
+    }, []);
+}
 
 const norm = (s: string) => s.trim().toLowerCase();
 

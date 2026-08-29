@@ -1,6 +1,7 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { enUS } from 'date-fns/locale';
 import clsx from 'clsx';
 import { FaChevronDown } from 'react-icons/fa';
@@ -12,6 +13,7 @@ import { InfoBlock, Input, TTIcon } from '@shared/ui';
 import { LOCALE_MAP, makeFormatter, resolveExpenseGroup } from '@shared/utils';
 import {
   selectTxnListGroups,
+  selectBudgetMonth,
   setTxnTypeFilter,
   TxnTypeFilter,
   setTxnSearch,
@@ -21,7 +23,7 @@ import {
   deleteTxnThunk,
 } from '@store/budget-store';
 import { AppDispatch } from '@store/store';
-import { AddActionSheet, ConfirmSheet, SortSheet } from '@widgets';
+import { ConfirmSheet, SortSheet } from '@widgets';
 import { Txn } from '@api/models';
 import { SwipeRow, SwipeRowHandle, TransactionLine } from 'features';
 import { selectSettingsAppTheme } from '@store/settings-store';
@@ -74,24 +76,25 @@ const Transaction: React.FC = () => {
   const fmtWOCurrency = useFormatMoney();
 
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const rowRefs = useRef<Record<string, SwipeRowHandle | null>>({});
 
   const groups = useSelector(selectTxnListGroups);
+  const month = useSelector(selectBudgetMonth);
   const totals = useSelector(selectTotals);
   const theme = useSelector(selectSettingsAppTheme);
   const user = useSelector(selectAuthUser);
 
   const [sortOpen, setSortOpen] = useState<boolean>(false);
   const [confirmOpen, setConfirmOpen] = useState<boolean>(false);
-  const [editOpen, setEditOpen] = useState<boolean>(false);
 
   const [filter, setFilter] = useState<Category | 'all'>('all');
   const [searchCriteria, setSearchCriteria] = useState<string>('');
   const [sortCriteria, setSortCriteria] = useState<SortKey>('date');
 
   const [txnToDelete, setTxnToDelete] = useState<string | null>(null);
-  const [txnToEdit, setTxnToEdit] = useState<Txn | null>(null);
 
   const FILTER_OPTIONS: Option[] = [
     { label: t('taxonomy:categoryNames.all') ?? 'All', value: 'all' },
@@ -151,10 +154,10 @@ const Transaction: React.FC = () => {
     });
   };
 
-  const openEditSheet = (tx: Txn) => {
-    setTxnToEdit(tx);
-    setEditOpen(true);
+  const openEditRoute = (tx: Txn) => {
     if (tx.id) rowRefs.current[tx.id]?.close();
+    if (tx.id)
+      navigate(`/transactions/${month}/${tx.id}/edit`, { state: { from: location.pathname } });
   };
 
   const openConfirmDelete = (tx: Txn) => {
@@ -261,7 +264,7 @@ const Transaction: React.FC = () => {
                         rowRefs.current[tx.id] = instance;
                       }}
                       key={tx.id}
-                      onEdit={() => openEditSheet(tx)}
+                      onEdit={() => openEditRoute(tx)}
                       onDelete={() => openConfirmDelete(tx)}
                       onSwipeStart={() => {
                         if (tx.id) closeOtherRows(tx.id);
@@ -285,12 +288,6 @@ const Transaction: React.FC = () => {
         title={t('budget:sheets.confirmSheet.delTxn.title')}
         text={t('budget:sheets.confirmSheet.delTxn.text')}
         onConfirm={handleDeleteTransaction}
-      />
-      <AddActionSheet
-        open={editOpen}
-        onOpenChange={setEditOpen}
-        defaultStep="expense"
-        txnToEdit={txnToEdit as Txn}
       />
     </div>
   );

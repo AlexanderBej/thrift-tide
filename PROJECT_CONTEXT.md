@@ -17,7 +17,8 @@ Users authenticate with Google, complete or skip onboarding, choose language/cur
 Current implemented areas:
 
 - Dashboard: current remaining budget, spent/allocated totals, category cards, smart insight, and top expense groups.
-- Transactions: filters, search, sort, grouped transaction list, swipe edit/delete, add/edit expense sheet.
+- Transactions: filters, search, sort, grouped transaction list, swipe edit/delete, and route-based expense editing.
+- V3 Capture: full-screen Add/Edit Expense routes with expense-group-first classification.
 - Categories: category health and category information.
 - Category detail: category progress, insights, top groups, pace/timeline, recent transactions.
 - Insights: smart insight carousel, category health, top spenders.
@@ -40,6 +41,8 @@ Main routes are defined in `src/App.tsx`:
 
 - `/login`
 - `/onboarding`
+- `/transactions/new`
+- `/transactions/:month/:txnId/edit`
 - `/`
 - `/transactions`
 - `/categories`
@@ -48,11 +51,12 @@ Main routes are defined in `src/App.tsx`:
 - `/history`
 - `/profile`
 
-`src/pages/layout/layout.component.tsx` provides the authenticated app shell with `TopNav`, a scrollable outlet, and `BottomNav`. The bottom navigation currently exposes Dashboard, Transactions, Insights, Profile, and a central FAB that opens `AddActionSheet`. Categories and History are reachable through other surfaces such as Profile quick actions and route navigation.
+`src/pages/layout/layout.component.tsx` provides the authenticated app shell with `TopNav`, a scrollable outlet, and `BottomNav`. The bottom navigation currently exposes Dashboard, Transactions, Insights, Profile, and a central FAB that opens `/transactions/new` directly. Categories and History are reachable through other surfaces such as Profile quick actions and route navigation.
 
 Important UI areas:
 
 - Pages: `src/pages`
+- V3 Capture page: `src/pages/capture-expense`
 - Feature components: `src/features`
 - Widgets/navigation/sheets: `src/widgets`
 - Shared UI primitives: `src/shared/ui`
@@ -167,7 +171,8 @@ General visual language:
 V3 visual/theme direction:
 
 - The current CSS custom-property theme architecture is considered a good foundation for V3.
-- V3 is expected to evolve the semantic token vocabulary rather than rewrite the theme mechanism.
+- V3 has begun in Capture with scoped typography, semantic CSS-variable usage, fixed full-screen task layout, disciplined radii/spacing, and a dedicated action primitive.
+- V3 is expected to continue evolving the semantic token vocabulary rather than rewrite the theme mechanism.
 - Brand, action/interface, status, and needs/wants/savings semantics should remain conceptually separate.
 - The final V3 logo and palette are still in development.
 - Do not hard-code future V3 brand values into components.
@@ -205,26 +210,33 @@ Current implementation:
 - Pages/routes handle primary navigation.
 - Secondary mobile interactions commonly use sheets.
 - `BaseSheet` in `src/shared/ui/base-sheet` wraps Vaul `Drawer`.
-- `AddActionSheet` in `src/widgets/sheets/action-sheet` is a multi-step sheet using `SliderViewport`.
-- `AddExpense` nests another `SliderViewport` for form vs date picker.
-- `AddIncome` is currently part of `AddActionSheet`.
-- `TxnDayPicker` uses `react-day-picker` inside the expense sheet.
+- V3 Add Expense lives at `/transactions/new`.
+- V3 Edit Expense lives at `/transactions/:month/:txnId/edit`.
+- Add/Edit Expense are full-screen routes, not sheets.
+- The central `+` opens Add Expense directly.
+- Capture no longer shows an explicit needs/wants/savings selector; `category` is derived from the selected `expenseGroup` and still persisted on `Txn`.
+- Capture recent groups are derived from currently loaded period transactions.
+- Capture remembers the note expanded/collapsed preference through optional `capturePreferences.noteExpandedByDefault` settings.
+- Successful add-expense saves close Capture and show a global, non-blocking V3 success feedback over the destination page.
+- Capture success feedback uses an animated success-colored circle/check treatment and includes an optional Add another action.
+- Add another reopens `/transactions/new` as an implicit continuation of the same UI session; there is no explicit batch mode, Finish step, or "done" prompt.
+- Continuation entries retain the date from the last saved expense, while amount, expense group, note, validation errors, and transient submit state reset.
+- The UI session count drives singular/plural success copy such as one expense added vs multiple expenses added.
+- Failed add-expense saves stay inside Capture, preserve the entered data, and show inline action-region error copy instead of global success feedback.
+- Expense capture no longer uses structural `SliderViewport` flows.
 - `PeriodSheet` uses `react-mobile-picker`.
 - Settings sheets use `BaseSheet` for language, currency, theme, split, and start day.
-
-Intended redesign direction is not implemented yet: Add/Edit Expense may become a dedicated full-screen mobile workflow rather than a bottom sheet.
+- Income no longer shares the central FAB. The current interim income entry is a small Dashboard budget-context action and no-budget insight CTA that open a bounded `IncomeSheet`.
 
 ## Known Sheet/Mobile Problems
 
 Durable conclusions from repository inspection:
 
 - `BaseSheet` currently serves too many interaction types.
-- Complex Add Expense/Edit Expense flow nests structural sliders.
-- Nested dynamic measurements are fragile.
-- Keyboard/visual viewport changes can interact badly with measured slider heights.
+- Legacy Add Expense/Edit Expense nested structural sliders have been removed.
+- Remaining complex sheet work should avoid nested dynamic measurements.
 - `.sheet-content` scroll ownership/layout needs cleanup.
-- `BaseSheet` emits `sheet-compact`, but the SCSS targets `.compact`; this mismatch is a confirmed bug.
-- Add/Edit Expense is the highest-risk current sheet workflow.
+- `BaseSheet` compact styling now recognizes `sheet-compact`.
 - Evidence does not currently justify replacing Vaul. Application architecture and CSS constraints are the larger problem.
 
 ## Established UX/Architecture Decisions
@@ -251,17 +263,11 @@ Horizontal chips, carousels, or presentation-only horizontal scrolling are not p
 
 Substantial workflows should be considered for full-screen surfaces/routes instead of being forced into a bottom sheet.
 
-Current candidates:
+Current candidate:
 
-- Add Expense
-- Edit Expense
 - Add Income
 
-No final redesigned UX has been implemented yet.
-
-### Do Not Prematurely Repair Soon-To-Be-Removed Flows
-
-Before spending significant effort repairing the current `AddActionSheet`/`AddExpense` nested-slider architecture, check whether the active task intends to replace that architecture. Do not optimize a flow that the current redesign intends to remove.
+Add/Edit Expense have moved to full-screen V3 routes.
 
 ### Vaul
 
@@ -269,25 +275,25 @@ Keep Vaul unless implementation evidence later shows that Vaul itself is the sou
 
 ## Current Product Direction
 
-### 1. Expense Capture Redesign
+### 1. V3 Expense Capture
 
-Immediate direction under discussion: explore making Add/Edit Expense a dedicated full-screen mobile workflow rather than a sheet.
+Implemented V3 milestone: Add/Edit Expense are dedicated full-screen mobile routes.
 
-Likely goals:
+Current behavior:
 
-- Faster entry
-- Fewer taps
-- Stable viewport layout
-- Keyboard-safe behavior
-- No structural slider inside a bottom sheet
-- Easy editing reuse
-- Potential direct deep linking
-
-The final design is not yet decided.
+- `/transactions/new` creates an expense for the selected period.
+- `/transactions/:month/:txnId/edit` loads and edits a specific transaction under its month subcollection.
+- The central FAB opens Add Expense directly.
+- Expense group is the primary user classification.
+- Needs/Wants/Savings category is derived from the selected expense group and persisted on `Txn.category` for compatibility.
+- Recent groups come from currently loaded transactions for the selected period.
+- Note expansion preference is persisted additively at `capturePreferences.noteExpandedByDefault`.
+- Dirty close uses a bounded confirmation sheet.
+- Edit mode provides an overflow delete action with confirmation.
 
 ### 2. Income Interaction
 
-Reconsider whether Add Income belongs alongside Add Expense as an equally prominent FAB action. Income is generally lower-frequency than expense capture. The final entry point is not yet decided.
+Income no longer shares equal prominence in the central FAB workflow. The current entry point is temporary: Dashboard budget context and no-budget insight CTA open a bounded `IncomeSheet` reusing the existing `AddIncome` form. A fuller V3 income redesign has not been implemented.
 
 ### 3. Reminder/Re-Engagement System
 
@@ -310,16 +316,14 @@ Confirmed from repository inspection:
 - Duplicate/unmanaged transaction listener during initialization: `initBudget` starts the managed listener and `initApp` attaches another `onTransactionsSnapshot` listener.
 - PWA update listener is registered during render in `src/App.tsx`.
 - Profile reset row incorrectly opens the language sheet in `src/pages/profile/profile.component.tsx`.
-- Expense quick-date comparison uses weekday (`getDay`) rather than full date in `src/features/add-action/expense-form/expense-form.component.tsx`.
 - History has zero-allocation division risks when computing category ratios in `src/pages/history/history.component.tsx`.
 - Period "create next" flow uses plain calendar month logic instead of custom-period-aware `nextMonthKey` in `src/widgets/sheets/period-sheet/period-sheet.component.tsx`.
 - Transaction sort label/behavior mismatch: sorting/grouping by expense group ultimately sorts groups by total in `src/store/budget-store/budget.selectors.ts`.
-- `sheet-compact`/`.compact` selector mismatch in `BaseSheet` implementation and styles.
 
 Speculative/runtime risks:
 
-- Mobile keyboard behavior in complex sheets.
-- Very short viewport overflow with date picker open.
+- Mobile keyboard behavior in the new full-screen Capture route still needs real-device validation.
+- Very short viewport overflow with the route date picker open still needs real-device validation.
 - Long Romanian strings in compact mobile controls.
 - Stale history summaries if data changes outside expected mutation paths.
 
@@ -330,7 +334,7 @@ Speculative/runtime risks:
 - Frozen period boundaries on month documents.
 - Selector-derived calculations.
 - Historical summary approach.
-- Mobile bottom navigation and FAB pattern, subject to expense-capture redesign.
+- Mobile bottom navigation and direct Add Expense FAB pattern.
 - Shared mobile primitives where they fit the interaction.
 - Existing insight system as a useful foundation.
 
@@ -338,8 +342,8 @@ Speculative/runtime risks:
 
 Approximate current priority order:
 
-1. Redesign/reliably implement high-frequency expense capture.
-2. Simplify sheet responsibilities after complex workflows are removed.
+1. Validate and harden V3 expense capture on real mobile devices.
+2. Simplify remaining sheet responsibilities after complex workflows are removed.
 3. Fix confirmed correctness/lifecycle bugs.
 4. Improve habit/re-engagement mechanisms.
 5. Address targeted i18n/accessibility/mutation-state polish.

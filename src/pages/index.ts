@@ -1,5 +1,6 @@
 export * from './category';
 export * from './categories';
+export * from './capture-expense';
 export * from './dashboard';
 export * from './history';
 export * from './insights';

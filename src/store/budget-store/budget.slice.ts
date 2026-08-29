@@ -21,6 +21,8 @@ import {
   addTransaction,
   updateTransaction,
   deleteTransaction,
+  readTransaction,
+  listTransactionsForMonth,
   computeMonthSummary,
   deleteAllTransactionsForMonth,
 } from '@api/services';
@@ -198,14 +200,26 @@ export const addTxnThunk = createAppAsyncThunk<string, { uid: string; txn: Omit<
     try {
       const { month } = getState().budget;
       const id = await addTransaction(uid, month, txn);
-      // recompute once mutation succeeds
-      await dispatch(recomputeAndPersistSummary({ uid }));
+      await recomputeAndPersistSummaryForMonth(uid, month);
       return id;
     } catch (error) {
       return rejectWithValue(error);
     }
   },
 );
+
+export const loadTxnForEditThunk = createAppAsyncThunk<
+  { txn: Txn; doc: MonthDoc | null },
+  { uid: string; month: string; id: string }
+>('budget/loadTxnForEdit', async ({ uid, month, id }, { rejectWithValue }) => {
+  try {
+    const [txn, doc] = await Promise.all([readTransaction(uid, month, id), readMonth(uid, month)]);
+    if (!txn) return rejectWithValue('Transaction not found');
+    return { txn, doc };
+  } catch (error) {
+    return rejectWithValue(error);
+  }
+});
 
 export const updateTxnThunk = createAppAsyncThunk<
   void,
@@ -214,7 +228,19 @@ export const updateTxnThunk = createAppAsyncThunk<
   try {
     const { month } = getState().budget;
     await updateTransaction(uid, month, id, patch);
-    await dispatch(recomputeAndPersistSummary({ uid }));
+    await recomputeAndPersistSummaryForMonth(uid, month);
+  } catch (error) {
+    return rejectWithValue(error);
+  }
+});
+
+export const updateTxnInMonthThunk = createAppAsyncThunk<
+  void,
+  { uid: string; month: string; id: string; patch: Partial<Omit<Txn, 'id'>> }
+>('budget/updateTxnInMonth', async ({ uid, month, id, patch }, { rejectWithValue }) => {
+  try {
+    await updateTransaction(uid, month, id, patch);
+    await recomputeAndPersistSummaryForMonth(uid, month);
   } catch (error) {
     return rejectWithValue(error);
   }
@@ -226,12 +252,24 @@ export const deleteTxnThunk = createAppAsyncThunk<void, { uid: string; id: strin
     try {
       const { month } = getState().budget;
       await deleteTransaction(uid, month, id);
-      await dispatch(recomputeAndPersistSummary({ uid }));
+      await recomputeAndPersistSummaryForMonth(uid, month);
     } catch (error) {
       return rejectWithValue(error);
     }
   },
 );
+
+export const deleteTxnFromMonthThunk = createAppAsyncThunk<
+  void,
+  { uid: string; month: string; id: string }
+>('budget/deleteTxnFromMonth', async ({ uid, month, id }, { rejectWithValue }) => {
+  try {
+    await deleteTransaction(uid, month, id);
+    await recomputeAndPersistSummaryForMonth(uid, month);
+  } catch (error) {
+    return rejectWithValue(error);
+  }
+});
 
 export const recomputeAndPersistSummary = createAppAsyncThunk<void, { uid: string }>(
   'budget/recomputeAndPersistSummary',
@@ -246,6 +284,15 @@ export const recomputeAndPersistSummary = createAppAsyncThunk<void, { uid: strin
     await persistMonthSummary(uid, state.month, summary);
   },
 );
+
+async function recomputeAndPersistSummaryForMonth(uid: string, month: string) {
+  const doc = await readMonth(uid, month);
+  if (!doc) return;
+
+  const txns = await listTransactionsForMonth(uid, month);
+  const summary = computeMonthSummary(doc, txns);
+  await persistMonthSummary(uid, month, summary);
+}
 
 export const resetCurrentPeriodThunk = createAppAsyncThunk<void, { uid: string }>(
   'budget/resetCurrentPeriod',
@@ -419,6 +466,18 @@ const budgetSlice = createSlice({
         s.error = a.error.message;
       })
 
+      .addCase(updateTxnInMonthThunk.pending, (s) => {
+        s.mutateStatus = 'loading';
+        s.error = undefined;
+      })
+      .addCase(updateTxnInMonthThunk.fulfilled, (s) => {
+        s.mutateStatus = 'idle';
+      })
+      .addCase(updateTxnInMonthThunk.rejected, (s, a) => {
+        s.mutateStatus = 'error';
+        s.error = a.error.message;
+      })
+
       // --- delete transaction
       .addCase(deleteTxnThunk.pending, (s) => {
         s.mutateStatus = 'loading';
@@ -428,6 +487,18 @@ const budgetSlice = createSlice({
         s.mutateStatus = 'idle';
       })
       .addCase(deleteTxnThunk.rejected, (s, a) => {
+        s.mutateStatus = 'error';
+        s.error = a.error.message;
+      })
+
+      .addCase(deleteTxnFromMonthThunk.pending, (s) => {
+        s.mutateStatus = 'loading';
+        s.error = undefined;
+      })
+      .addCase(deleteTxnFromMonthThunk.fulfilled, (s) => {
+        s.mutateStatus = 'idle';
+      })
+      .addCase(deleteTxnFromMonthThunk.rejected, (s, a) => {
         s.mutateStatus = 'error';
         s.error = a.error.message;
       })

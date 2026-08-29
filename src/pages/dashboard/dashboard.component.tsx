@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { enUS, ro } from 'date-fns/locale';
@@ -19,6 +19,7 @@ import { CategoryCards, CategoriesProgressBar, SmartInsightCard } from 'features
 import { Insight } from '@api/models';
 import { InsightTone } from '@api/types';
 import { Accordion, ExpansionPanelItem } from '@shared/ui';
+import { IncomeSheet } from '@widgets';
 
 import './dashboard.styles.scss';
 
@@ -47,6 +48,7 @@ const Dashboard: React.FC = () => {
   const topExpenseGroups = useSelector(selectTopExpenseGroupsOverall);
   const smartInsights = useSelector(selectSmartDashboardInsight) as Insight[];
   const theme = useSelector(selectSettingsAppTheme);
+  const [incomeOpen, setIncomeOpen] = useState(false);
 
   const { headerInsight } = pickHeaderInsight(smartInsights);
 
@@ -133,6 +135,13 @@ const Dashboard: React.FC = () => {
               {t('budget:spent') ?? 'Spent'}: {fmtWOCurrency(insights.totals.totalSpent)}
             </span>
           </div>
+          <button
+            className="dashboard-income-action"
+            type="button"
+            onClick={() => setIncomeOpen(true)}
+          >
+            {t('budget:capture.incomeAction')}
+          </button>
         </>
       )}
 
@@ -179,6 +188,7 @@ const Dashboard: React.FC = () => {
           </section>
         </>
       )}
+      <IncomeSheet open={incomeOpen} onOpenChange={setIncomeOpen} />
     </div>
   );
 };

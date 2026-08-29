@@ -31,7 +31,8 @@
   flex-direction: column;
   gap: 16px;
 
-  &.compact {
+  &.compact,
+  &.sheet-compact {
     min-height: unset; // ✅ removes the “too tall” feel for short steps
     gap: 12px; // optional: slightly tighter spacing
 

@@ -1,0 +1,17 @@
+@use '../../../../styles/tokens.scss' as *;
+
+.expense-group-icon-wrapper {
+  @include flex();
+  width: 28px;
+  height: 28px;
+  background-color: var(--color-border-subtle);
+  border-radius: 50%;
+
+  &__light {
+    box-shadow: var(--shadow-elevation-1);
+  }
+
+  &__dark {
+    box-shadow: var(--shadow-elevation-1);
+  }
+}

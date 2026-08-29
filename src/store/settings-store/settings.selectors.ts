@@ -9,6 +9,7 @@ export const selectSettingsAppTheme = (s: RootState) => s.settings.theme;
 export const selectSettingOnboardingState = (s: RootState) => s.settings.onboardingCompleted;
 export const selectSettingsDefaultPercents = (s: RootState) => s.settings.defaultPercents;
 export const selectSettingsCurrency = (s: RootState) => s.settings.currency;
+export const selectCapturePreferences = (s: RootState) => s.settings.capturePreferences;
 export const selectSettingsAll = (s: RootState) => s.settings;
 
 export const selectOnboardingSettings = createSelector(

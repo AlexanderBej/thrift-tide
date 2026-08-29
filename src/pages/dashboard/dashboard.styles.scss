@@ -11,6 +11,17 @@
     margin-top: $spacing-2;
   }
 
+  .dashboard-income-action {
+    margin-top: $spacing-3;
+    min-height: 36px;
+    padding: 0 $spacing-3;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: $radius-md;
+    background: var(--color-bg-elevated);
+    color: var(--color-primary);
+    font-weight: 700;
+  }
+
   .smart-insight-section {
     margin-top: $spacing-3;
   }
