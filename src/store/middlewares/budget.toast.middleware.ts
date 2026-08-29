@@ -7,9 +7,10 @@ import {
   setIncomeThunk,
   setIncomeForPeriod,
   setPercentsThunk,
-  addTxnThunk,
   updateTxnThunk,
+  updateTxnInMonthThunk,
   deleteTxnThunk,
+  deleteTxnFromMonthThunk,
   changeMonthThunk,
 } from '../budget-store/budget.slice';
 
@@ -20,18 +21,20 @@ export const budgetToastMiddleware: Middleware = () => (next) => (action) => {
       setIncomeThunk.fulfilled,
       setIncomeForPeriod.fulfilled,
       setPercentsThunk.fulfilled,
-      addTxnThunk.fulfilled,
       updateTxnThunk.fulfilled,
+      updateTxnInMonthThunk.fulfilled,
       deleteTxnThunk.fulfilled,
+      deleteTxnFromMonthThunk.fulfilled,
     )(action)
   ) {
     const map: Record<string, string> = {
       [setIncomeThunk.fulfilled.type]: i18n.t('budget:toast.setIncome.success'),
       [setIncomeForPeriod.fulfilled.type]: i18n.t('budget:toast.setIncome.success'),
       [setPercentsThunk.fulfilled.type]: i18n.t('budget:toast.percents.success'),
-      [addTxnThunk.fulfilled.type]: i18n.t('budget:toast.txn.added'),
       [updateTxnThunk.fulfilled.type]: i18n.t('budget:toast.txn.updated'),
+      [updateTxnInMonthThunk.fulfilled.type]: i18n.t('budget:toast.txn.updated'),
       [deleteTxnThunk.fulfilled.type]: i18n.t('budget:toast.txn.deleted'),
+      [deleteTxnFromMonthThunk.fulfilled.type]: i18n.t('budget:toast.txn.deleted'),
     };
     const msg = map[action.type];
     if (msg) toast.success(msg);
@@ -44,9 +47,10 @@ export const budgetToastMiddleware: Middleware = () => (next) => (action) => {
       setIncomeThunk.rejected,
       setIncomeForPeriod.rejected,
       setPercentsThunk.rejected,
-      addTxnThunk.rejected,
       updateTxnThunk.rejected,
+      updateTxnInMonthThunk.rejected,
       deleteTxnThunk.rejected,
+      deleteTxnFromMonthThunk.rejected,
       changeMonthThunk.rejected,
     )(action)
   ) {
@@ -55,9 +59,10 @@ export const budgetToastMiddleware: Middleware = () => (next) => (action) => {
       [setIncomeThunk.rejected.type]: i18n.t('budget:toast.setIncome.error'),
       [setIncomeForPeriod.rejected.type]: i18n.t('budget:toast.setIncome.error'),
       [setPercentsThunk.rejected.type]: i18n.t('budget:toast.percents.error'),
-      [addTxnThunk.rejected.type]: i18n.t('budget:toast.txn.addFailed'),
       [updateTxnThunk.rejected.type]: i18n.t('budget:toast.txn.updateFailed'),
+      [updateTxnInMonthThunk.rejected.type]: i18n.t('budget:toast.txn.updateFailed'),
       [deleteTxnThunk.rejected.type]: i18n.t('budget:toast.txn.deleteFailed'),
+      [deleteTxnFromMonthThunk.rejected.type]: i18n.t('budget:toast.txn.deleteFailed'),
       [changeMonthThunk.rejected.type]: i18n.t('budget:toast.changeMonth.error'),
     };
     const msg = map[action.type];

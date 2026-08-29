@@ -34,8 +34,56 @@
   "noBudget": "Încă nu ți-ai setat bugetul",
   "modals": {
     "addIncome": "Adaugă Venit",
-    "amount": "Sumă",
+    "amount": "Introdu suma",
     "note": "Notă (opțional)"
+  },
+  "capture": {
+    "addExpense": "Adaugă cheltuială",
+    "editExpense": "Editează cheltuiala",
+    "saveExpense": "Salvează cheltuiala",
+    "noAmount": "Nicio sumă introdusă",
+    "noCat": "Niciun grup selectat",
+    "saveAmount": "Salvează {amount}",
+    "saveChanges": "Salvează modificările",
+    "recent": "Recente",
+    "expenseGroup": "Grup de cheltuieli",
+    "chooseGroup": "Alege un grup",
+    "searchGroups": "Caută grupuri",
+    "date": "Dată",
+    "chooseDate": "Alege o dată",
+    "noValidDate": "Încă nu există o dată validă pentru cheltuieli în această perioadă.",
+    "addNote": "+ Adaugă notă",
+    "collapseNote": "Restrânge",
+    "notePlaceholder": "Lidl, Mercadona, Amazon…",
+    "close": "Închide",
+    "moreActions": "Mai multe acțiuni",
+    "deleteExpense": "Șterge cheltuiala",
+    "previousMonth": "Luna precedentă",
+    "nextMonth": "Luna următoare",
+    "incomeAction": "Editează venitul",
+    "validation": {
+      "noteMax": "Nota trebuie să aibă cel mult 200 de caractere"
+    },
+    "success": {
+      "expenseAdded": "{count, plural, one {Cheltuială adăugată} other {# cheltuieli adăugate}}",
+      "addAnother": "Adaugă alta"
+    },
+    "errors": {
+      "load": "Nu s-a putut încărca această cheltuială.",
+      "save": "Nu s-a putut salva această cheltuială. Modificările tale sunt încă aici.",
+      "saveAction": "Nu s-a putut salva această cheltuială. Încearcă din nou.",
+      "delete": "Nu s-a putut șterge această cheltuială."
+    },
+    "discard": {
+      "title": "Renunți la această cheltuială?",
+      "text": "Modificările nesalvate se vor pierde.",
+      "confirm": "Renunță"
+    },
+    "delete": {
+      "title": "Ștergi această cheltuială?",
+      "text": "Cheltuiala va fi eliminată din perioadă.",
+      "confirm": "Șterge cheltuiala"
+    }
   },
   "sheets": {
     "addSheet": {

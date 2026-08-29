@@ -11,8 +11,10 @@ import {
   upsertAppTheme,
   upsertDefaultPercents,
   upsertCurrency,
+  upsertCapturePreferences,
 } from '@api/services';
 import {
+  CapturePreferences,
   Language,
   Theme,
   Currency,
@@ -23,6 +25,7 @@ import {
   DEFAULT_LANGUAGE,
   DEFAULT_CURRENCY,
   DEFAULT_THEME,
+  DEFAULT_CAPTURE_PREFERENCES,
 } from '@api/types';
 import i18n from 'i18n/i18n';
 
@@ -31,6 +34,7 @@ type SettingsState = {
   language: Language;
   theme: Theme | null;
   currency: Currency;
+  capturePreferences: CapturePreferences;
   defaultPercents: PercentTriple;
   onboardingCompleted: boolean;
   status: StoreStatus;
@@ -44,27 +48,34 @@ const initialState: SettingsState = {
   bootStatus: 'idle',
   theme: null,
   currency: 'EUR',
+  capturePreferences: DEFAULT_CAPTURE_PREFERENCES,
   onboardingCompleted: false,
   defaultPercents: DEFAULT_PERCENTS,
   language: 'en',
 };
 
 export const loadSettings = createAppAsyncThunk<
-  { startDay: number; language: Language; theme: Theme },
+  { startDay: number; language: Language; theme: Theme; capturePreferences: CapturePreferences },
   { uid: string }
 >('settings/load', async ({ uid }, { dispatch, rejectWithValue }) => {
   try {
     const profile = await readUserProfile(uid);
+    const capturePreferences = {
+      ...DEFAULT_CAPTURE_PREFERENCES,
+      ...(profile?.capturePreferences ?? {}),
+    };
     dispatch(setLanguage(profile?.language ?? DEFAULT_LANGUAGE));
     dispatch(setStartDayLocal(profile?.startDay ?? DEFAULT_START_DAY));
     dispatch(setDefaultPercents(profile?.defaultPercents ?? DEFAULT_PERCENTS));
     dispatch(setCurrency(profile?.currency ?? DEFAULT_CURRENCY));
+    dispatch(setCapturePreferences(capturePreferences));
     dispatch(themeUpdated(profile?.theme ?? DEFAULT_THEME));
     dispatch(updateOnboardingState(profile?.onboardingCompleted ?? false));
     return {
       startDay: profile?.startDay ?? DEFAULT_START_DAY,
       language: profile?.language ?? DEFAULT_LANGUAGE,
       theme: profile?.theme ?? DEFAULT_THEME,
+      capturePreferences,
     };
   } catch (error) {
     return rejectWithValue(error);
@@ -161,6 +172,25 @@ export const updateCurrencyThunk = createAppAsyncThunk<
   }
 });
 
+export const updateCapturePreferencesThunk = createAppAsyncThunk<
+  { capturePreferences: CapturePreferences },
+  { uid: string; capturePreferences: CapturePreferences }
+>(
+  'settings/updateCapturePreferences',
+  async ({ uid, capturePreferences }, { getState, rejectWithValue }) => {
+    try {
+      const next = {
+        ...getState().settings.capturePreferences,
+        ...capturePreferences,
+      };
+      await upsertCapturePreferences(uid, next);
+      return { capturePreferences: next };
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
 const settingsSlice = createSlice({
   name: 'settings',
   initialState,
@@ -179,6 +209,12 @@ const settingsSlice = createSlice({
     setCurrency(state, action: PayloadAction<Currency>) {
       state.currency = action.payload;
     },
+    setCapturePreferences(state, action: PayloadAction<CapturePreferences>) {
+      state.capturePreferences = {
+        ...DEFAULT_CAPTURE_PREFERENCES,
+        ...action.payload,
+      };
+    },
     themeUpdated(state, action: PayloadAction<Theme>) {
       state.theme = action.payload;
     },
@@ -194,6 +230,7 @@ const settingsSlice = createSlice({
     b.addCase(loadSettings.fulfilled, (s, { payload }) => {
       s.bootStatus = 'ready';
       s.startDay = payload.startDay;
+      s.capturePreferences = payload.capturePreferences;
     });
     b.addCase(loadSettings.rejected, (s, a) => {
       s.bootStatus = 'error';
@@ -281,6 +318,19 @@ const settingsSlice = createSlice({
       s.status = 'error';
       s.error = a.error.message ?? 'Failed to update currency';
     });
+
+    b.addCase(updateCapturePreferencesThunk.pending, (s) => {
+      s.error = undefined;
+      s.status = 'loading';
+    });
+    b.addCase(updateCapturePreferencesThunk.fulfilled, (s, { payload }) => {
+      s.capturePreferences = payload.capturePreferences;
+      s.status = 'ready';
+    });
+    b.addCase(updateCapturePreferencesThunk.rejected, (s, a) => {
+      s.status = 'error';
+      s.error = a.error.message ?? 'Failed to update capture preferences';
+    });
   },
 });
 
@@ -289,6 +339,7 @@ export const {
   setStartDayLocal,
   setLanguage,
   setCurrency,
+  setCapturePreferences,
   themeUpdated,
   updateOnboardingState,
 } = settingsSlice.actions;

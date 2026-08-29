@@ -2,7 +2,7 @@ import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 
 import { db } from './firebase.service';
 import { OnboardingData, UserProfile } from '../models/user';
-import { Currency, Language, Theme } from '../types/settings.types';
+import { CapturePreferences, Currency, Language, Theme } from '../types/settings.types';
 import { DEFAULT_PERCENTS, PercentTriple } from '../types/percent.types';
 
 export async function readUserProfile(uid: string): Promise<UserProfile | null> {
@@ -122,5 +122,27 @@ export async function upsertCurrency(uid: string, currency: Currency) {
     await setDoc(ref, payload, { merge: true });
   } else {
     await updateDoc(ref, { currency });
+  }
+}
+
+export async function upsertCapturePreferences(
+  uid: string,
+  capturePreferences: CapturePreferences,
+) {
+  const ref = doc(db, 'users', uid);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) {
+    const payload: Partial<UserProfile> = {
+      createdAt: new Date(),
+      currency: 'EUR',
+      defaultPercents: DEFAULT_PERCENTS,
+      startDay: 25,
+      language: 'en',
+      capturePreferences,
+      onboardingCompleted: false,
+    };
+    await setDoc(ref, payload, { merge: true });
+  } else {
+    await updateDoc(ref, { capturePreferences });
   }
 }

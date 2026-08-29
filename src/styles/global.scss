@@ -21,6 +21,14 @@
   --color-primary-pressed: #146c90;
   --color-primary-soft: #e0f2f8;
 
+  --color-surface-page: var(--color-bg-main);
+  --color-surface-primary: var(--color-bg-elevated);
+  --color-surface-elevated: var(--color-bg-elevated);
+  --color-border-default: var(--color-border-strong);
+  --color-action-primary: var(--color-primary);
+  --color-action-primary-foreground: var(--color-text-inverse);
+  --color-focus: var(--color-primary);
+
   --color-mint: #25ad96;
   --color-mint-soft: #def4ef;
   --color-coral: #e97854;
@@ -93,6 +101,14 @@
   --color-primary-pressed: #318fb4;
   --color-primary-soft: #18343e;
 
+  --color-surface-page: var(--color-bg-main);
+  --color-surface-primary: var(--color-bg-elevated);
+  --color-surface-elevated: var(--color-bg-elevated);
+  --color-border-default: var(--color-border-strong);
+  --color-action-primary: var(--color-primary);
+  --color-action-primary-foreground: var(--color-text-inverse);
+  --color-focus: var(--color-primary);
+
   --color-mint: #4acdb5;
   --color-mint-soft: #193630;
   --color-coral: #f09570;
@@ -159,7 +175,7 @@ button {
   cursor: pointer;
   transition: transform 0.2s ease-in;
 
-  &:active {
+  &:not(.v3-action):active {
     transform: translateY(1px) scale(0.97);
   }
 }

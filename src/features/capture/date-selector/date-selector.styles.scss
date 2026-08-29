@@ -1,0 +1,64 @@
+@use '../../../styles/tokens' as *;
+
+.capture-date-shortcuts {
+  display: flex;
+  gap: $spacing-2;
+  flex-wrap: wrap;
+}
+
+.capture-calendar-nav {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  gap: $spacing-2;
+  margin-top: $spacing-5;
+
+  h2 {
+    text-align: center;
+    font-size: 17px;
+    font-weight: 850;
+  }
+}
+
+.capture-calendar {
+  --rdp-accent-color: var(--color-action-primary);
+  --rdp-accent-background-color: var(--color-primary-soft);
+
+  margin: $spacing-4 0 0;
+  padding: $spacing-2;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: $radius-lg;
+  background: var(--color-surface-primary);
+
+  .rdp-months,
+  .rdp-month,
+  .rdp-month_grid {
+    width: 100%;
+    max-width: none;
+  }
+
+  .rdp-weekday {
+    color: var(--color-text-muted);
+    font-size: 12px;
+    font-weight: 850;
+  }
+
+  .rdp-day_button {
+    width: 42px;
+    height: 42px;
+    border-radius: $radius-md;
+    color: var(--color-text-primary);
+    font-weight: 750;
+  }
+
+  .rdp-selected .rdp-day_button {
+    color: var(--color-action-primary-foreground);
+    background: var(--color-action-primary);
+    border-color: var(--color-action-primary);
+  }
+
+  .rdp-disabled {
+    color: var(--color-text-muted);
+    opacity: 0.38;
+  }
+}

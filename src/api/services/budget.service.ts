@@ -139,6 +139,21 @@ export const addTransaction = async (uid: string, month: string, txn: Omit<Txn, 
   return ref.id;
 };
 
+export const readTransaction = async (
+  uid: string,
+  month: string,
+  id: string,
+): Promise<Txn | null> => {
+  const ref = doc(db, 'users', uid, 'months', month, 'transactions', id);
+  const snap = await getDoc(ref);
+  return snap.exists() ? normalizeTxnFromRead(snap.id, snap.data()) : null;
+};
+
+export const listTransactionsForMonth = async (uid: string, month: string): Promise<Txn[]> => {
+  const snap = await getDocs(transactionsQuery(uid, month));
+  return snap.docs.map((d) => normalizeTxnFromRead(d.id, d.data()));
+};
+
 /** Get a live query for transactions (most recent first) */
 export const transactionsQuery = (uid: string, month: string): Query =>
   query(txnsColRef(uid, month), orderBy('date', 'desc'));

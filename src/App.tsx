@@ -5,9 +5,10 @@ import { useDispatch } from 'react-redux';
 
 import { AppDispatch } from './store/store';
 import { useSystemTheme } from '@shared/hooks';
-import { initApp, ProtectedRoute } from '@shared/providers';
+import { CaptureFeedbackProvider, initApp, ProtectedRoute } from '@shared/providers';
 import {
   CategoryPage,
+  CaptureExpense,
   History,
   CategoriesPage,
   Dashboard,
@@ -46,33 +47,51 @@ function App() {
 
   return (
     <>
-      <Routes>
-        <Route path="login" element={<Login />} />
-        <Route
-          path="onboarding"
-          element={
-            <ProtectedRoute>
-              <Onboarding />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <Layout />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<Dashboard />} />
-          <Route path="transactions" element={<Transaction />} />
-          <Route path="categories" element={<CategoriesPage />} />
-          <Route path="categories/:type" element={<CategoryPage />} />
-          <Route path="insights" element={<Insights />} />
-          <Route path="history" element={<History />} />
-          <Route path="profile" element={<ProfilePage />} />
-        </Route>
-      </Routes>
+      <CaptureFeedbackProvider>
+        <Routes>
+          <Route path="login" element={<Login />} />
+          <Route
+            path="onboarding"
+            element={
+              <ProtectedRoute>
+                <Onboarding />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="transactions/new"
+            element={
+              <ProtectedRoute>
+                <CaptureExpense />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="transactions/:month/:txnId/edit"
+            element={
+              <ProtectedRoute>
+                <CaptureExpense />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Layout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Dashboard />} />
+            <Route path="transactions" element={<Transaction />} />
+            <Route path="categories" element={<CategoriesPage />} />
+            <Route path="categories/:type" element={<CategoryPage />} />
+            <Route path="insights" element={<Insights />} />
+            <Route path="history" element={<History />} />
+            <Route path="profile" element={<ProfilePage />} />
+          </Route>
+        </Routes>
+      </CaptureFeedbackProvider>
 
       <Toaster
         position="top-right"

@@ -1,4 +1,4 @@
-import { Language } from '@api/types';
+import { Language } from '../../api/types';
 import { format } from 'date-fns';
 
 // format currency for charts

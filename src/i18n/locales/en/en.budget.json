@@ -36,8 +36,56 @@
   "pace": "Pace (Total)",
   "modals": {
     "addIncome": "Add Income",
-    "amount": "Amount",
+    "amount": "Enter amount",
     "note": "Note (optional)"
+  },
+  "capture": {
+    "addExpense": "Add expense",
+    "editExpense": "Edit expense",
+    "saveExpense": "Save expense",
+    "noAmount": "No amount entered",
+    "noCat": "No group selected",
+    "saveAmount": "Save {amount}",
+    "saveChanges": "Save changes",
+    "recent": "Recent",
+    "expenseGroup": "Expense group",
+    "chooseGroup": "Choose a group",
+    "searchGroups": "Search groups",
+    "date": "Date",
+    "chooseDate": "Choose a date",
+    "noValidDate": "No valid expense date is available for this period yet.",
+    "addNote": "+ Add note",
+    "collapseNote": "Collapse",
+    "notePlaceholder": "Lidl, Mercadona, Amazon…",
+    "close": "Close",
+    "moreActions": "More actions",
+    "deleteExpense": "Delete expense",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "incomeAction": "Edit income",
+    "validation": {
+      "noteMax": "Note must be 200 characters or fewer"
+    },
+    "success": {
+      "expenseAdded": "{count, plural, one {Expense added} other {# expenses added}}",
+      "addAnother": "Add another"
+    },
+    "errors": {
+      "load": "Could not load this expense.",
+      "save": "Could not save this expense. Your changes are still here.",
+      "saveAction": "Couldn't save this expense. Try again.",
+      "delete": "Could not delete this expense."
+    },
+    "discard": {
+      "title": "Discard this expense?",
+      "text": "Your unsaved changes will be lost.",
+      "confirm": "Discard"
+    },
+    "delete": {
+      "title": "Delete this expense?",
+      "text": "This removes the expense from the period.",
+      "confirm": "Delete expense"
+    }
   },
   "sheets": {
     "addSheet": {

@@ -1,0 +1,124 @@
+@use '../../../styles/tokens' as *;
+
+.v3-success-feedback {
+  display: grid;
+  justify-items: center;
+  gap: $spacing-3;
+  min-width: min(280px, calc(100vw - #{$spacing-8}));
+  padding: $spacing-5;
+  border: 1px solid color-mix(in srgb, var(--color-success), transparent 70%);
+  border-radius: $radius-lg;
+  background: color-mix(in srgb, var(--color-surface-elevated), transparent 4%);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-elevation-2);
+  transform-origin: center;
+  animation: v3-success-feedback-enter 220ms ease-out both;
+  transition:
+    min-width 220ms ease,
+    padding 220ms ease,
+    border-radius 220ms ease,
+    transform 220ms ease;
+}
+
+.v3-success-feedback__mark {
+  display: inline-flex;
+  width: 56px;
+  height: 56px;
+  color: var(--color-success);
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  circle,
+  path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  circle {
+    stroke-dasharray: 120;
+    stroke-dashoffset: 120;
+    animation: v3-success-circle 520ms ease-out forwards;
+  }
+
+  path {
+    stroke-dasharray: 32;
+    stroke-dashoffset: 32;
+    animation: v3-success-check 300ms 260ms ease-out forwards;
+  }
+}
+
+.v3-success-feedback__message {
+  font-size: 16px;
+  font-weight: 760;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.v3-success-feedback__action {
+  color: var(--color-success);
+  font-weight: 780;
+}
+
+.v3-success-feedback--compact {
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  align-items: center;
+  justify-items: stretch;
+  gap: $spacing-2;
+  min-width: min(360px, calc(100vw - #{$spacing-6}));
+  padding: $spacing-2 $spacing-3;
+  border-radius: $radius-md;
+
+  .v3-success-feedback__mark {
+    width: 28px;
+    height: 28px;
+  }
+
+  .v3-success-feedback__message {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    text-align: left;
+  }
+}
+
+@keyframes v3-success-feedback-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes v3-success-circle {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes v3-success-check {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v3-success-feedback,
+  .v3-success-feedback__mark circle,
+  .v3-success-feedback__mark path {
+    animation-duration: 1ms;
+    animation-delay: 0ms;
+    transition-duration: 1ms;
+  }
+}

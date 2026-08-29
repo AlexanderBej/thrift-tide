@@ -6,7 +6,7 @@ import { useResolvedInsight } from '@shared/hooks';
 import { Insight } from '@api/models';
 import { toPathFromInsightTarget } from '@shared/utils';
 import { InsightTone } from '@api/types';
-import { AddActionSheet } from '@widgets';
+import { IncomeSheet } from '@widgets';
 import { TTIcon } from '@shared/ui';
 
 import dangerPng from '../../../assets/illustrations/tone-danger.png';
@@ -82,7 +82,7 @@ const SmartInsightCard: React.FC<SmartInsightCardProps> = ({ insight, showCta = 
         </div>
       </div>
 
-      <AddActionSheet open={open} onOpenChange={setOpen} defaultStep="income" />
+      <IncomeSheet open={open} onOpenChange={setOpen} />
     </>
   );
 };

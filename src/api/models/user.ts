@@ -1,5 +1,5 @@
 import { PercentTriple } from '../types/percent.types';
-import { Currency, Language, Theme } from '../types/settings.types';
+import { CapturePreferences, Currency, Language, Theme } from '../types/settings.types';
 
 export type MinimalUser = {
   uuid: string;
@@ -18,6 +18,7 @@ export interface UserProfile {
   startDay?: number; // 1..28
   language?: Language; // app language
   theme?: Theme; // app theme
+  capturePreferences?: CapturePreferences;
   onboardingCompleted: boolean;
 }
 
