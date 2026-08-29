@@ -2,8 +2,9 @@
 
 .expense-group-row {
   display: inline-flex;
+  min-width: 0;
   align-items: center;
-  gap: $spacing-4;
+  gap: $spacing-3;
 
   .expense-group-icon-wrapper {
     @include flex();
@@ -23,15 +24,23 @@
 
   .expense-group-label-wrapper {
     display: flex;
+    min-width: 0;
     flex-direction: column;
 
     .expense-group-label {
+      overflow: hidden;
       font-weight: bold;
       font-size: 14px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .note {
+      overflow: hidden;
+      color: var(--color-text-muted);
       font-size: 11px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 }

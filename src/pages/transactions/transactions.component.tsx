@@ -1,33 +1,40 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { enUS } from 'date-fns/locale';
+import { FiEdit2, FiSearch, FiSliders, FiTrash2 } from 'react-icons/fi';
 import clsx from 'clsx';
-import { FaChevronDown } from 'react-icons/fa';
 
 import { Category, CategoryType } from '@api/types';
-import { ProgressBar } from '@shared/components';
 import { useFormatMoney } from '@shared/hooks';
-import { InfoBlock, Input, TTIcon } from '@shared/ui';
-import { LOCALE_MAP, makeFormatter, resolveExpenseGroup } from '@shared/utils';
+import { InfoBlock, Input, PageSpinner, TTIcon } from '@shared/ui';
+import { LOCALE_MAP, makeFormatter } from '@shared/utils/format-data.util';
+import { resolveExpenseGroup } from '@shared/utils/expense-group-options.util';
 import {
-  selectTxnListGroups,
-  selectBudgetMonth,
+  BudgetPeriodPhase,
+  selectBudgetContextSemantics,
+  selectBudgetLoadStatus,
+  deleteTxnFromMonthThunk,
+  setTxnGroupBy,
   setTxnTypeFilter,
-  TxnTypeFilter,
   setTxnSearch,
   setTxnSort,
-  SortKey,
-  selectTotals,
-  deleteTxnThunk,
+  selectBudgetMonth,
+  selectTxnListGroups,
+  selectTxnUi,
+  selectTxnsInPeriod,
+  TxnGroupBy,
+  TxnListGroup,
+  TxnSortKey,
+  TxnTypeFilter,
 } from '@store/budget-store';
-import { AppDispatch } from '@store/store';
+import type { AppDispatch } from '@store/store';
 import { ConfirmSheet, SortSheet } from '@widgets';
 import { Txn } from '@api/models';
-import { SwipeRow, SwipeRowHandle, TransactionLine } from 'features';
-import { selectSettingsAppTheme } from '@store/settings-store';
-import { selectAuthUser } from '@store/auth-store';
+import { ExpenseGroupIcon } from '@shared/components/expense-group/expense-group-icon';
+import { TransactionLine } from 'features';
+import { selectAuthUserId } from '@store/auth-store/auth.selectors';
 
 import './transactions.styles.scss';
 
@@ -36,64 +43,25 @@ interface Option {
   label: string;
 }
 
-function getScopedTotals(totals: any, filter: Category | 'all') {
-  const isCategory = filter !== 'all';
-
-  const allocated = isCategory ? totals.alloc[filter] : totals.totalAllocated;
-  const spent = isCategory ? totals.spent[filter] : totals.totalSpent;
-  const remaining = isCategory ? totals.remaining[filter] : totals.totalRemaining;
-
-  const budgetLabelValue = (() => {
-    if (!isCategory) return totals.totalIncome;
-    if (totals.income) return totals.income[filter];
-    return allocated; // fallback: treat allocated as the relevant "budget"
-  })();
-
-  const progress = allocated > 0 ? Math.min(1, spent / allocated) : 0;
-
-  const cssVarName =
-    filter === 'needs'
-      ? '--color-category-needs'
-      : filter === 'wants'
-        ? '--color-category-wants'
-        : filter === 'savings'
-          ? '--color-category-savings'
-          : '--color-primary';
-
-  return {
-    remaining,
-    allocated,
-    spent,
-    budgetLabelValue,
-    progress,
-    cssVarName,
-  };
-}
-
 const Transaction: React.FC = () => {
-  const { t, i18n } = useTranslation(['common', 'budget']);
-  const fmtCurrency = useFormatMoney();
-  const fmtWOCurrency = useFormatMoney();
+  const { t, i18n } = useTranslation(['common', 'budget', 'taxonomy']);
+  const fmtCurrency = useFormatMoney(true);
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const rowRefs = useRef<Record<string, SwipeRowHandle | null>>({});
-
-  const groups = useSelector(selectTxnListGroups);
+  const groups = useSelector(selectTxnListGroups) as TxnListGroup[];
   const month = useSelector(selectBudgetMonth);
-  const totals = useSelector(selectTotals);
-  const theme = useSelector(selectSettingsAppTheme);
-  const user = useSelector(selectAuthUser);
+  const txnsInPeriod = useSelector(selectTxnsInPeriod);
+  const context = useSelector(selectBudgetContextSemantics);
+  const status = useSelector(selectBudgetLoadStatus);
+  const txnUi = useSelector(selectTxnUi);
+  const userId = useSelector(selectAuthUserId);
 
-  const [sortOpen, setSortOpen] = useState<boolean>(false);
+  const [organizeOpen, setOrganizeOpen] = useState<boolean>(false);
+  const [expandedTxnId, setExpandedTxnId] = useState<string | null>(null);
   const [confirmOpen, setConfirmOpen] = useState<boolean>(false);
-
-  const [filter, setFilter] = useState<Category | 'all'>('all');
-  const [searchCriteria, setSearchCriteria] = useState<string>('');
-  const [sortCriteria, setSortCriteria] = useState<SortKey>('date');
-
   const [txnToDelete, setTxnToDelete] = useState<string | null>(null);
 
   const FILTER_OPTIONS: Option[] = [
@@ -103,116 +71,150 @@ const Transaction: React.FC = () => {
     { label: t('taxonomy:categoryNames.savings') ?? 'Savings', value: CategoryType.SAVINGS },
   ];
 
-  const SORT_OPTIONS: Option[] = [
-    { label: t('budget:sheets.sortSheet.sortLabel.date') ?? 'Sort by date', value: 'date' },
-    { label: t('budget:sheets.sortSheet.sortLabel.amount') ?? 'Sort by amount', value: 'amount' },
-    {
-      label: t('budget:sheets.sortSheet.sortLabel.expenseGroup'),
-      value: 'expenseGroup',
-    },
-  ];
-
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    setSearchCriteria(value);
     dispatch(setTxnSearch(value));
   };
 
-  const handleFilterChange = (filter: Category | 'all') => {
-    setFilter(filter as Category | 'all');
-    dispatch(setTxnTypeFilter(filter as TxnTypeFilter));
+  const handleFilterChange = (nextFilter: Category | 'all') => {
+    dispatch(setTxnTypeFilter(nextFilter as TxnTypeFilter));
   };
 
-  const getTranslatedFmtDate = (d: Date) => {
-    const locale = LOCALE_MAP[i18n.language] ?? enUS;
+  const getTranslatedFmtDate = (dateKey: string) => {
+    const locale = LOCALE_MAP[i18n.language] ?? 'en-US';
 
     const fmt = makeFormatter(locale, false, 'long');
-    return fmt.format(d);
+    return fmt.format(dateFromYmd(dateKey));
   };
 
-  const scoped = useMemo(
-    () => getScopedTotals(totals, (filter ?? 'all') as Category | 'all'),
-    [totals, filter],
+  const visibleTxnCount = useMemo(
+    () => groups.reduce((sum, group) => sum + group.items.length, 0),
+    [groups],
   );
+  const periodSpent = useMemo(
+    () => txnsInPeriod.reduce((sum, txn) => sum + txn.amount, 0),
+    [txnsInPeriod],
+  );
+  const periodLabel = getPeriodLabel(context.periodPhase, t);
+  const periodRange = formatPeriodRange(
+    context.periodStart,
+    context.periodLastDay,
+    i18n.language,
+  );
+  const hasSearch = txnUi.search.trim().length > 0;
+  const hasCategoryFilter = txnUi.type !== 'all';
+  const hasActiveFindability = hasSearch || hasCategoryFilter;
+  const emptyState = getEmptyState({
+    periodPhase: context.periodPhase,
+    hasAnyTransactions: txnsInPeriod.length > 0,
+    hasSearch,
+    hasCategoryFilter,
+  });
 
-  const onSortClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const organizeActive = txnUi.groupBy !== 'date' || txnUi.sortKey !== 'newest';
+
+  useEffect(() => {
+    setExpandedTxnId(null);
+  }, [month]);
+
+  useEffect(() => {
+    if (!expandedTxnId) return;
+    const visibleTxnIds = new Set(groups.flatMap((group) => group.items.map((txn) => txn.id)));
+    if (!visibleTxnIds.has(expandedTxnId)) setExpandedTxnId(null);
+  }, [expandedTxnId, groups]);
+
+  const onOrganizeClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     // release focus BEFORE Radix hides the app root
     (e.currentTarget as HTMLButtonElement).blur();
-    setSortOpen(true);
+    setOrganizeOpen(true);
   };
 
-  const handleCriteriaChange = (open: boolean, sort: SortKey) => {
-    setSortOpen(open);
-    setSortCriteria(sort);
-    dispatch(setTxnSort({ key: sort as SortKey, dir: 'desc' }));
+  const handleOrganizeChange = (open: boolean, groupBy: TxnGroupBy, sort: TxnSortKey) => {
+    setOrganizeOpen(open);
+    dispatch(setTxnGroupBy(groupBy));
+    dispatch(setTxnSort(sort));
   };
 
-  const closeOtherRows = (activeTxnId: string) => {
-    Object.entries(rowRefs.current).forEach(([txnId, rowRef]) => {
-      if (txnId === activeTxnId) return;
-      rowRef?.close();
-    });
+  const clearFindability = () => {
+    dispatch(setTxnSearch(''));
+    dispatch(setTxnTypeFilter('all'));
+  };
+
+  const toggleTransaction = (tx: Txn) => {
+    if (!tx.id) return;
+    setExpandedTxnId((current) => (current === tx.id ? null : tx.id!));
   };
 
   const openEditRoute = (tx: Txn) => {
-    if (tx.id) rowRefs.current[tx.id]?.close();
     if (tx.id)
       navigate(`/transactions/${month}/${tx.id}/edit`, { state: { from: location.pathname } });
   };
 
   const openConfirmDelete = (tx: Txn) => {
-    if (tx.id) setTxnToDelete(tx.id);
+    if (!tx.id) return;
+    setTxnToDelete(tx.id);
     setConfirmOpen(true);
-    if (tx.id) rowRefs.current[tx.id]?.close();
   };
 
-  const handleDeleteTransaction = () => {
-    if (!user?.uuid || !txnToDelete) return;
-    dispatch(deleteTxnThunk({ uid: user?.uuid, id: txnToDelete }))
-      .unwrap()
-      .then(() => {
-        setConfirmOpen(false);
-        setTxnToDelete(null);
-      });
+  const handleConfirmDelete = async () => {
+    if (!userId || !txnToDelete) return;
+
+    try {
+      await dispatch(deleteTxnFromMonthThunk({ uid: userId, month, id: txnToDelete })).unwrap();
+      setConfirmOpen(false);
+      setTxnToDelete(null);
+      setExpandedTxnId(null);
+    } catch {
+      // Existing toast/error state handles feedback; keep the row and confirmation available.
+    }
   };
+
+  const handleConfirmOpenChange = (open: boolean) => {
+    setConfirmOpen(open);
+    if (!open) setTxnToDelete(null);
+  };
+
+  if (status === 'loading') return <PageSpinner />;
+
+  if (status === 'error') {
+    return (
+      <div className="transactions-page transactions-page--center">
+        <InfoBlock className="transactions-empty">
+          <strong>{t('budget:transactions.errorTitle')}</strong>
+          <span>{t('common:errors.generic')}</span>
+        </InfoBlock>
+      </div>
+    );
+  }
 
   return (
     <div className="transactions-page">
-      <section className={clsx(`txn-total-budget txn-total-budget__${theme}`)}>
-        {scoped.allocated === 0 ? (
-          <InfoBlock>
-            <span>{t('budget:noBudget')}</span>
-          </InfoBlock>
-        ) : (
-          <>
-            <h3 className="spent-header">{t('budget:spent') ?? 'Spent'}</h3>
-            <h2 className="spent-value">{fmtCurrency(scoped.spent)}</h2>
-            <div className="txn-budget-row">
-              <span>
-                {t('budget:budget') ?? 'Budget'}: {fmtWOCurrency(scoped.allocated)}
-              </span>
-              <span>
-                {t('budget:remaining') ?? 'Remaining'}: {fmtWOCurrency(scoped.remaining)}
-              </span>
-            </div>
-          </>
-        )}
-        <div className="txn-progress-bar-wrapper">
-          <ProgressBar progress={scoped.progress} color={`var(${scoped.cssVarName})`} />
+      <header className="transactions-ledger-header">
+        <div>
+          <h1>{fmtCurrency(periodSpent)}</h1>
+          <p>
+            {t('budget:transactions.ledgerMeta', {
+              count: txnsInPeriod.length,
+            })}
+          </p>
         </div>
-      </section>
+        <span className={clsx('transactions-period-chip', `transactions-period-chip--${context.periodPhase}`)}>
+          {periodLabel}
+        </span>
+        <span className="transactions-period-range">{periodRange}</span>
+      </header>
 
-      <section className="tt-section">
+      <section className="transactions-tools" aria-label={String(t('budget:transactions.toolsLabel'))}>
         <div className="filters-row">
-          {FILTER_OPTIONS.map((filt, index) => (
+          {FILTER_OPTIONS.map((filt) => (
             <button
+              type="button"
               onClick={() => handleFilterChange(filt.value as Category | 'all')}
-              key={index}
+              key={filt.value}
               className={clsx('filter', {
-                selected: filter === filt.value,
-                selected__light: filter === filt.value && theme === 'light',
-                selected__dark: filter === filt.value && theme === 'dark',
+                selected: txnUi.type === filt.value,
               })}
+              aria-pressed={txnUi.type === filt.value}
             >
               <span>{filt.label}</span>
             </button>
@@ -223,56 +225,111 @@ const Transaction: React.FC = () => {
             type="search"
             className="search-input"
             name="search"
-            value={searchCriteria}
+            value={txnUi.search}
             onChange={handleSearch}
-            placeholder={t('search.placeholder') ?? 'Search...'}
+            placeholder={t('common:search.placeholder') ?? 'Search...'}
+            prefixIcon={FiSearch}
           />
 
-          <button onClick={onSortClick} className={`sort-btn sort-btn__${theme}`}>
-            <span>{SORT_OPTIONS.find((opt) => opt.value === sortCriteria)?.label}</span>
-            <TTIcon icon={FaChevronDown} color="var(--color-primary)" size={12} />
+          <button
+            type="button"
+            onClick={onOrganizeClick}
+            className={clsx('organize-btn', organizeActive && 'organize-btn--active')}
+            aria-label={String(t('budget:transactions.organize.title'))}
+            aria-pressed={organizeActive}
+          >
+            <TTIcon icon={FiSliders} color="currentColor" size={18} />
           </button>
         </div>
+        {hasActiveFindability && (
+          <div className="transactions-result-row">
+            <span>
+              {t('budget:transactions.visibleMeta', {
+                count: visibleTxnCount,
+                total: txnsInPeriod.length,
+              })}
+            </span>
+            <button type="button" onClick={clearFindability}>
+              {t('budget:transactions.clearFilters')}
+            </button>
+          </div>
+        )}
       </section>
 
       {groups.length === 0 && (
-        <InfoBlock className="no-txns-block">
-          <span>{t('budget:noTransactions')}</span>
+        <InfoBlock className="transactions-empty">
+          <strong>{t(emptyState.titleKey)}</strong>
+          <span>{t(emptyState.messageKey)}</span>
         </InfoBlock>
       )}
 
-      <section className="tt-section txn-list-section">
+      <section className="txn-list-section" aria-label={String(t('budget:transactions.listLabel'))}>
         {groups.map((group) => (
           <div className="txn-group" key={group.key}>
-            <div className="txn-date-row">
+            <div className={clsx('txn-date-row', group.kind === 'expenseGroup' && 'txn-date-row--expense-group')}>
               <h3 className="txn-group-date">
-                {group.kind === 'date'
-                  ? getTranslatedFmtDate(new Date(group.label))
-                  : group.label || (t('budget:uncategorized') ?? 'Uncategorized')}
+                {group.kind === 'expenseGroup' && group.label && (
+                  <ExpenseGroupIcon expenseGroup={resolveExpenseGroup(group.label)} />
+                )}
+                <span>{getGroupTitle(group, getTranslatedFmtDate, t)}</span>
               </h3>
               <span>{fmtCurrency(group.total)}</span>
             </div>
-            <ul className={clsx(`txn-group-list txn-group-list__${theme}`)}>
+            <ul className="txn-group-list">
               {group.items.map((tx) => {
                 const ep = resolveExpenseGroup(tx.expenseGroup);
+                const descriptor = getTransactionDescriptor(tx, String(t(ep.i18nLabel)));
+                const isExpanded = tx.id === expandedTxnId;
 
                 return (
-                  <div key={tx.id} className="txn-line-wrapper">
-                    <SwipeRow
-                      ref={(instance) => {
-                        if (!tx.id) return;
-                        rowRefs.current[tx.id] = instance;
-                      }}
-                      key={tx.id}
-                      onEdit={() => openEditRoute(tx)}
-                      onDelete={() => openConfirmDelete(tx)}
-                      onSwipeStart={() => {
-                        if (tx.id) closeOtherRows(tx.id);
-                      }}
+                  <li
+                    key={tx.id}
+                    className={clsx('txn-line-wrapper', isExpanded && 'txn-line-wrapper--active')}
+                  >
+                    <button
+                      type="button"
+                      className="txn-row-button"
+                      onClick={() => toggleTransaction(tx)}
+                      aria-expanded={isExpanded}
+                      aria-controls={tx.id ? `txn-actions-${tx.id}` : undefined}
+                      aria-label={String(t('budget:transactions.rowToggleLabel', {
+                        descriptor,
+                        amount: fmtCurrency(tx.amount),
+                      }))}
                     >
-                      <TransactionLine txn={tx} expenseGroup={ep} />
-                    </SwipeRow>
-                  </div>
+                      <TransactionLine
+                        txn={tx}
+                        expenseGroup={ep}
+                        variant={group.kind === 'expenseGroup' ? 'expenseGroup' : 'date'}
+                      />
+                    </button>
+                    <div
+                      id={tx.id ? `txn-actions-${tx.id}` : undefined}
+                      className="txn-action-tray"
+                      aria-hidden={!isExpanded}
+                    >
+                      <button
+                        type="button"
+                        className="txn-action txn-action--edit"
+                        onClick={() => openEditRoute(tx)}
+                        tabIndex={isExpanded ? 0 : -1}
+                        aria-label={String(t('budget:transactions.editActionLabel', { descriptor }))}
+                      >
+                        <TTIcon icon={FiEdit2} color="currentColor" size={16} />
+                        <span>{t('budget:transactions.editAction')}</span>
+                      </button>
+                      <button
+                        type="button"
+                        className="txn-action txn-action--delete"
+                        onClick={() => openConfirmDelete(tx)}
+                        tabIndex={isExpanded ? 0 : -1}
+                        aria-label={String(t('budget:transactions.deleteActionLabel', { descriptor }))}
+                      >
+                        <TTIcon icon={FiTrash2} color="currentColor" size={16} />
+                        <span>{t('budget:transactions.deleteAction')}</span>
+                      </button>
+                    </div>
+                  </li>
                 );
               })}
             </ul>
@@ -280,17 +337,97 @@ const Transaction: React.FC = () => {
         ))}
       </section>
 
-      <SortSheet open={sortOpen} onOpenChange={handleCriteriaChange} sortCriteria={sortCriteria} />
+      <SortSheet
+        open={organizeOpen}
+        onOpenChange={handleOrganizeChange}
+        groupBy={txnUi.groupBy}
+        sortKey={txnUi.sortKey}
+      />
       <ConfirmSheet
         open={confirmOpen}
-        onOpenChange={setConfirmOpen}
+        onOpenChange={handleConfirmOpenChange}
         btnLabel={t('budget:sheets.confirmSheet.delTxn.button')}
         title={t('budget:sheets.confirmSheet.delTxn.title')}
         text={t('budget:sheets.confirmSheet.delTxn.text')}
-        onConfirm={handleDeleteTransaction}
+        onConfirm={handleConfirmDelete}
       />
     </div>
   );
 };
+
+function getPeriodLabel(phase: BudgetPeriodPhase, t: TFunction) {
+  return t(`budget:transactions.period.${phase}`);
+}
+
+function getEmptyState({
+  periodPhase,
+  hasAnyTransactions,
+  hasSearch,
+  hasCategoryFilter,
+}: {
+  periodPhase: BudgetPeriodPhase;
+  hasAnyTransactions: boolean;
+  hasSearch: boolean;
+  hasCategoryFilter: boolean;
+}) {
+  if (hasSearch || hasCategoryFilter) {
+    return {
+      titleKey: 'budget:transactions.empty.filteredTitle',
+      messageKey: 'budget:transactions.empty.filteredMessage',
+    };
+  }
+  if (periodPhase === 'future') {
+    return {
+      titleKey: 'budget:transactions.empty.futureTitle',
+      messageKey: 'budget:transactions.empty.futureMessage',
+    };
+  }
+  if (periodPhase === 'past' && !hasAnyTransactions) {
+    return {
+      titleKey: 'budget:transactions.empty.pastTitle',
+      messageKey: 'budget:transactions.empty.pastMessage',
+    };
+  }
+  return {
+    titleKey: 'budget:transactions.empty.defaultTitle',
+    messageKey: 'budget:transactions.empty.defaultMessage',
+  };
+}
+
+function dateFromYmd(value: string) {
+  const [year, month, day] = value.split('-').map(Number);
+  return new Date(year, (month ?? 1) - 1, day ?? 1);
+}
+
+function formatPeriodRange(start: Date, end: Date, language: string) {
+  const locale = LOCALE_MAP[language] ?? 'en-US';
+  const sameYear = start.getFullYear() === end.getFullYear();
+  const dayMonth = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short' });
+  const dayMonthYear = new Intl.DateTimeFormat(locale, {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+
+  return sameYear
+    ? `${dayMonth.format(start)} - ${dayMonthYear.format(end)}`
+    : `${dayMonthYear.format(start)} - ${dayMonthYear.format(end)}`;
+}
+
+function getGroupTitle(
+  group: TxnListGroup,
+  formatDate: (dateKey: string) => string,
+  t: TFunction,
+) {
+  if (group.kind === 'date') return formatDate(group.label);
+  if (!group.label) return t('budget:uncategorized');
+
+  const expenseGroup = resolveExpenseGroup(group.label);
+  return t(expenseGroup.i18nLabel);
+}
+
+function getTransactionDescriptor(txn: Txn, expenseGroupLabel: string) {
+  return txn.note?.trim() || expenseGroupLabel;
+}
 
 export default Transaction;

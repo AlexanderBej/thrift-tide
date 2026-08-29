@@ -11,4 +11,16 @@ module.exports = {
       '@widgets': path.resolve(__dirname, 'src/widgets/index.ts'),
     },
   },
+  jest: {
+    configure: {
+      moduleNameMapper: {
+        '^@api/(.*)$': '<rootDir>/src/api/$1',
+        '^@components$': '<rootDir>/src/components/index.ts',
+        '^@pages$': '<rootDir>/src/pages/index.ts',
+        '^@shared/(.*)$': '<rootDir>/src/shared/$1',
+        '^@store/(.*)$': '<rootDir>/src/store/$1',
+        '^@widgets$': '<rootDir>/src/widgets/index.ts',
+      },
+    },
+  },
 };

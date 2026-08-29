@@ -16,8 +16,8 @@ Users authenticate with Google, complete or skip onboarding, choose language/cur
 
 Current implemented areas:
 
-- Dashboard: current remaining budget, spent/allocated totals, category cards, smart insight, and top expense groups.
-- Transactions: filters, search, sort, grouped transaction list, swipe edit/delete, and route-based expense editing.
+- Dashboard V3: financial hero, selected-period status, contextual insight, compact Budget Pulse, Recent Activity, and income entry in budget context.
+- Transactions V3: selected-period ledger summary, filters/search, independent grouping and sorting, date or expense-group ledgers, and route-based expense editing.
 - V3 Capture: full-screen Add/Edit Expense routes with expense-group-first classification.
 - Categories: category health and category information.
 - Category detail: category progress, insights, top groups, pace/timeline, recent transactions.
@@ -117,6 +117,7 @@ Redux slices:
 Important selector-derived state:
 
 - Budget totals, in-period transactions, transaction groups, category panels, top expense groups, badges, and smart insights live under `src/store/budget-store`.
+- Dashboard/Insights-ready budget context semantics live in `src/store/budget-store/budget-context.selectors.ts`, including selected-period phase, contextual attention priority, hero amount semantics, stale activity, and Budget Pulse row semantics.
 - History rows and historical smart insights live under `src/store/history-store`.
 
 Persistence services:
@@ -209,6 +210,15 @@ Current implementation:
 
 - Pages/routes handle primary navigation.
 - Secondary mobile interactions commonly use sheets.
+- Dashboard V3 uses a calm, page-led layout rather than the old V2 widget stack.
+- Dashboard V3 prioritizes the selected period's remaining or overspent amount, a safe period status line, one contextual insight, compact Needs/Wants/Savings pulse rows, and the latest selected-period transactions.
+- Dashboard V3 selected-period context is phase-aware: future periods, current periods, the final valid day, and past periods are distinct states. Because `periodEnd` is exclusive, the last valid transaction day is `periodEnd - 1 day`.
+- Dashboard V3 has one contextual attention slot. It prioritizes past selected period, future selected period, missing income, last day, stale activity, warning/danger smart insights, ordinary useful smart insights, then quiet positive copy.
+- Dashboard V3 treats stale activity as a current-period habit signal after 3 days without a transaction; future-dated transactions do not create stale state.
+- Dashboard V3 shows overspending honestly in text, such as an over-budget amount, without changing the transaction or month persistence model.
+- Dashboard V3 Budget Pulse treats Needs/Wants as spending ceilings and Savings as a contribution goal. Savings above goal is positive, and text percentages may exceed 100% while visual progress remains capped.
+- Dashboard V3 removed the old proportional Needs/Wants/Savings strip, Dashboard category accordion cards, and Dashboard top expense-group accordion with nested transaction rows.
+- Dashboard V3 keeps deeper bucket health, spend-driver, pace, and transaction detail in Categories, Insights, Transactions, and Category detail screens.
 - `BaseSheet` in `src/shared/ui/base-sheet` wraps Vaul `Drawer`.
 - V3 Add Expense lives at `/transactions/new`.
 - V3 Edit Expense lives at `/transactions/:month/:txnId/edit`.
@@ -226,7 +236,27 @@ Current implementation:
 - Expense capture no longer uses structural `SliderViewport` flows.
 - `PeriodSheet` uses `react-mobile-picker`.
 - Settings sheets use `BaseSheet` for language, currency, theme, split, and start day.
-- Income no longer shares the central FAB. The current interim income entry is a small Dashboard budget-context action and no-budget insight CTA that open a bounded `IncomeSheet`.
+- Income no longer shares the central FAB. The current interim income entry is close to the Dashboard V3 financial summary and the no-income setup state, both opening the bounded `IncomeSheet`.
+- Dashboard V3 no-income state avoids meaningless zero-width budget visuals and prompts income setup before Budget Pulse appears.
+- Dashboard V3 Recent Activity is derived from currently loaded selected-period transactions and updates naturally after Capture saves.
+- Transactions V3 owns selected-period ledger findability and transaction management, not overall budget-health communication.
+- Transactions V3 uses the selected budget period and shared budget-context semantics for current/past/future period state; it does not duplicate period-phase calculations locally.
+- Transactions V3 removed the old Spent/Budget/Remaining/progress summary card. The page summary is the selected-period spent amount plus transaction count.
+- Transactions V3 keeps search and Needs/Wants/Savings filters as local Redux UI state over already-loaded selected-period transactions; it does not issue Firestore search/filter queries.
+- Transactions V3 stores grouping and sorting independently in `budget.ui`: `groupBy` is `date` or `expenseGroup`, while `sortKey` is `newest`, `oldest`, `amountDesc`, or `amountAsc`.
+- Transactions V3 defaults to date grouping. Newest/oldest change date-group order, while amount sorting changes row order within each date group rather than flattening the ledger.
+- Transactions V3 expense-group grouping orders groups by highest selected-period spend total; sorting only changes rows inside each expense-group section.
+- Transactions V3 rows are whole-row disclosure targets. Tapping a transaction expands compact inline management actions instead of navigating immediately.
+- Only one Transactions V3 ledger row can be expanded at once. Period changes or filter/search/grouping changes that remove the active transaction clear the expanded row.
+- Transactions V3 inline Edit navigates to `/transactions/:month/:txnId/edit` and preserves the origin navigation state for Capture.
+- Transactions V3 inline Delete opens the bounded confirmation interaction and then uses the selected-month transaction deletion path; deletion is not immediate.
+- Row-level swipe edit/delete gestures remain removed from Transactions V3.
+- Transactions V3 date-group rows use note as primary text when present and expense-group name as secondary text; expense-group-grouped rows avoid repeating the group name and focus on note/date/amount.
+- Transactions V3 expense-group rows without a note show a localized muted no-note placeholder above the date rather than promoting the date or fabricating an expense-group label.
+
+Future Dashboard directions under discussion but not implemented:
+
+- A larger historical/future selected-period Dashboard behavior redesign.
 
 ## Known Sheet/Mobile Problems
 

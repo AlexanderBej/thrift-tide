@@ -1,1 +1,1 @@
-export * from './categories-progress-bar';
+export {};

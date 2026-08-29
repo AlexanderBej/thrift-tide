@@ -1,45 +1,61 @@
 @use '../../../styles/tokens.scss' as *;
 
-.sort-sheet {
+.organize-sheet {
   display: flex;
+  flex-direction: column;
+  gap: $spacing-5;
   width: 100%;
+
+  section {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-2;
+  }
+
+  h3 {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 11px;
+    font-weight: 625;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 12px;
+    line-height: 1.35;
+  }
+}
+
+.organize-sheet__rows {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+}
+
+.organize-sheet__row {
+  display: flex;
+  min-height: 48px;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid;
-  background-color: var(--color-bg-muted);
-  border-color: var(--color-border-subtle);
-  border-radius: 999px;
-  overflow: visible;
+  gap: $spacing-3;
+  padding: 0 $spacing-4;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: $radius-md;
+  background: var(--color-bg-elevated);
+  color: var(--color-text-secondary);
+  font-size: 15px;
+  font-weight: 500;
+  text-align: left;
 
-  .sort-bubble {
-    display: inline-flex;
-    gap: 5px;
-    flex: 1;
-    border-radius: 999px;
-    border-color: var(--color-border-subtle);
-    color: var(--color-text-secondary);
-    align-items: center;
-    padding: $spacing-3;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 1;
-    font-size: 16px;
+  span {
+    min-width: 0;
+  }
 
-    .category-value {
-      font-weight: 700;
-    }
-
-    &.selected {
-      z-index: 2;
-      padding: calc(#{$spacing-3} + 2px) calc(#{$spacing-3} + 4px);
-      margin: -2px;
-      box-shadow: var(--shadow-elevation-1);
-      background-color: var(--color-coral);
-      color: var(--color-text-inverse);
-
-      .category-value {
-        color: var(--color-text-inverse); // same on both themes
-      }
-    }
+  &.is-selected {
+    border-color: color-mix(in srgb, var(--color-primary), transparent 45%);
+    color: var(--color-text-primary);
   }
 }

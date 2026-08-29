@@ -7,7 +7,9 @@ import { ensureUserProfile, signInWithGooglePopup } from '@api/services';
 import { Button, TTIcon } from '@shared/ui';
 import { selectAuthStatus } from '@store/auth-store';
 import { selectSettingOnboardingState, selectSettingsAppTheme } from '@store/settings-store';
-import { ReactComponent as Logo } from '../../assets/logo.svg';
+
+import { ReactComponent as LogoLight } from '../../assets/thrift_tide_logo-light.svg';
+import { ReactComponent as LogoDark } from '../../assets/thrift_tide_logo-dark.svg';
 
 import './login.styles.scss';
 
@@ -33,7 +35,7 @@ const Login: React.FC = () => {
   return (
     <main className="login-page">
       <div className="logo-container">
-        <Logo height={100} />
+        {theme === 'dark' ? <LogoDark height={100} /> : <LogoLight height={100} />}
       </div>
 
       <div className={`login-container login-container__${theme}`}>
