@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { TTIcon } from '@shared/ui';
-import { routes } from '@shared/utils';
+import { routes } from '@shared/utils/routes.util';
 import { PeriodWidget } from 'widgets/period-widget';
 import { selectSettingsAppTheme } from '@store/settings-store';
 
@@ -15,7 +15,7 @@ import { ReactComponent as LogoDark } from '../../../assets/thrift_tide_logo-dar
 import './top-nav.styles.scss';
 
 const TopNav: React.FC = () => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation(['common', 'taxonomy']);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ const TopNav: React.FC = () => {
 
   const isDashboard = location.pathname === '/';
   const isHistory = location.pathname === '/history';
-  const title = routes.find((r) => r.path === location.pathname)?.title ?? '';
+  const title = getTopNavTitle(location.pathname);
 
   const showBackBtn = location.pathname.includes('categories') || isHistory;
 
@@ -39,7 +39,7 @@ const TopNav: React.FC = () => {
       </div>
       <div className="app-header-container center-container">
         {!isDashboard ? (
-          <span className="page-title">{t(`pages.${title.toLowerCase()}`)}</span>
+          <span className="page-title">{t(title)}</span>
         ) : theme === 'dark' ? (
           <LogoDark height={40} />
         ) : (
@@ -52,5 +52,13 @@ const TopNav: React.FC = () => {
     </header>
   );
 };
+
+function getTopNavTitle(pathname: string) {
+  const category = pathname.match(/^\/categories\/(needs|wants|savings)$/)?.[1];
+  if (category) return `taxonomy:categoryNames.${category}`;
+
+  const routeTitle = routes.find((r) => r.path === pathname)?.title ?? '';
+  return routeTitle ? `common:pages.${routeTitle.toLowerCase()}` : '';
+}
 
 export default TopNav;

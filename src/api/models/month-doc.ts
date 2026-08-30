@@ -1,6 +1,5 @@
-import { Category, InsightTone } from '@api/types';
+import { InsightTone } from '@api/types';
 import { PercentTriple } from '../types/percent.types';
-import { Insight } from './insight';
 
 export interface MonthDoc {
   month: string;
@@ -27,16 +26,6 @@ export interface MonthDocSummary {
 }
 
 export const DEFAULT_START_DAY = 25;
-
-export interface CategoryHealthSummary {
-  healthyCount: number;
-  attentionCount: number;
-  details: Array<{
-    category: Category;
-    tone: InsightTone;
-    insight: Insight;
-  }>;
-}
 
 export interface HistoryDocWithSummary {
   id: string;

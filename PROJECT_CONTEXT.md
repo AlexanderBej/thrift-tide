@@ -19,8 +19,8 @@ Current implemented areas:
 - Dashboard V3: financial hero, selected-period status, contextual insight, compact Budget Pulse, Recent Activity, and income entry in budget context.
 - Transactions V3: selected-period ledger summary, filters/search, independent grouping and sorting, date or expense-group ledgers, and route-based expense editing.
 - V3 Capture: full-screen Add/Edit Expense routes with expense-group-first classification.
-- Categories: category health and category information.
-- Category detail: category progress, insights, top groups, pace/timeline, recent transactions.
+- Categories V3 Overview: budget-map surface for selected-period allocation structure, Needs/Wants/Savings composition, expense-group previews, and drill-down navigation.
+- Category detail V3: category activity drill-down for the selected period, focused on semantic category status, expense-group responsibility, and filtered Transactions handoff.
 - Insights: smart insight carousel, category health, top spenders.
 - History: month summary accordion, spend bars/donut, historical insights, pagination.
 - Profile: user info, quick links, language/currency/theme/budget split/start day settings, logout.
@@ -218,7 +218,7 @@ Current implementation:
 - Dashboard V3 shows overspending honestly in text, such as an over-budget amount, without changing the transaction or month persistence model.
 - Dashboard V3 Budget Pulse treats Needs/Wants as spending ceilings and Savings as a contribution goal. Savings above goal is positive, and text percentages may exceed 100% while visual progress remains capped.
 - Dashboard V3 removed the old proportional Needs/Wants/Savings strip, Dashboard category accordion cards, and Dashboard top expense-group accordion with nested transaction rows.
-- Dashboard V3 keeps deeper bucket health, spend-driver, pace, and transaction detail in Categories, Insights, Transactions, and Category detail screens.
+- Dashboard V3 keeps deeper bucket health, spend-driver, pace, and transaction detail out of the Dashboard hero/pulse and in purpose-built surfaces such as Category detail, Insights, and Transactions.
 - `BaseSheet` in `src/shared/ui/base-sheet` wraps Vaul `Drawer`.
 - V3 Add Expense lives at `/transactions/new`.
 - V3 Edit Expense lives at `/transactions/:month/:txnId/edit`.
@@ -258,6 +258,20 @@ Current implementation:
 - Capture and Transactions share the same V3 confirmation language for deleting expenses; Capture dirty-close uses the same shared pattern for discarding unsaved changes.
 - V3 app boot uses a single top-level branded loader owned by `App`, covering initial auth resolution through authenticated settings/budget boot.
 - The branded boot loader follows existing app boot state from `selectAppBootState`; it does not change auth, settings, budget, routing, or Firestore listener semantics.
+- Categories V3 Overview is the user's budget map, answering how the budget is organized and what belongs where. Dashboard owns quick health/status, Transactions owns ledger management, and future Insights V3 should own deeper analysis.
+- Categories V3 Overview displays the selected period's planned budget amount from the MonthDoc income/budget basis and the selected period's stored Needs/Wants/Savings percentages; it does not use future default settings as a replacement for historical months.
+- Categories V3 Overview uses one compact proportional allocation strip for structure only. It is not a spending-progress indicator.
+- Categories V3 Overview keeps Needs/Wants/Savings as the top-level budget containers and previews the first three static expense groups in each category's taxonomy order, with a remaining-count affordance. Expense-group previews are not interactive in this milestone.
+- Categories V3 Overview category cards are full-width navigable surfaces that drill into `/categories/:type`; allocation editing is intentionally deferred and the Budget Settings flow is not opened from this page.
+- Categories V3 Overview reuses shared selected-period budget-context pulse semantics for category status. Needs/Wants use spending-ceiling language such as left/unused/over, while Savings uses goal semantics: to goal, goal reached, and above goal. Savings above target is positive.
+- Categories V3 Overview treats historical periods as snapshots, using unused/over wording instead of active-period health judgment, and treats future periods as planning maps without no-spend/healthy/on-track judgment.
+- Category Detail V3 at `/categories/:type` uses the localized category name in TopNav, validates category params, and redirects invalid category params to `/categories`.
+- Category Detail V3 is the category activity drill-down: compact identity, semantic financial summary, one slim category progress line, all seven taxonomy expense groups, and one filtered Transactions handoff.
+- Category Detail V3 shows active expense groups first by selected-period activity total; zero-total groups remain visible afterward in static taxonomy order.
+- Category Detail V3 composition bars show each active group's share of actual category activity, not budget progress. Large group share is not a danger state.
+- Category Detail V3 uses Savings contribution/goal language, keeps above-goal Savings positive, and does not use Savings run-out or remaining-spend copy.
+- Category Detail V3 removes the V2 smart insight carousel, pace chart, run-out timeline, and embedded transaction preview. Deeper analysis remains for Insights V3, and transaction management remains in Transactions V3.
+- Category Detail V3 does not implement expense-group detail pages, group expansion, group sheets, or per-group transaction accordions.
 - `ProtectedRoute` owns access control only and does not render startup loading UI while auth is unresolved.
 - `Layout` owns the authenticated shell only and does not own app boot loader timers or presentation.
 - Startup should not hand off between a generic spinner and the branded loader; the minimum presentation timer starts from the first branded loader display.

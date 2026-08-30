@@ -1,198 +1,237 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { NavLink, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import React, { useMemo } from 'react';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { IconType } from 'react-icons';
 import { FaChevronRight } from 'react-icons/fa';
+import clsx from 'clsx';
 
-import { Category, CATEGORY_ICONS, CategoryInsightCandidate, CategoryType } from '@api/types';
-import { resolveExpenseGroup } from '@shared/utils';
+import { Category, CATEGORY_ICONS, getCategoryColorVar } from '@api/types';
 import { useFormatMoney } from '@shared/hooks';
-import { EmblaCarousel, TTIcon } from '@shared/ui';
+import { PageSpinner, TTIcon } from '@shared/ui';
 import {
-  makeSelectCategoryPanel,
   makeSelectExpenseGroupView,
+  selectBudgetContextSemantics,
   selectBudgetDoc,
   selectBudgetLoadStatus,
-  selectMonthTiming,
-  selectCategoriesTopInsights,
+  setTxnSearch,
+  setTxnTypeFilter,
 } from '@store/budget-store';
-import { ExpenseGroupName, ProgressBar } from '@shared/components';
-import { CategoryPace, SmartInsightCard, SpendingTimelineBar, TransactionLine } from 'features';
-import { selectSettingsAppTheme } from '@store/settings-store';
+import type { AppDispatch } from '@store/store';
+import { ExpenseGroupIcon } from '@shared/components';
+
+import {
+  buildCategoryDetailGroups,
+  buildCategoryDetailSummary,
+  CategoryDetailSummary,
+  isCategoryDetailCategory,
+} from './category-detail.util';
 
 import './category.styles.scss';
 
 const CategoryPage: React.FC = () => {
   const { type } = useParams<{ type: string }>();
-  const { t } = useTranslation(['common', 'budget']);
-  const fmt = useFormatMoney();
+  if (!isCategoryDetailCategory(type)) {
+    return <Navigate to="/categories" replace />;
+  }
+
+  return <CategoryDetail category={type} />;
+};
+
+interface CategoryDetailProps {
+  category: Category;
+}
+
+const CategoryDetail: React.FC<CategoryDetailProps> = ({ category }) => {
+  const { t } = useTranslation(['budget', 'taxonomy']);
+  const fmtMoney = useFormatMoney(true);
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const status = useSelector(selectBudgetLoadStatus);
   const doc = useSelector(selectBudgetDoc);
-
-  const { periodStart, periodEnd } = useSelector(selectMonthTiming);
-  const selectPanel = useMemo(() => makeSelectCategoryPanel(type as Category), [type]);
-  const categoryPanel = useSelector(selectPanel);
-  const selectView = useMemo(() => makeSelectExpenseGroupView(type as Category), [type]);
+  const context = useSelector(selectBudgetContextSemantics);
+  const selectView = useMemo(() => makeSelectExpenseGroupView(category), [category]);
   const view = useSelector(selectView);
-  const topInsights = useSelector(selectCategoriesTopInsights);
-  const theme = useSelector(selectSettingsAppTheme);
-
-  const [categoryData, setCategoryData] = useState<{
-    title?: string;
-    icon: IconType;
-    insights?: CategoryInsightCandidate[];
-  }>({ icon: CATEGORY_ICONS.needs });
-
-  useEffect(() => {
-    switch (type) {
-      case CategoryType.NEEDS:
-        setCategoryData({
-          title: 'Needs',
-          icon: CATEGORY_ICONS.needs,
-          insights: topInsights.needs,
-        });
-        break;
-      case CategoryType.WANTS:
-        setCategoryData({
-          title: 'Wants',
-          icon: CATEGORY_ICONS.wants,
-          insights: topInsights.wants,
-        });
-        break;
-      case CategoryType.SAVINGS:
-        setCategoryData({
-          title: 'Savings',
-          icon: CATEGORY_ICONS.savings,
-          insights: topInsights.savings,
-        });
-        break;
-
-      default:
-        setCategoryData({ icon: CATEGORY_ICONS.needs });
-
-        break;
-    }
-  }, [type, topInsights]);
 
   if (status === 'loading' || !view) {
-    return <div style={{ padding: 24 }}>Loading…</div>;
+    return <PageSpinner />;
   }
 
-  const isPastPeriod = new Date() >= periodEnd;
+  const categoryName = t(`taxonomy:categoryNames.${category}`);
+  const Icon = CATEGORY_ICONS[category];
+  const pulseRow = context.pulseRows.find((row) => row.key === category);
+  const summary = buildCategoryDetailSummary({
+    category,
+    percents: doc?.percents,
+    card: {
+      key: category,
+      title: categoryName,
+      allocated: view.allocated,
+      spent: view.spent,
+      remaining: view.remaining,
+      progress: view.progress,
+    },
+    pulseRow,
+    periodPhase: context.periodPhase,
+  });
+  const groups = buildCategoryDetailGroups({
+    category,
+    byExpGroup: view.byExpGroup,
+    categoryActual: summary.actual,
+  });
 
-  const asOf: Date | undefined = isPastPeriod
-    ? new Date(doc?.summary?.computedAt ?? new Date())
-    : new Date();
+  const onTransactionsClick = () => {
+    dispatch(setTxnTypeFilter(category));
+    dispatch(setTxnSearch(''));
+    navigate('/transactions');
+  };
 
   return (
-    <div className="category-page">
-      <header
-        className={`category-page-header category-page-header__${categoryData.title?.toLowerCase()} category-page-header__${theme}`}
-      >
-        <div className="category-name-line">
-          <div className="category-name">
-            <div
-              className="category-icon-wrapper"
-              style={{ background: `var(--color-category-${type})` }}
+    <div className="category-page category-page--v3">
+      <header className="category-detail-header">
+        <div className="category-detail-identity">
+          <div className="category-detail-icon" style={{ background: getCategoryColorVar(category) }} aria-hidden>
+            <TTIcon icon={Icon} color="var(--color-text-inverse)" size={28} />
+          </div>
+          <div>
+            <h1>{categoryName}</h1>
+            <p>{t('budget:categoryDetail.budgetShare', { percent: summary.percent })}</p>
+          </div>
+        </div>
+
+        {summary.isNoBudget ? (
+          <p className="category-detail-no-budget">{t('budget:categoryDetail.noBudget')}</p>
+        ) : (
+          <div className="category-detail-financial">
+            <strong>{fmtMoney(summary.actual)}</strong>
+            <span>{t(getPrimaryLabelKey(category))}</span>
+            <p
+              className={clsx(
+                summary.progressTone === 'danger' && 'is-danger',
+                summary.progressTone === 'success' && 'is-success',
+              )}
             >
-              <TTIcon icon={categoryData.icon} color="var(--color-text-inverse)" />
-            </div>
-            <h2>{t(`taxonomy:categoryNames.${categoryData.title?.toLowerCase()}`)}</h2>
+              {getSecondaryCopy(summary, fmtMoney, t)}
+            </p>
           </div>
-          <div className="allocated-container">
-            <span className="allocated-label">{t('budget:allocated') ?? 'Allocated'}</span>
-            <h3>{fmt(view.allocated)}</h3>
+        )}
+
+        {!summary.isNoBudget && (
+          <div
+            className="category-detail-progress"
+            role="progressbar"
+            aria-label={String(
+              t('budget:categoryDetail.progressAria', {
+                category: categoryName,
+                percent: Math.round(summary.progress * 100),
+              }),
+            )}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={Math.round(summary.progress * 100)}
+          >
+            <span
+              className={clsx(
+                'category-detail-progress__fill',
+                `category-detail-progress__fill--${summary.progressTone}`,
+              )}
+              style={{
+                width: `${summary.progress * 100}%`,
+                background: summary.progressTone === 'category' ? getCategoryColorVar(category) : undefined,
+              }}
+            />
           </div>
-        </div>
-        <ProgressBar progress={view.progress} color={`var(--color-category-${type})`} />
-        <div className="values-line">
-          <div className="category-summary category-middle">
-            {t('budget:spent') ?? 'Spent'}: <strong>{fmt(view.spent)}</strong>
-          </div>
-          <div className="category-summary category-last">
-            {t('budget:remaining') ?? 'Remaining'}: <strong>{fmt(view.remaining)}</strong>
-          </div>
-        </div>
+        )}
       </header>
 
-      <section className="tt-section">
-        <EmblaCarousel showDots>
-          {categoryData.insights?.map((insight) => (
-            <SmartInsightCard key={insight.id} insight={insight} />
-          ))}
-        </EmblaCarousel>
-      </section>
-
-      <section className="tt-section">
-        <h3 className="tt-section-header">{t('budget:topExpGroups')}</h3>
-        {view.byExpGroup.length === 0 ? (
-          <div className={`top-egs-section missing-items top-egs-section__${theme}`}>
-            {t('budget:noTransactions') ?? 'No transactions yet.'}
-          </div>
-        ) : (
-          <ul className={`top-egs-section top-egs-list top-egs-section__${theme}`}>
-            {view.byExpGroup.slice(0, 3).map((row) => {
-              const expGroup = resolveExpenseGroup(row.expGroup);
-              return (
-                <li key={row.expGroup} className="egs-item">
-                  <ExpenseGroupName expenseGroup={expGroup} />
-                  <strong>{fmt(row.total)}</strong>
-                </li>
-              );
-            })}
-          </ul>
-        )}
-      </section>
-
-      <section className="tt-section">
-        <h3 className="tt-section-header">{t('budget:spendPace')}</h3>
-        <div className={`category-chart-section category-chart-section__${theme}`}>
-          <CategoryPace category={type as Category} />
-        </div>
-      </section>
-
-      <section className="tt-section">
-        <h3 className="tt-section-header">{t('budget:monthPace')}</h3>
-        <SpendingTimelineBar
-          periodStart={periodStart}
-          periodEnd={periodEnd}
-          runOutDate={categoryPanel.runOutDate}
-          now={asOf}
-        />
-      </section>
-
-      <section className="tt-section">
-        <h3 className="tt-section-header">{t('pages.transactions') ?? 'Transactions'}</h3>
-        {view.items.length === 0 ? (
-          <div
-            className={`category-transactions-section missing-items category-transactions-section__${theme}`}
-          >
-            {t('pageContent.category.noTrans')} {categoryData.title?.toLowerCase()}.
-          </div>
-        ) : (
-          <div className={`category-transactions-section category-transactions-section__${theme}`}>
-            {view.items.slice(0, 5).map((t) => {
-              const expGroup = resolveExpenseGroup(t.expenseGroup);
-
-              return (
-                <div key={t.id} className="category-transaction">
-                  <TransactionLine key={t.id} txn={t} expenseGroup={expGroup} showDate />
+      <section className="category-groups-section" aria-labelledby="category-groups-title">
+        <h2 id="category-groups-title">{t('budget:categoryDetail.expenseGroups')}</h2>
+        <ul className="category-groups-list">
+          {groups.map((row) => (
+            <li
+              key={row.group.value}
+              className={clsx('category-group-row', !row.active && 'category-group-row--inactive')}
+            >
+              <div className="category-group-row__main">
+                <ExpenseGroupIcon expenseGroup={row.group} />
+                <div className="category-group-row__copy">
+                  <span>{t(row.group.i18nLabel)}</span>
+                  {row.compositionPercent != null && (
+                    <em>
+                      {t(getCompositionLabelKey(category), {
+                        percent: row.compositionPercent,
+                      })}
+                    </em>
+                  )}
                 </div>
-              );
-            })}
-            <div className="category-transaction">
-              <NavLink className="see-txns-link" to={'/transactions'}>
-                <span>{t('budget:seeAllTxn')}</span>
-                <TTIcon icon={FaChevronRight} size={14} color="var(--color-primary)" />
-              </NavLink>
-            </div>
-          </div>
-        )}
+                <strong>{fmtMoney(row.total)}</strong>
+              </div>
+              {row.compositionPercent != null && (
+                <div className="category-group-row__bar" aria-hidden>
+                  <span
+                    style={{
+                      width: `${row.compositionPercent}%`,
+                      background: row.group.color,
+                    }}
+                  />
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="category-transactions-handoff">
+        <div>
+          <h2>{t('budget:categoryDetail.transactionsTitle', { category: categoryName })}</h2>
+          <p>{t('budget:categoryDetail.transactionsHelper')}</p>
+        </div>
+        <button type="button" onClick={onTransactionsClick}>
+          <span>{t('budget:categoryDetail.viewTransactions', { category: categoryName })}</span>
+          <TTIcon icon={FaChevronRight} size={14} color="currentColor" />
+        </button>
       </section>
     </div>
   );
 };
+
+function getPrimaryLabelKey(category: Category) {
+  return category === 'savings' ? 'budget:categoryDetail.contributed' : 'budget:categoryDetail.spent';
+}
+
+function getCompositionLabelKey(category: Category) {
+  return `budget:categoryDetail.groupComposition.${category}`;
+}
+
+function getSecondaryCopy(
+  summary: CategoryDetailSummary,
+  fmtMoney: (value: number) => string,
+  t: (key: string, options?: Record<string, unknown>) => string,
+) {
+  if (summary.category === 'savings') {
+    if (summary.statusKind === 'goalReached') return t('budget:categoryDetail.goalReached');
+    if (summary.statusKind === 'aboveGoal') {
+      return t('budget:categoryDetail.aboveGoal', { amount: fmtMoney(summary.amount) });
+    }
+    return t('budget:categoryDetail.toGoalOf', {
+      amount: fmtMoney(summary.amount),
+      total: fmtMoney(summary.allocated),
+    });
+  }
+
+  if (summary.statusKind === 'over') {
+    return t('budget:categoryDetail.overBudget', { amount: fmtMoney(summary.amount) });
+  }
+
+  return t(
+    summary.statusKind === 'unused'
+      ? 'budget:categoryDetail.unusedOf'
+      : 'budget:categoryDetail.leftOf',
+    {
+      amount: fmtMoney(summary.amount),
+      total: fmtMoney(summary.allocated),
+    },
+  );
+}
 
 export default CategoryPage;

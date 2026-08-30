@@ -12,7 +12,6 @@ import {
   CategoryPage,
   CaptureExpense,
   History,
-  CategoriesPage,
   Insights,
   Layout,
   Login,
@@ -21,6 +20,7 @@ import {
   ProfilePage,
 } from '@pages';
 import Dashboard from './pages/dashboard/dashboard.component';
+import CategoriesPage from './pages/categories/categories.component';
 
 import './App.scss';
 
