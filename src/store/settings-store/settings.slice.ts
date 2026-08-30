@@ -105,7 +105,7 @@ export const saveStartDayThunk = createAppAsyncThunk<
       await upsertUserStartDay(uid, clamp(startDay));
 
       if (startThisMonth) {
-        dispatch(updateMonthStartDayThunk({ uid, startDay }));
+        await dispatch(updateMonthStartDayThunk({ uid, startDay })).unwrap();
       }
       return { startDay };
     } catch (error) {

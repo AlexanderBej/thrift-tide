@@ -1,0 +1,27 @@
+@use '../../../styles/tokens' as *;
+
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+
+  &__title {
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0;
+  }
+
+  &__rows {
+    display: flex;
+    flex-direction: column;
+    // border-top: 1px solid var(--color-border-subtle);
+    // border-bottom: 1px solid var(--color-border-subtle);
+
+    padding: $spacing-1 $spacing-3;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: $radius-lg;
+    background: color-mix(in srgb, var(--color-surface-primary), transparent 6%);
+    box-shadow: var(--shadow-elevation-1);
+  }
+}

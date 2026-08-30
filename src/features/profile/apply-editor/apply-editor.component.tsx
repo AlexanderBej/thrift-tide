@@ -39,6 +39,8 @@ const ApplyEditor: React.FC<ApplyEditorProps> = ({
             selected: applyToCurrentMonth,
             disabled: !hasModified,
           })}
+          aria-pressed={applyToCurrentMonth}
+          disabled={!hasModified}
           onClick={() => setApplyToCurrentMonth(true)}
         >
           {t('settings:percents.checkbox.labelNow')}
@@ -49,6 +51,8 @@ const ApplyEditor: React.FC<ApplyEditorProps> = ({
             selected: !applyToCurrentMonth,
             disabled: !hasModified,
           })}
+          aria-pressed={!applyToCurrentMonth}
+          disabled={!hasModified}
           onClick={() => setApplyToCurrentMonth(false)}
         >
           {t('settings:percents.checkbox.labelFuture')}

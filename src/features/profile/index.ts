@@ -1,3 +1,4 @@
 export * from './apply-editor';
-export * from './settings-block';
-export * from './settings-button';
+export * from './profile-button-row';
+export * from './profile-nav-row';
+export * from './profile-section';

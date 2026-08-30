@@ -1,7 +1,60 @@
 @use '../../../styles/tokens.scss' as *;
 
 .start-day-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+
   .sheet-info-block {
-    margin-bottom: $spacing-4;
+    margin-bottom: 0;
   }
+}
+
+.start-day-picker {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: $radius-lg;
+  background: var(--color-bg-muted);
+
+  &__center {
+    position: absolute;
+    z-index: 0;
+    top: 50%;
+    right: $spacing-3;
+    left: $spacing-3;
+    height: 48px;
+    border: 1px solid color-mix(in srgb, var(--color-primary), transparent 36%);
+    border-radius: $radius-md;
+    background: var(--color-primary-soft);
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  &__item {
+    display: grid;
+    height: 48px;
+    place-items: center;
+    color: var(--color-text-muted);
+    font-size: 20px;
+    font-weight: 750;
+    transition:
+      color $transition-normal,
+      transform $transition-normal,
+      opacity $transition-normal;
+
+    &.is-selected {
+      color: var(--color-text-primary);
+      font-size: 24px;
+      font-weight: 900;
+      transform: scale(1.03);
+    }
+  }
+}
+
+.start-day-summary {
+  color: var(--color-text-primary);
+  font-size: 15px;
+  font-weight: 850;
+  text-align: center;
 }

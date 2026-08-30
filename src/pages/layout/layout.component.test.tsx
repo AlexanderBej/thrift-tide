@@ -7,9 +7,14 @@ jest.mock(
   'react-router-dom',
   () => ({
     Outlet: () => <div>Outlet content</div>,
+    useLocation: () => ({ pathname: '/', key: 'test' }),
   }),
   { virtual: true },
 );
+
+jest.mock('@shared/hooks', () => ({
+  useHideOnScroll: () => ({ hidden: false, forceShow: jest.fn() }),
+}));
 
 jest.mock('@widgets', () => ({
   TopNav: () => <nav>Top navigation</nav>,

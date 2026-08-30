@@ -1,107 +1,89 @@
 @use '../../styles/tokens.scss' as *;
 
 .profile-page {
-  .user-container {
-    @include dashboard-card($radius: $radius-lg, $pad: $spacing-4);
+  display: flex;
+  width: min(100%, 560px);
+  margin: 0 auto;
+  flex-direction: column;
+  gap: $spacing-6;
+}
 
-    &__dark {
-      box-shadow: var(--shadow-elevation-2);
+.profile-identity {
+  display: flex;
+  align-items: center;
+  gap: $spacing-4;
+  padding: $spacing-2 0 $spacing-3;
+
+  &__copy {
+    min-width: 0;
+
+    h1 {
+      overflow: hidden;
+      color: var(--color-text-primary);
+      font-size: 22px;
+      font-weight: 850;
+      line-height: 1.1;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
-    .user-info {
-      display: flex;
-      align-items: flex-start;
-      gap: $spacing-3;
-
-      .user-details {
-        display: flex;
-        flex-direction: column;
-        gap: $spacing-2;
-      }
-
-      .logout-btn {
-        min-width: unset;
-      }
-    }
-
-    .quick-actions {
-      margin-top: $spacing-5;
-    }
-
-    .quick-action-links {
-      @include grid($templateColumns: 50% 50%);
-      gap: $spacing-1;
-      width: 98%;
-      margin-top: $spacing-3;
-
-      .action-link {
-        height: 60px;
-        display: flex;
-        border-radius: $radius-md;
-        padding: $spacing-4;
-        align-items: center;
-        gap: $spacing-3;
-        font-weight: 500;
-        color: var(--color-text-primary);
-
-        &.categories {
-          justify-content: center;
-          background: linear-gradient(
-            90deg,
-            color-mix(in srgb, var(--color-primary), transparent 90%) 0%,
-            color-mix(in srgb, var(--color-primary), transparent 70%) 100%
-          );
-        }
-
-        &.history {
-          background: linear-gradient(
-            90deg,
-            color-mix(in srgb, var(--color-chart-eg-3), transparent 90%) 0%,
-            color-mix(in srgb, var(--color-chart-eg-3), transparent 70%) 100%
-          );
-        }
-      }
+    p {
+      overflow: hidden;
+      margin-top: $spacing-1;
+      color: var(--color-text-secondary);
+      font-size: 14px;
+      line-height: 1.35;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
+}
 
-  // .settings-container {
-  //   @include dashboard-card($radius: $radius-lg, $pad: $spacing-4, $bgCol: var(--color-bg-muted));
+.profile-row {
+  display: grid;
+  width: 100%;
+  min-height: 62px;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: $spacing-3;
+  padding: $spacing-3 0;
+  color: var(--color-text-primary);
+  text-align: left;
+  text-decoration: none;
 
-  .settings-label-wrapper {
-    display: flex;
-    gap: $spacing-2;
-    align-items: center;
-
-    .settings-title-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: $spacing-1;
-      align-items: flex-start;
-
-      .settings-subtitle {
-        display: flex;
-        gap: $spacing-2;
-        font-weight: 300;
-        font-size: 12px;
-
-        .percent-legend {
-          display: flex;
-          gap: $spacing-1;
-        }
-      }
-    }
+  & + & {
+    border-top: 1px solid color-mix(in srgb, var(--color-border-subtle), transparent 24%);
   }
 
-  .logout-btn {
-    width: 150px;
+  &:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 4px;
+    border-radius: $radius-md;
+  }
+
+  &[data-tone='danger'] {
     color: var(--color-error);
-    font-weight: 800;
-    @include dashboard-card($radius: $radius-lg, $pad: $spacing-4, $bgCol: var(--color-bg-muted));
-    margin: auto;
-    display: block;
 
-    &__dark {
-      box-shadow: var(--shadow-elevation-2);
+    .profile-row__subtitle,
+    .profile-row__end {
+      color: color-mix(in srgb, var(--color-error), var(--color-text-secondary) 34%);
     }
+  }
+}
+
+.profile-logout {
+  display: flex;
+  justify-content: center;
+  padding: $spacing-1 0 $spacing-4;
+
+  .tt-button {
+    color: var(--color-error);
+  }
+}
+
+@include mediaDown(sm) {
+  .profile-row {
+    grid-template-columns: 34px minmax(0, 1fr) minmax(74px, auto);
+    gap: $spacing-2;
   }
 }

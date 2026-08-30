@@ -4,7 +4,7 @@ import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 
-import { Pressable } from '../pressable';
+import { Button } from '../button';
 
 import './base-sheet.styles.scss';
 
@@ -26,6 +26,7 @@ interface BaseSheetProps {
 
   btnLabel?: string;
   btnDisabled?: boolean;
+  btnLoading?: boolean;
   onButtonClick?: () => void;
 
   secondaryButtonLabel?: string;
@@ -45,6 +46,7 @@ const BaseSheet: React.FC<BaseSheetProps> = ({
   handleOnly = true,
   btnLabel,
   btnDisabled = false,
+  btnLoading = false,
   variant = 'default',
   onButtonClick,
   secondaryButtonLabel,
@@ -67,7 +69,7 @@ const BaseSheet: React.FC<BaseSheetProps> = ({
             {/* Spacer to keep handle centered */}
             <div className="header-spacer">
               {secondaryButtonLabel && (
-                <button className="header-btn" onClick={handleSecondaryClick}>
+                <button type="button" className="header-btn" onClick={handleSecondaryClick}>
                   {secondaryButtonLabel}
                 </button>
               )}
@@ -86,12 +88,16 @@ const BaseSheet: React.FC<BaseSheetProps> = ({
           {titleHidden ? (
             <VisuallyHidden>
               <Drawer.Title className="sheet-title">{title}</Drawer.Title>
-              {description ? <Drawer.Description>{description}</Drawer.Description> : null}
+              {description ? (
+                <Drawer.Description className="sheet-description">{description}</Drawer.Description>
+              ) : null}
             </VisuallyHidden>
           ) : (
             <>
               <Drawer.Title className="sheet-title">{title}</Drawer.Title>
-              {description ? <Drawer.Description>{description}</Drawer.Description> : null}
+              {description ? (
+                <Drawer.Description className="sheet-description">{description}</Drawer.Description>
+              ) : null}
             </>
           )}
 
@@ -101,15 +107,17 @@ const BaseSheet: React.FC<BaseSheetProps> = ({
             {btnLabel && (
               <div className="sheet-btn-wrapper">
                 <div className="sheet-btn-container">
-                  <Pressable
+                  <Button
                     className="sheet-btn"
+                    size="md"
+                    fullWidth
                     haptic="medium"
-                    ripple={false}
                     onClick={onButtonClick}
                     disabled={btnDisabled}
+                    loading={btnLoading}
                   >
                     {btnLabel}
-                  </Pressable>
+                  </Button>
                 </div>
               </div>
             )}

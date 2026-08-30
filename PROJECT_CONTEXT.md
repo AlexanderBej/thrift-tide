@@ -23,7 +23,7 @@ Current implemented areas:
 - Category detail V3: category activity drill-down for the selected period, focused on semantic category status, expense-group responsibility, and filtered Transactions handoff.
 - Insights: smart insight carousel, category health, top spenders.
 - History: month summary accordion, spend bars/donut, historical insights, pagination.
-- Profile: user info, quick links, language/currency/theme/budget split/start day settings, logout.
+- Profile V3: compact account/settings hub with account identity, secondary Explore destinations, preferences, budget setup, data reset confirmation, and logout.
 - Onboarding: language/currency, budget split, and budget start day setup.
 
 ## Product Principles
@@ -52,7 +52,7 @@ Main routes are defined in `src/App.tsx`:
 - `/history`
 - `/profile`
 
-`src/pages/layout/layout.component.tsx` provides the authenticated app shell with `TopNav`, a scrollable outlet, and `BottomNav`. The bottom navigation currently exposes Dashboard, Transactions, Insights, Profile, and a central FAB that opens `/transactions/new` directly. Categories and History are reachable through other surfaces such as Profile quick actions and route navigation.
+`src/pages/layout/layout.component.tsx` owns the authenticated app shell with `TopNav`, one central scrollable outlet, and `BottomNav`. The bottom navigation exposes Dashboard, Transactions, the central Add Expense action, Insights, and Profile as primary destinations/actions. Categories and History are secondary destinations, not BottomNav items, and are reachable through other surfaces such as Profile quick actions and route navigation.
 
 Important UI areas:
 
@@ -62,6 +62,14 @@ Important UI areas:
 - Widgets/navigation/sheets: `src/widgets`
 - Shared UI primitives: `src/shared/ui`
 - Shared components/hooks/utils: `src/shared/components`, `src/shared/hooks`, `src/shared/utils`
+
+Authenticated shell contracts:
+
+- `Layout` owns the TopNav and BottomNav sizing contract for authenticated routes.
+- `.outlet-container` is the authenticated app's central vertical scroll owner.
+- Top and bottom safe-area handling is owned by the shell.
+- Page content reserves BottomNav clearance centrally through the shell instead of individual pages guessing navigation height.
+- Explicit shell dimensions are used for TopNav/BottomNav spacing; the old undefined `--nav-h` pattern should not be reintroduced.
 
 ## Budget and Period Model
 
@@ -173,11 +181,19 @@ General visual language:
 V3 visual/theme direction:
 
 - The current CSS custom-property theme architecture is considered a good foundation for V3.
-- V3 has begun in Capture with scoped typography, semantic CSS-variable usage, fixed full-screen task layout, disciplined radii/spacing, and a dedicated action primitive.
+- V3 has begun in Capture and the app shell with scoped typography, semantic CSS-variable usage, fixed full-screen task layout where appropriate, and disciplined radii/spacing.
 - V3 is expected to continue evolving the semantic token vocabulary rather than rewrite the theme mechanism.
 - Brand, action/interface, status, and needs/wants/savings semantics should remain conceptually separate.
 - The final V3 logo and palette are still in development.
 - Do not hard-code future V3 brand values into components.
+
+Shared action primitives:
+
+- `Button` in `src/shared/ui/button` is the canonical application action component.
+- The former `V3Action` component has been removed/migrated into `Button`; do not revive it.
+- `Pressable` in `src/shared/ui/pressable` is a low-level tactile interaction primitive for non-standard interactive surfaces and wrappers. It is not a second styled button system.
+- Semantic actions should use `Button` unless the interaction genuinely needs a lower-level tactile wrapper.
+- Temporary V3/version prefixes should be removed once a replacement becomes canonical; finalized shared components should be named by responsibility.
 
 ## Internationalization
 
@@ -225,6 +241,34 @@ Current implementation:
 - V3 Edit Expense lives at `/transactions/:month/:txnId/edit`.
 - Add/Edit Expense are full-screen routes, not sheets.
 - The central `+` opens Add Expense directly.
+- The central Add Expense FAB remains a primary shell action.
+- BottomNav primary destinations/actions are Dashboard, Transactions, Add Expense, Insights, and Profile.
+- Categories and History are secondary destinations and are not BottomNav items.
+- BottomNav uses semantic `NavLink` route targets, with `Pressable` only providing tactile behavior around the navigation surface.
+- TopNav owns page identity, contextual Back navigation, and selected-period access.
+- TopNav behavior is driven by lightweight route metadata rather than scattered pathname checks.
+- Normal in-app Back behavior preserves browser/app history. Direct-entry or refreshed secondary routes use structural fallbacks where appropriate.
+- Dashboard uses the Thrift Tide logo in the TopNav.
+- Period visibility in TopNav is route-dependent.
+- TopNav automatically collapses when the user deliberately scrolls down and reveals when scrolling upward.
+- TopNav hide-on-scroll listens to `.outlet-container`, the authenticated app's actual scroll owner, rather than `window`.
+- Small scroll movement is accumulated/thresholded to avoid jitter and flicker.
+- Near the top of a page, TopNav remains visible.
+- Changing routes restores TopNav visibility.
+- Hiding TopNav collapses its occupied content height so pages gain vertical space; it is not merely visually translated away.
+- The top safe-area inset remains reserved while TopNav is hidden.
+- Hide/reveal uses a smooth slide/collapse/fade transition and respects `prefers-reduced-motion`.
+- BottomNav does not hide with scroll.
+- `PeriodWidget` remains a bounded sheet interaction for selected-period access.
+- `PeriodWidget` trigger exposes accessible labeling and expanded state.
+- Profile V3 is a compact account/settings hub, not a dashboard.
+- Profile V3 groups account identity, Explore, Preferences, Budget setup, Data, and logout as simple mobile rows/sections instead of large dashboard-style cards.
+- Profile V3 exposes Categories and History as secondary Explore destinations outside BottomNav.
+- Profile V3 Preferences are Language, Currency, and Appearance. These atomic settings use bounded selection sheets with full-width selectable rows, selected state, and immediate save-on-selection. Appearance remains explicit Light/Dark only; no persisted `system` option is exposed.
+- Profile V3 Budget setup includes Budget split and Period start day. Budget split keeps the existing Needs/Wants/Savings percentage constraints, compact composition preview, and explicit update action with apply timing.
+- Profile V3 Period start day uses a numeric 1-28 wheel picker because the setting is a recurring day of month, not a calendar date.
+- Profile V3 Reset current period uses the existing reset thunk behind a destructive `ConfirmSheet`. It deletes selected-period expenses and clears the saved summary while keeping income, budget split, and period settings in place.
+- Profile logout waits for Firebase sign-out to resolve before navigating away, so local auth state is not eagerly cleared on sign-out failure.
 - Capture no longer shows an explicit needs/wants/savings selector; `category` is derived from the selected `expenseGroup` and still persisted on `Txn`.
 - Capture recent groups are derived from currently loaded period transactions.
 - Capture remembers the note expanded/collapsed preference through optional `capturePreferences.noteExpandedByDefault` settings.
@@ -306,6 +350,8 @@ Sheets remain an accepted mobile pattern for bounded/contextual interactions, in
 - Language
 - Currency
 - Theme
+- Budget split
+- Period start day
 - Period selection
 - Suitable settings/selectors
 
@@ -371,7 +417,6 @@ Confirmed from repository inspection:
 
 - Duplicate/unmanaged transaction listener during initialization: `initBudget` starts the managed listener and `initApp` attaches another `onTransactionsSnapshot` listener.
 - PWA update listener is registered during render in `src/App.tsx`.
-- Profile reset row incorrectly opens the language sheet in `src/pages/profile/profile.component.tsx`.
 - History has zero-allocation division risks when computing category ratios in `src/pages/history/history.component.tsx`.
 - Period "create next" flow uses plain calendar month logic instead of custom-period-aware `nextMonthKey` in `src/widgets/sheets/period-sheet/period-sheet.component.tsx`.
 - Transaction sort label/behavior mismatch: sorting/grouping by expense group ultimately sorts groups by total in `src/store/budget-store/budget.selectors.ts`.

@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaPlus, FaMinus } from 'react-icons/fa6';
 
-import { BaseSheet, InfoBlock, TTIcon } from '@shared/ui';
+import { BaseSheet, Button, InfoBlock } from '@shared/ui';
 import { selectSettingsDefaultPercents, updateDefaultPercentsThunk } from '@store/settings-store';
 import { AppDispatch, Category, PercentTriple } from '@api/types';
 import { selectAuthUser } from '@store/auth-store';
-import { ApplyEditor } from 'features';
+import { ApplyEditor } from 'features/profile/apply-editor';
 import { selectBudgetDoc } from '@store/budget-store';
 
 import './budget-split-sheet.styles.scss';
@@ -55,6 +55,7 @@ const BudgetSplitSheet: React.FC<BudgetSplitSheetProps> = ({ open, onOpenChange 
     toInt(doc?.percents ?? percents),
   );
   const [applyToCurrentMonth, setApplyToCurrentMonth] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     setSelectedPercents(toInt(doc?.percents ?? percents));
@@ -88,20 +89,22 @@ const BudgetSplitSheet: React.FC<BudgetSplitSheetProps> = ({ open, onOpenChange 
     setSelectedPercents(toInt(percents));
   };
 
-  const handleSubmit = () => {
-    if (!user) return;
+  const handleSubmit = async () => {
+    if (!user || submitting) return;
 
-    dispatch(
-      updateDefaultPercentsThunk({
-        uid: user?.uuid,
-        percents: toFrac(selectedPercents) as PercentTriple,
-        startThisMonth: applyToCurrentMonth,
-      }),
-    )
-      .unwrap()
-      .then(() => {
-        setTimeout(() => onOpenChange(false), 120);
-      });
+    setSubmitting(true);
+    try {
+      await dispatch(
+        updateDefaultPercentsThunk({
+          uid: user.uuid,
+          percents: toFrac(selectedPercents) as PercentTriple,
+          startThisMonth: applyToCurrentMonth,
+        }),
+      ).unwrap();
+      onOpenChange(false);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const getPercentsValues = (key: Category): number => {
@@ -125,10 +128,12 @@ const BudgetSplitSheet: React.FC<BudgetSplitSheetProps> = ({ open, onOpenChange 
     selectedPercents.wants !== originalPercentsInt.wants ||
     selectedPercents.savings !== originalPercentsInt.savings;
 
+  const docPercents = doc?.percents;
   const areDifferent =
-    percents.needs !== doc?.percents.needs ||
-    percents.wants !== doc?.percents.wants ||
-    percents.savings !== doc?.percents.savings;
+    !!docPercents &&
+    (percents.needs !== docPercents.needs ||
+      percents.wants !== docPercents.wants ||
+      percents.savings !== docPercents.savings);
 
   return (
     <BaseSheet
@@ -136,7 +141,8 @@ const BudgetSplitSheet: React.FC<BudgetSplitSheetProps> = ({ open, onOpenChange 
       onOpenChange={onOpenChange}
       title={t('settings:percents.title')}
       description={desc}
-      btnDisabled={!hasModified}
+      btnDisabled={!hasModified || submitting}
+      btnLoading={submitting}
       btnLabel={btnLabel}
       onButtonClick={handleSubmit}
       secondaryButtonLabel={resetLabel}
@@ -148,6 +154,7 @@ const BudgetSplitSheet: React.FC<BudgetSplitSheetProps> = ({ open, onOpenChange 
             <div>
               <span>{t('settings:percents.info.title')}</span>
               <span>
+                {' '}
                 {t('settings:percents.info.subtitle')}{' '}
                 <strong>
                   {percents.needs * 100}/{percents.wants * 100}/{percents.savings * 100}
@@ -157,13 +164,13 @@ const BudgetSplitSheet: React.FC<BudgetSplitSheetProps> = ({ open, onOpenChange 
           </InfoBlock>
         )}
 
-        <div className="bugget-split-bar">
-          {categories.map((key, index) => {
+        <div className="budget-split-preview" aria-hidden="true">
+          {categories.map((key) => {
             const inputVal = getPercentsValues(key);
             return (
               <div
-                key={index}
-                className={`budget-bar budget-bar__${key}`}
+                key={key}
+                className={`budget-split-preview__segment budget-split-preview__segment--${key}`}
                 style={{ width: `${inputVal}%` }}
               >
                 {inputVal}%
@@ -173,13 +180,13 @@ const BudgetSplitSheet: React.FC<BudgetSplitSheetProps> = ({ open, onOpenChange 
         </div>
 
         <div className="percents-editors">
-          {categories.map((key, index) => {
+          {categories.map((key) => {
             const inputVal = getPercentsValues(key);
 
             const canIncrease = selectedPercents[key] < 100;
             const canDecrease = selectedPercents[key] > 0;
             return (
-              <div key={index} className="percent-input-line">
+              <div key={key} className="percent-input-line">
                 <div className="percent-label">
                   <div
                     className="bullet"
@@ -189,21 +196,35 @@ const BudgetSplitSheet: React.FC<BudgetSplitSheetProps> = ({ open, onOpenChange 
                 </div>
 
                 <div className="percent-btn-group">
-                  <button
+                  <Button
+                    icon={FaMinus}
+                    iconOnly
+                    size="sm"
+                    variant="secondary"
                     className="percent-btn percent-btn__minus"
+                    ariaLabel={String(
+                      t('settings:percents.decrease', {
+                        category: t(`taxonomy:categoryNames.${key}`),
+                      }),
+                    )}
                     onClick={() => adjustPercent(key, -1)}
                     disabled={!canDecrease}
-                  >
-                    <TTIcon icon={FaMinus} size={16} color="fff" />
-                  </button>
+                  />
                   <span>{inputVal}%</span>
-                  <button
+                  <Button
+                    icon={FaPlus}
+                    iconOnly
+                    size="sm"
+                    variant="secondary"
                     className="percent-btn percent-btn__plus"
+                    ariaLabel={String(
+                      t('settings:percents.increase', {
+                        category: t(`taxonomy:categoryNames.${key}`),
+                      }),
+                    )}
                     onClick={() => adjustPercent(key, +1)}
                     disabled={!canIncrease}
-                  >
-                    <TTIcon icon={FaPlus} size={16} color="fff" />
-                  </button>
+                  />
                 </div>
               </div>
             );

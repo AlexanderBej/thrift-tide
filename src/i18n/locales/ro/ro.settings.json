@@ -15,10 +15,12 @@
     "checkbox": {
       "title": "Aplică din",
       "labelNow": "Perioada asta",
-      "labelFuture": "Perioada viitoare"
+      "labelFuture": "Perioade viitoare"
     },
     "popover": "Dacă aplicați modificările începând cu această perioadă, alocările și valorile rămase se vor modifica.",
-    "button": "Actualizează procentajele"
+    "button": "Actualizează împărțirea",
+    "increase": "Mărește {category}",
+    "decrease": "Micșorează {category}"
   },
   "startDay": {
     "info": {
@@ -26,23 +28,31 @@
       "subtitle": "Din următoarea perioadă, ziua de start a bugetului va fi"
     },
     "title": "Ziua de start a perioadei",
-    "subtitle": "Intervalul permis este de la 1 la 28, pentru a evita decalajele de sfârșit de lună.",
+    "subtitle": "Alege ziua în care începe perioada bugetului. Poți alege între 1 și 28.",
+    "pickerLabel": "Ziua de start a perioadei bugetare",
     "button": "Actualizează ziua"
   },
   "currency": {
     "title": "Alege valuta bugetului tău.",
+    "subtitle": "Folosită pentru venituri, cheltuieli și totalurile bugetului.",
     "labelRo": "Leu Românesc (RON)",
     "labelEu": "Euro European (EUR)",
     "button": "Modifică valuta"
   },
   "language": {
-    "title": "Modifică limba aplicației",
+    "title": "Alege limba",
+    "subtitle": "Actualizează etichetele și mesajele din aplicație.",
     "button": "Modifică limba"
   },
   "theme": {
-    "title": "Modifică tema de culori a aplicației",
+    "title": "Alege aspectul",
+    "subtitle": "Alege tema preferată",
     "labelLight": "Luminos",
     "labelDark": "Întunecat",
+    "values": {
+      "light": "Luminos",
+      "dark": "Întunecat"
+    },
     "button": "Modifică tema"
   },
   "toast": {
