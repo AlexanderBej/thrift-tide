@@ -13,7 +13,7 @@ import { Insight } from '@api/models';
 import { ExpenseGroupIcon } from '@shared/components';
 import { useFormatMoney, useResolvedInsight } from '@shared/hooks';
 import { resolveExpenseGroup } from '@shared/utils';
-import { V3Action, TTIcon } from '@shared/ui';
+import { Button, TTIcon } from '@shared/ui';
 import { selectAuthUser } from '@store/auth-store';
 import { selectSettingsCurrency } from '@store/settings-store';
 import {
@@ -167,9 +167,9 @@ const Dashboard: React.FC = () => {
           <p className="dashboard-kicker">{t('budget:dashboard.setupKicker')}</p>
           <h1 id="dashboard-no-income-title">{t('budget:dashboard.noIncomeTitle')}</h1>
           <p>{t('budget:dashboard.noIncomeText')}</p>
-          <V3Action variant="primary" size="md" onClick={() => setIncomeOpen(true)}>
+          <Button variant="primary" size="md" onClick={() => setIncomeOpen(true)}>
             {t('budget:modals.addIncome')}
-          </V3Action>
+          </Button>
         </section>
       )}
 
@@ -189,7 +189,11 @@ const Dashboard: React.FC = () => {
             <p>{contextCopy.message}</p>
             {contextCopy.subtext && <span>{contextCopy.subtext}</span>}
             {contextCopy.ctaLabel && attention.action !== 'none' && (
-              <button type="button" className="dashboard-context__cta" onClick={performContextAction}>
+              <button
+                type="button"
+                className="dashboard-context__cta"
+                onClick={performContextAction}
+              >
                 <span>{contextCopy.ctaLabel}</span>
                 <TTIcon icon={FaChevronRight} size={12} color="currentColor" />
               </button>
@@ -207,19 +211,25 @@ const Dashboard: React.FC = () => {
                 key={row.key}
                 to={`/categories/${row.key}`}
                 className="dashboard-pulse__row"
-                aria-label={String(t('budget:dashboard.pulseAria', {
-                  category: t(`taxonomy:categoryNames.${row.key}`),
-                  amount: fmtMoney(row.amount),
-                  state: t(`budget:dashboard.pulseState.${row.amountState}`),
-                  percent: row.percent,
-                }))}
+                aria-label={String(
+                  t('budget:dashboard.pulseAria', {
+                    category: t(`taxonomy:categoryNames.${row.key}`),
+                    amount: fmtMoney(row.amount),
+                    state: t(`budget:dashboard.pulseState.${row.amountState}`),
+                    percent: row.percent,
+                  }),
+                )}
               >
                 <div
                   className="dashboard-pulse__icon"
                   style={{ background: getCategoryColorVar(row.key) }}
                   aria-hidden
                 >
-                  <TTIcon icon={getCategoryIcon(row.key)} color="var(--color-text-inverse)" size={18} />
+                  <TTIcon
+                    icon={getCategoryIcon(row.key)}
+                    color="var(--color-text-inverse)"
+                    size={18}
+                  />
                 </div>
                 <div className="dashboard-pulse__main">
                   <div className="dashboard-pulse__topline">

@@ -1,9 +1,7 @@
 import { RxDashboard } from 'react-icons/rx';
-import { MdOutlineCategory } from 'react-icons/md';
 import { GrTransaction } from 'react-icons/gr';
 import { CiSettings } from 'react-icons/ci';
 import { IconType } from 'react-icons';
-import { FaHistory } from 'react-icons/fa';
 import { MdInsights } from 'react-icons/md';
 
 export type NavItem = {
@@ -23,13 +21,13 @@ export const NAV_ITEMS: NavItem[] = [
     i18nLabel: 'pages.dashboard',
     icon: RxDashboard,
   },
-  {
-    key: 'categories',
-    to: '/categories',
-    label: 'Categories',
-    i18nLabel: 'pages.categories',
-    icon: MdOutlineCategory,
-  },
+  // {
+  //   key: 'categories',
+  //   to: '/categories',
+  //   label: 'Categories',
+  //   i18nLabel: 'pages.categories',
+  //   icon: MdOutlineCategory,
+  // },
   {
     key: 'txns',
     to: '/transactions',
@@ -44,13 +42,13 @@ export const NAV_ITEMS: NavItem[] = [
     i18nLabel: 'pages.insights',
     icon: MdInsights,
   },
-  {
-    key: 'history',
-    to: '/history',
-    label: 'History',
-    i18nLabel: 'pages.history',
-    icon: FaHistory,
-  },
+  // {
+  //   key: 'history',
+  //   to: '/history',
+  //   label: 'History',
+  //   i18nLabel: 'pages.history',
+  //   icon: FaHistory,
+  // },
   {
     key: 'profile',
     to: '/profile',

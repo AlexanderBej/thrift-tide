@@ -10,70 +10,75 @@ import { NAV_ITEMS, NavItem } from 'widgets/nav.config';
 import './bottom-nav.styles.scss';
 
 const BottomNav: React.FC = () => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation(['common', 'budget']);
   const navigate = useNavigate();
   const location = useLocation();
 
-  const dashboard = NAV_ITEMS.find((item) => item.key === 'dashboard');
-  const txns = NAV_ITEMS.find((item) => item.key === 'txns');
-  const insights = NAV_ITEMS.find((item) => item.key === 'insights');
-  const profile = NAV_ITEMS.find((item) => item.key === 'profile');
+  const mainNavLabel = String(t('common:navigation.main'));
+  const addExpenseLabel = String(t('budget:capture.addExpense'));
 
-  const onFabClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    (e.currentTarget as HTMLButtonElement).blur();
-    navigate('/transactions/new', { state: { from: location.pathname } });
+  const onFabClick: React.MouseEventHandler<HTMLElement> = (event) => {
+    event.currentTarget.blur();
+
+    navigate('/transactions/new', {
+      state: { from: location.pathname },
+    });
   };
 
-  const getNavItem = (item: NavItem | undefined) => {
-    if (!item) return;
-    return (
-      <Pressable className="btnPrimary heet-btn" haptic="medium" ripple={true}>
-        <NavLink className={`nav-link nav-link__${item.key}`} to={item.to}>
-          {({ isActive }) => (
-            <>
-              {item.key === 'profile' ? (
-                <UserAvatar />
-              ) : (
-                <TTIcon
-                  icon={item.icon}
-                  size={24}
-                  color={isActive ? 'var(--color-primary)' : 'var(--color-text-primary)'}
-                />
-              )}
-              {item.key !== 'profile' && (
-                <span
-                  className="nav-link-title"
-                  style={{
-                    color: isActive ? 'var(--color-primary)' : 'var(--color-text-primary)',
-                  }}
-                >
-                  {t(item.i18nLabel)}
-                </span>
-              )}
-            </>
-          )}
-        </NavLink>
-      </Pressable>
-    );
-  };
+  const renderNavItem = (item: NavItem) => (
+    <Pressable
+      key={item.key}
+      as="span"
+      className="bottom-nav-item"
+      haptic="light"
+      ripple
+      pressScale={0.96}
+    >
+      <NavLink
+        to={item.to}
+        end={item.to === '/'}
+        className={({ isActive }) =>
+          ['nav-link', `nav-link__${item.key}`, isActive && 'nav-link--active']
+            .filter(Boolean)
+            .join(' ')
+        }
+      >
+        {item.key === 'profile' ? (
+          <span className="nav-link-icon nav-link-avatar">
+            <UserAvatar />
+          </span>
+        ) : (
+          <span className="nav-link-icon">
+            <TTIcon icon={item.icon} size={24} color="currentColor" />
+          </span>
+        )}
+
+        <span className="nav-link-title">{t(item.i18nLabel)}</span>
+      </NavLink>
+    </Pressable>
+  );
 
   return (
-    <>
-      <nav className="bottom-nav">
-        {getNavItem(dashboard)}
-        {getNavItem(txns)}
+    <nav className="bottom-nav" aria-label={mainNavLabel}>
+      {NAV_ITEMS.slice(0, 2).map(renderNavItem)}
 
-        <div className="fab-space">
-          <div className="fab-wrapper">
-            <button onClick={onFabClick} className="fab">
-              <TTIcon icon={FaPlus} color="var(--color-bg-elevated)" size={18} />
-            </button>
-          </div>
+      <div className="fab-space">
+        <div className="fab-wrapper">
+          <Pressable
+            className="fab"
+            haptic="medium"
+            ripple
+            pressScale={0.92}
+            onClick={onFabClick}
+            aria-label={addExpenseLabel}
+          >
+            <TTIcon icon={FaPlus} color="var(--color-bg-elevated)" size={18} />
+          </Pressable>
         </div>
-        {getNavItem(insights)}
-        {getNavItem(profile)}
-      </nav>
-    </>
+      </div>
+
+      {NAV_ITEMS.slice(2).map(renderNavItem)}
+    </nav>
   );
 };
 

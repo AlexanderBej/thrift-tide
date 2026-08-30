@@ -1,219 +1,132 @@
-@use '../../../styles/tokens.scss' as *;
+@use '../../../styles/tokens' as *;
 
 .pressable {
   position: relative;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  /* important for ripple/overlay */
   overflow: hidden;
 
-  /* mobile tap highlight */
-  -webkit-tap-highlight-color: transparent;
+  padding: 0;
+  border: 0;
 
-  /* makes taps feel snappier on mobile */
+  color: inherit;
+  font: inherit;
+
+  background: none;
+
+  -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 
-  /* press animation */
   transform: translateZ(0);
   transition: transform 120ms ease;
 
-  min-width: 150px;
-  border-radius: 999px;
-  transition: all $transition-normal;
-  padding: 10px 20px;
-  min-height: 50px;
-  font-weight: 600;
-
   &[data-pressed='true'] {
-    transform: scale(0.98);
+    transform: scale(var(--press-scale, 0.98));
   }
 
-  /* Focus for keyboard users */
   &:focus-visible {
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
-    border-radius: 12px; /* tweak */
   }
 
-  &__icon {
-    min-width: unset;
-    border-radius: unset;
-    padding: unset;
-    min-height: unset;
-  }
-
-  &__neutral {
-    padding: 0;
-    color: var(--color-text-primary);
-    text-align: left;
-    color: var(--color-coral);
-    min-height: unset;
-  }
-
-  &__primary {
-    background-color: var(--color-primary);
-    color: var(--color-text-inverse);
-    border: 3px solid;
-    border-color: var(--color-primary);
-  }
-
-  &__secondary {
-    color: var(--color-text-primary);
-    border: 3px solid;
-    border-color: var(--color-coral);
-  }
-
-  &__overlay {
-    /* Optional pressed overlay (subtle) */
-
+  &--overlay {
     &::after {
       content: '';
+
       position: absolute;
-      inset: 0;
       z-index: 1;
+      inset: 0;
+
+      pointer-events: none;
+
+      background: var(--color-press-overlay);
       opacity: 0;
+
       transition: opacity 120ms ease;
     }
 
-    /* overlay shows when pressed */
     &[data-pressed='true']::after {
       opacity: 1;
     }
-
-    /* Auto overlay color: you can tune by theme via CSS variables */
-    &::after {
-      background: var(--color-press-overlay);
-    }
   }
 
-  &__disabled {
-    opacity: 0.55;
+  &--disabled {
     pointer-events: none;
-    background-color: var(--color-border-subtle);
+    opacity: 0.55;
   }
 }
 
 .pressable-content {
   position: relative;
   z-index: 2;
+
+  display: inherit;
+  align-items: inherit;
+  justify-content: inherit;
 }
 
-/* Ripple container */
+/* Ripple layer */
 .pressable-ripples {
   position: absolute;
-  inset: 0;
   z-index: 1;
+  inset: 0;
+
   pointer-events: none;
 }
 
-/* Ripple itself */
 .pressable-ripple {
   position: absolute;
-  border-radius: 999px;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
   transform: scale(0);
-  opacity: 0.18;
-  animation: pressable-ripple-anim 520ms ease-out;
+  opacity: 0.12;
+
+  animation: pressable-ripple 520ms ease-out forwards;
 }
 
-/* Ripple color modes */
-.pressable-ripple--light .pressable-ripple {
+.pressable--ripple-light .pressable-ripple {
   background: var(--color-ripple-light);
   opacity: 0.14;
 }
-.pressable-ripple--dark .pressable-ripple {
-  background: var(--color-ripple-dark);
-  opacity: 0.12;
-}
-/* auto (default) uses a CSS var so you can set it by theme */
-.pressable-ripple--auto .pressable-ripple {
+
+.pressable--ripple-dark .pressable-ripple {
   background: var(--color-ripple-dark);
   opacity: 0.12;
 }
 
-@keyframes pressable-ripple-anim {
+.pressable--ripple-auto .pressable-ripple {
+  background: var(--color-ripple-dark);
+  opacity: 0.12;
+}
+
+@keyframes pressable-ripple {
   to {
     transform: scale(2.6);
     opacity: 0;
   }
 }
 
-.thrift-tide-btn {
-  min-width: 150px;
-  border-radius: 999px;
-  transition: all $transition-normal;
-  padding: 10px 20px;
-  min-height: 50px;
-  font-weight: 600;
+@media (prefers-reduced-motion: reduce) {
+  .pressable {
+    transition: none;
 
-  &__rounded {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    min-width: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    @include mediaDown(md) {
-      width: 50px;
-      height: 50px;
-    }
-
-    &:hover {
-      background-color: var(--color-primary-hover);
+    &[data-pressed='true'] {
+      transform: none;
     }
   }
 
-  &__neutral {
-    padding: 0;
-    color: var(--color-text-primary);
-    text-align: left;
-    color: var(--color-coral);
-    min-height: unset;
+  .pressable--overlay::after {
+    transition: none;
   }
 
-  &__primary {
-    background-color: var(--color-primary);
-    color: var(--color-text-inverse);
-    border: 3px solid;
-    border-color: var(--color-primary);
-
-    &:hover {
-      background-color: transparent;
-      color: var(--color-text-primary);
-    }
-  }
-
-  &__secondary {
-    color: var(--color-text-primary);
-    border: 3px solid;
-    border-color: var(--color-coral);
-
-    &:hover {
-      background-color: transparent;
-      color: var(--color-coral);
-    }
-  }
-
-  &__disabled {
-    pointer-events: none;
-    background-color: var(--color-border-subtle);
-    border-color: var(--color-border-subtle);
-    color: var(--color-text-secondary);
-  }
-
-  &__loading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  &__small {
-    height: 35px;
-    min-width: 100px;
-    min-height: unset;
-    padding: 5px 10px;
+  .pressable-ripple {
+    animation: none;
+    opacity: 0;
   }
 }

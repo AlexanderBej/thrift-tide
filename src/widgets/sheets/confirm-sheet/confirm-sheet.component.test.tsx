@@ -23,8 +23,8 @@ jest.mock('@shared/ui/icon', () => ({
   TTIcon: () => <span aria-hidden="true" />,
 }));
 
-jest.mock('@shared/ui/v3-action', () => ({
-  V3Action: ({
+jest.mock('@shared/ui/button', () => ({
+  Button: ({
     children,
     disabled,
     loading,
@@ -34,7 +34,12 @@ jest.mock('@shared/ui/v3-action', () => ({
     loading?: boolean;
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
   }>) => (
-    <button type="button" disabled={disabled || loading} aria-busy={loading || undefined} onClick={onClick}>
+    <button
+      type="button"
+      disabled={disabled || loading}
+      aria-busy={loading || undefined}
+      onClick={onClick}
+    >
       {loading ? 'Loading' : children}
     </button>
   ),

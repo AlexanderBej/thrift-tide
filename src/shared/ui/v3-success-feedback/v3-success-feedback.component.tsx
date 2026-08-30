@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 
-import { V3Action } from '../v3-action';
+import { Button } from '../button';
 
 import './v3-success-feedback.styles.scss';
 
@@ -45,14 +45,14 @@ const V3SuccessFeedback: React.FC<V3SuccessFeedbackProps> = ({
       </span>
       <span className="v3-success-feedback__message">{message}</span>
       {actionLabel && onAction && (
-        <V3Action
+        <Button
           variant="quiet"
           size="sm"
           className="v3-success-feedback__action"
           onClick={onAction}
         >
           {actionLabel}
-        </V3Action>
+        </Button>
       )}
     </div>
   );

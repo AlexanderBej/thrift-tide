@@ -16,7 +16,7 @@ import {
   ResolvedExpenseGroupOption,
   toYMD,
 } from '@shared/utils';
-import { V3Action, PageSpinner } from '@shared/ui';
+import { Button, PageSpinner } from '@shared/ui';
 import { ExpenseGroupIcon } from '@shared/components';
 import { selectAuthUser } from '@store/auth-store';
 import {
@@ -277,9 +277,9 @@ const CaptureExpense: React.FC = () => {
     return (
       <main className="capture-page capture-page--center">
         <p className="capture-inline-error">{submitError}</p>
-        <V3Action variant="secondary" onClick={goBack}>
+        <Button variant="secondary" onClick={goBack}>
           {t('common:actions.back')}
-        </V3Action>
+        </Button>
       </main>
     );
   }
@@ -287,7 +287,7 @@ const CaptureExpense: React.FC = () => {
   return (
     <main className="capture-page">
       <header className="capture-header">
-        <V3Action
+        <Button
           variant="quiet"
           icon={view === 'form' ? FiX : FaChevronLeft}
           iconOnly
@@ -306,7 +306,7 @@ const CaptureExpense: React.FC = () => {
         <div className="capture-header-right">
           {isEdit && view === 'form' && (
             <>
-              <V3Action
+              <Button
                 variant="quiet"
                 icon={FiMoreHorizontal}
                 iconOnly
@@ -418,7 +418,7 @@ const CaptureExpense: React.FC = () => {
 
             <section className="capture-section capture-note-section">
               {!form.noteExpanded ? (
-                <V3Action
+                <Button
                   variant="quiet"
                   size="sm"
                   fullWidth
@@ -426,7 +426,7 @@ const CaptureExpense: React.FC = () => {
                   onClick={() => updateNotePreference(true)}
                 >
                   {t('budget:capture.addNote')}
-                </V3Action>
+                </Button>
               ) : (
                 <div className="capture-note-field">
                   <div className="capture-note-label-row">
@@ -466,7 +466,7 @@ const CaptureExpense: React.FC = () => {
                 {submitError}
               </p>
             )}
-            <V3Action
+            <Button
               size="lg"
               fullWidth
               disabled={!canSubmit}
@@ -475,7 +475,7 @@ const CaptureExpense: React.FC = () => {
               onClick={handleSubmit}
             >
               {submitLabel}
-            </V3Action>
+            </Button>
           </footer>
         </>
       )}

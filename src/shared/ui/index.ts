@@ -12,6 +12,5 @@ export * from './info-popover';
 export * from './pressable';
 export * from './slider-viewport';
 export * from './spinners';
-export * from './v3-action';
 export * from './v3-app-loader';
 export * from './v3-success-feedback';

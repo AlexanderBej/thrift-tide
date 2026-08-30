@@ -1,40 +1,93 @@
 @use '../../../styles/tokens' as *;
 
 .app-header {
-  height: 44px;
-  min-height: 44px;
   width: 100%;
-  @include grid($templateColumns: 1fr auto 1fr, $columnGap: 8px);
-  padding: 0 $spacing-4;
+
+  height: calc(var(--top-nav-h) + env(safe-area-inset-top));
+  min-height: calc(var(--top-nav-h) + env(safe-area-inset-top));
+
+  padding: env(safe-area-inset-top) $spacing-4 0;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto
+    minmax(0, 1fr);
+
+  column-gap: $spacing-2;
+  align-items: center;
+
+  transition:
+    height 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    min-height 280ms cubic-bezier(0.22, 1, 0.36, 1);
 
   .app-header-container {
-    height: 100%;
     display: flex;
+    min-width: 0;
+    height: 100%;
+
     align-items: center;
+
+    transition:
+      transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 180ms ease;
 
     &__left {
       justify-content: flex-start;
-
-      .back-btn {
-        display: flex;
-        gap: $spacing-2;
-        align-items: center;
-
-        .back-btn-text {
-          color: var(--color-primary);
-          font-weight: 600;
-          font-size: 16px;
-        }
-      }
     }
 
     &__right {
       justify-content: flex-end;
     }
+  }
 
-    .page-title {
-      font-size: 18px;
-      font-weight: 800;
+  &--hidden {
+    height: env(safe-area-inset-top);
+    min-height: env(safe-area-inset-top);
+
+    .app-header-container {
+      opacity: 0;
+      transform: translateY(-100%);
+      pointer-events: none;
     }
+  }
+
+  .center-container {
+    justify-content: center;
+  }
+
+  .page-title {
+    overflow: hidden;
+
+    max-width: 100%;
+
+    color: var(--color-text-primary);
+
+    font-size: 18px;
+    font-weight: 650;
+    line-height: 1.2;
+
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .back-btn {
+    flex: 0 1 auto;
+
+    min-width: 0;
+    padding-inline: 0;
+
+    color: var(--color-primary);
+
+    font-size: 15px;
+    font-weight: 600;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-header,
+  .app-header .app-header-container {
+    transition: none;
   }
 }

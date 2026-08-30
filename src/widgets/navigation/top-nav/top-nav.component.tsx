@@ -3,9 +3,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { FaChevronLeft } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import clsx from 'clsx';
 
-import { TTIcon } from '@shared/ui';
-import { routes } from '@shared/utils/routes.util';
+import { Button } from '@shared/ui';
+import { getRouteMeta } from '@shared/utils/routes.util';
 import { PeriodWidget } from 'widgets/period-widget';
 import { selectSettingsAppTheme } from '@store/settings-store';
 
@@ -14,51 +15,69 @@ import { ReactComponent as LogoDark } from '../../../assets/thrift_tide_logo-dar
 
 import './top-nav.styles.scss';
 
-const TopNav: React.FC = () => {
+interface TopNavProps {
+  hidden?: boolean;
+}
+
+const TopNav: React.FC<TopNavProps> = ({ hidden = false }) => {
   const { t } = useTranslation(['common', 'taxonomy']);
   const location = useLocation();
   const navigate = useNavigate();
-
   const theme = useSelector(selectSettingsAppTheme);
 
-  const isDashboard = location.pathname === '/';
-  const isHistory = location.pathname === '/history';
-  const title = getTopNavTitle(location.pathname);
+  const routeMeta = getRouteMeta(location.pathname);
 
-  const showBackBtn = location.pathname.includes('categories') || isHistory;
+  const handleBack = () => {
+    if (!routeMeta?.backFallback) return;
+
+    if (location.key === 'default') {
+      navigate(routeMeta.backFallback, { replace: true });
+      return;
+    }
+
+    navigate(-1);
+  };
 
   return (
-    <header className="app-header">
+    <header
+      className={clsx('app-header', {
+        'app-header--hidden': hidden,
+      })}
+    >
       <div className="app-header-container app-header-container__left">
-        {showBackBtn && (
-          <button className="back-btn" onClick={() => navigate(-1)}>
-            <TTIcon icon={FaChevronLeft} size={16} color="var(--color-primary)" />
-            <span className="back-btn-text">{t('actions.back')}</span>
-          </button>
+        {routeMeta?.showBack && (
+          <Button
+            variant="quiet"
+            size="sm"
+            icon={FaChevronLeft}
+            haptic="light"
+            className="back-btn"
+            onClick={handleBack}
+          >
+            {t('common:actions.back')}
+          </Button>
         )}
       </div>
+
       <div className="app-header-container center-container">
-        {!isDashboard ? (
-          <span className="page-title">{t(title)}</span>
-        ) : theme === 'dark' ? (
-          <LogoDark height={40} />
-        ) : (
-          <LogoLight height={40} />
-        )}
+        {routeMeta?.dashboard ? (
+          theme === 'dark' ? (
+            <LogoDark height={30} />
+          ) : (
+            <LogoLight height={30} />
+          )
+        ) : routeMeta?.titleKey ? (
+          <div className="page-title" role="heading" aria-level={1}>
+            {t(routeMeta.titleKey)}
+          </div>
+        ) : null}
       </div>
+
       <div className="app-header-container app-header-container__right">
-        {!isHistory && <PeriodWidget />}
+        {routeMeta?.showPeriod !== false && <PeriodWidget />}
       </div>
     </header>
   );
 };
-
-function getTopNavTitle(pathname: string) {
-  const category = pathname.match(/^\/categories\/(needs|wants|savings)$/)?.[1];
-  if (category) return `taxonomy:categoryNames.${category}`;
-
-  const routeTitle = routes.find((r) => r.path === pathname)?.title ?? '';
-  return routeTitle ? `common:pages.${routeTitle.toLowerCase()}` : '';
-}
 
 export default TopNav;

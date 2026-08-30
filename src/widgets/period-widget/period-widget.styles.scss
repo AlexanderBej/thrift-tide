@@ -2,24 +2,58 @@
 
 .period-widget {
   display: flex;
-  align-items: center;
-  gap: $spacing-1;
-  padding: $spacing-2 $spacing-4;
-  background-color: var(--color-primary-soft);
-  border-radius: $radius-lg;
-  border: 1px solid;
-  border-color: var(--color-primary);
+  min-width: 0;
+  min-height: 34px;
 
-  &.dashboard-widget {
-    background-color: transparent;
-    padding: 0;
-    border-color: transparent;
+  padding: 5px 11px;
+
+  align-items: center;
+  gap: 6px;
+
+  border: 1px solid var(--color-primary);
+  border-radius: $radius-lg;
+
+  color: var(--color-primary);
+  background: var(--color-primary-soft);
+
+  -webkit-tap-highlight-color: transparent;
+
+  transition:
+    background-color 140ms ease,
+    transform 120ms ease;
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
   }
 
   .period-month {
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: capitalize;
+    overflow: hidden;
+
+    max-width: 86px;
+
     color: var(--color-text-secondary);
+
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.2;
+
+    text-overflow: ellipsis;
+    text-transform: capitalize;
+    white-space: nowrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .period-widget {
+    transition: none;
+
+    &:active {
+      transform: none;
+    }
   }
 }

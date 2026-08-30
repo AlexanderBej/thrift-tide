@@ -1,77 +1,84 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
 
 type Options = {
-  enabled?: boolean; // if false, hook is a no-op
-  target?: HTMLElement | Window | null;
-  hideOffset?: number; // start allowing hide after this Y
-  condenseAt?: number; // condense row1 after this Y
-  elevateAt?: number; // add shadow after this Y
-  revealDelta?: number; // min delta to toggle hidden/revealed
-  defaults?: { hidden: boolean; condensed: boolean; elevated: boolean }; // states when disabled
+  enabled?: boolean;
+  hideOffset?: number;
+  revealDelta?: number;
 };
 
-export function useHideOnScroll({
-  enabled = true,
-  target = typeof window !== 'undefined' ? window : null,
-  hideOffset = 80,
-  condenseAt = 120,
-  elevateAt = 8,
-  revealDelta = 24,
-  defaults = { hidden: false, condensed: false, elevated: false },
-}: Options = {}) {
-  const [hidden, setHidden] = useState(defaults.hidden);
-  const [condensed, setCondensed] = useState(defaults.condensed);
-  const [elevated, setElevated] = useState(defaults.elevated);
+export function useHideOnScroll(
+  scrollRef: RefObject<HTMLElement | null>,
+  { enabled = true, hideOffset = 64, revealDelta = 16 }: Options = {},
+) {
+  const [hidden, setHidden] = useState(false);
 
   const lastY = useRef(0);
-  const ticking = useRef(false);
+  const direction = useRef<'up' | 'down' | null>(null);
+  const accumulatedDistance = useRef(0);
+  const frame = useRef<number | null>(null);
 
-  const getY = (t: Options['target']) =>
-    !t ? 0 : t === window ? window.scrollY || 0 : (t as HTMLElement).scrollTop || 0;
-
-  useLayoutEffect(() => {
-    if (!enabled || !target) {
-      setHidden(defaults.hidden);
-      setCondensed(defaults.condensed);
-      setElevated(defaults.elevated);
-      return;
-    }
-    const y = getY(target);
-    lastY.current = y;
-    setElevated(y > elevateAt);
-    setCondensed(y > condenseAt);
+  const forceShow = useCallback(() => {
     setHidden(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [enabled, target]);
+    direction.current = null;
+    accumulatedDistance.current = 0;
+  }, []);
 
   useEffect(() => {
-    if (!enabled || !target) return;
+    const element = scrollRef.current;
 
-    const onScroll = () => {
-      const y = getY(target);
-      if (ticking.current) return;
-      ticking.current = true;
+    if (!enabled || !element) {
+      forceShow();
+      return;
+    }
 
-      requestAnimationFrame(() => {
+    lastY.current = Math.max(0, element.scrollTop);
+
+    const handleScroll = () => {
+      if (frame.current !== null) return;
+
+      frame.current = window.requestAnimationFrame(() => {
+        const y = Math.max(0, element.scrollTop);
         const delta = y - lastY.current;
-        const movedEnough = Math.abs(delta) > revealDelta;
-        const goingDown = delta > 0;
-
-        setElevated(y > elevateAt);
-        setCondensed(y > condenseAt);
-
-        if (y > hideOffset && movedEnough) setHidden(goingDown);
-        else if (movedEnough) setHidden(false);
 
         lastY.current = y;
-        ticking.current = false;
+        frame.current = null;
+
+        if (y <= hideOffset) {
+          forceShow();
+          return;
+        }
+
+        if (delta === 0) return;
+
+        const nextDirection = delta > 0 ? 'down' : 'up';
+
+        if (nextDirection !== direction.current) {
+          direction.current = nextDirection;
+          accumulatedDistance.current = 0;
+        }
+
+        accumulatedDistance.current += Math.abs(delta);
+
+        if (accumulatedDistance.current < revealDelta) return;
+
+        setHidden(nextDirection === 'down');
+        accumulatedDistance.current = 0;
       });
     };
 
-    const el: any = target === window ? window : target;
-    el.addEventListener('scroll', onScroll, { passive: true });
-    return () => el.removeEventListener('scroll', onScroll);
-  }, [enabled, target, hideOffset, condenseAt, elevateAt, revealDelta]);
+    element.addEventListener('scroll', handleScroll, { passive: true });
 
-  return { hidden, condensed, elevated };
+    return () => {
+      element.removeEventListener('scroll', handleScroll);
+
+      if (frame.current !== null) {
+        window.cancelAnimationFrame(frame.current);
+      }
+    };
+  }, [enabled, forceShow, hideOffset, revealDelta, scrollRef]);
+
+  return {
+    hidden,
+    forceShow,
+  };
 }
