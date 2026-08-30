@@ -2,7 +2,7 @@
 
 .info-block {
   width: 100%;
-  min-height: 100px;
+  min-height: 50px;
   border-radius: $radius-lg;
   background-color: color-mix(in srgb, var(--color-chart-eg-1), transparent 80%);
   color: var(--color-text-secondary);
@@ -10,5 +10,5 @@
   gap: $spacing-4;
   align-items: center;
   font-size: 14px;
-  padding: $spacing-6 $spacing-4;
+  padding: $spacing-4;
 }

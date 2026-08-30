@@ -1,0 +1,70 @@
+@use '../../../styles/tokens' as *;
+
+.profile-row {
+  &__icon {
+    display: grid;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    border-radius: $radius-md;
+    background: var(--color-bg-muted);
+    color: var(--color-primary);
+  }
+
+  &__copy {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  &__title {
+    overflow: hidden;
+    font-size: 15px;
+    font-weight: 760;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__subtitle {
+    overflow: hidden;
+    color: var(--color-text-secondary);
+    font-size: 12px;
+    font-weight: 550;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__end {
+    display: inline-flex;
+    min-width: 0;
+    max-width: 46vw;
+    align-items: center;
+    justify-content: flex-end;
+    gap: $spacing-2;
+    color: var(--color-text-secondary);
+  }
+
+  &__value {
+    overflow: hidden;
+    font-size: 13px;
+    font-weight: 750;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.profile-row__icon--image {
+  background: transparent;
+}
+
+@include mediaDown(sm) {
+  .profile-row {
+    &__end {
+      max-width: 38vw;
+    }
+  }
+}

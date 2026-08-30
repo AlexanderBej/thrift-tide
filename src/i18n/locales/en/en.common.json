@@ -32,9 +32,27 @@
       "spending": "What's driving your spending"
     },
     "profile": {
+      "account": "Account",
+      "fallbackName": "Thrift Tide user",
+      "sections": {
+        "explore": "Explore",
+        "preferences": "Preferences",
+        "budgetSetup": "Budget setup",
+        "data": "Data"
+      },
+      "explore": {
+        "categories": "Your budget structure",
+        "history": "Review previous periods"
+      },
       "quick": "Quick Actions",
       "eachMonth": "of each month",
       "reset": "Reset current period",
+      "resetSubtitle": "Clear this period's expenses",
+      "resetConfirm": {
+        "title": "Reset current period?",
+        "description": "This deletes all expenses in the selected period and clears its saved summary. Income, budget split, and period settings stay in place.",
+        "confirm": "Reset period"
+      },
       "logout": "Logout"
     },
     "history": {

@@ -15,10 +15,12 @@
     "checkbox": {
       "title": "Apply starting",
       "labelNow": "This period",
-      "labelFuture": "Next period"
+      "labelFuture": "Future periods"
     },
     "popover": "If you apply the changes starting this period, your allocations and remaining values will change.",
-    "button": "Update percents"
+    "button": "Update budget split",
+    "increase": "Increase {category}",
+    "decrease": "Decrease {category}"
   },
   "startDay": {
     "info": {
@@ -26,23 +28,31 @@
       "subtitle": "From your next period the start day will be"
     },
     "title": "Period start day",
-    "subtitle": "Allowed range is from the 1st to the 28th, in order to avoid end-of-month gaps.",
+    "subtitle": "Pick the day your budget period starts. You can choose from the 1st to the 28th.",
+    "pickerLabel": "Budget period start day",
     "button": "Update start day"
   },
   "currency": {
     "title": "Choose your budget currency",
+    "subtitle": "Used for income, expenses, and budget totals.",
     "labelRo": "Romanian Leu (RON)",
     "labelEu": "European Euro (EUR)",
     "button": "Change currency"
   },
   "language": {
-    "title": "Change the system language",
+    "title": "Choose language",
+    "subtitle": "Updates labels and messages across the app.",
     "button": "Change language"
   },
   "theme": {
-    "title": "Change the system theme",
+    "title": "Choose appearance",
+    "subtitle": "Choose your preferred theme.",
     "labelLight": "Light",
     "labelDark": "Dark",
+    "values": {
+      "light": "Light",
+      "dark": "Dark"
+    },
     "button": "Change theme"
   },
   "toast": {

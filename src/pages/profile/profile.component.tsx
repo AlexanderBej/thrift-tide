@@ -1,30 +1,27 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import clsx from 'clsx';
+import toast from 'react-hot-toast';
 import { BiReset } from 'react-icons/bi';
+import { FaChartPie, FaHistory, FaPalette, FaWallet } from 'react-icons/fa';
+import { FiGlobe, FiLogOut } from 'react-icons/fi';
+import { MdOutlineCategory, MdOutlineToday } from 'react-icons/md';
 
 import { signOutUser } from '@api/services';
-import { Donut, DonutItem, TTIcon } from '@shared/ui';
-import { selectAuthUser, userSignedOut } from '@store/auth-store';
+import { Button } from '@shared/ui';
+import { selectAuthUser } from '@store/auth-store';
 import { AppDispatch } from '@store/store';
 import { UserAvatar } from '@shared/components';
 import { selectSettingsAll } from '@store/settings-store';
-import { formatStartDay } from '@shared/utils';
-import { SettingsBlock, SettingsButton } from 'features';
-import {
-  BudgetSplitSheet,
-  CurrencySheet,
-  LanguageSheet,
-  StartDaySheet,
-  ThemeSheet,
-} from '@widgets';
-import { selectBudgetDoc } from '@store/budget-store';
-
-import actionCategory from '../../assets/illustrations/action-bucket.png';
-import actionHistory from '../../assets/illustrations/action-history.png';
-import calendaryIcon from '../../assets/illustrations/calendar-ill.png';
+import { formatStartDay } from '@shared/utils/format-data.util';
+import { BudgetSplitSheet, ConfirmSheet } from '@widgets';
+import CurrencySheet from 'widgets/sheets/currency-sheet/currency-sheet.component';
+import LanguageSheet from 'widgets/sheets/language-sheet/language-sheet.component';
+import StartDaySheet from 'widgets/sheets/start-day-sheet/start-day-sheet.component';
+import ThemeSheet from 'widgets/sheets/theme-sheet/theme-sheet.component';
+import { resetCurrentPeriodThunk, selectBudgetDoc } from '@store/budget-store';
+import { ProfileButtonRow, ProfileNavRow, ProfileSection } from 'features/profile';
 
 import './profile.styles.scss';
 
@@ -35,26 +32,52 @@ const LANGUAGE_LABELS: Record<string, string> = {
 
 type SheetKey = 'language' | 'currency' | 'theme' | 'budget' | 'day';
 
-const ORDER = ['needs', 'wants', 'savings'] as const;
-
 const ProfilePage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const { t } = useTranslation(['common', 'budget', 'taxonomy']);
+  const { t } = useTranslation(['common', 'settings', 'taxonomy']);
 
   const user = useSelector(selectAuthUser);
   const { defaultPercents, startDay, language, theme, currency } = useSelector(selectSettingsAll);
   const doc = useSelector(selectBudgetDoc);
 
   const [activeSheet, setActiveSheet] = useState<SheetKey | null>(null);
+  const [resetOpen, setResetOpen] = useState(false);
+  const [logoutPending, setLogoutPending] = useState(false);
 
+  const settingsToShow = {
+    percents: doc?.percents ?? defaultPercents,
+    startDay: doc?.startDay ?? startDay,
+  };
+
+  // const budgetSplitValue = ORDER.map(
+  //   (key) => `${Math.round(settingsToShow.percents[key] * 100)}%`,
+  // ).join(' / ');
+
+  const startDayValue = `${formatStartDay(settingsToShow.startDay, language)} ${String(
+    t('pageContent.profile.eachMonth'),
+  )}`;
   const languageLabel = LANGUAGE_LABELS[language] ?? language;
+  const appearanceLabel = theme ? String(t(`settings:theme.values.${theme}`)) : '';
 
-  const handleLogout = () => {
-    signOutUser();
-    dispatch(userSignedOut());
-    navigate('/login');
+  const handleLogout = async () => {
+    if (logoutPending) return;
+
+    setLogoutPending(true);
+    try {
+      await signOutUser();
+      navigate('/login');
+    } catch {
+      toast.error(String(t('common:errors.generic')));
+      setLogoutPending(false);
+    }
+  };
+
+  const handleResetCurrentPeriod = async () => {
+    if (!user?.uuid) return;
+    await dispatch(resetCurrentPeriodThunk({ uid: user.uuid })).unwrap();
+    setResetOpen(false);
   };
 
   const openSheet = (key: SheetKey) => setActiveSheet(key);
@@ -63,133 +86,88 @@ const ProfilePage: React.FC = () => {
     setActiveSheet(isOpen ? key : null);
   };
 
-  const linkItems = [
-    {
-      key: 'categories',
-      to: '/categories',
-      label: 'Categories',
-      i18nLabel: 'pages.categories',
-      image: actionCategory,
-    },
-    {
-      key: 'history',
-      to: '/history',
-      label: 'History',
-      i18nLabel: 'pages.history',
-      image: actionHistory,
-    },
-  ];
-
-  const settingsToShow = {
-    percents: doc?.percents ?? defaultPercents,
-    startDay: doc?.startDay ?? startDay,
-  };
-
-  const donutItems: DonutItem[] = ORDER.map((key) => ({
-    id: key,
-    label: key,
-    color: `var(--color-category-${key})`,
-    value: settingsToShow.percents[key] * 100,
-  }));
-
   return (
     <div className="profile-page">
-      <section className={`user-container user-container__${theme}`}>
-        <div className="user-info">
-          <UserAvatar medium />
-          <div className="user-details">
-            <h3>{user?.displayName}</h3>
-            <p>{user?.email}</p>
-          </div>
-        </div>
-
-        <h3 className="quick-actions">{t('pageContent.profile.quick')}</h3>
-        <div className="quick-action-links">
-          {linkItems.map((link, index) => (
-            <NavLink key={index} to={link.to} className={clsx('action-link', link.key)}>
-              <img src={link.image} width={50} alt="Logo" />
-              <span>{t(link.i18nLabel)}</span>
-            </NavLink>
-          ))}
+      <section className="profile-identity" aria-label={String(t('pageContent.profile.account'))}>
+        <UserAvatar medium />
+        <div className="profile-identity__copy">
+          <h1>{user?.displayName || String(t('pageContent.profile.fallbackName'))}</h1>
+          {user?.email && <p>{user.email}</p>}
         </div>
       </section>
 
-      <SettingsBlock title="GENERAL">
-        <SettingsButton
-          title={t('settings:shortNames.language') ?? 'Language'}
+      <ProfileSection title={String(t('pageContent.profile.sections.explore'))}>
+        <ProfileNavRow
+          to="/categories"
+          icon="category"
+          title={String(t('pages.categories'))}
+          subtitle={String(t('pageContent.profile.explore.categories'))}
+        />
+        <ProfileNavRow
+          to="/history"
+          icon="history"
+          title={String(t('pages.history'))}
+          subtitle={String(t('pageContent.profile.explore.history'))}
+        />
+      </ProfileSection>
+
+      <ProfileSection title={String(t('pageContent.profile.sections.preferences'))}>
+        <ProfileButtonRow
+          icon={FiGlobe}
+          title={String(t('settings:shortNames.language'))}
           value={languageLabel}
-          openSheet={() => openSheet('language')}
+          onClick={() => openSheet('language')}
         />
-        <SettingsButton
-          title={t('settings:shortNames.currency') ?? 'Currency'}
+        <ProfileButtonRow
+          icon={FaWallet}
+          title={String(t('settings:shortNames.currency'))}
           value={currency}
-          openSheet={() => openSheet('currency')}
+          onClick={() => openSheet('currency')}
         />
-        <SettingsButton
-          title={t('settings:shortNames.appearance') ?? 'Appearance'}
-          value={theme?.toString()}
-          openSheet={() => openSheet('theme')}
+        <ProfileButtonRow
+          icon={FaPalette}
+          title={String(t('settings:shortNames.appearance'))}
+          value={appearanceLabel}
+          onClick={() => openSheet('theme')}
         />
-      </SettingsBlock>
+      </ProfileSection>
 
-      <SettingsBlock title={t('settings:budgetPref')}>
-        <SettingsButton
-          openSheet={() => openSheet('budget')}
-          title={
-            <div className="settings-label-wrapper">
-              <Donut height={50} showTooltip={false} data={donutItems} />
-              <div className="settings-title-wrapper">
-                <h3>{t('settings:percents.title')}</h3>
-                <div className="settings-subtitle">
-                  {donutItems.map((item, index) => (
-                    <div key={index} className="percent-legend">
-                      <span style={{ textTransform: 'capitalize' }}>
-                        {t(`taxonomy:categoryNames.${item.label}`)}
-                      </span>
-                      <span style={{ color: item.color, fontWeight: 900 }}>
-                        {Math.round(item.value)}%
-                      </span>
-                      {index < 2 && <span>&bull;</span>}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          }
+      <ProfileSection title={String(t('pageContent.profile.sections.budgetSetup'))}>
+        <ProfileButtonRow
+          icon="donut"
+          title={String(t('settings:percents.title'))}
+          percents={settingsToShow.percents}
+          onClick={() => openSheet('budget')}
         />
-        <SettingsButton
-          openSheet={() => openSheet('day')}
-          title={
-            <div className="settings-label-wrapper">
-              <img src={calendaryIcon} height={50} alt="Calendar" />
-              <div className="settings-title-wrapper">
-                <h3>{t('settings:startDay.title')}</h3>
-                <span className="settings-subtitle">
-                  {formatStartDay(doc?.startDay, language) ?? formatStartDay(startDay, language)}{' '}
-                  {t('pageContent.profile.eachMonth')}
-                </span>
-              </div>
-            </div>
-          }
+        <ProfileButtonRow
+          icon="calendar"
+          title={String(t('settings:startDay.title'))}
+          value={startDayValue}
+          onClick={() => openSheet('day')}
         />
-      </SettingsBlock>
+      </ProfileSection>
 
-      <SettingsBlock title="DATA">
-        <SettingsButton
-          openSheet={() => openSheet('language')}
-          title={
-            <div className="settings-label-wrapper">
-              <TTIcon icon={BiReset} size={22} color="var(--color-error)" />
-              <span className="settings-label error-label">{t('pageContent.profile.reset')}</span>
-            </div>
-          }
+      <ProfileSection title={String(t('pageContent.profile.sections.data'))}>
+        <ProfileButtonRow
+          icon={BiReset}
+          title={String(t('pageContent.profile.reset'))}
+          subtitle={String(t('pageContent.profile.resetSubtitle'))}
+          tone="danger"
+          onClick={() => setResetOpen(true)}
         />
-      </SettingsBlock>
+      </ProfileSection>
 
-      <section className="tt-section">
-        <button onClick={handleLogout} className={`logout-btn logout-btn__${theme}`}>
-          <span>{t('pageContent.profile.logout')}</span>
-        </button>
+      <section className="profile-logout">
+        <Button
+          variant="quiet"
+          size="md"
+          icon={FiLogOut}
+          haptic="light"
+          loading={logoutPending}
+          onClick={handleLogout}
+        >
+          {String(t('pageContent.profile.logout'))}
+        </Button>
       </section>
 
       <LanguageSheet
@@ -206,6 +184,16 @@ const ProfilePage: React.FC = () => {
         onOpenChange={onSheetOpenChange('budget')}
       />
       <StartDaySheet open={activeSheet === 'day'} onOpenChange={onSheetOpenChange('day')} />
+      <ConfirmSheet
+        open={resetOpen}
+        onOpenChange={setResetOpen}
+        title={String(t('pageContent.profile.resetConfirm.title'))}
+        description={String(t('pageContent.profile.resetConfirm.description'))}
+        cancelLabel={String(t('actions.cancel'))}
+        confirmLabel={String(t('pageContent.profile.resetConfirm.confirm'))}
+        tone="destructive"
+        onConfirm={handleResetCurrentPeriod}
+      />
     </div>
   );
 };

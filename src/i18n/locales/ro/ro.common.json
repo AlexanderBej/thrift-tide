@@ -32,9 +32,27 @@
       "spending": "Ce îți determină cheltuielile"
     },
     "profile": {
+      "account": "Cont",
+      "fallbackName": "Utilizator Thrift Tide",
+      "sections": {
+        "explore": "Explorează",
+        "preferences": "Preferințe",
+        "budgetSetup": "Configurare buget",
+        "data": "Date"
+      },
+      "explore": {
+        "categories": "Structura bugetului tău",
+        "history": "Revizuiește perioadele trecute"
+      },
       "quick": "Acțiuni rapide",
       "eachMonth": "a fiecărei luni",
       "reset": "Resetează perioada curentă",
+      "resetSubtitle": "Șterge cheltuielile acestei perioade",
+      "resetConfirm": {
+        "title": "Resetezi perioada curentă?",
+        "description": "Această acțiune șterge toate cheltuielile din perioada selectată și golește sumarul salvat. Venitul, împărțirea bugetului și setările perioadei rămân neschimbate.",
+        "confirm": "Resetează perioada"
+      },
       "logout": "Deconectează"
     },
     "history": {
