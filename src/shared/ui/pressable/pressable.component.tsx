@@ -1,31 +1,29 @@
-import React, { JSX, useCallback, useMemo, useRef, useState } from 'react';
+import React, { JSX, useCallback, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 
 import './pressable.styles.scss';
 
-type HapticType = 'light' | 'medium' | 'none';
-type RippleColor = 'auto' | 'light' | 'dark';
+export type HapticType = 'light' | 'medium' | 'none';
+export type RippleColor = 'auto' | 'light' | 'dark';
 
 export type PressableProps = {
   as?: keyof JSX.IntrinsicElements;
   className?: string;
   disabled?: boolean;
-  variant?: 'primary' | 'secondary' | 'neutral' | 'icon';
+  type?: 'button' | 'submit' | 'reset';
 
-  /** Visual feedback */
-  pressScale?: number; // e.g. 0.98
+  /** Tactile feedback */
+  pressScale?: number;
   pressOverlay?: boolean;
+  haptic?: HapticType;
 
   /** Ripple */
   ripple?: boolean;
   rippleColor?: RippleColor;
 
-  /** Haptics (best-effort) */
-  haptic?: HapticType;
-
   /** Events */
-  onClick?: React.MouseEventHandler;
-  onKeyDown?: React.KeyboardEventHandler;
+  onClick?: React.MouseEventHandler<HTMLElement>;
+  onKeyDown?: React.KeyboardEventHandler<HTMLElement>;
 
   children: React.ReactNode;
 } & Omit<React.HTMLAttributes<HTMLElement>, 'onClick' | 'onKeyDown'>;
@@ -37,20 +35,21 @@ type RippleItem = {
   size: number;
 };
 
+const RIPPLE_DURATION = 520;
+
 function runHaptic(type: HapticType) {
   if (type === 'none') return;
-  // Best-effort. iOS Safari usually ignores vibration; Android supports it.
+
   if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
-    const pattern = type === 'light' ? 10 : 20;
-    (navigator as any).vibrate(pattern);
+    navigator.vibrate(type === 'light' ? 10 : 20);
   }
 }
 
 const Pressable: React.FC<PressableProps> = ({
   as = 'button',
-  className = '',
+  type = 'button',
+  className,
   disabled = false,
-  variant = 'icon',
 
   pressScale = 0.98,
   pressOverlay = true,
@@ -65,81 +64,77 @@ const Pressable: React.FC<PressableProps> = ({
   children,
   ...rest
 }) => {
-  const Comp = as as any;
+  const Comp = as as React.ElementType;
+
   const rootRef = useRef<HTMLElement | null>(null);
+  const rippleIdRef = useRef(0);
+  const rippleTimersRef = useRef<number[]>([]);
 
   const [isPressed, setIsPressed] = useState(false);
   const [ripples, setRipples] = useState<RippleItem[]>([]);
 
-  const rippleClass = useMemo(() => {
-    if (rippleColor === 'light') return 'pressable__ripple--light';
-    if (rippleColor === 'dark') return 'pressable__ripple--dark';
-    return 'pressable__ripple--auto';
-  }, [rippleColor]);
-
-  const addRipple = useCallback((clientX: number, clientY: number) => {
-    const el = rootRef.current;
-    if (!el) return;
-
-    const rect = el.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height) * 1.1; // slightly larger feels nicer
-    const x = clientX - rect.left - size / 2;
-    const y = clientY - rect.top - size / 2;
-
-    const id = Date.now() + Math.floor(Math.random() * 1000);
-    setRipples((prev) => [...prev, { id, x, y, size }]);
-
-    // Remove after animation
-    window.setTimeout(() => {
-      setRipples((prev) => prev.filter((r) => r.id !== id));
-    }, 520);
+  useEffect(() => {
+    return () => {
+      rippleTimersRef.current.forEach(window.clearTimeout);
+    };
   }, []);
 
-  const onPointerDown = useCallback(
-    (e: React.PointerEvent<HTMLElement>) => {
+  const addRipple = useCallback((clientX: number, clientY: number) => {
+    const element = rootRef.current;
+    if (!element) return;
+
+    const rect = element.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height) * 1.1;
+
+    const ripple: RippleItem = {
+      id: ++rippleIdRef.current,
+      x: clientX - rect.left - size / 2,
+      y: clientY - rect.top - size / 2,
+      size,
+    };
+
+    setRipples((current) => [...current, ripple]);
+
+    const timer = window.setTimeout(() => {
+      setRipples((current) => current.filter((item) => item.id !== ripple.id));
+
+      rippleTimersRef.current = rippleTimersRef.current.filter((timerId) => timerId !== timer);
+    }, RIPPLE_DURATION);
+
+    rippleTimersRef.current.push(timer);
+  }, []);
+
+  const handlePointerDown = useCallback(
+    (event: React.PointerEvent<HTMLElement>) => {
       if (disabled) return;
 
       setIsPressed(true);
+      event.currentTarget.setPointerCapture?.(event.pointerId);
 
-      // Capture so we reliably get pointerup even if finger moves off
-      (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
+      runHaptic(haptic);
 
-      if (haptic !== 'none') runHaptic(haptic);
-
-      if (ripple) addRipple(e.clientX, e.clientY);
+      if (ripple) {
+        addRipple(event.clientX, event.clientY);
+      }
     },
-    [disabled, haptic, ripple, addRipple],
+    [addRipple, disabled, haptic, ripple],
   );
 
-  const onPointerUp = useCallback(() => {
-    setIsPressed(false);
-  }, []);
-
-  const onPointerCancel = useCallback(() => {
+  const releasePress = useCallback(() => {
     setIsPressed(false);
   }, []);
 
   const handleClick = useCallback(
-    (e: React.MouseEvent<HTMLElement>) => {
+    (event: React.MouseEvent<HTMLElement>) => {
       if (disabled) {
-        e.preventDefault();
-        e.stopPropagation();
+        event.preventDefault();
+        event.stopPropagation();
         return;
       }
-      onClick?.(e);
+
+      onClick?.(event);
     },
     [disabled, onClick],
-  );
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLElement>) => {
-      onKeyDown?.(e);
-      // Optional: haptic on Space/Enter for keyboard users
-      if (!disabled && (e.key === 'Enter' || e.key === ' ')) {
-        if (haptic !== 'none') runHaptic(haptic);
-      }
-    },
-    [disabled, haptic, onKeyDown],
   );
 
   return (
@@ -147,44 +142,47 @@ const Pressable: React.FC<PressableProps> = ({
       ref={(node: HTMLElement | null) => {
         rootRef.current = node;
       }}
-      className={clsx('pressable', className, `pressable__${variant}`, rippleClass, {
-        pressable__overlay: pressOverlay,
-        pressable__ripple: ripple,
-        pressable__disabled: disabled,
-      })}
+      {...(as === 'button' ? { type, disabled } : {})}
+      className={clsx(
+        'pressable',
+        `pressable--ripple-${rippleColor}`,
+        {
+          'pressable--overlay': pressOverlay,
+          'pressable--ripple': ripple,
+          'pressable--disabled': disabled,
+        },
+        className,
+      )}
       data-pressed={isPressed ? 'true' : 'false'}
       style={
         {
-          ...(rest.style || {}),
-          // press scale via CSS var so you can tweak per button
-          ['--press-scale' as any]: String(pressScale),
+          ...rest.style,
+          '--press-scale': pressScale,
         } as React.CSSProperties
       }
-      // Mobile highlight removal
-      // (also do globally in CSS if you prefer)
       {...rest}
-      onPointerDown={onPointerDown}
-      onPointerUp={onPointerUp}
-      onPointerCancel={onPointerCancel}
-      onPointerLeave={onPointerUp}
+      onPointerDown={handlePointerDown}
+      onPointerUp={releasePress}
+      onPointerCancel={releasePress}
+      onPointerLeave={releasePress}
       onClick={handleClick}
-      onKeyDown={handleKeyDown}
-      aria-disabled={disabled || undefined}
-      tabIndex={disabled ? -1 : rest.tabIndex}
+      onKeyDown={onKeyDown}
+      aria-disabled={as !== 'button' && disabled ? true : undefined}
+      tabIndex={as !== 'button' && disabled ? -1 : rest.tabIndex}
     >
       <span className="pressable-content">{children}</span>
 
       {ripple && (
         <span className="pressable-ripples" aria-hidden="true">
-          {ripples.map((r) => (
+          {ripples.map((item) => (
             <span
-              key={r.id}
+              key={item.id}
               className="pressable-ripple"
               style={{
-                left: r.x,
-                top: r.y,
-                width: r.size,
-                height: r.size,
+                left: item.x,
+                top: item.y,
+                width: item.size,
+                height: item.size,
               }}
             />
           ))}

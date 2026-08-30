@@ -13,7 +13,7 @@ import type { Locale } from 'date-fns';
 import { DayPicker } from 'react-day-picker';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
-import { V3Action } from '@shared/ui';
+import { Button } from '@shared/ui';
 
 import 'react-day-picker/dist/style.css';
 import './date-selector.styles.scss';
@@ -66,19 +66,19 @@ const DateSelector: React.FC<DateSelectorProps> = ({ value, bounds, locale, onSe
     <section className="capture-body capture-selector-view">
       <div className="capture-date-shortcuts">
         {todayAllowed && (
-          <V3Action variant="secondary" onClick={() => onSelect(new Date())}>
+          <Button variant="secondary" onClick={() => onSelect(new Date())}>
             {t('common:dates.today')}
-          </V3Action>
+          </Button>
         )}
         {yesterdayAllowed && (
-          <V3Action variant="secondary" onClick={() => onSelect(yesterday)}>
+          <Button variant="secondary" onClick={() => onSelect(yesterday)}>
             {t('common:dates.yesterday')}
-          </V3Action>
+          </Button>
         )}
       </div>
 
       <div className="capture-calendar-nav">
-        <V3Action
+        <Button
           variant="quiet"
           icon={FaChevronLeft}
           iconOnly
@@ -87,7 +87,7 @@ const DateSelector: React.FC<DateSelectorProps> = ({ value, bounds, locale, onSe
           onClick={() => setDisplayMonth(startOfMonth(addDays(displayMonth, -1)))}
         />
         <h2>{format(displayMonth, 'MMMM yyyy', { locale })}</h2>
-        <V3Action
+        <Button
           variant="quiet"
           icon={FaChevronRight}
           iconOnly

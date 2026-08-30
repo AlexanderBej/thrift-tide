@@ -1,5 +1,11 @@
 @use 'variables' as *;
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 :root {
   color-scheme: light;
 

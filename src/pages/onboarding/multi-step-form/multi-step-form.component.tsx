@@ -155,20 +155,13 @@ const MultiStepForm: React.FC = () => {
             ripple={true}
             onClick={() => navigate('/')}
             className="skip-btn onboarding-btn"
-            variant="neutral"
           >
             <span>{t('actions.skip') ?? 'Skip'}</span>
           </Pressable>
         )}
 
         {step > 1 && step < 5 && (
-          <Pressable
-            haptic="medium"
-            ripple={true}
-            onClick={prevStep}
-            className="onboarding-btn"
-            variant="secondary"
-          >
+          <Pressable haptic="medium" ripple={true} onClick={prevStep} className="onboarding-btn">
             <span>{t('actions.back') ?? 'Back'}</span>
           </Pressable>
         )}
@@ -179,7 +172,6 @@ const MultiStepForm: React.FC = () => {
             onClick={handleNextClick}
             disabled={getNextBtnDisabled()}
             className="onboarding-btn"
-            variant="primary"
           >
             <span>{t('actions.next') ?? 'Next'}</span>
           </Pressable>
@@ -189,7 +181,6 @@ const MultiStepForm: React.FC = () => {
           <Pressable
             haptic="medium"
             ripple={true}
-            variant="primary"
             onClick={() => navigate('/')}
             className="onboarding-btn"
           >

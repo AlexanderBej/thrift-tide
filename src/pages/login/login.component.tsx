@@ -42,7 +42,7 @@ const Login: React.FC = () => {
         <h2>Login</h2>
         <hr />
         <div className="login-btn-container">
-          <Button buttonType="primary" customContainerClass="login-btn" onClick={logGoogleUser}>
+          <Button variant="primary" className="login-btn" onClick={logGoogleUser}>
             <>
               <TTIcon icon={FcGoogle} size={28} />
               <span>Login with Google</span>

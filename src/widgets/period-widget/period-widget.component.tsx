@@ -1,30 +1,43 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { FaChevronDown } from 'react-icons/fa';
 
 import { selectBudgetMonth } from '@store/budget-store';
+import { selectSettingsAppLanguage } from '@store/settings-store';
 import { formatMonth } from '@shared/utils';
+import { TTIcon } from '@shared/ui';
 import { PeriodSheet } from 'widgets/sheets';
 
 import './period-widget.styles.scss';
-import { selectSettingsAppLanguage } from '@store/settings-store';
-import { TTIcon } from '@shared/ui';
-import { FaChevronDown } from 'react-icons/fa';
-import clsx from 'clsx';
 
-const PeriodWidget: React.FC<{ isDashboard?: boolean }> = ({ isDashboard = false }) => {
+const PeriodWidget: React.FC = () => {
+  const { t } = useTranslation('common');
+
   const month = useSelector(selectBudgetMonth);
   const language = useSelector(selectSettingsAppLanguage);
 
   const [open, setOpen] = useState(false);
 
+  const period = formatMonth(month, language);
+
   return (
     <>
       <button
-        className={clsx('period-widget', { 'dashboard-widget': isDashboard })}
+        type="button"
+        className="period-widget"
         onClick={() => setOpen(true)}
+        aria-expanded={open}
+        aria-haspopup="dialog"
+        aria-label={String(
+          t('navigation.selectPeriod', {
+            period,
+          }),
+        )}
       >
-        <span className="period-month">{formatMonth(month, language)}</span>
-        <TTIcon icon={FaChevronDown} size={14} color="var(--color-primary)" />
+        <span className="period-month">{period}</span>
+
+        <TTIcon icon={FaChevronDown} size={12} color="currentColor" />
       </button>
 
       <PeriodSheet open={open} onOpenChange={setOpen} />

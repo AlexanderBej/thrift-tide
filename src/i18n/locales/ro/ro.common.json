@@ -3,6 +3,10 @@
   "appLoader": {
     "message": "Mă bucur să te revăd. Îți pregătim bugetul…"
   },
+  "navigation": {
+    "main": "Navigare principală",
+    "selectPeriod": "Selectează perioada. Perioada curentă: {{period}}"
+  },
   "pages": {
     "dashboard": "Panou",
     "categories": "Categorii",

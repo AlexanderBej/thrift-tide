@@ -1,79 +1,180 @@
-@use '../../../styles/tokens.scss' as *;
-.thrift-tide-btn {
-  min-width: 150px;
-  border-radius: 999px;
-  transition: all $transition-normal;
-  padding: 10px 20px;
-  min-height: 50px;
-  font-weight: 600;
+// @use '../../../styles/tokens.scss' as *;
+// .thrift-tide-btn {
+//   min-width: 150px;
+//   border-radius: 999px;
+//   transition: all $transition-normal;
+//   padding: 10px 20px;
+//   min-height: 50px;
+//   font-weight: 600;
 
-  &__rounded {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    min-width: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+//   &__rounded {
+//     width: 70px;
+//     height: 70px;
+//     border-radius: 50%;
+//     min-width: 50px;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
 
-    @include mediaDown(md) {
-      width: 50px;
-      height: 50px;
-    }
+//     @include mediaDown(md) {
+//       width: 50px;
+//       height: 50px;
+//     }
 
-    &:hover {
-      background-color: var(--color-primary-hover);
-    }
+//     &:hover {
+//       background-color: var(--color-primary-hover);
+//     }
+//   }
+
+//   &__neutral {
+//     padding: 0;
+//     color: var(--color-text-primary);
+//     text-align: left;
+//     color: var(--color-coral);
+//     min-height: unset;
+//   }
+
+//   &__primary {
+//     background-color: var(--color-primary);
+//     color: var(--color-text-inverse);
+//     border: 3px solid;
+//     border-color: var(--color-primary);
+
+//     &:hover {
+//       background-color: transparent;
+//       color: var(--color-text-primary);
+//     }
+//   }
+
+//   &__secondary {
+//     color: var(--color-text-primary);
+//     border: 3px solid;
+//     border-color: var(--color-coral);
+
+//     &:hover {
+//       background-color: transparent;
+//       color: var(--color-coral);
+//     }
+//   }
+
+//   &__disabled {
+//     pointer-events: none;
+//     background-color: var(--color-border-subtle);
+//     border-color: var(--color-border-subtle);
+//     color: var(--color-text-secondary);
+//   }
+
+//   &__loading {
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//   }
+
+//   &__small {
+//     height: 35px;
+//     min-width: 100px;
+//     min-height: unset;
+//     padding: 5px 10px;
+//   }
+// }
+
+@use '../../../styles/tokens' as *;
+
+.tt-button {
+  --tt-button-bg: transparent;
+  --tt-button-fg: var(--color-text-primary);
+  --tt-button-border: transparent;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-2;
+  border: 1px solid var(--tt-button-border);
+  border-radius: $radius-md;
+  background: var(--tt-button-bg);
+  color: var(--tt-button-fg);
+  font-family: inherit;
+  font-weight: 650;
+  line-height: 1;
+  touch-action: manipulation;
+  transition:
+    transform 140ms ease,
+    background-color 140ms ease,
+    border-color 140ms ease,
+    color 140ms ease,
+    opacity 140ms ease;
+
+  &[data-pressed='true'] {
+    transform: scale(0.98);
   }
 
-  &__neutral {
-    padding: 0;
-    color: var(--color-text-primary);
-    text-align: left;
-    color: var(--color-coral);
-    min-height: unset;
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus-strong);
   }
 
-  &__primary {
-    background-color: var(--color-primary);
-    color: var(--color-text-inverse);
-    border: 3px solid;
-    border-color: var(--color-primary);
-
-    &:hover {
-      background-color: transparent;
-      color: var(--color-text-primary);
-    }
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.58;
   }
+}
 
-  &__secondary {
-    color: var(--color-text-primary);
-    border: 3px solid;
-    border-color: var(--color-coral);
+.tt-button--sm {
+  min-height: 36px;
+  padding: 0 $spacing-3;
+  font-size: 13px;
+}
 
-    &:hover {
-      background-color: transparent;
-      color: var(--color-coral);
-    }
-  }
+.tt-button--md {
+  min-height: 44px;
+  padding: 0 $spacing-4;
+  font-size: 14px;
+}
 
-  &__disabled {
-    pointer-events: none;
-    background-color: var(--color-border-subtle);
-    border-color: var(--color-border-subtle);
-    color: var(--color-text-secondary);
-  }
+.tt-button--lg {
+  min-height: 54px;
+  padding: 0 $spacing-5;
+  font-size: 16px;
+}
 
-  &__loading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.tt-button--primary {
+  --tt-button-bg: var(--color-action-primary, var(--color-primary));
+  --tt-button-fg: var(--color-action-primary-foreground, var(--color-text-inverse));
+  --tt-button-border: var(--color-action-primary, var(--color-primary));
+}
 
-  &__small {
-    height: 35px;
-    min-width: 100px;
-    min-height: unset;
-    padding: 5px 10px;
-  }
+.tt-button--secondary {
+  --tt-button-bg: var(--color-surface-primary, var(--color-bg-elevated));
+  --tt-button-fg: var(--color-text-primary);
+  --tt-button-border: var(--color-border-default, var(--color-border-strong));
+}
+
+.tt-button--quiet {
+  --tt-button-bg: transparent;
+  --tt-button-fg: var(--color-text-secondary);
+  --tt-button-border: transparent;
+}
+
+.tt-button--destructive {
+  --tt-button-bg: var(--color-error-soft);
+  --tt-button-fg: var(--color-error);
+  --tt-button-border: color-mix(in srgb, var(--color-error), transparent 68%);
+}
+
+.tt-button--icon-only {
+  width: 44px;
+  min-width: 44px;
+  padding: 0;
+  border-radius: 50%;
+}
+
+.tt-button--full {
+  width: 100%;
+}
+
+.tt-button--disabled {
+  background-color: var(--color-text-muted);
+  // color: var(--color-text-secondary);
+  border-color: transparent;
 }

@@ -3,6 +3,10 @@
   "appLoader": {
     "message": "Good to see you again. Getting your budget ready…"
   },
+  "navigation": {
+    "main": "Main navigation",
+    "selectPeriod": "Select period. Current period: {{period}}"
+  },
   "pages": {
     "dashboard": "Dashboard",
     "categories": "Categories",

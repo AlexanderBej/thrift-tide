@@ -34,6 +34,7 @@ Current implemented areas:
 - The app should help users maintain the habit of keeping their budget current.
 - Reliability and speed of capture are currently higher priority than adding more analytics or visual complexity.
 - Future ideas must be clearly separated from current implementation.
+- Do not use version prefixes such as V2/V3 for canonical UI components. Version prefixes may be temporary during migrations, but finalized components should be named by responsibility.
 
 ## Current Application Structure
 

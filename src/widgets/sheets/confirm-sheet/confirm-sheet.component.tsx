@@ -3,7 +3,7 @@ import { FiAlertTriangle, FiTrash2 } from 'react-icons/fi';
 
 import { BaseSheet } from '@shared/ui/base-sheet';
 import { TTIcon } from '@shared/ui/icon';
-import { V3Action } from '@shared/ui/v3-action';
+import { Button } from '@shared/ui/button';
 
 import './confirm-sheet.styles.scss';
 
@@ -78,7 +78,7 @@ const ConfirmSheet: React.FC<ConfirmSheetProps> = ({
           </div>
         )}
         <div className="confirm-sheet__actions">
-          <V3Action
+          <Button
             variant="secondary"
             size="md"
             fullWidth
@@ -86,8 +86,8 @@ const ConfirmSheet: React.FC<ConfirmSheetProps> = ({
             onClick={handleCancel}
           >
             {cancelLabel}
-          </V3Action>
-          <V3Action
+          </Button>
+          <Button
             variant={isDestructive ? 'destructive' : 'primary'}
             size="md"
             fullWidth
@@ -96,7 +96,7 @@ const ConfirmSheet: React.FC<ConfirmSheetProps> = ({
             onClick={handleConfirm}
           >
             {confirmLabel}
-          </V3Action>
+          </Button>
         </div>
       </div>
     </BaseSheet>
