@@ -6,7 +6,6 @@ import { selectMonthTiming } from './budget-period.selectors';
 import { selectTotals } from './budget.selectors';
 import { Insight } from '@api/models/insight';
 import { Category, CategoryInsightCandidate, InsightTone, toneWeight } from '@api/types';
-import { CategoryHealthSummary } from '@api/models';
 
 // Tune these once and reuse
 const THRESH = {
@@ -761,42 +760,6 @@ export const selectCategoriesTopInsights = createSelector(
     makeSelectCategoryTopInsights('savings'),
   ],
   (needs, wants, savings) => ({ needs, wants, savings }),
-);
-
-export const selectCategoryHealthSummary = createSelector(
-  [
-    makeSelectCategoryTopInsights('needs', 1),
-    makeSelectCategoryTopInsights('wants', 1),
-    makeSelectCategoryTopInsights('savings', 1),
-  ],
-  (needs, wants, savings): CategoryHealthSummary => {
-    const items = [
-      { category: 'needs' as const, insight: needs[0] },
-      { category: 'wants' as const, insight: wants[0] },
-      { category: 'savings' as const, insight: savings[0] },
-    ].filter((x) => x.insight);
-
-    let healthyCount = 0;
-    let attentionCount = 0;
-
-    for (const { insight } of items) {
-      if (insight.tone === 'danger' || insight.tone === 'warn') {
-        attentionCount++;
-      } else if (insight.tone === 'success') {
-        healthyCount++;
-      }
-    }
-
-    return {
-      healthyCount,
-      attentionCount,
-      details: items.map(({ category, insight }) => ({
-        category,
-        tone: insight.tone,
-        insight,
-      })),
-    };
-  },
 );
 
 /* ----------------------------------------------
