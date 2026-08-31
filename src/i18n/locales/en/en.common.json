@@ -27,10 +27,6 @@
     "category": {
       "noTrans": "No transactions for"
     },
-    "insights": {
-      "categoryHealth": "Categories Healts",
-      "spending": "What's driving your spending"
-    },
     "profile": {
       "account": "Account",
       "fallbackName": "Thrift Tide user",

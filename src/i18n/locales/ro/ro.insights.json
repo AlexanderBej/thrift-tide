@@ -1,4 +1,131 @@
 {
+  "window": {
+    "title": "Fereastră de analiză",
+    "label": "Ultimele {count} perioade închise"
+  },
+  "states": {
+    "loading": {
+      "title": "Se încarcă insight-urile...",
+      "message": "Citim rezumatele perioadelor închise."
+    },
+    "error": {
+      "title": "Nu am putut încărca insight-urile",
+      "message": "Verifică conexiunea și încearcă din nou."
+    },
+    "empty": {
+      "title": "Insight-urile cresc odată cu istoricul tău",
+      "message": "După ce închei câteva perioade de buget, Thrift Tide poate arăta trenduri și tipare."
+    },
+    "onePeriod": {
+      "title": "Prima perioadă închisă este gata",
+      "message": "Încă puțin istoric va debloca comparații fără presupuneri."
+    }
+  },
+  "actions": {
+    "retry": "Încearcă din nou"
+  },
+  "common": {
+    "notAvailable": "N/A"
+  },
+  "direction": {
+    "up": "în creștere",
+    "down": "în scădere",
+    "flat": "stabil",
+    "insufficient": "date insuficiente"
+  },
+  "recent": {
+    "kicker": "Tiparul tău recent",
+    "headline": {
+      "up": "Cheltuielile au crescut cu {percent}%",
+      "down": "Cheltuielile au scăzut cu {percent}%"
+    },
+    "headlineFlat": "Cheltuielile sunt stabile",
+    "headlineInsufficient": "O perioadă este gata",
+    "headlineUpNoPercent": "Cheltuielile încep să crească",
+    "headlineDownNoPercent": "Cheltuielile încep să scadă",
+    "supportBudgeted": "Ai rămas sub sau la buget în {under} din {total} perioade urmărite.",
+    "supportNoBudget": "Rezultatele de buget au nevoie de perioade urmărite cu venit salvat."
+  },
+  "spending": {
+    "kicker": "Trend de cheltuieli",
+    "title": "Cheltuieli pe perioade închise",
+    "chartAria": "Grafic cu bare pentru cheltuielile totale din perioadele închise recente",
+    "barAria": "{month}: {amount} cheltuiți",
+    "averageSpent": "Cheltuială medie",
+    "vsPreviousThree": "{direction} {percent}% față de cele 3 perioade anterioare",
+    "windowAverage": "Pentru {count} perioade închise"
+  },
+  "outcomes": {
+    "kicker": "Rezultate de buget",
+    "title": "Cum s-au încheiat perioadele",
+    "underBudget": "Sub buget",
+    "averageUnused": "Medie nefolosită",
+    "bestFinish": "Cel mai bun final",
+    "overBudget": "Peste buget",
+    "ofPeriods": "{count} din {total}",
+    "unusedAmount": "{amount} nefolosiți",
+    "none": "Niciunul",
+    "insufficient": "Rezultatele de buget au nevoie de perioade închise urmărite, cu activitate și venit pozitiv salvat."
+  },
+  "categories": {
+    "kicker": "Tipare pe categorii",
+    "title": "Nevoi, Dorințe, Economii",
+    "latest": "recent",
+    "points": " pct",
+    "sparklineUnavailable": "Nu există încă utilizare validă"
+  },
+  "categoryTrend": {
+    "stable": "Stabil",
+    "trendingUp": "În creștere",
+    "trendingDown": "În scădere",
+    "consistent": "Consecvent",
+    "improving": "În îmbunătățire",
+    "insufficient": "Mai multe date"
+  },
+  "savings": {
+    "kicker": "Consecvență la economii",
+    "title": "Ținta de economii",
+    "goalsReached": "Ținte atinse",
+    "averageCompletion": "Completare medie",
+    "currentStreak": "Serie curentă",
+    "ofPeriods": "{count} din {total}",
+    "sequenceLabel": "Rezultatele cronologice ale țintei de economii",
+    "sequenceReached": "{month}: ținta de economii a fost atinsă",
+    "sequenceMissed": "{month}: ținta de economii a fost ratată",
+    "sequenceUnavailable": "{month}: ținta de economii nu este disponibilă",
+    "insufficient": "Consecvența la economii are nevoie de perioade cu alocare pozitivă pentru Economii."
+  },
+  "watch": {
+    "kicker": "Tipar de urmărit",
+    "categoryOverspendTrend": {
+      "title": "{category} trece peste plan",
+      "message": "Utilizarea a mers de la {from}% la {to}% în perioadele recente."
+    },
+    "categoryVolatile": {
+      "title": "{category} este cea mai volatilă categorie",
+      "message": "Utilizarea a variat de la {from}% la {to}% în perioadele recente."
+    },
+    "spendingIncrease": {
+      "title": "Cheltuielile recente cresc",
+      "message": "Cheltuiala medie este cu {percent}% mai mare decât în fereastra anterioară."
+    },
+    "savingsStreak": {
+      "title": "Economiile au ritm",
+      "message": "Ai atins ținta de Economii în {count} perioade la rând."
+    },
+    "spendingDecrease": {
+      "title": "Cheltuielile recente scad",
+      "message": "Cheltuiala medie este cu {percent}% mai mică decât în fereastra anterioară."
+    },
+    "stablePositive": {
+      "title": "Perioadele recente sunt clare",
+      "message": "Cel mai puternic tipar este consecvența, nu o schimbare bruscă."
+    },
+    "insufficient": {
+      "title": "Mai mult istoric va clarifica tiparul",
+      "message": "Încheie încă o perioadă ca detectarea tiparelor să devină mai utilă."
+    }
+  },
   "smart": {
     "title": {
       "headsUp": "Atenție",

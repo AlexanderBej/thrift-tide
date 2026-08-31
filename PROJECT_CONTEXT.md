@@ -21,7 +21,7 @@ Current implemented areas:
 - V3 Capture: full-screen Add/Edit Expense routes with expense-group-first classification.
 - Categories V3 Overview: budget-map surface for selected-period allocation structure, Needs/Wants/Savings composition, expense-group previews, and drill-down navigation.
 - Category detail V3: category activity drill-down for the selected period, focused on semantic category status, expense-group responsibility, and filtered Transactions handoff.
-- Insights: smart insight carousel, category health, top spenders.
+- Insights V3: multi-period analytical surface using up to the latest 6 usable closed-period summaries, with recent pattern, spending trend, budget outcomes, category patterns, savings consistency, and one pattern to watch.
 - History V3: closed-period archive, newest-first persisted summaries, compact outcome cards, Needs/Wants/Savings usage, transaction-count metadata, missing-summary unavailable states, and pagination.
 - Profile V3: compact account/settings hub with account identity, secondary Explore destinations, preferences, budget setup, data reset confirmation, and logout.
 - Onboarding: language/currency, budget split, and budget start day setup.
@@ -126,8 +126,10 @@ Redux slices:
 Important selector-derived state:
 
 - Budget totals, in-period transactions, transaction groups, category panels, top expense groups, badges, and smart insights live under `src/store/budget-store`.
-- Dashboard/Insights-ready budget context semantics live in `src/store/budget-store/budget-context.selectors.ts`, including selected-period phase, contextual attention priority, hero amount semantics, stale activity, and Budget Pulse row semantics.
+- Dashboard-ready budget context semantics live in `src/store/budget-store/budget-context.selectors.ts`, including selected-period phase, contextual attention priority, hero amount semantics, stale activity, and Budget Pulse row semantics.
+- Insights historical analytical loading and selectors live under `src/store/insights-store`; Insights does not depend on the globally selected budget period.
 - History archive rows and legacy historical smart insight selectors live under `src/store/history-store`.
+- Insights uses persisted closed-period `MonthDoc.summary` snapshots only. It excludes missing summaries from analysis instead of fabricating values or reading historical transaction collections.
 
 Persistence services:
 
@@ -236,6 +238,10 @@ Current implementation:
 - Dashboard V3 Budget Pulse treats Needs/Wants as spending ceilings and Savings as a contribution goal. Savings above goal is positive, and text percentages may exceed 100% while visual progress remains capped.
 - Dashboard V3 removed the old proportional Needs/Wants/Savings strip, Dashboard category accordion cards, and Dashboard top expense-group accordion with nested transaction rows.
 - Dashboard V3 keeps deeper bucket health, spend-driver, pace, and transaction detail out of the Dashboard hero/pulse and in purpose-built surfaces such as Category detail, Insights, and Transactions.
+- Dashboard owns current-period attention/coaching. Insights owns historical trend and pattern interpretation.
+- Insights TopNav has no `PeriodWidget`, because the page analyzes closed periods rather than the selected period.
+- Insights V3 uses up to the latest 6 usable closed-period summaries in chronological chart order. Missing summaries are excluded from calculations; History remains responsible for showing individual unavailable summary states.
+- Rich merchant or expense-group historical analytics remain deferred because historical transaction reconstruction is intentionally avoided. Historical currency snapshotting is also unavailable, so Insights formats historical values with the current app currency setting.
 - `BaseSheet` in `src/shared/ui/base-sheet` wraps Vaul `Drawer`.
 - V3 Add Expense lives at `/transactions/new`.
 - V3 Edit Expense lives at `/transactions/:month/:txnId/edit`.

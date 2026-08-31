@@ -110,6 +110,16 @@ describe('TopNav', () => {
     expect(screen.queryByTestId('period-widget')).not.toBeInTheDocument();
   });
 
+  it('does not show the period widget on insights', () => {
+    mockLocation.pathname = '/insights';
+
+    render(<TopNav />);
+
+    expect(screen.getByText('Insights')).toBeInTheDocument();
+    expect(screen.queryByTestId('period-widget')).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /back/i })).not.toBeInTheDocument();
+  });
+
   it('shows the dashboard logo instead of a page title on dashboard', () => {
     mockLocation.pathname = '/';
 
