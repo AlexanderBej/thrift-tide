@@ -11,6 +11,7 @@ interface ApplyEditorProps {
   applyToCurrentMonth: boolean;
   setApplyToCurrentMonth: (applyToCurrentMonth: boolean) => void;
   hidePopover?: boolean;
+  disabled?: boolean;
 }
 
 const ApplyEditor: React.FC<ApplyEditorProps> = ({
@@ -18,11 +19,13 @@ const ApplyEditor: React.FC<ApplyEditorProps> = ({
   applyToCurrentMonth,
   setApplyToCurrentMonth,
   hidePopover = false,
+  disabled,
 }) => {
   const { t } = useTranslation('common');
+  const isDisabled = disabled ?? !hasModified;
 
   return (
-    <div className={clsx('apply-row', { 'row-disabled': !hasModified })}>
+    <div className={clsx('apply-row', { 'row-disabled': isDisabled })}>
       <div className="apply-label">
         {!hidePopover && (
           <InfoPopover position={'right'}>
@@ -37,10 +40,10 @@ const ApplyEditor: React.FC<ApplyEditorProps> = ({
           type="button"
           className={clsx('option-btn', {
             selected: applyToCurrentMonth,
-            disabled: !hasModified,
+            disabled: isDisabled,
           })}
           aria-pressed={applyToCurrentMonth}
-          disabled={!hasModified}
+          disabled={isDisabled}
           onClick={() => setApplyToCurrentMonth(true)}
         >
           {t('settings:percents.checkbox.labelNow')}
@@ -49,10 +52,10 @@ const ApplyEditor: React.FC<ApplyEditorProps> = ({
           type="button"
           className={clsx('option-btn', {
             selected: !applyToCurrentMonth,
-            disabled: !hasModified,
+            disabled: isDisabled,
           })}
           aria-pressed={!applyToCurrentMonth}
-          disabled={!hasModified}
+          disabled={isDisabled}
           onClick={() => setApplyToCurrentMonth(false)}
         >
           {t('settings:percents.checkbox.labelFuture')}

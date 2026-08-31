@@ -21,9 +21,11 @@ import { ExpenseGroupIcon } from '@shared/components';
 import { selectAuthUser } from '@store/auth-store';
 import {
   addTxnThunk,
+  changeMonthThunk,
   deleteTxnFromMonthThunk,
   loadTxnForEditThunk,
   selectBudgetDoc,
+  selectBudgetMonth,
   selectBudgetTxns,
   updateTxnInMonthThunk,
 } from '@store/budget-store';
@@ -70,6 +72,7 @@ const CaptureExpense: React.FC = () => {
   const { month, txnId } = useParams();
 
   const user = useSelector(selectAuthUser);
+  const selectedBudgetMonth = useSelector(selectBudgetMonth);
   const currentDoc = useSelector(selectBudgetDoc);
   const currentTxns = useSelector(selectBudgetTxns);
   const currency = useSelector(selectSettingsCurrency);
@@ -230,6 +233,9 @@ const CaptureExpense: React.FC = () => {
         await dispatch(
           updateTxnInMonthThunk({ uid: user.uuid, month, id: txnId, patch: payload }),
         ).unwrap();
+        if (selectedBudgetMonth !== month) {
+          await dispatch(changeMonthThunk({ uid: user.uuid, month })).unwrap();
+        }
       } else {
         await dispatch(addTxnThunk({ uid: user.uuid, txn: payload })).unwrap();
         showExpenseAdded({ date: payload.date, from: fallbackPath });
@@ -248,6 +254,9 @@ const CaptureExpense: React.FC = () => {
     setSubmitting(true);
     try {
       await dispatch(deleteTxnFromMonthThunk({ uid: user.uuid, month, id: txnId })).unwrap();
+      if (selectedBudgetMonth !== month) {
+        await dispatch(changeMonthThunk({ uid: user.uuid, month })).unwrap();
+      }
       goBack();
     } catch {
       setSubmitError(tt('budget:capture.errors.delete'));

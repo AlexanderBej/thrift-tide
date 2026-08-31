@@ -102,6 +102,8 @@ const BudgetSplitSheet: React.FC<BudgetSplitSheetProps> = ({ open, onOpenChange 
         }),
       ).unwrap();
       onOpenChange(false);
+    } catch {
+      // Toasts are emitted by the thunk middleware; keep the sheet open for retry.
     } finally {
       setSubmitting(false);
     }

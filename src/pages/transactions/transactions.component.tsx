@@ -63,6 +63,7 @@ const Transaction: React.FC = () => {
   const [expandedTxnId, setExpandedTxnId] = useState<string | null>(null);
   const [confirmOpen, setConfirmOpen] = useState<boolean>(false);
   const [txnToDelete, setTxnToDelete] = useState<string | null>(null);
+  const [deletingTxn, setDeletingTxn] = useState(false);
 
   const FILTER_OPTIONS: Option[] = [
     { label: t('taxonomy:categoryNames.all') ?? 'All', value: 'all' },
@@ -157,8 +158,9 @@ const Transaction: React.FC = () => {
   };
 
   const handleConfirmDelete = async () => {
-    if (!userId || !txnToDelete) return;
+    if (!userId || !txnToDelete || deletingTxn) return;
 
+    setDeletingTxn(true);
     try {
       await dispatch(deleteTxnFromMonthThunk({ uid: userId, month, id: txnToDelete })).unwrap();
       setConfirmOpen(false);
@@ -166,10 +168,13 @@ const Transaction: React.FC = () => {
       setExpandedTxnId(null);
     } catch {
       // Existing toast/error state handles feedback; keep the row and confirmation available.
+    } finally {
+      setDeletingTxn(false);
     }
   };
 
   const handleConfirmOpenChange = (open: boolean) => {
+    if (deletingTxn && !open) return;
     setConfirmOpen(open);
     if (!open) setTxnToDelete(null);
   };
@@ -351,6 +356,7 @@ const Transaction: React.FC = () => {
         confirmLabel={t('budget:capture.delete.confirm')}
         cancelLabel={t('common:actions.cancel')}
         tone="destructive"
+        loading={deletingTxn}
         onConfirm={handleConfirmDelete}
       />
     </div>

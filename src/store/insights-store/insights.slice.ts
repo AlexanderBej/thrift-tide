@@ -10,11 +10,14 @@ type InsightsState = {
   rows: InsightsHistoryRow[];
   status: 'idle' | 'loading' | 'ready' | 'error';
   error?: string;
+  uid: string | null;
+  requestId?: string;
 };
 
 const initialState: InsightsState = {
   rows: [],
   status: 'idle',
+  uid: null,
 };
 
 const INSIGHTS_FETCH_PAGE_SIZE = 12;
@@ -31,16 +34,18 @@ export const loadInsightsHistory = createAppAsyncThunk<
     let pageAfterPeriodEnd: string | null = null;
 
     while (items.filter((item) => item.summary).length < INSIGHTS_USABLE_LIMIT) {
-      const page: { items: InsightsHistoryRow[]; nextCursor: string | null } = await listMonthsWithSummary(uid, {
-        pageSize: INSIGHTS_FETCH_PAGE_SIZE,
-        closedBeforeISO,
-        pageAfterPeriodEnd,
-      }) as { items: InsightsHistoryRow[]; nextCursor: string | null };
+      const page: { items: InsightsHistoryRow[]; nextCursor: string | null } =
+        (await listMonthsWithSummary(uid, {
+          pageSize: INSIGHTS_FETCH_PAGE_SIZE,
+          closedBeforeISO,
+          pageAfterPeriodEnd,
+        })) as { items: InsightsHistoryRow[]; nextCursor: string | null };
 
       items.push(...page.items);
       pageAfterPeriodEnd = page.nextCursor ?? null;
 
-      if (!pageAfterPeriodEnd || page.items.length === 0 || items.length >= INSIGHTS_SCAN_LIMIT) break;
+      if (!pageAfterPeriodEnd || page.items.length === 0 || items.length >= INSIGHTS_SCAN_LIMIT)
+        break;
     }
 
     return { items };
@@ -57,21 +62,46 @@ const insightsSlice = createSlice({
       s.rows = [];
       s.status = 'idle';
       s.error = undefined;
+      s.uid = null;
+      s.requestId = undefined;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loadInsightsHistory.pending, (s) => {
+      .addCase(loadInsightsHistory.pending, (s, action) => {
+        s.rows = [];
         s.status = 'loading';
         s.error = undefined;
+
+        s.uid = action.meta.arg.uid;
+        s.requestId = action.meta.requestId;
       })
-      .addCase(loadInsightsHistory.fulfilled, (s, { payload }) => {
+      .addCase(loadInsightsHistory.fulfilled, (s, action) => {
+        const uid = action.meta?.arg?.uid;
+        if (
+          (s.uid && s.uid !== uid) ||
+          (s.requestId && s.requestId !== action.meta?.requestId)
+        ) {
+          return;
+        }
+
         s.status = 'ready';
-        s.rows = payload.items;
+        s.rows = action.payload.items;
+        s.requestId = undefined;
       })
       .addCase(loadInsightsHistory.rejected, (s, action) => {
+        const uid = action.meta?.arg?.uid;
+        if (
+          (s.uid && s.uid !== uid) ||
+          (s.requestId && s.requestId !== action.meta?.requestId)
+        ) {
+          return;
+        }
+
         s.status = 'error';
         s.error = (action.payload as string) ?? action.error.message ?? 'Failed to load insights';
+
+        s.requestId = undefined;
       });
   },
 });

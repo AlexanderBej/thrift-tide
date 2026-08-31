@@ -87,6 +87,7 @@ jest.mock('@shared/ui', () => {
         {children}
       </button>
     ),
+    Donut: () => <span data-testid="donut" aria-hidden="true" />,
     TTIcon: () => <span aria-hidden="true" />,
   };
 });
@@ -192,7 +193,7 @@ describe('ProfilePage', () => {
   it('displays current period budget setup values', () => {
     render(<ProfilePage />);
 
-    expect(screen.getByRole('button', { name: /budget split 60 \/ 25 \/ 15/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /budget split 60% \/ 25% \/ 15%/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /period start day 10th of each month/i })).toBeInTheDocument();
   });
 

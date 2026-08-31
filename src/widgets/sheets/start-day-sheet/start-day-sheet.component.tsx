@@ -29,17 +29,31 @@ const StartDaySheet: React.FC<StartDaySheetProps> = ({ open, onOpenChange }) => 
   const startDay = useSelector(selectSettingsBudgetStartDay);
   const user = useSelector(selectAuthUser);
   const doc = useSelector(selectBudgetDoc);
+  const currentStoredDay = doc?.startDay ?? startDay;
+  const futureStoredDay = startDay;
 
-  const [selectedDay, setSelectedDay] = useState<number>(doc?.startDay ?? startDay);
+  const [currentPeriodDay, setCurrentPeriodDay] = useState<number>(currentStoredDay);
+  const [futurePeriodsDay, setFuturePeriodsDay] = useState<number>(futureStoredDay);
   const [applyToCurrentMonth, setApplyToCurrentMonth] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    setSelectedDay(doc?.startDay ?? startDay);
-  }, [doc?.startDay, startDay]);
+    if (!open) return;
+    setCurrentPeriodDay(currentStoredDay);
+    setFuturePeriodsDay(futureStoredDay);
+    setApplyToCurrentMonth(false);
+  }, [currentStoredDay, futureStoredDay, open]);
+
+  const selectedDay = applyToCurrentMonth ? currentPeriodDay : futurePeriodsDay;
+  const selectedBaselineDay = applyToCurrentMonth ? currentStoredDay : futureStoredDay;
 
   const handleReset = () => {
-    setSelectedDay(startDay);
+    if (applyToCurrentMonth) {
+      setCurrentPeriodDay(currentStoredDay);
+      return;
+    }
+
+    setFuturePeriodsDay(futureStoredDay);
   };
 
   const handleSubmit = async () => {
@@ -55,6 +69,8 @@ const StartDaySheet: React.FC<StartDaySheetProps> = ({ open, onOpenChange }) => 
         }),
       ).unwrap();
       onOpenChange(false);
+    } catch {
+      // Toasts are emitted by the thunk middleware; keep the sheet open for retry.
     } finally {
       setSubmitting(false);
     }
@@ -62,14 +78,21 @@ const StartDaySheet: React.FC<StartDaySheetProps> = ({ open, onOpenChange }) => 
 
   const handlePickerChange = (next: DayPickerValue) => {
     const day = Number(next.day);
-    if (day >= 1 && day <= 28) setSelectedDay(day);
+    if (day < 1 || day > 28) return;
+
+    if (applyToCurrentMonth) {
+      setCurrentPeriodDay(day);
+      return;
+    }
+
+    setFuturePeriodsDay(day);
   };
 
   const pickerValue: DayPickerValue = { day: String(selectedDay) };
   const desc = t('settings:startDay.subtitle');
   const resetLabel = t('actions.reset');
   const btnLabel = t('settings:startDay.button');
-  const hasModified = startDay !== selectedDay;
+  const hasModified = selectedBaselineDay !== selectedDay;
   const areDifferent = doc?.startDay != null && startDay !== doc.startDay;
   const selectedDayLabel = formatStartDay(selectedDay, i18n.language as Language);
 
@@ -130,6 +153,7 @@ const StartDaySheet: React.FC<StartDaySheetProps> = ({ open, onOpenChange }) => 
           hasModified={hasModified}
           setApplyToCurrentMonth={setApplyToCurrentMonth}
           applyToCurrentMonth={applyToCurrentMonth}
+          disabled={submitting}
         />
       </div>
     </BaseSheet>

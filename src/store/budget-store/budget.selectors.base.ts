@@ -3,6 +3,9 @@ import { RootState } from '../store';
 /** Raw budget status (idle/loading/ready/error). */
 export const selectBudgetLoadStatus = (s: RootState) => s.budget.loadStatus;
 
+/** Whether the authenticated budget bootstrap has completed for the current session. */
+export const selectBudgetHasBootstrapped = (s: RootState) => s.budget.hasBootstrapped;
+
 /** Raw budget local status (idle/loading/error). */
 export const selectBudgetMutateStatus = (s: RootState) => s.budget.mutateStatus;
 

@@ -53,6 +53,7 @@ jest.mock('@shared/ui', () => ({
     </button>
   ),
   LocalSpinner: () => <span data-testid="local-spinner" />,
+  TTIcon: () => <span aria-hidden="true" />,
 }));
 
 const makeRow = (overrides: Partial<HistoryArchiveRow> = {}): HistoryArchiveRow => ({

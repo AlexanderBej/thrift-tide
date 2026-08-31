@@ -103,10 +103,21 @@ jest.mock(
   () => {
     const Picker = ({
       children,
+      value,
       onChange,
-    }: React.PropsWithChildren<{ onChange: (value: { day: string }) => void }>) => (
+    }: React.PropsWithChildren<{
+      value: { day: string };
+      onChange: (value: { day: string }) => void;
+    }>) => (
       <div>
         {children}
+        <span data-testid="selected-picker-day">{value.day}</span>
+        <button type="button" onClick={() => onChange({ day: '7' })}>
+          Choose 7
+        </button>
+        <button type="button" onClick={() => onChange({ day: '14' })}>
+          Choose 14
+        </button>
         <button type="button" onClick={() => onChange({ day: '26' })}>
           Choose 26
         </button>
@@ -220,6 +231,47 @@ describe('Profile settings sheets', () => {
         uid: 'user-1',
         startDay: 26,
         startThisMonth: false,
+      }),
+    );
+  });
+
+  it('start day sheet keeps current-period and future-period drafts scoped separately', async () => {
+    mockStartDay = 12;
+    mockBudgetDoc = { startDay: 5 };
+
+    render(<StartDaySheet open onOpenChange={mockOnOpenChange} />);
+
+    expect(screen.getByText(/12th of each month/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /this period/i })).toBeEnabled();
+
+    fireEvent.click(screen.getByRole('button', { name: /this period/i }));
+    expect(screen.getByText(/5th of each month/i)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Choose 7' }));
+    expect(screen.getByText(/7th of each month/i)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: /future periods/i }));
+    expect(screen.getByText(/12th of each month/i)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Choose 14' }));
+    fireEvent.click(screen.getByRole('button', { name: /update start day/i }));
+
+    await waitFor(() =>
+      expect(mockSaveStartDayThunk).toHaveBeenCalledWith({
+        uid: 'user-1',
+        startDay: 14,
+        startThisMonth: false,
+      }),
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: /this period/i }));
+    fireEvent.click(screen.getByRole('button', { name: /update start day/i }));
+
+    await waitFor(() =>
+      expect(mockSaveStartDayThunk).toHaveBeenLastCalledWith({
+        uid: 'user-1',
+        startDay: 7,
+        startThisMonth: true,
       }),
     );
   });

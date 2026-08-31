@@ -314,6 +314,7 @@ Current implementation:
 - V3 confirmations use specific action-oriented copy, restrained semantic danger styling, compact two-action hierarchy, and loading guards for async confirmation.
 - Capture and Transactions share the same V3 confirmation language for deleting expenses; Capture dirty-close uses the same shared pattern for discarding unsaved changes.
 - V3 app boot uses a single top-level branded loader owned by `App`, covering initial auth resolution through authenticated settings/budget boot.
+- The branded AppLoader is app/auth bootstrap only; normal selected-period switching must keep the authenticated shell mounted and must not replay welcome copy.
 - The branded boot loader follows existing app boot state from `selectAppBootState`; it does not change auth, settings, budget, routing, or Firestore listener semantics.
 - Categories V3 Overview is the user's budget map, answering how the budget is organized and what belongs where. Dashboard owns quick health/status, Transactions owns ledger management, and future Insights V3 should own deeper analysis.
 - Categories V3 Overview displays the selected period's planned budget amount from the MonthDoc income/budget basis and the selected period's stored Needs/Wants/Savings percentages; it does not use future default settings as a replacement for historical months.
@@ -427,9 +428,6 @@ These are future concepts, not current implemented capabilities.
 
 Confirmed from repository inspection:
 
-- Duplicate/unmanaged transaction listener during initialization: `initBudget` starts the managed listener and `initApp` attaches another `onTransactionsSnapshot` listener.
-- PWA update listener is registered during render in `src/App.tsx`.
-- Period "create next" flow uses plain calendar month logic instead of custom-period-aware `nextMonthKey` in `src/widgets/sheets/period-sheet/period-sheet.component.tsx`.
 - Transaction sort label/behavior mismatch: sorting/grouping by expense group ultimately sorts groups by total in `src/store/budget-store/budget.selectors.ts`.
 
 Speculative/runtime risks:

@@ -10,7 +10,7 @@ let mockLoaderMounts = 0;
 let mockState = {
   auth: { status: 'idle', loading: true },
   settings: { bootStatus: 'idle' },
-  budget: { loadStatus: 'idle' },
+  budget: { loadStatus: 'idle', hasBootstrapped: false },
 };
 
 jest.mock('react-redux', () => ({
@@ -71,6 +71,8 @@ jest.mock('@pages', () => ({
 }));
 
 jest.mock('./pages/dashboard/dashboard.component', () => () => <div>Dashboard page</div>);
+jest.mock('./pages/categories/categories.component', () => () => <div>Categories page</div>);
+jest.mock('./pages/history/history.component', () => () => <div>History page</div>);
 
 describe('App startup loader', () => {
   beforeEach(() => {
@@ -84,7 +86,7 @@ describe('App startup loader', () => {
     mockState = {
       auth: { status: 'idle', loading: true },
       settings: { bootStatus: 'idle' },
-      budget: { loadStatus: 'idle' },
+      budget: { loadStatus: 'idle', hasBootstrapped: false },
     };
   });
 
@@ -107,7 +109,7 @@ describe('App startup loader', () => {
     mockState = {
       auth: { status: 'authenticated', loading: false },
       settings: { bootStatus: 'loading' },
-      budget: { loadStatus: 'idle' },
+      budget: { loadStatus: 'idle', hasBootstrapped: false },
     };
     rerender(<App />);
 
@@ -125,7 +127,7 @@ describe('App startup loader', () => {
     mockState = {
       auth: { status: 'authenticated', loading: false },
       settings: { bootStatus: 'loading' },
-      budget: { loadStatus: 'idle' },
+      budget: { loadStatus: 'idle', hasBootstrapped: false },
     };
     rerender(<App />);
 
@@ -136,7 +138,7 @@ describe('App startup loader', () => {
     mockState = {
       auth: { status: 'authenticated', loading: false },
       settings: { bootStatus: 'ready' },
-      budget: { loadStatus: 'ready' },
+      budget: { loadStatus: 'ready', hasBootstrapped: true },
     };
     rerender(<App />);
 
@@ -162,7 +164,7 @@ describe('App startup loader', () => {
     mockState = {
       auth: { status: 'authenticated', loading: false },
       settings: { bootStatus: 'ready' },
-      budget: { loadStatus: 'ready' },
+      budget: { loadStatus: 'ready', hasBootstrapped: true },
     };
     rerender(<App />);
 
@@ -178,12 +180,35 @@ describe('App startup loader', () => {
     mockState = {
       auth: { status: 'unauthenticated', loading: false },
       settings: { bootStatus: 'idle' },
-      budget: { loadStatus: 'idle' },
+      budget: { loadStatus: 'idle', hasBootstrapped: false },
     };
 
     render(<App />);
 
     expect(screen.queryByRole('status')).not.toBeInTheDocument();
     expect(screen.getByText('Login page')).toBeInTheDocument();
+  });
+
+  it('does not replay the branded loader for normal period switching after budget bootstrap', () => {
+    mockState = {
+      auth: { status: 'authenticated', loading: false },
+      settings: { bootStatus: 'ready' },
+      budget: { loadStatus: 'ready', hasBootstrapped: true },
+    };
+
+    const { rerender } = render(<App />);
+
+    expect(screen.queryByRole('status')).not.toBeInTheDocument();
+    expect(screen.getByText('Authenticated layout')).toBeInTheDocument();
+
+    mockState = {
+      auth: { status: 'authenticated', loading: false },
+      settings: { bootStatus: 'ready' },
+      budget: { loadStatus: 'loading', hasBootstrapped: true },
+    };
+    rerender(<App />);
+
+    expect(screen.queryByRole('status')).not.toBeInTheDocument();
+    expect(screen.getByText('Authenticated layout')).toBeInTheDocument();
   });
 });
