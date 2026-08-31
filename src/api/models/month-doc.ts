@@ -30,7 +30,11 @@ export const DEFAULT_START_DAY = 25;
 export interface HistoryDocWithSummary {
   id: string;
   month: string;
+  income: number;
   percents: { needs: number; wants: number; savings: number };
+  allocations: { needs: number; wants: number; savings: number };
+  periodStart: string;
+  periodEnd: string;
   summary: MonthDocSummary;
 }
 

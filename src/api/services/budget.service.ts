@@ -225,15 +225,17 @@ export async function listMonthsWithSummary(
     fromISO?: string;
     toISO?: string;
     pageSize?: number;
-    pageAfterPeriodStart?: string | null;
+    closedBeforeISO?: string;
+    pageAfterPeriodEnd?: string | null;
   } = {},
 ) {
   const col = collection(db, 'users', uid, 'months');
-  let q = query(col, orderBy('periodStart', 'asc'));
+  const closedBeforeISO = opts.closedBeforeISO ?? new Date().toISOString();
+  let q = query(col, where('periodEnd', '<=', closedBeforeISO), orderBy('periodEnd', 'desc'));
 
-  if (opts.fromISO) q = query(q, where('periodStart', '>=', opts.fromISO));
-  if (opts.toISO) q = query(q, where('periodStart', '<', opts.toISO));
-  if (opts.pageAfterPeriodStart) q = query(q, startAfter(opts.pageAfterPeriodStart));
+  if (opts.fromISO) q = query(q, where('periodEnd', '>=', opts.fromISO));
+  if (opts.toISO) q = query(q, where('periodEnd', '<', opts.toISO));
+  if (opts.pageAfterPeriodEnd) q = query(q, startAfter(opts.pageAfterPeriodEnd));
 
   q = query(q, limit(opts.pageSize ?? 12));
 
@@ -241,11 +243,11 @@ export async function listMonthsWithSummary(
 
   const items = snap.docs.map((d) => ({ id: d.id, ...toMonthDoc(d.data()) }));
 
-  const lastPeriodStart = snap.docs.length
-    ? (snap.docs[snap.docs.length - 1].data() as any).periodStart
+  const lastPeriodEnd = snap.docs.length
+    ? (snap.docs[snap.docs.length - 1].data() as any).periodEnd
     : null;
 
-  return { items, nextCursor: lastPeriodStart ?? null };
+  return { items, nextCursor: lastPeriodEnd ?? null };
 }
 
 // Ensure any outgoing Txn has canonical date

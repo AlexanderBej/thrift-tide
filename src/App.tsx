@@ -11,7 +11,6 @@ import { CaptureFeedbackProvider, initApp, ProtectedRoute } from '@shared/provid
 import {
   CategoryPage,
   CaptureExpense,
-  History,
   Insights,
   Layout,
   Login,
@@ -21,6 +20,7 @@ import {
 } from '@pages';
 import Dashboard from './pages/dashboard/dashboard.component';
 import CategoriesPage from './pages/categories/categories.component';
+import History from './pages/history/history.component';
 
 import './App.scss';
 

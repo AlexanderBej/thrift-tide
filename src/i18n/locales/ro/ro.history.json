@@ -1,4 +1,47 @@
 {
+  "listLabel": "Perioade de buget închise",
+  "outcome": {
+    "leftUnused": "{amount} rămas nefolosit",
+    "overBudget": "{amount} peste buget",
+    "fullyUsed": "Buget folosit complet",
+    "noExpenses": "Nicio cheltuială înregistrată",
+    "noBudget": "Niciun buget setat"
+  },
+  "spentOfIncome": "{spent} din {income} cheltuit",
+  "progress": {
+    "total": "{percent}% folosit",
+    "noBudget": "Fără progres de buget"
+  },
+  "categoryUsageLabel": "Utilizarea pentru Nevoi, Dorințe și Economii",
+  "usage": {
+    "percent": "{percent}%",
+    "notSet": "Nesetat",
+    "categoryAria": "Utilizare {category}, {percent}%.",
+    "categoryUnavailableAria": "{category} nu are alocare setată."
+  },
+  "transactions": "{count, plural, one {# tranzacție} few {# tranzacții} other {# tranzacții}}",
+  "missingSummary": {
+    "title": "Sumar indisponibil",
+    "message": "Nu am putut încărca sumarul acestei perioade."
+  },
+  "states": {
+    "empty": {
+      "title": "Încă nu există perioade închise",
+      "message": "După ce termini o perioadă de buget, aceasta va apărea aici."
+    },
+    "loading": {
+      "title": "Se încarcă istoricul...",
+      "message": "Nu va dura mult."
+    },
+    "error": {
+      "title": "Istoricul nu a putut fi încărcat",
+      "message": "Verifică conexiunea și încearcă din nou."
+    }
+  },
+  "actions": {
+    "retry": "Încearcă din nou",
+    "loadMore": "Încarcă mai mult"
+  },
   "toast": {
     "loadFailed": "Nu s-au putut încărca datele paginii istoric!"
   }
