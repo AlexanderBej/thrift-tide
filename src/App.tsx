@@ -80,14 +80,25 @@ function App() {
     };
   }, [booting, showBootLoader]);
 
-  window.addEventListener('pwa:update-available', (e: Event) => {
-    const reg = (e as CustomEvent<ServiceWorkerRegistration>).detail;
-    // show your toast/button “Update”
-    // on click:
-    reg.waiting?.postMessage({ type: 'SKIP_WAITING' });
-    // give it a tick to activate then reload
-    setTimeout(() => window.location.reload(), 400);
-  });
+  useEffect(() => {
+    const handlePwaUpdate = (event: Event) => {
+      const registration = (event as CustomEvent<ServiceWorkerRegistration>).detail;
+
+      registration.waiting?.postMessage({
+        type: 'SKIP_WAITING',
+      });
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 400);
+    };
+
+    window.addEventListener('pwa:update-available', handlePwaUpdate);
+
+    return () => {
+      window.removeEventListener('pwa:update-available', handlePwaUpdate);
+    };
+  }, []);
 
   return (
     <>

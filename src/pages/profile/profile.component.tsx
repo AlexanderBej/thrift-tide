@@ -75,8 +75,12 @@ const ProfilePage: React.FC = () => {
 
   const handleResetCurrentPeriod = async () => {
     if (!user?.uuid) return;
-    await dispatch(resetCurrentPeriodThunk({ uid: user.uuid })).unwrap();
-    setResetOpen(false);
+    try {
+      await dispatch(resetCurrentPeriodThunk({ uid: user.uuid })).unwrap();
+      setResetOpen(false);
+    } catch {
+      // Toasts are emitted by the thunk middleware; keep confirmation available for retry.
+    }
   };
 
   const openSheet = (key: SheetKey) => setActiveSheet(key);

@@ -6,6 +6,7 @@ import { buildInsightsAnalytics } from '../../pages/insights/insights-analytics.
 export const selectInsightsRows = (s: RootState) => s.insights.rows;
 export const selectInsightsStatus = (s: RootState) => s.insights.status;
 export const selectInsightsError = (s: RootState) => s.insights.error;
+export const selectInsightsUid = (s: RootState) => s.insights.uid;
 
 export const selectInsightsAnalytics = createSelector([selectInsightsRows], (rows) =>
   buildInsightsAnalytics(rows),

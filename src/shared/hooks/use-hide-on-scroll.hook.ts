@@ -13,6 +13,8 @@ export function useHideOnScroll(
   const [hidden, setHidden] = useState(false);
 
   const lastY = useRef(0);
+  const lastMaxY = useRef(0);
+
   const direction = useRef<'up' | 'down' | null>(null);
   const accumulatedDistance = useRef(0);
   const frame = useRef<number | null>(null);
@@ -32,16 +34,39 @@ export function useHideOnScroll(
     }
 
     lastY.current = Math.max(0, element.scrollTop);
+    lastMaxY.current = Math.max(0, element.scrollHeight - element.clientHeight);
 
     const handleScroll = () => {
       if (frame.current !== null) return;
 
       frame.current = window.requestAnimationFrame(() => {
+        const previousY = lastY.current;
+        const previousMaxY = lastMaxY.current;
+
         const y = Math.max(0, element.scrollTop);
-        const delta = y - lastY.current;
+        const maxY = Math.max(0, element.scrollHeight - element.clientHeight);
+
+        const delta = y - previousY;
 
         lastY.current = y;
+        lastMaxY.current = maxY;
         frame.current = null;
+
+        /*
+         * Collapsing the TopNav increases the outlet height.
+         *
+         * When we're close to the bottom, that reduces maxScrollTop and
+         * the browser clamps scrollTop downward. That negative delta isn't
+         * an intentional upward scroll and must not reveal the TopNav.
+         */
+        const wasClampedByLayout =
+          delta < 0 && maxY < previousMaxY && previousY > maxY && Math.abs(y - maxY) <= 2;
+
+        if (wasClampedByLayout) {
+          direction.current = null;
+          accumulatedDistance.current = 0;
+          return;
+        }
 
         if (y <= hideOffset) {
           forceShow();

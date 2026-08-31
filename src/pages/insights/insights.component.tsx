@@ -13,6 +13,7 @@ import {
   selectInsightsAnalytics,
   selectInsightsError,
   selectInsightsStatus,
+  selectInsightsUid,
 } from '@store/insights-store';
 import type { AppDispatch } from '@store/store';
 
@@ -35,14 +36,15 @@ const Insights: React.FC = () => {
   const user = useSelector(selectAuthUser);
   const status = useSelector(selectInsightsStatus);
   const error = useSelector(selectInsightsError);
+  const insightsUid = useSelector(selectInsightsUid);
   const analytics = useSelector(selectInsightsAnalytics);
 
   useEffect(() => {
     if (!user?.uuid) return;
-    if (status === 'idle') {
+    if (insightsUid !== user.uuid || status === 'idle') {
       dispatch(loadInsightsHistory({ uid: user.uuid }));
     }
-  }, [dispatch, status, user?.uuid]);
+  }, [dispatch, insightsUid, status, user?.uuid]);
 
   const retry = () => {
     if (!user?.uuid || status === 'loading') return;
@@ -115,7 +117,11 @@ const Insights: React.FC = () => {
       ) : (
         <>
           <SpendingTrend analytics={analytics} formatMoney={fmtMoney} language={i18n.language} />
-          <BudgetOutcomesBlock analytics={analytics} formatMoney={fmtMoney} language={i18n.language} />
+          <BudgetOutcomesBlock
+            analytics={analytics}
+            formatMoney={fmtMoney}
+            language={i18n.language}
+          />
           <CategoryPatternsBlock analytics={analytics} language={i18n.language} />
           <SavingsConsistencyBlock analytics={analytics} />
           <WatchPatternBlock watch={analytics.watch} />
@@ -154,9 +160,11 @@ const RecentPattern: React.FC<{ analytics: InsightsAnalytics }> = ({ analytics }
   );
 };
 
-const SpendingTrend: React.FC<
-  { analytics: InsightsAnalytics; language: string } & FormatProps
-> = ({ analytics, formatMoney, language }) => {
+const SpendingTrend: React.FC<{ analytics: InsightsAnalytics; language: string } & FormatProps> = ({
+  analytics,
+  formatMoney,
+  language,
+}) => {
   const { t } = useTranslation('insights');
   const values = analytics.periods.map((period) => period.summary.totalSpent ?? 0);
   const maxValue = Math.max(...values, 0);
@@ -200,10 +208,12 @@ const SpendingTrend: React.FC<
           value={formatMoney(comparison.latestAverage ?? values[values.length - 1] ?? 0)}
           subtext={
             comparison.comparisonSize === 3 && comparison.percentChange != null
-              ? String(t('spending.vsPreviousThree', {
-                  direction: t(`direction.${comparison.direction}`),
-                  percent: Math.abs(Math.round(comparison.percentChange * 100)),
-                }))
+              ? String(
+                  t('spending.vsPreviousThree', {
+                    direction: t(`direction.${comparison.direction}`),
+                    percent: Math.abs(Math.round(comparison.percentChange * 100)),
+                  }),
+                )
               : String(t('spending.windowAverage', { count: analytics.periods.length }))
           }
         />
@@ -233,7 +243,10 @@ const BudgetOutcomesBlock: React.FC<
         <div className="outcome-grid">
           <Metric
             label={t('outcomes.underBudget')}
-            value={t('outcomes.ofPeriods', { count: outcomes.under, total: outcomes.trackedPeriods })}
+            value={t('outcomes.ofPeriods', {
+              count: outcomes.under,
+              total: outcomes.trackedPeriods,
+            })}
             variant="flat"
           />
           <Metric
@@ -250,9 +263,11 @@ const BudgetOutcomesBlock: React.FC<
             }
             subtext={
               outcomes.strongestFinish
-                ? String(t('outcomes.unusedAmount', {
-                    amount: formatMoney(outcomes.strongestFinish.unused),
-                }))
+                ? String(
+                    t('outcomes.unusedAmount', {
+                      amount: formatMoney(outcomes.strongestFinish.unused),
+                    }),
+                  )
                 : undefined
             }
             variant="flat"
@@ -317,7 +332,9 @@ const CategoryPatternRow: React.FC<{ pattern: CategoryPattern; language: string 
       <Sparkline pattern={pattern} language={language} />
 
       <div className={clsx('category-pattern__metric', `category-pattern__metric--${usageTone}`)}>
-        <strong>{latestPercent == null ? t('insights:common.notAvailable') : `${latestPercent}%`}</strong>
+        <strong>
+          {latestPercent == null ? t('insights:common.notAvailable') : `${latestPercent}%`}
+        </strong>
         <span>{t('insights:categories.latest')}</span>
         {changePoints != null && (
           <em>
@@ -351,7 +368,10 @@ const SavingsConsistencyBlock: React.FC<{ analytics: InsightsAnalytics }> = ({ a
           <div className="savings-metrics">
             <Metric
               label={t('savings.goalsReached')}
-              value={t('savings.ofPeriods', { count: savings.reached, total: savings.validPeriods })}
+              value={t('savings.ofPeriods', {
+                count: savings.reached,
+                total: savings.validPeriods,
+              })}
             />
             <Metric
               label={t('savings.averageCompletion')}
@@ -403,12 +423,12 @@ const WatchPatternBlock: React.FC<{ watch: WatchPattern }> = ({ watch }) => {
   );
 };
 
-const Metric: React.FC<{ label: string; value: string; subtext?: string; variant?: 'default' | 'flat' }> = ({
-  label,
-  value,
-  subtext,
-  variant = 'default',
-}) => (
+const Metric: React.FC<{
+  label: string;
+  value: string;
+  subtext?: string;
+  variant?: 'default' | 'flat';
+}> = ({ label, value, subtext, variant = 'default' }) => (
   <div className={clsx('insights-metric', variant === 'flat' && 'insights-metric--flat')}>
     <span>{label}</span>
     <strong>{value}</strong>
@@ -425,11 +445,16 @@ const TrendGlyph: React.FC<{ direction: SpendingComparison['direction'] }> = ({ 
   );
 };
 
-const Sparkline: React.FC<{ pattern: CategoryPattern; language: string }> = ({ pattern, language }) => {
+const Sparkline: React.FC<{ pattern: CategoryPattern; language: string }> = ({
+  pattern,
+  language,
+}) => {
   const { t } = useTranslation('insights');
   const valid = pattern.values
     .map((value, index) => ({ ...value, index }))
-    .filter((value): value is { month: string; usage: number; index: number } => value.usage != null);
+    .filter(
+      (value): value is { month: string; usage: number; index: number } => value.usage != null,
+    );
   const pointList = useMemo(() => {
     if (valid.length === 0) return [] as Array<{ month: string; x: number; y: number }>;
     const max = Math.max(...valid.map((value) => value.usage), 1);
@@ -472,7 +497,9 @@ function getRecentPatternHeadline(
   if (comparison.direction === 'insufficient') return t('recent.headlineInsufficient');
   if (comparison.direction === 'flat') return t('recent.headlineFlat');
   if (comparison.percentChange == null) {
-    return comparison.direction === 'up' ? t('recent.headlineUpNoPercent') : t('recent.headlineDownNoPercent');
+    return comparison.direction === 'up'
+      ? t('recent.headlineUpNoPercent')
+      : t('recent.headlineDownNoPercent');
   }
 
   return t(`recent.headline.${comparison.direction}`, {
@@ -481,7 +508,10 @@ function getRecentPatternHeadline(
   });
 }
 
-function getWatchCopy(watch: WatchPattern, t: (key: string, options?: Record<string, unknown>) => string) {
+function getWatchCopy(
+  watch: WatchPattern,
+  t: (key: string, options?: Record<string, unknown>) => string,
+) {
   const category = watch.category ? t(`taxonomy:categoryNames.${watch.category}`) : '';
   if (watch.kind === 'categoryOverspendTrend') {
     return {

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
-import { format, Locale, addMonths } from 'date-fns';
+import { format, Locale } from 'date-fns';
 import { enUS, ro } from 'date-fns/locale';
 import { useDispatch, useSelector } from 'react-redux';
 import Picker from 'react-mobile-picker';
@@ -10,8 +10,9 @@ import { BaseSheet } from '@shared/ui';
 import { AppDispatch, Language } from '@api/types';
 import { selectAuthUser } from '@store/auth-store';
 import { HistoryRow, loadRecentMonths, selectHistoryRecents } from '@store/history-store';
-import { changeMonthThunk, selectBudgetMonth } from '@store/budget-store';
-import { formatMonth, monthKey } from '@shared/utils';
+import { changeMonthThunk, selectBudgetDoc, selectBudgetMonth } from '@store/budget-store';
+import { selectSettingsBudgetStartDay } from '@store/settings-store';
+import { formatMonth, nextMonthKey } from '@shared/utils';
 
 import './period-sheet.styles.scss';
 
@@ -49,6 +50,8 @@ const PeriodSheet: React.FC<PeriodSheetProps> = ({
 
   const user = useSelector(selectAuthUser);
   const month = useSelector(selectBudgetMonth);
+  const doc = useSelector(selectBudgetDoc);
+  const defaultStartDay = useSelector(selectSettingsBudgetStartDay);
   const recents: HistoryRow[] | null = useSelector(selectHistoryRecents);
 
   const lang = i18n.language.split('-')[0] as 'en' | 'ro';
@@ -143,9 +146,7 @@ const PeriodSheet: React.FC<PeriodSheetProps> = ({
 
     if (selectedKey !== month) {
       if (selectedKey === '__create_next__') {
-        const monthDate = new Date(month);
-        const nextMonthDate = addMonths(monthDate, 1);
-        const nextMonth = monthKey(nextMonthDate);
+        const nextMonth = nextMonthKey(month, doc?.startDay ?? defaultStartDay);
         await dispatch(changeMonthThunk({ uid: user.uuid, month: nextMonth })).unwrap();
         return;
       }

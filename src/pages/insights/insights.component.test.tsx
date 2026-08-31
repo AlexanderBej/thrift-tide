@@ -12,10 +12,12 @@ let mockUser: { uuid: string } | null = { uuid: 'user-1' };
 let mockStatus: 'idle' | 'loading' | 'ready' | 'error' = 'ready';
 let mockError: string | undefined;
 let mockAnalytics: InsightsAnalytics = buildInsightsAnalytics([]);
+let mockInsightsUid: string | null = 'user-1';
 
 jest.mock('react-redux', () => ({
   useDispatch: () => mockDispatch,
-  useSelector: (selector: () => unknown) => selector(),
+  useSelector: (selector: (state?: unknown) => unknown) =>
+    selector({ insights: { uid: mockInsightsUid } }),
 }));
 
 jest.mock('@store/auth-store', () => ({
@@ -27,6 +29,7 @@ jest.mock('@store/insights-store', () => ({
   selectInsightsAnalytics: () => mockAnalytics,
   selectInsightsError: () => mockError,
   selectInsightsStatus: () => mockStatus,
+  selectInsightsUid: (state: { insights?: { uid?: string | null } }) => state.insights?.uid ?? null,
 }));
 
 jest.mock('@shared/hooks', () => ({
@@ -88,6 +91,7 @@ describe('Insights V3 page', () => {
     mockUser = { uuid: 'user-1' };
     mockStatus = 'ready';
     mockError = undefined;
+    mockInsightsUid = 'user-1';
     setPeriods([]);
   });
 

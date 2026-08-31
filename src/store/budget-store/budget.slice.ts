@@ -47,6 +47,7 @@ interface BudgetState {
   doc: MonthDoc | null;
   txns: Txn[];
   loadStatus: LoadStatus;
+  hasBootstrapped: boolean;
   mutateStatus: MutateStatus;
   error?: string;
   _unsubTxns?: () => void; // internal
@@ -59,6 +60,7 @@ const initialState: BudgetState = {
   doc: null,
   txns: [],
   loadStatus: 'idle',
+  hasBootstrapped: false,
   mutateStatus: 'idle',
   ui: { type: 'all', search: '', groupBy: 'date', sortKey: 'newest' },
 };
@@ -352,8 +354,9 @@ const budgetSlice = createSlice({
       }
     },
     // Clean up listeners (e.g., on logout or month change)
-    cleanupListeners() {
+    cleanupListeners(state) {
       stopTxnsListener();
+      state.hasBootstrapped = false;
     },
 
     setTxnTypeFilter(state, action: PayloadAction<TxnTypeFilter>) {
@@ -376,15 +379,18 @@ const budgetSlice = createSlice({
     builder
       .addCase(initBudget.pending, (s) => {
         s.loadStatus = 'loading';
+        s.hasBootstrapped = false;
         s.error = undefined;
       })
       .addCase(initBudget.fulfilled, (s, { payload }) => {
         s.loadStatus = 'ready';
+        s.hasBootstrapped = true;
         s.doc = payload?.doc ?? null;
         s.month = payload?.month ?? '';
       })
       .addCase(initBudget.rejected, (s, a) => {
         s.loadStatus = 'error';
+        s.hasBootstrapped = false;
         s.error = a.error.message;
       })
 

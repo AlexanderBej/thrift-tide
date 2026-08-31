@@ -22,6 +22,8 @@ const IncomeSheet: React.FC<IncomeSheetProps> = ({ open, onOpenChange }) => {
     try {
       const ok = await incomeRef.current?.submit?.();
       if (ok) onOpenChange(false);
+    } catch {
+      // Child submit flows surface errors through existing toast handling.
     } finally {
       setSubmitting(false);
     }
