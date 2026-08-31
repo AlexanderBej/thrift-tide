@@ -1,4 +1,131 @@
 {
+  "window": {
+    "title": "Analysis window",
+    "label": "Last {count} closed periods"
+  },
+  "states": {
+    "loading": {
+      "title": "Loading insights...",
+      "message": "Reading your closed-period summaries."
+    },
+    "error": {
+      "title": "Couldn't load insights",
+      "message": "Check your connection and try again."
+    },
+    "empty": {
+      "title": "Insights will grow with your history",
+      "message": "Once you complete a few budget periods, Thrift Tide can show spending trends and patterns."
+    },
+    "onePeriod": {
+      "title": "Your first closed period is ready",
+      "message": "A little more history will unlock comparisons without guessing."
+    }
+  },
+  "actions": {
+    "retry": "Try again"
+  },
+  "common": {
+    "notAvailable": "N/A"
+  },
+  "direction": {
+    "up": "up",
+    "down": "down",
+    "flat": "steady",
+    "insufficient": "not enough data"
+  },
+  "recent": {
+    "kicker": "Your recent pattern",
+    "headline": {
+      "up": "Spending is up {percent}%",
+      "down": "Spending is down {percent}%"
+    },
+    "headlineFlat": "Spending is steady",
+    "headlineInsufficient": "One period is ready",
+    "headlineUpNoPercent": "Spending has started to rise",
+    "headlineDownNoPercent": "Spending has started to fall",
+    "supportBudgeted": "You stayed under or on budget in {under} of {total} tracked periods.",
+    "supportNoBudget": "Budget outcomes need tracked periods with a saved income."
+  },
+  "spending": {
+    "kicker": "Spending trend",
+    "title": "Closed-period spending",
+    "chartAria": "Bar chart of total spending across recent closed periods",
+    "barAria": "{month}: {amount} spent",
+    "averageSpent": "Average spent",
+    "vsPreviousThree": "{direction} {percent}% vs previous 3 periods",
+    "windowAverage": "Across {count} closed periods"
+  },
+  "outcomes": {
+    "kicker": "Budget outcomes",
+    "title": "How periods finished",
+    "underBudget": "Under budget",
+    "averageUnused": "Avg. unused",
+    "bestFinish": "Best finish",
+    "overBudget": "Over budget",
+    "ofPeriods": "{count} of {total}",
+    "unusedAmount": "{amount} unused",
+    "none": "None",
+    "insufficient": "Budget outcomes need tracked closed periods with spending activity and a positive saved income."
+  },
+  "categories": {
+    "kicker": "Category patterns",
+    "title": "Needs, Wants, Savings",
+    "latest": "latest",
+    "points": " pts",
+    "sparklineUnavailable": "No valid usage yet"
+  },
+  "categoryTrend": {
+    "stable": "Stable",
+    "trendingUp": "Trending up",
+    "trendingDown": "Trending down",
+    "consistent": "Consistent",
+    "improving": "Improving",
+    "insufficient": "More data needed"
+  },
+  "savings": {
+    "kicker": "Savings consistency",
+    "title": "Goal follow-through",
+    "goalsReached": "Goals reached",
+    "averageCompletion": "Avg. completion",
+    "currentStreak": "Current streak",
+    "ofPeriods": "{count} of {total}",
+    "sequenceLabel": "Chronological savings goal outcomes",
+    "sequenceReached": "{month}: savings goal reached",
+    "sequenceMissed": "{month}: savings goal missed",
+    "sequenceUnavailable": "{month}: savings goal unavailable",
+    "insufficient": "Savings consistency needs periods with a positive Savings allocation."
+  },
+  "watch": {
+    "kicker": "Pattern to watch",
+    "categoryOverspendTrend": {
+      "title": "{category} is trending over plan",
+      "message": "Usage moved from {from}% to {to}% across your recent periods."
+    },
+    "categoryVolatile": {
+      "title": "{category} is your most volatile category",
+      "message": "Usage ranged from {from}% to {to}% across your recent periods."
+    },
+    "spendingIncrease": {
+      "title": "Recent spending is climbing",
+      "message": "Average spending is {percent}% higher than the earlier comparison window."
+    },
+    "savingsStreak": {
+      "title": "Savings has momentum",
+      "message": "You reached the Savings goal for {count} periods in a row."
+    },
+    "spendingDecrease": {
+      "title": "Recent spending is easing",
+      "message": "Average spending is {percent}% lower than the earlier comparison window."
+    },
+    "stablePositive": {
+      "title": "Your recent periods are readable",
+      "message": "The strongest pattern is consistency rather than a sharp swing."
+    },
+    "insufficient": {
+      "title": "More history will sharpen this",
+      "message": "Complete another closed period to make pattern detection more useful."
+    }
+  },
   "smart": {
     "title": {
       "headsUp": "Heads up",

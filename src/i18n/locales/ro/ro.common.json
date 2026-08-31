@@ -27,10 +27,6 @@
     "category": {
       "noTrans": "Nu există tranzacții pentru"
     },
-    "insights": {
-      "categoryHealth": "Sănătatea Categoriilor",
-      "spending": "Ce îți determină cheltuielile"
-    },
     "profile": {
       "account": "Cont",
       "fallbackName": "Utilizator Thrift Tide",

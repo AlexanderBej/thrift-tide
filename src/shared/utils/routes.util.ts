@@ -21,7 +21,7 @@ export const routes: RouteMeta[] = [
   {
     path: '/insights',
     titleKey: 'common:pages.insights',
-    showPeriod: true,
+    showPeriod: false,
   },
   {
     path: '/transactions',
