@@ -22,7 +22,7 @@ Current implemented areas:
 - Categories V3 Overview: budget-map surface for selected-period allocation structure, Needs/Wants/Savings composition, expense-group previews, and drill-down navigation.
 - Category detail V3: category activity drill-down for the selected period, focused on semantic category status, expense-group responsibility, and filtered Transactions handoff.
 - Insights: smart insight carousel, category health, top spenders.
-- History: month summary accordion, spend bars/donut, historical insights, pagination.
+- History V3: closed-period archive, newest-first persisted summaries, compact outcome cards, Needs/Wants/Savings usage, transaction-count metadata, missing-summary unavailable states, and pagination.
 - Profile V3: compact account/settings hub with account identity, secondary Explore destinations, preferences, budget setup, data reset confirmation, and logout.
 - Onboarding: language/currency, budget split, and budget start day setup.
 
@@ -127,7 +127,7 @@ Important selector-derived state:
 
 - Budget totals, in-period transactions, transaction groups, category panels, top expense groups, badges, and smart insights live under `src/store/budget-store`.
 - Dashboard/Insights-ready budget context semantics live in `src/store/budget-store/budget-context.selectors.ts`, including selected-period phase, contextual attention priority, hero amount semantics, stale activity, and Budget Pulse row semantics.
-- History rows and historical smart insights live under `src/store/history-store`.
+- History archive rows and legacy historical smart insight selectors live under `src/store/history-store`.
 
 Persistence services:
 
@@ -269,6 +269,12 @@ Current implementation:
 - Profile V3 Period start day uses a numeric 1-28 wheel picker because the setting is a recurring day of month, not a calendar date.
 - Profile V3 Reset current period uses the existing reset thunk behind a destructive `ConfirmSheet`. It deletes selected-period expenses and clears the saved summary while keeping income, budget split, and period settings in place.
 - Profile logout waits for Firebase sign-out to resolve before navigating away, so local auth state is not eagerly cleared on sign-out failure.
+- History V3 is a secondary Profile destination for past closed budget periods at a glance. It is not a Dashboard, trends page, historical Transactions page, or Category detail page.
+- History V3 queries closed periods only, newest first, using persisted month documents and summary snapshots without reading historical transactions or creating transaction listeners.
+- History V3 is summary-only: no accordion, inline expansion, donut, nested analytics panels, smart insight carousel, or transaction drill-down action.
+- History V3 period cards show localized month/year, the actual historical period range, financial outcome, total spent versus income, total-budget usage progress, Needs/Wants/Savings allocation usage, and transaction count as metadata.
+- History V3 keeps closed month docs visible when `summary` is missing by showing a compact unavailable state instead of silently filtering them out.
+- Historical Transactions deep-link behavior is deferred until there is an explicit selected-period/deep-link contract.
 - Capture no longer shows an explicit needs/wants/savings selector; `category` is derived from the selected `expenseGroup` and still persisted on `Txn`.
 - Capture recent groups are derived from currently loaded period transactions.
 - Capture remembers the note expanded/collapsed preference through optional `capturePreferences.noteExpandedByDefault` settings.
@@ -417,7 +423,6 @@ Confirmed from repository inspection:
 
 - Duplicate/unmanaged transaction listener during initialization: `initBudget` starts the managed listener and `initApp` attaches another `onTransactionsSnapshot` listener.
 - PWA update listener is registered during render in `src/App.tsx`.
-- History has zero-allocation division risks when computing category ratios in `src/pages/history/history.component.tsx`.
 - Period "create next" flow uses plain calendar month logic instead of custom-period-aware `nextMonthKey` in `src/widgets/sheets/period-sheet/period-sheet.component.tsx`.
 - Transaction sort label/behavior mismatch: sorting/grouping by expense group ultimately sorts groups by total in `src/store/budget-store/budget.selectors.ts`.
 

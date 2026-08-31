@@ -1,4 +1,47 @@
 {
+  "listLabel": "Past budget periods",
+  "outcome": {
+    "leftUnused": "{amount} left unused",
+    "overBudget": "{amount} over budget",
+    "fullyUsed": "Budget fully used",
+    "noExpenses": "No expenses recorded",
+    "noBudget": "No budget set"
+  },
+  "spentOfIncome": "{spent} of {income} spent",
+  "progress": {
+    "total": "{percent}% used",
+    "noBudget": "No budget progress"
+  },
+  "categoryUsageLabel": "Needs, Wants, and Savings usage",
+  "usage": {
+    "percent": "{percent}%",
+    "notSet": "Not set",
+    "categoryAria": "{category} usage, {percent}%.",
+    "categoryUnavailableAria": "{category} has no allocation set."
+  },
+  "transactions": "{count, plural, one {# transaction} other {# transactions}}",
+  "missingSummary": {
+    "title": "Summary unavailable",
+    "message": "We couldn't load this period's summary."
+  },
+  "states": {
+    "empty": {
+      "title": "No closed periods yet",
+      "message": "Once you finish a budget period, it will appear here."
+    },
+    "loading": {
+      "title": "Loading history...",
+      "message": "This won't take long."
+    },
+    "error": {
+      "title": "Couldn't load history",
+      "message": "Check your connection and try again."
+    }
+  },
+  "actions": {
+    "retry": "Try again",
+    "loadMore": "Load more"
+  },
   "toast": {
     "loadFailed": "Could not load history page data!"
   }

@@ -1,254 +1,243 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
 import clsx from 'clsx';
+import { TbTransactionEuro } from 'react-icons/tb';
 
-import {
-  Button,
-  TTIcon,
-  Accordion,
-  ExpansionPanelItem,
-  InfoBlock,
-  DonutItem,
-  Donut,
-  EmblaCarousel,
-} from '@shared/ui';
+import { Button, LocalSpinner, TTIcon } from '@shared/ui';
 import { selectAuthUser } from '@store/auth-store';
 import {
   selectHistoryStatus,
   selectHistoryHasMore,
+  selectHistoryError,
   resetHistory,
   loadHistoryPage,
-  selectHistoryDocsWithPercentsAndSummary,
-  selectHistorySmartInsightsByMonth,
+  selectHistoryArchiveRows,
 } from '@store/history-store';
 import { AppDispatch } from '@store/store';
-import { HistoryDocWithSummary } from '@api/models';
-import { formatMonth, historyStatusBadge, toneConverter } from '@shared/utils';
 import { useFormatMoney } from '@shared/hooks';
 import { Language } from '@api/types';
 
+import {
+  buildCategoryUsage,
+  formatHistoryMonthYear,
+  formatHistoryPeriodRange,
+  getHistoryOutcome,
+  getTotalUsage,
+  HistoryArchiveRow,
+} from './history-summary.util';
 import './history.styles.scss';
-import { ProgressBar } from '@shared/components';
-import { SmartInsightCard } from 'features';
 
-interface CategoryData {
-  key: string;
-  weight: number;
-  spentPerc: number;
-  spentSum: number;
-
-  color: string;
-  alloc: number;
-}
-
-function buildSpentGradient(categories: CategoryData[]) {
-  // weight: 0..1, spent: 0..1
-  const filledParts = categories.map((b) => ({
-    key: b.key,
-    w: b.weight,
-    f: b.weight * b.spentPerc,
-    color: b.color,
-  }));
-
-  // cumulative stops in [0..1]
-  let acc = 0;
-  const stops = [];
-
-  for (const part of filledParts) {
-    const start = acc;
-    const end = acc + part.f;
-    if (end > start) {
-      stops.push(`${part.color} ${end * 100}%`);
-    }
-    acc = end;
-  }
-
-  // everything after filled is "empty"
-  //   stops.push(`transparent ${acc * 100}% 100%`);
-
-  return `linear-gradient(90deg, ${stops.join(', ')})`;
-}
+const HISTORY_PAGE_SIZE = 12;
 
 const History: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { t, i18n } = useTranslation(['common', 'budget', 'insights']);
+  const { t, i18n } = useTranslation(['history', 'taxonomy']);
   const fmtMoney = useFormatMoney(true);
-  const fmtWOCurrency = useFormatMoney(false);
 
   const user = useSelector(selectAuthUser);
   const didInitRef = useRef(false);
+  const status = useSelector(selectHistoryStatus);
+  const error = useSelector(selectHistoryError);
+  const hasMore = useSelector(selectHistoryHasMore);
+  const rows = useSelector(selectHistoryArchiveRows) as HistoryArchiveRow[];
 
   useEffect(() => {
     if (!user?.uuid) return;
-
     if (didInitRef.current) return;
-    didInitRef.current = true;
 
+    didInitRef.current = true;
     dispatch(resetHistory());
-    dispatch(loadHistoryPage({ uid: user.uuid, pageSize: 12 })); // last 12 periods
+    dispatch(loadHistoryPage({ uid: user.uuid, pageSize: HISTORY_PAGE_SIZE }));
   }, [dispatch, user?.uuid]);
 
   useEffect(() => {
     didInitRef.current = false;
   }, [user?.uuid]);
 
-  const status = useSelector(selectHistoryStatus);
-  const hasMore = useSelector(selectHistoryHasMore);
-
-  const rows = useSelector(selectHistoryDocsWithPercentsAndSummary);
-  const historyInsightsByMonth = useSelector(selectHistorySmartInsightsByMonth);
-
-  const loadMore = () => user?.uuid && dispatch(loadHistoryPage({ uid: user.uuid, pageSize: 12 }));
-
-  const getDate = (row: HistoryDocWithSummary) => {
-    const month = formatMonth(row.month, i18n.language as Language);
-    const year = new Date(row.summary.computedAt).getFullYear();
-    return `${month} ${year}`;
+  const loadPage = () => {
+    if (!user?.uuid || status === 'loading') return;
+    dispatch(loadHistoryPage({ uid: user.uuid, pageSize: HISTORY_PAGE_SIZE }));
   };
 
-  const getCategoriesData = (row: HistoryDocWithSummary): CategoryData[] => {
-    return [
-      {
-        key: 'needs',
-        weight: row.percents.needs,
-        spentPerc: row.summary.spent.needs / row.summary.allocations.needs,
-        spentSum: row.summary.spent.needs,
-        alloc: row.summary.allocations.needs,
-        color:
-          row.summary.spent.needs / row.summary.allocations.needs >= 1
-            ? 'var(--color-error)'
-            : 'var(--color-category-needs)',
-      },
-      {
-        key: 'wants',
-        weight: row.percents.wants,
-        spentPerc: row.summary.spent.wants / row.summary.allocations.wants,
-        spentSum: row.summary.spent.wants,
-        alloc: row.summary.allocations.wants,
-        color:
-          row.summary.spent.wants / row.summary.allocations.wants >= 1
-            ? 'var(--color-error)'
-            : 'var(--color-category-wants)',
-      },
-      {
-        key: 'savings',
-        weight: row.percents.savings,
-        spentPerc: row.summary.spent.savings / row.summary.allocations.savings,
-        spentSum: row.summary.spent.savings,
-        alloc: row.summary.allocations.savings,
-        color:
-          row.summary.spent.savings / row.summary.allocations.savings >= 1
-            ? 'var(--color-error)'
-            : 'var(--color-category-savings)',
-      },
-    ];
+  const retry = () => {
+    if (!user?.uuid || status === 'loading') return;
+    dispatch(resetHistory());
+    dispatch(loadHistoryPage({ uid: user.uuid, pageSize: HISTORY_PAGE_SIZE }));
   };
 
-  const accordionItems: ExpansionPanelItem[] = rows.map((row) => {
-    const badge = historyStatusBadge(row.summary);
-    const date = getDate(row);
-    const badgeMeta = toneConverter(badge.tone);
-    const remaining = row.summary.income - row.summary.totalSpent;
-    const categoriesData = getCategoriesData(row);
-    const background = buildSpentGradient(categoriesData);
-    const spentPercents = (row.summary.totalSpent / row.summary.income) * 100;
-    const monthInsights = historyInsightsByMonth[row.id] ?? [];
+  const isInitialLoading = status === 'loading' && rows.length === 0;
+  const isError = status === 'error' && rows.length === 0;
+  const isEmpty = status === 'ready' && rows.length === 0;
 
-    const donutItems: DonutItem[] = categoriesData.map((cat) => ({
-      id: cat.key,
-      label: cat.key,
-      color: cat.color,
-      value: cat.weight,
-    }));
-
-    return {
-      id: row.id,
-      title: (
-        <div className="history-doc">
-          <div className="history-doc-header">
-            <span className="doc-date">{date}</span>
-            <div className={clsx('history-badge-wrapper', badge.tone)}>
-              <TTIcon icon={badgeMeta.icon} color={badgeMeta.color} size={16} />
-              <span className="history-badge">{t(badge.labelKey)}</span>
-            </div>
-          </div>
-          <span className="remaining-line">
-            {t('budget:remaining')} <strong>{fmtMoney(remaining)}</strong>
-            {i18n.language === 'ro' ? ' din ' : ' of '}
-            <strong>{fmtMoney(row.summary.income)}</strong>
-          </span>
-          <div className="categories-progress-bar">
-            <div
-              className="categories-progress"
-              style={{
-                width: `${spentPercents}%`,
-                background,
-              }}
-            />
-          </div>
-          <span className="spent-value">
-            {t('budget:spentInTxns', {
-              spent: fmtMoney(row.summary.totalSpent),
-              txns: row.summary.totalTxns,
-            })}
-          </span>
+  if (isInitialLoading) {
+    return (
+      <section className="history-page history-state" aria-live="polite" aria-busy="true">
+        <LocalSpinner />
+        <div>
+          <h2>{t('states.loading.title')}</h2>
+          <p>{t('states.loading.message')}</p>
         </div>
-      ),
-      content: (
-        <div className="history-doc-content">
-          <div className="categories">
-            <Donut height={130} showTooltip={false} data={donutItems} />
-            <div className="cat-details">
-              {categoriesData.map((cat, index) => (
-                <div className="category" key={index}>
-                  <div className="cat-header-line">
-                    <h4>{cat.key}</h4>
-                    <div className="cat-stats">
-                      <strong>{fmtWOCurrency(cat.spentSum)}</strong>
-                      <span>
-                        ({Math.round(cat.spentPerc * 100)}%) {i18n.language === 'ro' ? 'din' : 'of'}
-                      </span>
-                      <strong>{fmtWOCurrency(cat.alloc)}</strong>
-                    </div>
-                  </div>
-                  <ProgressBar color={cat.color} progress={cat.spentPerc} />
-                </div>
-              ))}
-            </div>
-          </div>
+      </section>
+    );
+  }
 
-          {!!monthInsights.length && (
-            <div className="history-insights">
-              <EmblaCarousel showDots>
-                {monthInsights.map((insight) => (
-                  <SmartInsightCard key={insight.id} insight={insight} />
-                ))}
-              </EmblaCarousel>
-            </div>
-          )}
+  if (isError) {
+    return (
+      <section className="history-page history-state history-state--error" role="alert">
+        <div>
+          <h2>{t('states.error.title')}</h2>
+          <p>{error || t('states.error.message')}</p>
         </div>
-      ),
-    };
-  });
+        <Button variant="secondary" onClick={retry} loading={status === 'loading'}>
+          {t('actions.retry')}
+        </Button>
+      </section>
+    );
+  }
+
+  if (isEmpty) {
+    return (
+      <section className="history-page history-state">
+        <div>
+          <h2>{t('states.empty.title')}</h2>
+          <p>{t('states.empty.message')}</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <div className="history-page">
-      <InfoBlock>
-        <span>{t('pageContent.history.info')}</span>
-      </InfoBlock>
-      <div className="history-blocks">
-        <Accordion type="single" defaultOpenId="needs" items={accordionItems} spaceLarge />
-      </div>
+      <ul className="history-list" aria-label={String(t('listLabel'))}>
+        {rows.map((row) => (
+          <HistoryPeriodCard
+            key={row.id}
+            row={row}
+            language={i18n.language as Language}
+            formatMoney={fmtMoney}
+            t={t}
+          />
+        ))}
+      </ul>
 
       {hasMore && (
-        <div className="flex justify-center">
-          <Button onClick={loadMore} disabled={status === 'loading'}>
-            <span>{status === 'loading' ? 'Loading…' : 'Load more'}</span>
+        <div className="history-pagination">
+          <Button
+            variant="quiet"
+            onClick={loadPage}
+            disabled={status === 'loading'}
+            loading={status === 'loading'}
+          >
+            {t('actions.loadMore')}
           </Button>
         </div>
       )}
     </div>
+  );
+};
+
+interface HistoryPeriodCardProps {
+  row: HistoryArchiveRow;
+  language: Language;
+  formatMoney: (value: number) => string;
+  t: TFunction;
+}
+
+const HistoryPeriodCard: React.FC<HistoryPeriodCardProps> = ({ row, language, formatMoney, t }) => {
+  const monthLabel = formatHistoryMonthYear(row.month, language);
+  const periodRange = formatHistoryPeriodRange(row.periodStart, row.periodEnd, language);
+
+  if (!row.summary) {
+    return (
+      <li className="history-card history-card--unavailable">
+        <div className="history-card__header">
+          <div>
+            <h2>{monthLabel}</h2>
+            {periodRange && <p>{periodRange}</p>}
+          </div>
+        </div>
+        <div className="history-card__unavailable">
+          <strong>{t('missingSummary.title')}</strong>
+          <span>{t('missingSummary.message')}</span>
+        </div>
+      </li>
+    );
+  }
+
+  const outcome = getHistoryOutcome(row.summary, formatMoney);
+  const totalUsage = getTotalUsage(row.summary);
+  const categoryUsage = buildCategoryUsage(row.summary);
+  const progressLabel =
+    totalUsage.percent == null
+      ? t('progress.noBudget')
+      : t('progress.total', { percent: totalUsage.percent });
+
+  return (
+    <li className={clsx('history-card', `history-card--${outcome.tone}`)}>
+      <div className="history-card__header">
+        <div>
+          <h2>{monthLabel}</h2>
+          {periodRange && <p>{periodRange}</p>}
+        </div>
+        <span className={clsx('history-card__outcome', `history-card__outcome--${outcome.tone}`)}>
+          {String(t(outcome.key, outcome.vars ?? {}))}
+        </span>
+      </div>
+
+      <div className="history-card__spending">
+        <span>
+          {t('spentOfIncome', {
+            spent: formatMoney(row.summary.totalSpent ?? 0),
+            income: formatMoney(row.summary.income ?? 0),
+          })}
+        </span>
+        <span>{progressLabel}</span>
+      </div>
+      <div className="history-total-progress" role="img" aria-label={String(progressLabel)}>
+        <span style={{ width: `${totalUsage.progress * 100}%` }} />
+      </div>
+
+      <div className="history-category-grid" aria-label={String(t('categoryUsageLabel'))}>
+        {categoryUsage.map((metric) => {
+          const label = t(`taxonomy:categoryNames.${metric.category}`);
+          const percentLabel =
+            metric.percent == null
+              ? t('usage.notSet')
+              : t('usage.percent', { percent: metric.percent });
+          const ariaLabel = String(
+            metric.percent == null
+              ? t('usage.categoryUnavailableAria', { category: label })
+              : t('usage.categoryAria', { category: label, percent: metric.percent }),
+          );
+
+          return (
+            <div
+              key={metric.category}
+              className={clsx(
+                'history-category',
+                `history-category--${metric.category}`,
+                `history-category--${metric.tone}`,
+              )}
+            >
+              <div className="history-category__meta">
+                <span>{label}</span>
+                <strong>{percentLabel}</strong>
+              </div>
+              <div className="history-category__track" role="img" aria-label={ariaLabel}>
+                <span style={{ width: `${metric.progress * 100}%` }} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <p className="history-card__transactions">
+        <TTIcon icon={TbTransactionEuro} size={18} color="var(--color-text-secondary)" />
+        <span>{t('transactions', { count: row.summary.totalTxns ?? 0 })}</span>
+      </p>
+    </li>
   );
 };
 

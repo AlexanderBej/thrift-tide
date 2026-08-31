@@ -48,7 +48,8 @@ export const loadHistoryPage = createAppAsyncThunk<
       fromISO,
       toISO,
       pageSize,
-      pageAfterPeriodStart: cursor,
+      closedBeforeISO: new Date().toISOString(),
+      pageAfterPeriodEnd: cursor,
     });
 
     return { items: items as HistoryRow[], rowsNextCursor: nextCursor ?? null };

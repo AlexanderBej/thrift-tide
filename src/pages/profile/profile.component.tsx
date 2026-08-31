@@ -4,9 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
 import { BiReset } from 'react-icons/bi';
-import { FaChartPie, FaHistory, FaPalette, FaWallet } from 'react-icons/fa';
+import { FaPalette, FaWallet } from 'react-icons/fa';
 import { FiGlobe, FiLogOut } from 'react-icons/fi';
-import { MdOutlineCategory, MdOutlineToday } from 'react-icons/md';
 
 import { signOutUser } from '@api/services';
 import { Button } from '@shared/ui';
